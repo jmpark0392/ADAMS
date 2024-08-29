@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.core.dao.MybatisTestDao">
+    <select id="selectList" parameterType="com.rds.adams.web.core.dto.GocInfoDto" resultType="com.rds.adams.web.core.dto.GocInfoDto">
+        SELECT ACCG_MODL_CD
+             , COHT_YEAR
+             , PRTP_CD
+             , ERPF_GRP_CD
+             , 'YYYY-MM-DD' AS CREATED_DATE
+             , CREATED_BY
+          FROM TB_GOCINFO
+         WHERE 1=1
+         <if test='accgModlCd != ""'>
+           AND ACCG_MODL_CD = #{accgModlCd}
+         </if>
+         <if test='cohtYear != ""'>
+           AND COHT_YEAR = #{cohtYear}
+         </if>
+         <if test='prtpCd != ""'>
+           AND PRTP_CD = #{prtpCd}
+         </if>
+         <if test='erpfGrpCd != ""'>
+           AND ERPF_GRP_CD = #{erpfGrpCd}
+         </if>
+    </select>
+</mapper>

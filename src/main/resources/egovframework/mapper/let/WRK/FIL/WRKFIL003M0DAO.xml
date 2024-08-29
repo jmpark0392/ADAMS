@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.WRK.FIL.dao.WRKFIL003M0DAO">
+    <select id="selectTableInfoList" parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0P0DTO" resultType="com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0R0DTO">
+        SELECT 
+               A.TBL_ID
+             , A.CLMN_ID
+             , A.ITM_NM
+             , A.ORD_SEQ
+             , A.PK_YN
+             , A.DATA_TP_CD
+             , A.ITM_DSC
+             , A.VLVL_VRF_YN
+             , A.VLVL_CD
+             , A.SEL_BAS_YN
+             , B.DB_ID
+             , B.UI_SEL_YN
+          FROM RDSDB.dbo.TB_UPL_ITM_LST A
+         INNER JOIN RDSDB.dbo.TB_UPL_FILE_LST B
+                 ON A.TBL_ID = B.TBL_ID
+            <if test='uploadFile != ""'>
+                AND B.SEQ_NO = #{uploadFile}
+            </if>
+         WHERE 1=1
+         ORDER BY A.ORD_SEQ
+    </select>
+    
+    <select id="selectFileList" parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0P0DTO" resultType="com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0R1DTO">
+        SELECT 
+               A.SEQ_NO
+             , A.FILE_NM
+             , A.DB_ID
+             , A.TBL_ID
+          FROM RDSDB.dbo.TB_UPL_FILE_LST A
+         WHERE 1=1
+           AND USE_YN = 'Y'
+           AND EXISTS (
+                        SELECT 1
+                          FROM RDSDB.dbo.TB_UPL_ITM_LST Z
+                         WHERE 1=1
+                           AND A.TBL_ID = Z.TBL_ID
+                      )
+         ORDER BY A.SEQ_NO
+    </select>
+    
+    <select id="selectList" parameterType="java.util.Map" resultType="java.util.HashMap">
+        ${sQuery}
+    </select>
+    
+    <insert id="insertDataList" >
+        ${sQuery}
+        <foreach collection="listMap" index="index" item="item" open="" close="" separator=",">
+            ${sAddQuery}
+        </foreach>
+    </insert>
+    
+    <delete id="deleteList">
+        ${dQuery}
+    </delete>
+    
+    <select id="selectDbObjCnt" resultType="java.lang.Integer">
+        SELECT 
+               COUNT(1) AS CNT
+          FROM [${sDbId}].SYS.OBJECTS AS O
+         WHERE 1=1
+           AND O.TYPE = 'U'
+           AND O.NAME = '${sTblNm}'
+    </select>
+    
+    <select id="selectTblCnt" resultType="java.lang.Integer">
+        ${sQuery}
+    </select>
+    
+    <insert id="insertUplHist" useGeneratedKeys="true" keyColumn="seqNo" keyProperty="seqNo" >
+        INSERT INTO RDSDB.dbo.TB_UPL_HIST
+               (
+                 DB_ID
+               , TBL_ID
+               , FILE_NM
+               , LOAD_ST_DT
+               , LOAD_ED_DT
+               , LOAD_CNT
+               , LOAD_SUCC_YN
+               , STD_YM
+               , REG_USRID
+               , REG_DT
+               , UPD_USRID
+               , UPD_DT
+               )
+        VALUES
+               (
+                 #{dbId}
+               , #{tblId}
+               , #{fileNm}
+               , GETDATE()
+               , NULL
+               , NULL
+               , NULL
+               , NULL
+               , 'TEST'
+               , GETDATE()
+               , 'TEST'
+               , GETDATE()
+               )
+    </insert>
+    
+    <update id="updateUplHist"  parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0P1DTO" >
+        UPDATE RDSDB.dbo.TB_UPL_HIST
+           SET FILE_NM      = #{fileNm}
+             , LOAD_ED_DT   = GETDATE()
+             , LOAD_CNT     = #{loadCnt}
+             , LOAD_SUCC_YN = #{loadSuccYn}
+             , STD_YM       = #{stdYm}
+             , UPD_DT       = GETDATE()
+         WHERE 1=1
+           AND SEQ_NO = #{seqNo}
+    </update>
+    
+</mapper>

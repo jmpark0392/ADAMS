@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.WRK.FIL.dao.WRKFIL004M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL004M0P0DTO" resultType="com.rds.adams.web.WRK.FIL.dto.WRKFIL004M0R0DTO">
+        SELECT
+               A.SEQ_NO
+             , A.FILE_NM
+             , A.TBL_ID
+             , A.FILE_NM
+             , A.LOAD_CNT
+             , A.STD_YM
+             , A.REG_USRID
+             , A.LOAD_ST_DT
+             , A.LOAD_ED_DT
+             , A.LOAD_SUCC_YN
+          FROM RDSDB.dbo.TB_UPL_HIST A
+               INNER JOIN (
+                           SELECT
+                                  DB_ID
+                                , TBL_ID
+                             FROM RDSDB.dbo.TB_UPL_FILE_LST
+                            WHERE 1=1
+                              AND USE_YN = 'Y'
+                          <if test='uploadFile != ""'>
+                              AND SEQ_NO = #{uploadFile}
+                          </if>
+                          ) B
+                       ON 1=1
+                      AND A.DB_ID  = B.DB_ID
+                      AND A.TBL_ID = B.TBL_ID
+         WHERE 1=1
+         <if test="startLoadDate != null and startLoadDate != '' and endLoadDate != null and endLoadDate != ''">
+           AND A.LOAD_ST_DT BETWEEN #{startLoadDate} AND #{endLoadDate}
+         </if>
+         <if test="startStdYymm != null and startStdYymm != '' and endStdYymm != null and endStdYymm != ''">
+           AND A.STD_YM BETWEEN REPLACE(#{startStdYymm}, '-', '') AND REPLACE(#{endStdYymm}, '-', '')
+         </if>
+    </select>
+</mapper>

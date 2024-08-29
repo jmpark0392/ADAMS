@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.WRK.BAT.dao.WRKBAT003M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.WRK.BAT.dto.WRKBAT003M0P0DTO" resultType="com.rds.adams.web.WRK.BAT.dto.WRKBAT003M0R0DTO">
+		SELECT
+		       A.BAT_EXE_ID      AS BAT_EXE_ID
+		     , A.BAT_PROG_ID     AS BAT_PROG_ID
+		     , B.BAT_PROG_NM     AS BAT_PROG_NM
+		     , '00000'           AS BAT_EXE_RST_CD
+		     , A.BAT_EXE_ERR_CD  AS BAT_EXE_ERR_CD
+		     , A.STD_YYMM        AS STD_YYMM
+		     , B.MAIN_EMP_NO     AS MAIN_EMP_NO
+		     , A.REG_USRID       AS REG_USRID
+		     , A.REG_DT          AS REG_DT
+		  FROM TB_BAT_RST_LST AS A
+		 INNER JOIN TB_BAT_MNG_LST AS B
+		    ON A.BAT_PROG_ID = B.BAT_PROG_ID
+         WHERE 1=1
+         <if test='searchTxt != ""'>
+           AND (
+                	A.BAT_PROG_ID LIKE '%' + #{searchTxt} + '%'
+                )
+         </if>
+    </select>
+</mapper>

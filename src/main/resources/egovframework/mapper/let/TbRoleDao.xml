@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.core.dao.TbRoleDao">
+    <insert id="insertRole" parameterType="com.rds.adams.web.core.dto.TbRoleDto">
+		INSERT INTO TB_ROLE (
+			ROLE_ID
+			, ROLE_DESC
+			, CREATED_DATE
+			, CREATED_BY
+		) VALUES (
+			#{roleId}
+			, #{roleDesc}
+			, SYSDATE
+			, #{createdBy}
+		)
+	</insert>
+</mapper>
