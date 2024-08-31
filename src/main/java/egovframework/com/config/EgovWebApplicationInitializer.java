@@ -67,8 +67,9 @@ public class EgovWebApplicationInitializer implements WebApplicationInitializer 
 	private void addRootContext(ServletContext servletContext) {
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 		rootContext.register(EgovConfigApp.class);
-
-		servletContext.addListener(new ContextLoaderListener(rootContext));
+		
+		//[2024.08.31]주석처리
+		//servletContext.addListener(new ContextLoaderListener(rootContext));
 	}
 
 	/**
