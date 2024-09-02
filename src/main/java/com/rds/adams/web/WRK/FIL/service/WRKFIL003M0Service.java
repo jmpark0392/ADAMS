@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -17,6 +19,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -51,8 +54,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WRKFIL003M0Service {
 	
+	/*[2024.09.02]주석처리
 	@Value("${Globals.uploadPath}")  // @Value는 Spring 꺼를 사용해야한다 , @Value를 통해 appilcation.* 에 지정한 값을 가져올 수 있다.
 	private String uploadFileDir;  // 가져온 값은 여기에 저장됨.
+	*/
+	
+	//[2024.09.02]코드추가
+	@Resource(name = "propertiesService")
+    protected EgovPropertyService propertyService;
+	
+	private String uploadFileDir = propertyService.getString("Globals.uploadPath");
 	
 	private final FileStore fileStore;
 	

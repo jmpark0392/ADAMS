@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import javax.annotation.Resource;
+
+import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +20,16 @@ import com.rds.adams.web.util.file.dto.UuidFileInfoDTO;
 @Component
 public class FileStore {
 
+	@Resource(name = "propertiesService")
+    protected EgovPropertyService propertyService;
+	
+	/*[2024.09.02]주석처리
     @Value("${Globals.uploadPath}")  // @Value는 Spring 꺼를 사용해야한다 , @Value를 통해 appilcation.* 에 지정한 값을 가져올 수 있다.
     private String fileDir;        // 가져온 값은 여기에 저장됨.
+    */
+	
+	//[2024.09.02]
+	private String fileDir = propertyService.getString("Globals.uploadPath");
 
     public String getFullPath(String filename) { //파일이름을 받아서 FullPath를 만들어주는 메소드
         return fileDir + filename;
