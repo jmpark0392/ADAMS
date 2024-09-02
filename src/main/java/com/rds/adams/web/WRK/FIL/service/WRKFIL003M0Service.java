@@ -18,6 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +31,6 @@ import com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0R1DTO;
 import com.rds.adams.web.util.file.FileStore;
 import com.rds.adams.web.util.file.dto.UploadFile;
 
-import egovframework.com.cmm.service.EgovProperties;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -50,13 +50,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class WRKFIL003M0Service {
-	
-	/*[2024.09.02]주석처리
-	@Value("${Globals.uploadPath}")  // @Value는 Spring 꺼를 사용해야한다 , @Value를 통해 appilcation.* 에 지정한 값을 가져올 수 있다.
-	private String uploadFileDir;  // 가져온 값은 여기에 저장됨.
-	*/
-	
-	private String uploadFileDir = EgovProperties.getProperty("Globals.uploadPath");
 	
 	private final FileStore fileStore;
 	
