@@ -8,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -19,10 +17,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +30,7 @@ import com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0R1DTO;
 import com.rds.adams.web.util.file.FileStore;
 import com.rds.adams.web.util.file.dto.UploadFile;
 
+import egovframework.com.cmm.service.EgovProperties;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -60,11 +56,7 @@ public class WRKFIL003M0Service {
 	private String uploadFileDir;  // 가져온 값은 여기에 저장됨.
 	*/
 	
-	//[2024.09.02]코드추가
-	@Autowired
-	Environment env;
-	
-	private String uploadFileDir = env.getProperty("Globals.uploadPath");
+	private String uploadFileDir = EgovProperties.getProperty("Globals.uploadPath");
 	
 	private final FileStore fileStore;
 	
