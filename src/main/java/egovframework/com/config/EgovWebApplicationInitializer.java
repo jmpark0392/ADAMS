@@ -69,7 +69,7 @@ public class EgovWebApplicationInitializer implements WebApplicationInitializer 
 		rootContext.register(EgovConfigApp.class);
 		
 		//[2024.08.31]주석처리
-		//servletContext.addListener(new ContextLoaderListener(rootContext));
+		servletContext.addListener(new ContextLoaderListener(rootContext));
 	}
 
 	/**
