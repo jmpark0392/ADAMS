@@ -22,6 +22,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,10 +61,10 @@ public class WRKFIL003M0Service {
 	*/
 	
 	//[2024.09.02]코드추가
-	@Resource(name = "propertiesService")
-    protected EgovPropertyService propertyService;
+	@Autowired
+	Environment env;
 	
-	private String uploadFileDir = propertyService.getString("Globals.uploadPath");
+	private String uploadFileDir = env.getProperty("Globals.uploadPath");
 	
 	private final FileStore fileStore;
 	
