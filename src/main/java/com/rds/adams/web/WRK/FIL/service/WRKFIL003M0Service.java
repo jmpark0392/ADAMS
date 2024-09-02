@@ -51,7 +51,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WRKFIL003M0Service {
 	
-	@Value("${file.upload.path}")  // @Value는 Spring 꺼를 사용해야한다 , @Value를 통해 appilcation.* 에 지정한 값을 가져올 수 있다.
+	@Value("${Globals.uploadPath}")  // @Value는 Spring 꺼를 사용해야한다 , @Value를 통해 appilcation.* 에 지정한 값을 가져올 수 있다.
 	private String uploadFileDir;  // 가져온 값은 여기에 저장됨.
 	
 	private final FileStore fileStore;
