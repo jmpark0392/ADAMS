@@ -32,16 +32,26 @@ public class EgovConfigAppProperties {
 	
 	@Value("${Globals.fileStorePath}")
 	private String fileStorePath;
-
 	@Value("${Globals.addedOptions}")
 	private String addedOptions;
-
 	@Value("${Globals.pageUnit}")
 	private String pageUnit;
 	@Value("${Globals.pageSize}")
 	private String pageSize;
 	@Value("${Globals.posblAtchFileSize}")
 	private String posblAtchFileSize;
+	
+	//[2024.09.02]추가
+	@Value("${Globals.DriverClassName}")
+	private String DriverClassName;
+	@Value("${Globals.Url}")
+	private String Url;
+	@Value("${Globals.UserName}")
+	private String UserName;
+	@Value("${Globals.Password}")
+	private String Password;
+	@Value("${Globals.uploadPath}")
+	private String uploadPath;
 	
 	
 	@Bean(destroyMethod = "destroy")
@@ -54,6 +64,13 @@ public class EgovConfigAppProperties {
 		properties.put("Globals.posblAtchFileSize", posblAtchFileSize);
 		properties.put("Globals.fileStorePath", fileStorePath);
 		properties.put("Globals.addedOptions", addedOptions);
+
+		//[2024.09.02]추가
+		properties.put("Globals.DriverClassName", DriverClassName);
+		properties.put("Globals.Url", Url);
+		properties.put("Globals.UserName", UserName);
+		properties.put("Globals.Password", Password);
+		properties.put("Globals.uploadPath", uploadPath);
 
 		egovPropertyServiceImpl.setProperties(properties);
 		return egovPropertyServiceImpl;
