@@ -16,7 +16,6 @@ import com.rds.adams.web.util.file.dto.UploadFile;
 import com.rds.adams.web.util.file.dto.UuidFileInfoDTO;
 
 @Component
-@PropertySource("classpath:/application.properties")
 public class FileStore {
 	
     @Value("file.upload.path")  // @Value는 Spring 꺼를 사용해야한다 , @Value를 통해 appilcation.* 에 지정한 값을 가져올 수 있다.
