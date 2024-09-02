@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ import com.rds.adams.web.util.file.dto.UploadFile;
 import com.rds.adams.web.util.file.dto.UuidFileInfoDTO;
 
 @Component
+@PropertySource("classpath:/application.properties")
 public class FileStore {
 	
     @Value("${Globals.uploadPath}")  // @Value는 Spring 꺼를 사용해야한다 , @Value를 통해 appilcation.* 에 지정한 값을 가져올 수 있다.
