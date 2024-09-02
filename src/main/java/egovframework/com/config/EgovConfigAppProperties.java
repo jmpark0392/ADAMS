@@ -50,8 +50,6 @@ public class EgovConfigAppProperties {
 	private String UserName;
 	@Value("${Globals.Password}")
 	private String Password;
-	@Value("${Globals.uploadPath}")
-	private String uploadPath;
 	
 	
 	@Bean(destroyMethod = "destroy")
@@ -70,7 +68,6 @@ public class EgovConfigAppProperties {
 		properties.put("Globals.Url", Url);
 		properties.put("Globals.UserName", UserName);
 		properties.put("Globals.Password", Password);
-		properties.put("Globals.uploadPath", uploadPath);
 
 		egovPropertyServiceImpl.setProperties(properties);
 		return egovPropertyServiceImpl;
