@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rds.adams.web.util.file.dao.UuidFileInfoDAO;
 import com.rds.adams.web.util.file.dto.UploadFile;
 import com.rds.adams.web.util.file.dto.UuidFileInfoDTO;
 
-@Component
+@Service
 @PropertySource("classpath:/application.properties")
 public class FileStore {
 	
