@@ -15,7 +15,7 @@ import com.rds.adams.web.util.file.dao.UuidFileInfoDAO;
 import com.rds.adams.web.util.file.dto.UploadFile;
 import com.rds.adams.web.util.file.dto.UuidFileInfoDTO;
 
-@Service
+@Component
 @PropertySource("classpath:/application.properties")
 public class FileStore {
 	
