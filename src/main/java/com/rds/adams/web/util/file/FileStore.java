@@ -15,10 +15,10 @@ import com.rds.adams.web.util.file.dto.UuidFileInfoDTO;
 
 @Component
 public class FileStore {
-	
+
     @Value("${file.upload.path}")  // @Value는 Spring 꺼를 사용해야한다 , @Value를 통해 appilcation.* 에 지정한 값을 가져올 수 있다.
     private String fileDir;        // 가져온 값은 여기에 저장됨.
-    
+
     public String getFullPath(String filename) { //파일이름을 받아서 FullPath를 만들어주는 메소드
         return fileDir + filename;
     }
@@ -38,6 +38,7 @@ public class FileStore {
         return storeFileResult;
     }
 */
+
     public UploadFile storeFile(MultipartFile multipartFile) throws IOException { // 파일을 서버에 저장하는 메소드
         // MultipartFile로 받은후 서버에 저장하고, UploadFile 객체를 만들어 반환
         if (multipartFile.isEmpty()) {

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL001M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0R0DTO">
+		SELECT
+		       ATIT_CD
+		     , ATIT_KOR_NM
+		     , ATIT_ENG_NM
+		     , HGRK_ATIT_CD
+		     , AC_LVL_CD
+		     , BKG_AC_YN
+		     , FS_DV_CD
+		     , AC_DV_CD
+		     , AC_KIND_CD
+		     , APP_ST_DT
+		     , APP_ED_DT
+		     , SRT_ORD
+		     , ETC_DESC
+		     , USE_YN
+		     , REG_USRID
+		     , REG_DT
+		  FROM TB_ATIT_MNG_LST
+         WHERE 1=1
+         <if test='searchTxt != ""'>
+           AND (
+                	ATIT_CD LIKE '%' + #{searchTxt} + '%'
+                OR ATIT_KOR_NM LIKE '%' + #{searchTxt} + '%'
+                OR ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
+                )
+         </if>
+    </select>
+    <insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO">
+        INSERT INTO [dbo].[TB_ATIT_MNG_LST] (
+              [ATIT_CD]
+			, [ATIT_KOR_NM]
+			, [ATIT_ENG_NM]
+			, [HGRK_ATIT_CD]
+			, [AC_LVL_CD]
+			, [BKG_AC_YN]
+			, [FS_DV_CD]
+			, [AC_DV_CD]
+			, [AC_KIND_CD]
+			, [APP_ST_DT]
+			, [APP_ED_DT]
+			, [SRT_ORD]
+			, [ETC_DESC]
+			, [USE_YN]
+			, [REG_USRID]
+		    , [REG_DT]
+			, [UPD_USRID]
+			, [UPD_DT]
+        )
+        VALUES (
+              #{atitCd}
+            , #{atitKorNm}
+            , #{atitEngNm}
+            , #{hgrkAtitCd}
+            , #{acLvlCd}
+            , #{bkgAcYn}
+            , #{fsDvCd}
+            , #{acDvCd}
+            , #{acKindCd}
+            , #{appStDt}
+            , #{appEdDt}
+            , #{srtOrd}
+            , #{etcDesc}
+            , #{useYn}
+			, 'admin'
+            , CONVERT(CHAR(10), getdate(), 23)
+            , 'admin'
+            , CONVERT(CHAR(10), getdate(), 23)
+        )
+    </insert>
+    <update id="updateList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO">
+        UPDATE TB_ATIT_MNG_LST
+           SET 
+               ATIT_KOR_NM = #{atitKorNm},
+               ATIT_ENG_NM = #{atitEngNm},
+               HGRK_ATIT_CD = #{hgrkAtitCd},
+               AC_LVL_CD = #{acLvlCd},
+               BKG_AC_YN = #{bkgAcYn},
+               FS_DV_CD = #{fsDvCd},
+               AC_DV_CD = #{acDvCd},
+			   AC_KIND_CD = #{acKindCd},
+			   APP_ST_DT = #{appStDt},
+			   APP_ED_DT = #{appEdDt},
+			   SRT_ORD = #{srtOrd},
+			   ETC_DESC = #{etcDesc},
+               USE_YN = #{useYn},
+               UPD_USRID = 'admin',
+               UPD_DT = CONVERT(CHAR(10), getdate(), 23)
+         WHERE ATIT_CD = #{atitCd}
+  </update>
+    <delete id="deleteList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO">
+		DELETE FROM TB_ATIT_MNG_LST
+		WHERE ATIT_CD = #{atitCd}
+	</delete>
+</mapper>

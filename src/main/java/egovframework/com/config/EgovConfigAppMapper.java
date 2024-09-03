@@ -69,12 +69,11 @@ public class EgovConfigAppMapper {
 
 		sqlSessionFactoryBean.setConfigLocation(
 			pathMatchingResourcePatternResolver
-				.getResource("classpath:/mybatis/config/mapper-config.xml"));
+				.getResource("classpath:/ibatis/config/mapper-config.xml"));
 
 		try {
 			sqlSessionFactoryBean.setMapperLocations(
 				pathMatchingResourcePatternResolver
-					//.getResources("classpath:/egovframework/mapper/let/**/*_"+dbType+".xml"));
 					.getResources("classpath:/mapper/**/*.xml"));
 		} catch (IOException e) {
 			// TODO Exception 처리 필요

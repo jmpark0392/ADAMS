@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.biz.fst.dao.BIZFST001M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST001M0P0DTO" resultType="com.rds.adams.web.biz.fst.dto.BIZFST001M0R0DTO">
+		SELECT
+		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
+		     , A.STD_YYMM   AS STD_YYMM
+		     , A.ATIT_CD   AS ATIT_CD  /* 계정과목코드 */
+			 , B.ATIT_KOR_NM  AS ATIT_NM /* 계정과목명 */
+		     , A.BAS_AMT    AS BAS_AMT /* 기초금액 */
+		     , A.DR_AMT     AS DR_AMT  /* 차변금액 */
+		     , A.CR_AMT     AS CR_AMT  /* 대변금액 */
+		     , A.ENTM_AMT   AS ENTM_AMT  /* 당기말금액 */
+		     , A.REG_USRID  AS REG_USRID
+		     , A.REG_DT     AS REG_DT
+		  FROM TB_FS_LST AS A
+		 INNER JOIN TB_ATIT_MNG_LST AS B
+		      ON A.ATIT_CD = B.ATIT_CD
+         <if test='searchTxt != ""'>
+           AND (
+                   ATIT_CD LIKE '%' + #{searchTxt} + '%'
+                OR ATIT_NM LIKE '%' + #{searchTxt} + '
+                  %'
+                )
+         </if>
+    </select>
+</mapper>
