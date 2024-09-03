@@ -2,8 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.rds.adams.web.MST.SYS.dao.MSTSYS001M0DAO">
-    <select id="selectList" parameterType="com.rds.adams.web.MST.SYS.dto.MSTSYS001M0P0DTO" resultType="com.rds.adams.web.MST.SYS.dto.MSTSYS001M0R0DTO">
+<mapper namespace="com.rds.adams.web.mst.sys.dao.MSTSYS001M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.mst.sys.dto.MSTSYS001M0P0DTO" resultType="com.rds.adams.web.mst.sys.dto.MSTSYS001M0R0DTO">
 		    SELECT
                EMP_NO
              , EMP_NM
@@ -21,7 +21,7 @@
            AND EMP_NM LIKE CONCAT_WS('%', #{searchName}, '%')
          </if>
     </select>
-    <insert id="insertList" parameterType="com.rds.adams.web.MST.SYS.dto.MSTSYS001M0P1DTO">
+    <insert id="insertList" parameterType="com.rds.adams.web.mst.sys.dto.MSTSYS001M0P1DTO">
         INSERT INTO [dbo].[TB_CO_USR_LST] (
             [EMP_NO],
             [EMP_NM],
@@ -47,7 +47,7 @@
             CONVERT(CHAR(10), getdate(), 23)
         )
     </insert>
-    <update id="updateList" parameterType="com.rds.adams.web.MST.SYS.dto.MSTSYS001M0P1DTO">
+    <update id="updateList" parameterType="com.rds.adams.web.mst.sys.dto.MSTSYS001M0P1DTO">
         UPDATE TB_CO_USR_LST
            SET EMP_NM = #{empNm},
                ROLE_CD = #{roleCd},

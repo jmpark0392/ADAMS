@@ -2,8 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.rds.adams.web.WRK.FIL.dao.WRKFIL002M1DAO">
-    <select id="selectList" parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL002M1P0DTO" resultType="com.rds.adams.web.WRK.FIL.dto.WRKFIL002M1R0DTO">
+<mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL002M1DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M1P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M1R0DTO">
         <if test='tblIdTxt != ""'>
         SELECT 
                TBL_ID                  /* 테이블ID */

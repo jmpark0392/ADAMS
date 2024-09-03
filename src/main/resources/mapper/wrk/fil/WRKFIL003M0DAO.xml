@@ -2,8 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.rds.adams.web.WRK.FIL.dao.WRKFIL003M0DAO">
-    <select id="selectTableInfoList" parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0P0DTO" resultType="com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0R0DTO">
+<mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL003M0DAO">
+    <select id="selectTableInfoList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0R0DTO">
         SELECT 
                A.TBL_ID
              , A.CLMN_ID
@@ -27,7 +27,7 @@
          ORDER BY A.ORD_SEQ
     </select>
     
-    <select id="selectFileList" parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0P0DTO" resultType="com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0R1DTO">
+    <select id="selectFileList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0R1DTO">
         SELECT 
                A.SEQ_NO
              , A.FILE_NM
@@ -106,7 +106,7 @@
                )
     </insert>
     
-    <update id="updateUplHist"  parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL003M0P1DTO" >
+    <update id="updateUplHist"  parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P1DTO" >
         UPDATE RDSDB.dbo.TB_UPL_HIST
            SET FILE_NM      = #{fileNm}
              , LOAD_ED_DT   = GETDATE()

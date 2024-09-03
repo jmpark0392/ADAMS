@@ -2,8 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.rds.adams.web.MST.SYS.dao.MSTSYS002M1DAO">
-    <select id="selectList" parameterType="com.rds.adams.web.MST.SYS.dto.MSTSYS002M1P0DTO" resultType="com.rds.adams.web.MST.SYS.dto.MSTSYS002M1R0DTO">
+<mapper namespace="com.rds.adams.web.mst.sys.dao.MSTSYS002M1DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.mst.sys.dto.MSTSYS002M1P0DTO" resultType="com.rds.adams.web.mst.sys.dto.MSTSYS002M1R0DTO">
         SELECT
                CD_ID       /* 코드ID */
              , VLVL_CD     /* 유효값코드 */
@@ -23,7 +23,7 @@
            AND CD_ID = #{cdIdTxt}
          </if>
     </select>
-    <insert id="multipleInsertList" parameterType="com.rds.adams.web.MST.SYS.dto.MSTSYS002M1P1DTO">
+    <insert id="multipleInsertList" parameterType="com.rds.adams.web.mst.sys.dto.MSTSYS002M1P1DTO">
         INSERT INTO [dbo].[TB_CO_CD_DTLS_LST]
            ([CD_ID]
            ,[VLVL_CD]
@@ -55,7 +55,7 @@
             )
         </foreach>
     </insert>
-    <update id="multipleUpdateList" parameterType="com.rds.adams.web.MST.SYS.dto.MSTSYS002M1P1DTO">
+    <update id="multipleUpdateList" parameterType="com.rds.adams.web.mst.sys.dto.MSTSYS002M1P1DTO">
         <foreach collection="list" item="item" separator=";">
             UPDATE TB_CO_CD_DTLS_LST
                SET VLVL_NM    = #{item.vlvlNm},

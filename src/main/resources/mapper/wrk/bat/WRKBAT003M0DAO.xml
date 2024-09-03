@@ -2,8 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.rds.adams.web.WRK.BAT.dao.WRKBAT003M0DAO">
-    <select id="selectList" parameterType="com.rds.adams.web.WRK.BAT.dto.WRKBAT003M0P0DTO" resultType="com.rds.adams.web.WRK.BAT.dto.WRKBAT003M0R0DTO">
+<mapper namespace="com.rds.adams.web.wrk.bat.dao.WRKBAT003M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT003M0P0DTO" resultType="com.rds.adams.web.wrk.bat.dto.WRKBAT003M0R0DTO">
 		SELECT
 		       A.BAT_EXE_ID      AS BAT_EXE_ID
 		     , A.BAT_PROG_ID     AS BAT_PROG_ID

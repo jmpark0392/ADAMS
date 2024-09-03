@@ -2,8 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.rds.adams.web.WRK.FIL.dao.WRKFIL002M0DAO">
-    <select id="selectList" parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL002M0P0DTO" resultType="com.rds.adams.web.WRK.FIL.dto.WRKFIL002M0R0DTO">
+<mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL002M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M0R0DTO">
         SELECT /*TODO 추후 공통으로 빼놓기*/
                A.SEQ_NO
              , A.FILE_NM
@@ -16,7 +16,7 @@
            AND 1=1
          </if>
     </select>
-    <insert id="insertList" parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL002M0P1DTO">
+    <insert id="insertList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P1DTO">
         INSERT INTO [dbo].[TB_UPL_ITM_LST] (
             [TBL_ID],                 -- 테이블ID
             [ITM_NM],                 -- 칼럼명
@@ -50,7 +50,7 @@
             CONVERT(CHAR(10), getdate(), 23)
         );
     </insert>
-    <update id="updateList" parameterType="com.rds.adams.web.WRK.FIL.dto.WRKFIL002M0P1DTO">
+    <update id="updateList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P1DTO">
         UPDATE TB_UPL_ITM_LST
            SET ITM_NM = #{itmNm},                 -- 칼럼명
                DATA_TP_CD = #{dataTpCd},          -- 데이터타입ID
