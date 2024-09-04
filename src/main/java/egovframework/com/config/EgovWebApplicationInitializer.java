@@ -36,6 +36,10 @@ public class EgovWebApplicationInitializer implements WebApplicationInitializer 
 	public void onStartup(ServletContext servletContext) throws ServletException {
 
 		log.debug("EgovWebApplicationInitializer START-============================================");
+		// -------------------------------------------------------------
+		// Egov Web ServletContextListener 설정 - System property setting
+		// -------------------------------------------------------------
+		servletContext.addListener(new egovframework.com.config.EgovWebServletContextListener());
 
 		// -------------------------------------------------------------
 		// Spring Root Context 설정
@@ -46,11 +50,6 @@ public class EgovWebApplicationInitializer implements WebApplicationInitializer 
 		// Spring Servlet Context 설정
 		// -------------------------------------------------------------
 		addWebServletContext(servletContext);
-
-		// -------------------------------------------------------------
-		// Egov Web ServletContextListener 설정 - System property setting
-		// -------------------------------------------------------------
-		servletContext.addListener(new egovframework.com.config.EgovWebServletContextListener());
 
 		// -------------------------------------------------------------
 		// 필터설정
