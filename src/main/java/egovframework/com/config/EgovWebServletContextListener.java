@@ -31,7 +31,7 @@ public class EgovWebServletContextListener implements ServletContextListener {
 	}
 
 	public void setEgovProfileSetting() {
-		try {
+		try { 
 			log.debug("===========================Start EgovServletContextLoad START ===========");
 			System.setProperty("spring.profiles.active",
 					EgovProperties.getProperty("Globals.DbType") + "," + EgovProperties.getProperty("Globals.Auth"));
