@@ -46,3 +46,7 @@ C:/eRSF/
 C:\eRSF\logs\
 
 bin/
+
+# Ignores the metadata
+.metadata/
+
