@@ -39,3 +39,10 @@ build/
 
 # Log file
 *.log
+
+
+# log folder files
+C:/eRSF/
+C:\eRSF\logs\
+
+bin/
