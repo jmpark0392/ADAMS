@@ -3,7 +3,6 @@ package egovframework.com.config;
 import java.util.List;
 import java.util.Properties;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-import org.thymeleaf.templatemode.TemplateMode;
 
 import egovframework.com.cmm.interceptor.AuthenticInterceptor;
 import egovframework.com.cmm.interceptor.CustomAuthenticInterceptor;
@@ -93,84 +88,6 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 			.setViewName("cmmn/validator");
 		registry.addViewController("/index.html").setViewName("forward:/index.html");
 	}
-	
-	//[2024.08.27][수정]
-	private ApplicationContext applicationContext;
-
-	public void setApplicationContext(final ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
-	}
-
-	@Bean
-	public SpringResourceTemplateResolver templateResolver() {
-		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-		templateResolver.setApplicationContext(this.applicationContext);
-		templateResolver.setPrefix("classpath:/templates/");
-		templateResolver.setSuffix(".html");
-		templateResolver.setTemplateMode(TemplateMode.HTML);
-		templateResolver.setCacheable(false);
-		return templateResolver;
-	}
-
-	@Bean
-	public SpringTemplateEngine templateEngine() {
-		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.setTemplateResolver(templateResolver());
-		templateEngine.setEnableSpringELCompiler(true);
-		// add custom tag
-		//templateEngine.addDialect(new EgovPaginationDialect());
-		return templateEngine;
-	}
-
-	@Bean
-	public ThymeleafViewResolver thymeleafViewResolver() {
-		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-		viewResolver.setCharacterEncoding("UTF-8");
-		viewResolver.setTemplateEngine(templateEngine());
-		return viewResolver;
-	}
-
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
-	    registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/");
-	    registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
-	    registry.addResourceHandler("/layout/**").addResourceLocations("classpath:/templates/layout/");
-	    registry.addResourceHandler("/views/**").addResourceLocations("classpath:/templates/views/");
-	    //registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/egovframework/templates/");
-	}
-
-	@Bean
-	public SessionLocaleResolver localeResolver() {
-		return new SessionLocaleResolver();
-	}
-
-	@Bean
-	public LocaleChangeInterceptor localeChangeInterceptor() {
-		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-		interceptor.setParamName("language");
-		return interceptor;
-	}
-
-	@Override
-	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		Properties prop = new Properties();
-		prop.setProperty("org.springframework.dao.DataAccessException", "egovSampleError");
-		prop.setProperty("org.springframework.transaction.TransactionException", "egovSampleError");
-		prop.setProperty("org.egovframe.rte.fdl.cmmn.exception.EgovBizException", "egovSampleError");
-		prop.setProperty("org.springframework.security.AccessDeniedException", "egovSampleError");
-		prop.setProperty("java.lang.Throwable", "egovSampleError");
-
-		Properties statusCode = new Properties();
-		statusCode.setProperty("egovSampleError", "400");
-		statusCode.setProperty("egovSampleError", "500");
-
-		SimpleMappingExceptionResolver smer = new SimpleMappingExceptionResolver();
-		smer.setDefaultErrorView("egovSampleError");
-		smer.setExceptionMappings(prop);
-		smer.setStatusCodes(statusCode);
-		resolvers.add(smer);
-	}
 
 	// -------------------------------------------------------------
 	// HandlerExceptionResolver 설정
@@ -214,5 +131,47 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 //	public void addCorsMappings(CorsRegistry registry) {
 //		registry.addMapping("*.do").allowedOrigins(CORS_ORIGIN_SERVER_URLS);
 //	}
+	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
+	    registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/");
+	    registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
+	    registry.addResourceHandler("/layout/**").addResourceLocations("classpath:/templates/layout/");
+	    registry.addResourceHandler("/views/**").addResourceLocations("classpath:/templates/views/");
+	    //registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/egovframework/templates/");
+	}
+
+	@Bean
+	public SessionLocaleResolver localeResolver() {
+		return new SessionLocaleResolver();
+	}
+
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+		interceptor.setParamName("language");
+		return interceptor;
+	}
+
+	@Override
+	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+		Properties prop = new Properties();
+		prop.setProperty("org.springframework.dao.DataAccessException", "egovSampleError");
+		prop.setProperty("org.springframework.transaction.TransactionException", "egovSampleError");
+		prop.setProperty("org.egovframe.rte.fdl.cmmn.exception.EgovBizException", "egovSampleError");
+		prop.setProperty("org.springframework.security.AccessDeniedException", "egovSampleError");
+		prop.setProperty("java.lang.Throwable", "egovSampleError");
+
+		Properties statusCode = new Properties();
+		statusCode.setProperty("egovSampleError", "400");
+		statusCode.setProperty("egovSampleError", "500");
+
+		SimpleMappingExceptionResolver smer = new SimpleMappingExceptionResolver();
+		smer.setDefaultErrorView("egovSampleError");
+		smer.setExceptionMappings(prop);
+		smer.setStatusCodes(statusCode);
+		resolvers.add(smer);
+	}
 
 }
