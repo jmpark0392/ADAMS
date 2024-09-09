@@ -41,6 +41,36 @@
 		<script src="js/libs-tabler/jsvectormap/dist/maps/world-merc.js?1692870487" defer></script>
 
 		<style>
+			@import url("https://rsms.me/inter/inter.css");
+			
+			:root {
+				--tblr-font-sans-serif: "Inter Var", -apple-system, BlinkMacSystemFont,
+					San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+			}
+			
+			body {
+				font-feature-settings: "cv03", "cv04", "cv11";
+			}
+			
+			a.nav-link {
+				font-weight: bold;
+				/* text-decoration: underline; */
+				/* color: #ffdc5c; */
+				color: #fffcfc;
+			}
+			
+			.nav-item a:hover, .nav-item a:focus {
+				background-color: #f8f5ed;
+				color: black;
+				/* text-decoration: underline; */
+				font-weight: 600;
+			}
+			
+			a.nav-link.active {
+				font-weight: bold;
+				color: black;
+				background-color: #f8f5ed;
+			}
 			.slick-header-columns {
 				/* flex-grow: 1 if we want to align sort icons to the right */
 				--alpine-header-name-flex-grow: 1;
