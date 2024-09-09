@@ -62,7 +62,7 @@ public class SecurityConfig {
             
     };
     private static final String[] ORIGINS_WHITELIST = {
-            "http://localhost:3000",
+            "http://localhost:8080",
     };
 
     @Bean

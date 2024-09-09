@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -893,7 +894,7 @@ public class StringUtil
         {
             strRow += chr;
         }
-        ArrayList list = new ArrayList();
+        List<String> list = new ArrayList<String>();
         while ((intPos = strRow.indexOf(chr)) >= 0)
         {
             list.add(strRow.substring(0, intPos));
@@ -923,7 +924,7 @@ public class StringUtil
         {
             strRow += str;
         }
-        ArrayList list = new ArrayList();
+        List<String> list = new ArrayList<String>();
         while ((intPos = strRow.indexOf(str)) >= 0)
         {
             list.add(strRow.substring(0, intPos));
@@ -952,7 +953,7 @@ public class StringUtil
         try
         {
             String buf = strRow;
-            ArrayList list = new ArrayList();
+            List<String> list = new ArrayList<String>();
             String[] arrReg = split(strPattern, '?');
             int intLoop, intPos, intLen;
             intLoop = arrReg.length;
@@ -1315,9 +1316,9 @@ public class StringUtil
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getMappedTemplet(String templetSource, Map map) throws Exception
+	public static String getMappedTemplet(String templetSource, Map<String, String> map) throws Exception
 	{
-        ArrayList listVariable = new ArrayList();
+        List<String> listVariable = new ArrayList<String>();
            
         Matcher m = Pattern.compile("\\$\\{(\\w+)*}").matcher(templetSource);
         while(m.find())
