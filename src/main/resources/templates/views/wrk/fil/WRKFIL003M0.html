@@ -1,6 +1,64 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/file_layout}">
 	<th:block layout:fragment="content">
+		<script src="js/demo-theme.min.js?1692870487"></script>
+		<div class="page-wrapper" id="page-wrapper">
+			<div class="container" id="'container">
+				<h2>File Upload</h2>
+				<div class="ptag-container">
+					<span><a href="#"> Home ></a></span>
+					<span><a href="#"> File Upload2</a></span>
+					<div class="form-container">
+						<div class="form-box">
+							<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
+								<div class="row">
+									<div class="col">
+										<label for="fileDropdown" class="form-label"> Year / Month:</label>
+										<!-- <input id="inpStdYymm" name="inpStdYymm" required="required" type="text" /> -->
+										<input id="inpStdYymm" name="inpStdYymm" type="text" class="form-control" required="required" style="padding: 3px" />
+									</div>
+									<div class="col">
+										<div class="col">
+											<label for="lblUploadFileList" class="form-label">File upload : </label>
+											<select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select">
+												<option selected="selected" value="">- select -</option>
+											</select>
+										</div>
+									</div>
+									<div class="col"></div>
+									<div class="col"></div>
+								</div>
+								<div class="row mt-3">
+									<div class="col">
+										<form method="post" id="uploadFrm" enctype="multipart/form-data">
+											<input id="btnFileUpload" name="btnFileUpload" type="file" value="파일선택" accept=".xlsx, .xls" style="font-size: 13px" />
+										</form>
+									</div>
+									<div class="col text-end">
+										<button name="btnSearch" type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" onclick="getSearchList()" data-test="create-button">Search</button>
+										<button name="btnExcelDown" type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px;" id="downloadExcel" onclick="getExcelList()" data-test="edit-button">Download</button>
+	
+										<button name="btnSave" type="button" class=" btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px;" onclick="setSaveUploadFile()" data-test="edit-button">Save</button>
+									</div>
+								</div>
+						</div>
+						<div class="row mt-3"></div>
+						</form>
+					</div>
+					<div style="padding-top: 2em">
+						<form name="divData">
+							<p>
+								►&nbsp;<label for="lblGrdTitle">Grid title: </label>
+							</p>
+	
+							<table align="center" border="1" cellpadding="1" cellspacing="1" style="width: 500px">
+								<div id="divGrdMain" style="width: 600px; height: 600px;"></div>
+							</table>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script>
 			$(document).ready( function() 
 			                   {
@@ -247,82 +305,9 @@
 			    });
 			    
 			}
-			
 			function clearSlickGridData(){
 			    var grid = new Slick.Grid("#divGrdMain", [{}], [{}], [{}]);
 			}
-		
 		</script>
-		<div class="page-wrapper" id="page-wrapper">
-			<div class="container" id="'container">
-				<h2>File Upload</h2>
-				<div class="ptag-container">
-					<span><a href="#"> Home ></a></span>
-					<span><a href="#"> File Upload2</a></span>
-					<div class="form-container">
-						<div class="form-box">
-							<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
-								<div class="row">
-									<div class="col">
-										<label for="fileDropdown" class="form-label"> Year / Month:</label>
-										<!-- <input id="inpStdYymm" name="inpStdYymm" required="required" type="text" /> -->
-										<input id="inpStdYymm" name="inpStdYymm" type="text" class="form-control" required="required" style="padding: 3px" />
-									</div>
-									<div class="col">
-										<div class="col">
-											<label for="lblUploadFileList" class="form-label">File upload : </label>
-											<select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select">
-												<option selected="selected" value="">- select -</option>
-											</select>
-										</div>
-									</div>
-									<!-- <div class="col">
-	                                        <label class="form-label"></label>
-	                                        <form method="post" id="uploadFrm" enctype="multipart/form-data">
-	                                            <input 
-	                                                id="btnFileUpload" 
-	                                                name="btnFileUpload" 
-	                                                type="file" 
-	                                                value="파일선택" 
-	                                                accept=".xlsx, .xls"
-	                                                style="
-	                                                    font-size: 13px"
-	                                            />
-	                                        </form>
-	                                      </div> -->
-									<div class="col"></div>
-									<div class="col"></div>
-								</div>
-								<div class="row mt-3">
-									<div class="col">
-										<form method="post" id="uploadFrm" enctype="multipart/form-data">
-											<input id="btnFileUpload" name="btnFileUpload" type="file" value="파일선택" accept=".xlsx, .xls" style="font-size: 13px" />
-										</form>
-									</div>
-									<div class="col text-end">
-										<button name="btnSearch" type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" onclick="getSearchList()" data-test="create-button">Search</button>
-										<button name="btnExcelDown" type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px;" id="downloadExcel" onclick="getExcelList()" data-test="edit-button">Download</button>
-	
-										<button name="btnSave" type="button" class=" btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px;" onclick="setSaveUploadFile()" data-test="edit-button">Save</button>
-									</div>
-								</div>
-						</div>
-						<div class="row mt-3"></div>
-						</form>
-					</div>
-					<div style="padding-top: 2em">
-						<form name="divData">
-							<p>
-								►&nbsp;<label for="lblGrdTitle">Grid title: </label>
-							</p>
-	
-							<table align="center" border="1" cellpadding="1" cellspacing="1" style="width: 500px">
-								<div id="divGrdMain" style="width: 600px; height: 600px;"></div>
-							</table>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
 	</th:block>
 </html>
