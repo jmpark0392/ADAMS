@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdamsLoginDAO">
+
+
+	<!-- 로그인 처리를 위한 resultMap -->
+	<resultMap id="login" type="com.rds.adams.web.com.login.dto.AdamsLoginDTO">
+		<result property="csNo" column="csNo"/>
+		<result property="usrDvCd" column="usrDvCd"/>
+		<result property="usrId" column="usrId"/>
+		<result property="usrNm" column="usrNm"/>
+		<result property="usrPassword" column="usrPassword"/>
+		<result property="usrNewPassword" column="usrNewPassword"/>
+		<result property="usrPhNo" column="usrPhNo"/>
+		<result property="usrEmail" column="usrEmail"/>
+		<result property="empNo" column="empNo"/>
+		<result property="statDvCd" column="statDvCd"/>
+		<result property="useStrDtm" column="useStrDtm"/>
+		<result property="useEndDtm" column="useEndDtm"/>
+		<result property="passwordUpdDtm" column="passwordUpdDtm"/>
+		<result property="passwordInitYn" column="passwordInitYn"/>
+		<result property="srvcCd" column="srvcCd"/>
+	</resultMap>
+    
+	<!-- 메뉴 처리를 위한 resultMap -->
+	<resultMap id="menu" type="com.rds.adams.web.com.login.dto.AdamsMenuDTO">
+		<result property="menuId" column="menuId"/>
+		<result property="menuNmKor" column="menuNmKor"/>
+		<result property="menuNmEng" column="menuNmEng"/>
+		<result property="upprMenuId" column="upprMenuId"/>
+		<result property="menuSrtOrd" column="menuSrtOrd"/>
+		<result property="menuDesc" column="menuDesc"/>
+		<result property="pgmUrl" column="pgmUrl"/>
+		<result property="level" column="level"/>
+		<result property="sort" column="sort"/>
+	</resultMap>
+	
+	<!-- 아이디 찾기를 위한 resultMap -->
+	<resultMap id="id" type="com.rds.adams.web.com.login.dto.AdamsLoginDTO">
+		<result property="usrId" column="usrId"/>
+	</resultMap>
+	
+	<!-- 비밀번호 처리를 위한 resultMap -->
+	<resultMap id="password" type="com.rds.adams.web.com.login.dto.AdamsLoginDTO">
+		<result property="usrPassword" column="usrPassword"/>
+	</resultMap>
+	
+	<!-- 일반 로그인 -->
+	<select id="actionLogin" resultMap="login">
+        SELECT
+               A.CS_NO             AS csNo
+             , A.USR_DV_CD         AS usrDvCd
+             , A.USR_ID            AS usrId
+             , A.USR_NM            AS usrNm
+             , ''                  AS usrPassword
+             , A.USR_PH_NO         AS usrPhNo
+             , A.USR_EMAIL         AS usrEmail
+             , A.EMP_NO            AS empNo
+             , A.STAT_DV_CD        AS statDvCd
+             , A.USE_STR_DTM       AS useStrDtm                                    
+             , A.USE_END_DTM       AS useEndDtm
+			 , A.PASSWORD_UPD_DTM  AS passwordUpdDtm
+			 , A.PASSWORD_INIT_YN  AS passwordInitYn
+             , B.SRVC_CD           AS srvcCd
+          FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
+          LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] B
+                       ON A.CS_NO = B.CS_NO
+         WHERE 1=1
+		   AND A.CS_NO  = CASE WHEN 'rdsadm' =  #{usrId} THEN A.CS_NO ELSE #{csNo} END
+		   AND A.USR_ID = #{usrId}
+		   AND 1        = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
+	</select>
+	
+	<!-- 사용자 메뉴 -->
+	<select id="actionMenu" resultMap="menu">
+        WITH TMP_AUTH AS
+             (
+                SELECT
+                       CASE WHEN A.USR_DV_CD = '1' THEN '9'
+                            WHEN A.USR_DV_CD = '2' THEN '8'
+                            ELSE '1'
+                       END AS USR_DV_CD
+                     , CASE WHEN A.USR_DV_CD = '1' THEN '99'
+                            ELSE B.SRVC_CD
+                       END AS SRVC_CD
+                  FROM [RDSDB].[dbo].[TB_USR_MNG_LST] A
+                  LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] B
+                               ON A.CS_NO = B.CS_NO
+                 WHERE 1=1
+                   AND A.CS_NO  = CASE WHEN 'rdsadm' =  #{usrId} THEN A.CS_NO ELSE #{csNo} END
+                   AND A.USR_ID = #{usrId}
+             )
+        ,    TMP_MEMU AS
+             (
+                SELECT
+                       MM.MENU_ID
+                     , MM.MENU_NM_KOR
+                     , MM.MENU_NM_ENG
+                     , MM.UPPR_MENU_ID
+                     , MM.MENU_SRT_ORD
+                     , MM.MENU_DESC
+					 , MM.PGM_PATH_NM + '/' + MM.PGM_NM AS PGM_URL
+                  FROM [RDSDB].[DBO].[TB_MENU_MNG_LST] MM
+                 WHERE 1=1
+                   AND MM.USE_YN = 'Y'
+                   AND MM.DEL_YN = 'N'
+                   AND CASE WHEN MM.SYSOP_AUTH_YN = 'Y' THEN '9'
+                            WHEN MM.ADMIN_AUTH_YN = 'Y' THEN '8'
+                            ELSE '1'
+                       END <![CDATA[<=]]> (
+                                SELECT
+                                       USR_DV_CD
+                                  FROM TMP_AUTH
+                                 WHERE 1=1
+                              )
+                   AND MM.SRVC_CD <![CDATA[<=]]> (
+                                        SELECT
+                                               SRVC_CD
+                                          FROM TMP_AUTH
+                                         WHERE 1=1
+                                      )
+             )
+        ,    MENUHIERARCHY AS
+             (
+               -- 최상위 메뉴를 선택합니다.
+               SELECT
+                      MENU_ID
+                    , MENU_NM_KOR
+                    , MENU_NM_ENG
+                    , UPPR_MENU_ID
+                    , MENU_SRT_ORD
+                    , MENU_DESC
+					, PGM_URL
+                    , 0            AS LEVEL   -- 최상위 메뉴의 레벨을 0으로 설정
+                    , CAST( MENU_SRT_ORD AS VARCHAR(3))
+                      + '00'       AS SORT
+                 FROM TMP_MEMU      -- 실제 테이블 이름으로 변경하세요
+                WHERE 1=1
+                  AND ( UPPR_MENU_ID IS NULL OR UPPR_MENU_ID = '' )  -- 최상위 메뉴 조건
+
+               UNION ALL
+
+               -- 재귀적으로 하위 메뉴를 찾습니다.
+               SELECT
+                      M.MENU_ID
+                    , M.MENU_NM_KOR
+                    , M.MENU_NM_ENG
+                    , M.UPPR_MENU_ID
+                    , M.MENU_SRT_ORD
+                    , M.MENU_DESC
+					, M.PGM_URL
+                    , H.LEVEL + 1                          AS LEVEL  -- 상위 메뉴의 레벨에 1을 더하여 하위 메뉴의 레벨 설정
+                    , CAST(H.MENU_SRT_ORD AS VARCHAR(3))
+                      + CAST(M.MENU_SRT_ORD AS VARCHAR(2)) AS SORT
+                 FROM TMP_MEMU M
+                INNER JOIN MENUHIERARCHY H
+                        ON M.UPPR_MENU_ID = H.MENU_ID
+                WHERE 1=1
+             )
+        -- 결과를 트리 구조로 조회
+        SELECT
+               MENU_ID                              AS menuId       /* 메뉴ID */
+             , REPLICATE('  ', LEVEL) + MENU_NM_KOR AS menuNmKor    /* 메뉴명_한글 */
+             , REPLICATE('  ', LEVEL) + MENU_NM_ENG AS menuNmEng    /* 메뉴명_영문 */
+             , UPPR_MENU_ID                         AS upprMenuId   /* 상위메뉴ID */
+             , MENU_SRT_ORD                         AS menuSrtOrd   /* 메뉴정렬순서 */
+             , MENU_DESC                            AS menuDesc     /* 메뉴설명 */
+			 , PGM_URL                              AS pgmUrl       /* 프로그램URL */
+             , LEVEL                                AS level        /* LEVEL */
+             , SORT                                 AS sort         /* 정렬 */
+          FROM MENUHIERARCHY
+         ORDER BY SORT
+	</select>
+	
+	<!-- 인증서 로그인 -->
+	<select id="actionCrtfctLogin" resultMap="login">
+
+        SELECT
+               A.CS_NO             AS csNo
+             , A.USR_DV_CD         AS usrDvCd
+             , A.USR_ID            AS usrId
+             , A.USR_NM            AS usrNm
+             , ''                  AS usrPassword
+             , A.USR_PH_NO         AS usrPhNo
+             , A.USR_EMAIL         AS usrEmail
+             , A.EMP_NO            AS empNo
+             , A.STAT_DV_CD        AS statDvCd
+             , A.USE_STR_DTM       AS useStrDtm
+             , A.USE_END_DTM       AS useEndDtm
+			 , A.PASSWORD_UPD_DTM  AS passwordUpdDtm
+			 , A.PASSWORD_INIT_YN  AS passwordInitYn
+             , B.SRVC_CD           AS srvcCd
+          FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
+          LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] B
+                       ON A.CS_NO = B.CS_NO
+         WHERE 1=1
+		   AND A.CS_NO  = #{csNo}
+		   AND A.USR_ID = #{usrId}
+		   AND 1        = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
+		 -- sub_dn = #{dn}
+	</select>
+    
+    <!-- 로그인 사용자 메뉴 정보 -->
+    <select id="selectMenuList" parameterType="com.rds.adams.web.com.login.dto.AdamsLoginDTO" resultType="com.rds.adams.web.com.login.dto.AdamsMenuDTO">
+        WITH TMP_AUTH AS
+             (
+                SELECT
+                       CASE WHEN A.USR_DV_CD = '1' THEN '9'
+                            WHEN A.USR_DV_CD = '2' THEN '8'
+                            ELSE '1'
+                       END AS USR_DV_CD
+                     , CASE WHEN A.USR_DV_CD = '1' THEN '99'
+                            ELSE B.SRVC_CD
+                       END AS SRVC_CD
+                  FROM [RDSDB].[dbo].[TB_USR_MNG_LST] A
+                  LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] B
+                               ON A.CS_NO = B.CS_NO
+                 WHERE 1=1
+                   AND A.CS_NO  = #{csNo}
+                   AND A.USR_ID = #{usrId}
+             )
+        ,    TMP_MEMU AS
+             (
+                SELECT
+                       MM.MENU_ID
+                     , MM.MENU_NM_KOR
+                     , MM.MENU_NM_ENG
+                     , MM.UPPR_MENU_ID
+                     , MM.MENU_SRT_ORD
+                     , MM.MENU_DESC
+                  FROM [RDSDB].[DBO].[TB_MENU_MNG_LST] MM
+                 WHERE 1=1
+                   AND MM.USE_YN = 'Y'
+                   AND MM.DEL_YN = 'N'
+                   AND CASE WHEN MM.SYSOP_AUTH_YN = 'Y' THEN '9'
+                            WHEN MM.ADMIN_AUTH_YN = 'Y' THEN '8'
+                            ELSE '1'
+                       END <![CDATA[<=]]> (
+                                SELECT
+                                       USR_DV_CD
+                                  FROM TMP_AUTH
+                                 WHERE 1=1
+                              )
+                   AND MM.SRVC_CD <![CDATA[<=]]> (
+                                        SELECT
+                                               SRVC_CD
+                                          FROM TMP_AUTH
+                                         WHERE 1=1
+                                      )
+             )
+        ,    MENUHIERARCHY AS
+             (
+               -- 최상위 메뉴를 선택합니다.
+               SELECT
+                      MENU_ID
+                    , MENU_NM_KOR
+                    , MENU_NM_ENG
+                    , UPPR_MENU_ID
+                    , MENU_SRT_ORD
+                    , MENU_DESC
+                    , 0            AS LEVEL   -- 최상위 메뉴의 레벨을 0으로 설정
+                    , CAST( MENU_SRT_ORD AS VARCHAR(3))
+                      + '00'       AS SORT
+                 FROM TMP_MEMU      -- 실제 테이블 이름으로 변경하세요
+                WHERE 1=1
+                  AND ( UPPR_MENU_ID IS NULL OR UPPR_MENU_ID = '' )  -- 최상위 메뉴 조건
+
+               UNION ALL
+
+               -- 재귀적으로 하위 메뉴를 찾습니다.
+               SELECT
+                      M.MENU_ID
+                    , M.MENU_NM_KOR
+                    , M.MENU_NM_ENG
+                    , M.UPPR_MENU_ID
+                    , M.MENU_SRT_ORD
+                    , M.MENU_DESC
+                    , H.LEVEL + 1                          AS LEVEL  -- 상위 메뉴의 레벨에 1을 더하여 하위 메뉴의 레벨 설정
+                    , CAST(H.MENU_SRT_ORD AS VARCHAR(3))
+                      + CAST(M.MENU_SRT_ORD AS VARCHAR(2)) AS SORT
+                 FROM TMP_MEMU M
+                INNER JOIN MENUHIERARCHY H
+                        ON M.UPPR_MENU_ID = H.MENU_ID
+                WHERE 1=1
+             )
+        -- 결과를 트리 구조로 조회
+        SELECT
+               MENU_ID
+             , REPLICATE('  ', LEVEL) + MENU_NM_KOR AS MENU_NM_KOR   -- 레벨에 따라 들여쓰기
+             , REPLICATE('  ', LEVEL) + MENU_NM_ENG AS MENU_NM_ENG
+             , UPPR_MENU_ID
+             , MENU_SRT_ORD
+             , MENU_DESC
+             , LEVEL
+             , SORT
+          FROM MENUHIERARCHY
+         ORDER BY SORT
+    </select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="searchId" resultMap="id">
+		SELECT 
+               A.USR_ID AS usrId
+		  FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
+		 WHERE 1=1
+           AND A.CS_NO      = #{csNo}
+           AND A.USR_NM     = #{usrNm}
+		   AND A.USR_EMAIL  = #{usrEmail}
+		   AND A.STAT_DV_CD = '0'
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="searchPassword" resultMap="password">
+		SELECT 
+               A.USR_PASSWORD AS usrPassword
+		  FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
+		 WHERE 1=1
+           AND A.CS_NO      = #{csNo}
+           AND A.USR_ID     = #{usrId}
+		   AND A.USR_NM     = #{usrNm}
+		   AND A.USR_EMAIL  = #{usrEmail}
+		   --AND A.EMP_NO     = #{empNo}
+		   AND A.STAT_DV_CD = '0'
+	</select>
+	
+	<!-- 변경된 비밀번호를 저장 -->
+	<update id="updatePassword">
+		UPDATE RDSDB.[dbo].[TB_USR_MNG_LST] A
+		   SET A.USR_PASSWORD = PWDENCRYPT(#{usrNewPassword})
+		 WHERE 1=1
+           AND A.CS_NO  = #{csNo}
+           AND A.USR_ID = #{usrId}
+           AND 1      = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
+	</update>
+</mapper>
