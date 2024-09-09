@@ -203,7 +203,7 @@ public class AdamsLoginController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "로그아웃 성공"),
 	})
-	@GetMapping(value = "/auth/logout")
+	@GetMapping(value = "/auth/adamsLogout")
 	public AdamsResultDTO actionLogoutJSON(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		AdamsResultDTO adamsResultDTO = new AdamsResultDTO();
