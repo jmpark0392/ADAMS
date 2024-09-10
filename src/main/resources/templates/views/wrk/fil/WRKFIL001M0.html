@@ -1,80 +1,163 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
-<th:block layout:fragment="content">
-	<div class="page-wrapper" id="page-wrapper">
-		<div class="container" id="container">
-			<h2>File Management System</h2>
-			<div class="ptag-container">
-				<span><a href="#"> Home ></a></span> <span><a href="#"> Cost Management</a></span>
-				<div class="form-container">
-					<div class="form-box">
-						<form id="filter-form" name="form" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
-							<div class="row">
-								<div class="col">
-									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
-									<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
-								</div>
-								<div class="col text-end">
-									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">Create</button>
-									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">Download</button>
-									<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-				<div style="padding-top: 2em"></div>
-				<div id="divMyGrid">
-					<table align="center" class="table"></table>
-				</div>
-			</div>
-			<div class="popupDataForm">
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">Launch modal with form</button>
-				<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
-					<div class="modal-dialog modal-small" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">New report</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<div class="row">
-									<!-- Removed repetitive content for clarity -->
-									<!-- Add necessary modal content here -->
-								</div>
-							</div>
-							<div class="modal-footer">
-								<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">Save changes</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script>
-		function checkData(data) {
-			return parentCheckData(data, check_cols);
-		}
+<html
+  lang="ko"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <th:block layout:fragment="content">
+    <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+    <div class="page-wrapper" id="page-wrapper">
+      <div class="container" id="container">
+        <h2>File Management System</h2>
+        <div class="ptag-container">
+          <span><a href="#"> Home ></a></span>
+          <span><a href="#"> Cost Management</a></span>
+          <div class="form-container">
+            <div class="form-box">
+              <form
+                id="filter-form"
+                name="form"
+                method="post"
+                action="/WRKFIL001M0SelectList"
+                onsubmit="return false;"
+              >
+                <div class="row">
+                  <div class="col">
+                    <input
+                      id="inpSearchTxt"
+                      name="inpSearchTxt"
+                      type="text"
+                      class="form-input-temp"
+                      placeholder="Input Name"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="main()"
+                    >
+                      Search
+                    </button>
+                  </div>
+                  <div class="col text-end">
+                    <button
+                      form="new-form"
+                      type="button"
+                      class="btn btn-primary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
+                      data-test="create-button"
+                      onsubmit="return false;"
+                    >
+                      Create
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-lime"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      id="downloadExcel"
+                    >
+                      Download
+                    </button>
+                    <button
+                      form="new-form"
+                      type="button"
+                      class="btn btn-secondary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
+                      data-test="edit-button"
+                      onsubmit="return false;"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div style="padding-top: 2em"></div>
+          <div id="divMyGrid">
+            <table align="center" class="table"></table>
+          </div>
+        </div>
+        <div class="popupDataForm">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            style="display: none"
+          >
+            Launch modal with form
+          </button>
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            style="display: none"
+          >
+            <div class="modal-dialog modal-small" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">New report</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <!-- Removed repetitive content for clarity -->
+                    <!-- Add necessary modal content here -->
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <a
+                    href="#"
+                    class="btn btn-link link-secondary"
+                    data-bs-dismiss="modal"
+                    >Cancel</a
+                  >
+                  <a
+                    href="#"
+                    class="btn btn-primary ms-auto"
+                    data-bs-dismiss="modal"
+                    style="padding: 4px 10px; color: white; font-size: 13px"
+                    >Save changes</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function checkData(data) {
+        return parentCheckData(data, check_cols);
+      }
 
-		function getFile(input) {
-			return parentGetFile(input, "/WRKFIL001M0SelectList");
-		}
+      function getFile(input) {
+        return parentGetFile(input, "/WRKFIL001M0SelectList");
+      }
 
-		function insertFile(addedRow) {
-			parentInsertFile(addedRow, "/WRKFIL001M0InsertList");
-		}
+      function insertFile(addedRow) {
+        parentInsertFile(addedRow, "/WRKFIL001M0InsertList");
+      }
 
-		function updateFile(updatedRow) {
-			parentUpdateFile(updatedRow, "/WRKFIL001M0UpdateList");
-		}
+      function updateFile(updatedRow) {
+        parentUpdateFile(updatedRow, "/WRKFIL001M0UpdateList");
+      }
 
-		function deleteFile(todeleteRow) {
-			parentDeleteFile(todeleteRow, "/WRKFIL001M0DeleteList");
-		}
+      function deleteFile(todeleteRow) {
+        parentDeleteFile(todeleteRow, "/WRKFIL001M0DeleteList");
+      }
     </script>
     <script src="js/utils.js"></script>
-	<script>
+    <script>
       $(document).ready(function () {
         console.log("Document is ready.");
         //화면 접속시 바로 조회
@@ -578,5 +661,5 @@
         // });
       }
     </script>
-</th:block>
+  </th:block>
 </html>
