@@ -1,57 +1,27 @@
 <!DOCTYPE html>
-<html lang="ko"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{layout/file_layout}">
-  <th:block layout:fragment="content">
-    <!-- <aside>
-        &nbsp;파일관리<br>
-        &nbsp;&nbsp;&nbsp;<a href ="/views/WRK/FIL/WRKFIL001M0.html" target="main">파일관리</a><br>
-        &nbsp;&nbsp;&nbsp;<a href ="/views/WRK/FIL/WRKFIL002M0.html" target="main">칼럼관리</a><br>
-        &nbsp;&nbsp;&nbsp;<a href ="/views/WRK/FIL/WRKFIL003M0.html" target="main">업로드  </a><br>
-        &nbsp;&nbsp;&nbsp;<a href ="/views/WRK/FIL/WRKFIL004M0.html" target="main">적재이력</a><br>
-        &nbsp;&nbsp;&nbsp;검증관리(X)                                <br>
-        &nbsp;&nbsp;&nbsp;검증결과(X)                                <br>
-        &nbsp;&nbsp;&nbsp;파일목록(X)                                <br>
-        &nbsp;시스템관리<br>
-        &nbsp;&nbsp;&nbsp;<a href ="/views/MST/SYS/MSTSYS001M0.html" target="main">사용자관리</a><br>
-        &nbsp;&nbsp;&nbsp;<a href ="/views/MST/SYS/MSTSYS002M0.html" target="main">코드관리</a><br>
-        &nbsp;&nbsp;&nbsp;게시판(X)<br>
-        &nbsp;배치관리<br>
-        &nbsp;&nbsp;&nbsp;배치목록(ing)<br>
-        &nbsp;&nbsp;&nbsp;배치실행(X)<br>
-        &nbsp;배치관리<br>
-        &nbsp;&nbsp;&nbsp;데이터현황(X)<br>
-        &nbsp;&nbsp;&nbsp;데이터상세(X)<br>
-        &nbsp;ETL<br>
-        &nbsp;&nbsp;&nbsp;DBtoDB(X)<br>
-        &nbsp;&nbsp;&nbsp;DBtoFile(X)<br>
-        &nbsp;&nbsp;&nbsp;FileToDb(X)<br>
-      </aside> -->
-    <!---------- header,left (종료) -------------->
-    <script src="js/demo-theme.min.js?1692870487"></script>
-    <div class="page-wrapper" id="page-wrapper">
-      <div class="container" id="'container">
-        <h2>Load History</h2>
-        <div class="ptag-container">
-          <span><a href="#"> Home ></a></span> <span><a href="#"> Load History</a></span>
-          <div class="form-container">
-            <div class="form-box">
-              <form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
-                <div class="row">
-                  <div class="col">
-                    <div class="col">
-                      <label for="lblUploadFileList" class="form-label">File Title : </label>
-                      <select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select">
-                        <option selected="selected" value="">- select -</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <label class="form-label">From</label>
-                    <div class="input-icon mb-2">
-                      <input class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" /> <span class="input-icon-addon">
-                        <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/file_layout}">
+<th:block layout:fragment="content">
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="'container">
+			<h2>Load History</h2>
+			<div class="ptag-container">
+				<span><a href="#"> Home ></a></span> <span><a href="#"> Load History</a></span>
+				<div class="form-container">
+					<div class="form-box">
+						<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
+							<div class="row">
+								<div class="col">
+									<div class="col">
+										<label for="lblUploadFileList" class="form-label">File Title : </label>
+										<select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select">
+											<option selected="selected" value="">- select -</option>
+										</select>
+									</div>
+								</div>
+								<div class="col">
+									<label class="form-label">From</label>
+									<div class="input-icon mb-2">
+										<input class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" /> <span class="input-icon-addon"> <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
                           <path d="M16 3v4" />
@@ -59,14 +29,13 @@ layout:decorate="~{layout/file_layout}">
                           <path d="M4 11h16" />
                           <path d="M11 15h1" />
                           <path d="M12 15v3" /></svg>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <label class="form-label"> Until </label>
-                    <div class="input-icon">
-                      <input class="form-control" placeholder="Select a date" id="datepicker-icon-prepend" value="2020-06-20" /> <span class="input-icon-addon">
-                        <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										</span>
+									</div>
+								</div>
+								<div class="col">
+									<label class="form-label"> Until </label>
+									<div class="input-icon">
+										<input class="form-control" placeholder="Select a date" id="datepicker-icon-prepend" value="2020-06-20" /> <span class="input-icon-addon"> <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                       <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
                                       <path d="M16 3v4" />
@@ -75,14 +44,13 @@ layout:decorate="~{layout/file_layout}">
                                       <path d="M11 15h1" />
                                       <path d="M12 15v3" />
                                     </svg>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <label class="form-label">Year/Month: </label>
-                    <div class="input-icon mb-2">
-                      <input type="month" class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" /> <span class="input-icon-addon">
-                        <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										</span>
+									</div>
+								</div>
+								<div class="col">
+									<label class="form-label">Year/Month: </label>
+									<div class="input-icon mb-2">
+										<input type="month" class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" /> <span class="input-icon-addon"> <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
                           <path d="M16 3v4" />
@@ -90,14 +58,13 @@ layout:decorate="~{layout/file_layout}">
                           <path d="M4 11h16" />
                           <path d="M11 15h1" />
                           <path d="M12 15v3" /></svg>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <label class="form-label">Year/Month: </label>
-                    <div class="input-icon mb-2">
-                      <input type="month" class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-25" style="padding: 3px" /> <span class="input-icon-addon">
-                        <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										</span>
+									</div>
+								</div>
+								<div class="col">
+									<label class="form-label">Year/Month: </label>
+									<div class="input-icon mb-2">
+										<input type="month" class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-25" style="padding: 3px" /> <span class="input-icon-addon"> <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
                           <path d="M16 3v4" />
@@ -105,12 +72,12 @@ layout:decorate="~{layout/file_layout}">
                           <path d="M4 11h16" />
                           <path d="M11 15h1" />
                           <path d="M12 15v3" /></svg>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <!-- <div class="col">
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-3">
+								<!-- <div class="col">
                                     <form method="post" id="uploadFrm" enctype="multipart/form-data">
                                         <input 
                                             id="btnFileUpload" 
@@ -123,9 +90,9 @@ layout:decorate="~{layout/file_layout}">
                                         />
                                     </form>
                                 </div> -->
-                  <div class="col text-end">
-                    <button name="btnSearch" type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" onclick="getSearchList()" data-test="create-button">Search</button>
-                    <!-- <button
+								<div class="col text-end">
+									<button name="btnSearch" type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" onclick="getSearchList()" data-test="create-button">Search</button>
+									<!-- <button
                                       name="btnExcelDown"
                                       type="button"
                                       class="btn btn-lime"
@@ -153,27 +120,27 @@ layout:decorate="~{layout/file_layout}">
                                     >
                                       Save
                                     </button> -->
-                  </div>
-                </div>
-            </div>
-            <div class="row mt-3"></div>
-            </form>
-          </div>
-          <div style="padding-top: 2em">
-            <form name="divData">
-              <p>
-                ►&nbsp;<label for="lblGrdTitle">Grid Content</label>
-              </p>
+								</div>
+							</div>
+					</div>
+					<div class="row mt-3"></div>
+					</form>
+				</div>
+				<div style="padding-top: 2em">
+					<form name="divData">
+						<p>
+							►&nbsp;<label for="lblGrdTitle">Grid Content</label>
+						</p>
 
-              <table align="center" border="1" cellpadding="1" cellspacing="1" style="width: 500px">
-                <div id="divGrdMain" style="width: 1284px; height: 750px"></div>
-              </table>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
+						<table align="center" border="1" cellpadding="1" cellspacing="1" style="width: 500px">
+							<div id="divGrdMain" style="width: 1284px; height: 750px"></div>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
       $(document).ready(function () {
         console.log("Document is ready.");
         $("input").on("keyup", function (key) {
@@ -422,7 +389,7 @@ layout:decorate="~{layout/file_layout}">
         });
       }
   </script>
-  <script>
+	<script>
   // @formatter:off
   document.addEventListener("DOMContentLoaded", function () {
     window.Litepicker && (new Litepicker({
@@ -437,7 +404,7 @@ layout:decorate="~{layout/file_layout}">
   });
   // @formatter:on
   </script>
-  <script>
+	<script>
   // @formatter:off
   document.addEventListener("DOMContentLoaded", function () {
     window.Litepicker && (new Litepicker({
@@ -452,7 +419,7 @@ layout:decorate="~{layout/file_layout}">
   });
   // @formatter:on
   </script>
-  <script>
+	<script>
   // @formatter:off
   document.addEventListener("DOMContentLoaded", function () {
     window.Litepicker && (new Litepicker({
@@ -467,7 +434,7 @@ layout:decorate="~{layout/file_layout}">
   });
   // @formatter:on
   </script>
-  <script>
+	<script>
   // @formatter:off
   document.addEventListener("DOMContentLoaded", function () {
     window.Litepicker && (new Litepicker({
@@ -483,5 +450,5 @@ layout:decorate="~{layout/file_layout}">
   });
   // @formatter:on
   </script>
-  </th:block>
+</th:block>
 </html>
