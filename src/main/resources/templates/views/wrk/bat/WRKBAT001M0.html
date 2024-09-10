@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="ko">
-<head>
+<html
+  lang="ko"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+<!-- <head> 
     <meta charset="UTF-8">
     <title>배치관리</title>
     <link rel="stylesheet" href="/js/slickgrid/dist/styles/css/slick.grid.css" type="text/css"/>
@@ -116,9 +120,138 @@
     }
 
     </style>
-</head>
-<body>
-    <form name="form" method="post" action="/WRKBAT001M0SelectList" onsubmit="return false;">
+</head> -->
+<th:block layout:fragment="content">
+	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+	    <div class="page-wrapper" id="page-wrapper">
+      <div class="container" id="container">
+        <h2>Job List</h2>
+        <div class="ptag-container">
+          <span><a href="#"> Home ></a></span>
+          <span><a href="#">Job List</a></span>
+          <div class="form-container">
+            <div class="form-box">
+              <form
+                id="filter-form"
+                name="form"
+                method="post"
+                action="WRKBAT001M0SelectList"
+                onsubmit="return false;"
+              >
+                <div class="row">
+                  <div class="col">
+                    <input
+                      id="inpSearchTxt"
+                      name="inpSearchTxt"
+                      type="text"
+                      class="form-input-temp"
+                      placeholder="Input Name"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="main()"
+                    >
+                      Search
+                    </button>
+                  </div>
+                  <div class="col text-end">
+                    <button
+                      form="new-form"
+                      type="button"
+                      class="btn btn-primary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
+                      data-test="create-button"
+                      onsubmit="return false;"
+                    >
+                      Create
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-lime"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      id="downloadExcel"
+                    >
+                      Download
+                    </button>
+                    <button
+                      form="new-form"
+                      type="button"
+                      class="btn btn-secondary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
+                      data-test="edit-button"
+                      onsubmit="return false;"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div style="padding-top: 2em"></div>
+          <div id="divMyGrid">
+            <table align="center" class="table"></table>
+          </div>
+        </div>
+        <div class="popupDataForm">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            style="display: none"
+          >
+            Launch modal with form
+          </button>
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            style="display: none"
+          >
+            <div class="modal-dialog modal-small" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">New report</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <!-- Removed repetitive content for clarity -->
+                    <!-- Add necessary modal content here -->
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <a
+                    href="#"
+                    class="btn btn-link link-secondary"
+                    data-bs-dismiss="modal"
+                    >Cancel</a
+                  >
+                  <a
+                    href="#"
+                    class="btn btn-primary ms-auto"
+                    data-bs-dismiss="modal"
+                    style="padding: 4px 10px; color: white; font-size: 13px"
+                    >Save changes</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <form name="form" method="post" action="/WRKBAT001M0SelectList" onsubmit="return false;">
         * 조회조건<br/>
         검색 : <input type="text"   id="inpSearchTxt" name="inpSearchTxt" value=""><br/>
              <input type="button" id="inpSend"      value="send"  onclick="main()"/>
@@ -136,10 +269,13 @@
     >
      수정
     </button>
-    <button id="downloadExcel">다운로드(엑셀)</button>
-    <table align="center">
+    <button id="downloadExcel">다운로드(엑셀)</button> -->
+    
+    <!-- <table align="center">
         <div id="divMyGrid" style="width:1200px;height:500px;"></div>
-    </table>
+    </table> -->
+    
+    <!--
     <script src="../../../js/jquery-3.7.1.min.js"></script>
     <script src="../../../js/jquery-ui.min.js"></script>
     <script src="/js/slickgrid/lib/jquery.event.drag-2.3.0.js"></script>
@@ -160,8 +296,7 @@
     <script src="/js/slickgrid/dist/browser/slick.formatters.js"></script>
     <script src="/js/slickgrid/dist/browser/slick.compositeeditor.js"></script>
     <script src="/js/slickgrid/dist/browser/controls/slick.pager.js"></script>
-    <script src="/js/xlsx.full.min.js"></script>
-    <script src="/js/utils.js"></script>
+    <script src="/js/xlsx.full.min.js"></script> -->
     <script>
         function checkData(data){
             return parentCheckData(data, check_cols);
@@ -183,6 +318,7 @@
             parentDeleteFile(todeleteRow, '/WRKBAT001M0DeleteList')
         }
     </script>
+    <script src="js/utils.js"></script>
     <script>
         $(document).ready(function() {
             console.log("Document is ready.");
@@ -708,5 +844,5 @@
             }
         }
     </script>
-</body>
+	</th:block>
 </html>
