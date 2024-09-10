@@ -1,106 +1,101 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{layout/file_layout}"
->
-	<th:block layout:fragment="content">
-		<div class="page">
-			<script src="js/demo-theme.min.js?1692870487"></script>
-			<div class="page-wrapper" id="page-wrapper">
-				<div class="container" id="'container">
-					<h2>File Input</h2>
-					<div class="ptag-container">
-						<span><a href="#"> Home ></a></span> <span><a href="#"> File Input</a></span>
-	
-						<div class="form-container">
-							<div class="form-box">
-								<form id="filter-form" name="form" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
-									<div class="row">
-										<div class="col">
-											<label for="fileDropdown">Select a file:</label>
-											<select id="fileDropdown" style="padding: 3px">
-												<option value="">- options -</option>
-											</select>
-										</div>
-	
-										<!-- <button type="button" class=" btn btn-pill" onclick="main()">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<th:block layout:fragment="content">
+	<div class="page">
+		<script src="js/demo-theme.min.js?1692870487"></script>
+		<div class="page-wrapper" id="page-wrapper">
+			<div class="container" id="'container">
+				<h2>File Input</h2>
+				<div class="ptag-container">
+					<span><a href="#"> Home ></a></span> <span><a href="#"> File Input</a></span>
+
+					<div class="form-container">
+						<div class="form-box">
+							<form id="filter-form" name="form" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
+								<div class="row">
+									<div class="col">
+										<label for="fileDropdown">Select a file:</label>
+										<select id="fileDropdown" style="padding: 3px">
+											<option value="">- options -</option>
+										</select>
+									</div>
+
+									<!-- <button type="button" class=" btn btn-pill" onclick="main()">
 	                          Search
 	                        </button> -->
-									</div>
-									<div class="col text-end">
-										<button type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">Create</button>
-										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px;" id="downloadExcel" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Download</button>
-	
-										<button type="button" class=" btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
-	
-									</div>
-							</div>
-							<div class="row mt-3">
-							</div>
-							</form>
+								</div>
+								<div class="col text-end">
+									<button type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">Create</button>
+									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px;" id="downloadExcel" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Download</button>
+
+									<button type="button" class=" btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
+
+								</div>
 						</div>
+						<div class="row mt-3"></div>
+						</form>
 					</div>
-					<div style="padding-top: 2em"></div>
-					<div id="divMyGrid">
-						<table align="center" class="table"></table>
-					</div>
-					<div>
-						<div class="popupDataForm">
-							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">Launch modal with form</button>
-	
-							<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
-								<div class="modal-dialog modal-small" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title">New report</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-										</div>
-	
-										<div class="modal-body">
-											<div class="row">
-												<div class="col-lg-6">
-													<div class="mb-3">
-														<label class="form-label">Client name</label> <input type="text" class="form-control" />
-													</div>
-													<div class="mb-3">
-														<label class="form-label">Client name</label> <input type="text" class="form-control" />
-													</div>
-													<div class="mb-3">
-														<label class="form-label">Client name</label> <input type="text" class="form-control" />
-													</div>
-													<div class="mb-3">
-														<label class="form-label">Client name</label> <input type="text" class="form-control" />
-													</div>
-													<div class="mb-3">
-														<label class="form-label">Client name</label> <input type="text" class="form-control" />
-													</div>
-													<div class="mb-3">
-														<label class="form-label">Client name</label> <input type="text" class="form-control" />
-													</div>
+				</div>
+				<div style="padding-top: 2em"></div>
+				<div id="divMyGrid">
+					<table align="center" class="table"></table>
+				</div>
+				<div>
+					<div class="popupDataForm">
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">Launch modal with form</button>
+
+						<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+							<div class="modal-dialog modal-small" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">New report</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-lg-6">
+												<div class="mb-3">
+													<label class="form-label">Client name</label> <input type="text" class="form-control" />
 												</div>
-												<div class="col-lg-6">
-													<div class="mb-3">
-														<label class="form-label">Reporting period</label> <input type="date" class="form-control" />
-													</div>
-													<div class="mb-3">
-														<label class="form-label">Reporting period</label> <input type="date" class="form-control" />
-													</div>
-													<div class="mb-3">
-														<label class="form-label">Reporting period</label> <input type="date" class="form-control" />
-													</div>
-													<div class="mb-3">
-														<label class="form-label">Reporting period</label> <input type="date" class="form-control" />
-													</div>
-													<div class="mb-3">
-														<label class="form-label">Reporting period</label> <input type="date" class="form-control" />
-													</div>
+												<div class="mb-3">
+													<label class="form-label">Client name</label> <input type="text" class="form-control" />
+												</div>
+												<div class="mb-3">
+													<label class="form-label">Client name</label> <input type="text" class="form-control" />
+												</div>
+												<div class="mb-3">
+													<label class="form-label">Client name</label> <input type="text" class="form-control" />
+												</div>
+												<div class="mb-3">
+													<label class="form-label">Client name</label> <input type="text" class="form-control" />
+												</div>
+												<div class="mb-3">
+													<label class="form-label">Client name</label> <input type="text" class="form-control" />
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="mb-3">
+													<label class="form-label">Reporting period</label> <input type="date" class="form-control" />
+												</div>
+												<div class="mb-3">
+													<label class="form-label">Reporting period</label> <input type="date" class="form-control" />
+												</div>
+												<div class="mb-3">
+													<label class="form-label">Reporting period</label> <input type="date" class="form-control" />
+												</div>
+												<div class="mb-3">
+													<label class="form-label">Reporting period</label> <input type="date" class="form-control" />
+												</div>
+												<div class="mb-3">
+													<label class="form-label">Reporting period</label> <input type="date" class="form-control" />
 												</div>
 											</div>
 										</div>
-										<div class="modal-footer">
-											<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"> Cancel </a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px;"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg> Save changes
-											</a>
-										</div>
+									</div>
+									<div class="modal-footer">
+										<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"> Cancel </a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px;"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg> Save changes
+										</a>
 									</div>
 								</div>
 							</div>
@@ -109,9 +104,10 @@ layout:decorate="~{layout/file_layout}"
 				</div>
 			</div>
 		</div>
-		</div>
-		</div>
-		<script>
+	</div>
+	</div>
+	</div>
+	<script>
 	        function checkData(data) {
 	          return parentCheckData(data, check_cols);
 	        }
@@ -132,7 +128,7 @@ layout:decorate="~{layout/file_layout}"
 	          parentDeleteFile(todeleteRow, "/WRKFIL002M0DeleteList");
 	        }
 	    </script>
-		<script>
+	<script>
 	        var selectedValue = "";
 	
 	        $(document).ready(function () {
@@ -711,5 +707,5 @@ layout:decorate="~{layout/file_layout}"
 	          }); 
 	        }
 	    </script>
-	</th:block>
+</th:block>
 </html>
