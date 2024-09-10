@@ -396,6 +396,12 @@
             <artifactId>poi-ooxml</artifactId>
             <version>5.2.3</version>
         </dependency>
+        
+        <dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-communication-email</artifactId>
+			<version>1.0.0-beta.2</version>
+		</dependency>
 
 	</dependencies>
 
