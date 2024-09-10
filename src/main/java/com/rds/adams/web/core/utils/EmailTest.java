@@ -17,7 +17,7 @@ public class EmailTest {
 	public static void main(String[] args) {
 		
 		EmailDTO emailDTO = new EmailDTO();
-		emailDTO.setRecipientAddress("cg.lee@rnadatasystem.com");
+		emailDTO.setRecipientAddress("hs.jeong@rnadatasystem.com");
 		emailDTO.setSubject("창기!");
 		emailDTO.setBodyPlainText("쨔사!");
 		
