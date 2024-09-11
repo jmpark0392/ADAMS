@@ -21,10 +21,10 @@
     </form> -->
     <div class="page-wrapper" id="page-wrapper">
       <div class="container" id="container">
-        <h2>Batch Management</h2>
+        <h2>Job Results</h2>
         <div class="ptag-container">
-          <span><a href="#"> Home ></a></span>
-          <span><a href="#"> Cost Management</a></span>
+          <span><a href="#"> Job Management ></a></span>
+          <span><a href="#">Job Results</a></span>
           <div class="form-container">
             <div class="form-box">
               <form
@@ -42,8 +42,10 @@
                       type="text"
                       class="form-input-temp"
                       placeholder="Input Name"
+                      value=""
                     />
                     <button
+                      id="inpSend"
                       type="button"
                       class="btn btn-primary"
                       style="padding: 4px 10px; color: white; font-size: 13px"
@@ -54,34 +56,12 @@
                   </div>
                   <div class="col text-end">
                     <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-                      data-test="create-button"
-                      onsubmit="return false;"
-                    >
-                      Create
-                    </button>
-                    <button
                       type="button"
                       class="btn btn-lime"
                       style="padding: 4px 10px; color: white; font-size: 13px"
                       id="downloadExcel"
                     >
                       Download
-                    </button>
-                    <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-secondary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-                      data-test="edit-button"
-                      onsubmit="return false;"
-                    >
-                      Edit
                     </button>
                   </div>
                 </div>
@@ -92,10 +72,6 @@
           <div id="divMyGrid">
             <table align="center" class="table"></table>
           </div>
-          </div>
-          <div style="padding-top: 2em"></div>
-          <div id="divMyGrid">
-            <table align="center" class="table"></table>
           </div>
         </div>
         <div class="popupDataForm">
@@ -152,12 +128,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <button id="downloadExcel">다운로드(엑셀)</button> -->
-    <!-- <table align="center">
-      <div id="divMyGrid" style="width: 1200px; height: 500px"></div>
-    </table> -->
-
     <script src="js/utils.js"></script>
     <script>
       function checkData(data) {
