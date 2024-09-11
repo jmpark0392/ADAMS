@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rds.adams.web.com.jwt.AdamsJwtTokenUtil;
+import com.rds.adams.web.com.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.com.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.com.login.dto.AdamsMenuDTO;
 import com.rds.adams.web.com.login.dto.AdamsResultDTO;
@@ -98,10 +99,23 @@ public class AdamsLoginController {
 	@RequestMapping(value = "/auth/adamsLogin", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.TEXT_HTML_VALUE})
 	public HashMap<String, Object> selectLoginInfo(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request) throws Exception {
 	    HashMap<String, Object> resultMap = processLogin(adamsLoginDTO, request, false);
-	    
+	    String nextPage = ""; 
+	    		
 	    // 로그인 성공 시 페이지 이동 정보 추가
 	    if ("200".equals(resultMap.get("resultCode"))) {
-	        String nextPage = "/views/wrk/fil/WRKFIL001M0"; // 로그인 후 이동할 기본 페이지, 실제 URL로 수정 필요
+	        
+	    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute("LoginVO");
+	    	
+	    	nextPage = "myPage"; // 로그인 후 이동할 기본 페이지, 실제 URL로 수정 필요
+	    	
+	    	if ( "Y".equals(sAdamsLoginDTO.getPasswordInitYn()) ) {
+	    		nextPage = "pwChange";
+		        resultMap.put("loginMsg", "Your password has been reset. You will be taken to the reset screen.");
+	    	} else if ( "9".equals(sAdamsLoginDTO.getStatDvCd()) ) {
+	    		nextPage = "login";
+		        resultMap.put("loginMsg", "This user is not available.");
+	    	}
+	    	
 	        resultMap.put("redirectUrl", nextPage);
 	    }
 	    
@@ -199,5 +213,35 @@ public class AdamsLoginController {
 		adamsResultDTO.setResultMessage(ResponseCode.SUCCESS.getMessage());
 
 		return adamsResultDTO;
+	}
+
+	@Operation(
+			summary = "고객 목록",
+			description = "고객 목록 조회",
+			tags = {"AdamsLoginController"}
+	)
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "고객 조회 성공"),
+			@ApiResponse(responseCode = "300", description = "고객 조회 실패")
+	})
+	@RequestMapping(value = "/auth/adamsLoginCs", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.TEXT_HTML_VALUE})
+	public HashMap<String, Object> selectCsNoList(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request) throws Exception {
+	    HashMap<String, Object> resultMap = processLogin(adamsLoginDTO, request, false);
+
+		// 1. 일반 로그인 처리
+	    List<AdamsCsNoDTO> adamsCsNoDTOs = adamsLoginService.selectCsNoList(adamsLoginDTO);
+
+		if (adamsCsNoDTOs != null && adamsCsNoDTOs.get(0).getCsNo() != null && !adamsCsNoDTOs.get(0).getCsNo().equals("")) {
+
+			resultMap.put("resultVO"    , adamsCsNoDTOs);
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "성공 !!!");
+		} else {
+			resultMap.put("resultVO"    , adamsCsNoDTOs);
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", egovMessageSource.getMessage("fail.common.login"));
+		}
+
+		return resultMap;
 	}
 }

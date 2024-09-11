@@ -76,6 +76,9 @@ public class AdamsLoginDTO implements Serializable{
 
     @Schema(description = "서비스코드")
     private String srvcCd;
+
+    @Schema(description = "접속IP")
+    private String accIp;
 	
 	
 }

@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.rds.adams.web.com.login.dao.AdamsLoginDAO;
+import com.rds.adams.web.com.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.com.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.com.login.dto.AdamsMenuDTO;
 
@@ -83,6 +84,27 @@ public class AdamsLoginService {
 		}
 
 		return adamsLoginDTOs;
+	}
+
+	/**
+	 * 고객사 목록을 조회한다
+	 * @param vo AdamsLoginDTO
+	 * @return List<AdamsCsNoDTO>
+	 * @exception Exception
+	 */
+	public List<AdamsCsNoDTO> selectCsNoList(AdamsLoginDTO vo) throws Exception {
+
+		// 1. 사용자 메뉴 옥록을 확인한다.
+		List<AdamsCsNoDTO> adamsCsNoDTOs = adamsLoginDAO.selectCsNoList(vo);
+
+		// 2. 결과를 리턴한다.
+		if (adamsCsNoDTOs != null && adamsCsNoDTOs.size() != 0 && !adamsCsNoDTOs.get(0).getCsNo().equals("")) {
+			return adamsCsNoDTOs;
+		} else {
+			adamsCsNoDTOs = new ArrayList<>();
+		}
+
+		return adamsCsNoDTOs;
 	}
 
 	/**

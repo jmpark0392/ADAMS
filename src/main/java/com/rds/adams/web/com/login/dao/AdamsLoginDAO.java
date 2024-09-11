@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.rds.adams.web.com.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.com.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.com.login.dto.AdamsMenuDTO;
 
@@ -42,6 +43,14 @@ public interface AdamsLoginDAO {
 	 * @exception Exception
 	 */
 	public List<AdamsMenuDTO> actionMenu(AdamsLoginDTO vo) ;
+
+	/**
+	 * 고객사 목록 조회 한다
+	 * @param vo AdamsLoginDAO
+	 * @return List<AdamsCsNoDTO>
+	 * @exception Exception
+	 */
+	public List<AdamsCsNoDTO> selectCsNoList(AdamsLoginDTO vo) ;
 
 	/**
 	 * 아이디를 찾는다.
