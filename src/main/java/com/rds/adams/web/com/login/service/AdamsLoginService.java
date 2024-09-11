@@ -46,7 +46,8 @@ public class AdamsLoginService {
 	 * @exception Exception
 	 */
 	public AdamsLoginDTO selectLoginInfo(AdamsLoginDTO vo) throws Exception {
-
+		
+		System.out.println(" =====================> AdamsLoginDTO : " + vo.toString() );
 		// 1. 입력한 비밀번호를 암호화한다.
 		//생략 DB에서 진행
 		
@@ -54,7 +55,7 @@ public class AdamsLoginService {
 		AdamsLoginDTO adamsLoginDTO = adamsLoginDAO.actionLogin(vo);
 
 		// 3. 결과를 리턴한다.
-		if (adamsLoginDTO != null && !adamsLoginDTO.getUsrId().equals("") && !adamsLoginDTO.getUsrPassword().equals("")) {
+		if (adamsLoginDTO != null && !adamsLoginDTO.getUsrId().equals("") && !adamsLoginDTO.getUsrDvCd().equals("")) {
 			return adamsLoginDTO;
 		} else {
 			adamsLoginDTO = new AdamsLoginDTO();

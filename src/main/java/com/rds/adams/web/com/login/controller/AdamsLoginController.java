@@ -97,6 +97,18 @@ public class AdamsLoginController {
 	})
 	@RequestMapping(value = "/auth/adamsLogin", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.TEXT_HTML_VALUE})
 	public HashMap<String, Object> selectLoginInfo(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request) throws Exception {
+	    HashMap<String, Object> resultMap = processLogin(adamsLoginDTO, request, false);
+	    
+	    // 로그인 성공 시 페이지 이동 정보 추가
+	    if ("200".equals(resultMap.get("resultCode"))) {
+	        String nextPage = "/views/wrk/fil/WRKFIL001M0"; // 로그인 후 이동할 기본 페이지, 실제 URL로 수정 필요
+	        resultMap.put("redirectUrl", nextPage);
+	    }
+	    
+	    return resultMap;
+	}
+	
+	public HashMap<String, Object> processLogin(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request, boolean isJwtLogin) throws Exception {
 		HashMap<String,Object>  resultMap = new HashMap<String,Object>();
 		List<AdamsMenuDTO> adamsLoginDTOs = new ArrayList<>();
 
@@ -122,13 +134,16 @@ public class AdamsLoginController {
 	    	request.getSession().setAttribute("MenuVOList", adamsLoginDTOs);
 	    	//request.getSession().setAttribute("LoginVO", loginResultVO);
 	    	
-			resultMap.put("resultVO"    , adamsLoginResultDTO);
-			resultMap.put("resultMenuVO", adamsLoginDTOs);
+			//resultMap.put("resultVO"    , adamsLoginResultDTO);
+			//resultMap.put("resultMenuVO", adamsLoginDTOs);
+			if (isJwtLogin) {
+	            //resultMap.put("jToken", jwtToken);
+	        }
 			resultMap.put("resultCode"   , "200");
 			resultMap.put("resultMessage", "성공 !!!");
 		} else {
-			resultMap.put("resultVO"    , adamsLoginResultDTO);
-			resultMap.put("resultMenuVO", adamsLoginDTOs);
+			//resultMap.put("resultVO"    , adamsLoginResultDTO);
+			//resultMap.put("resultMenuVO", adamsLoginDTOs);
 			resultMap.put("resultCode"   , "300");
 			resultMap.put("resultMessage", egovMessageSource.getMessage("fail.common.login"));
 		}
@@ -148,45 +163,15 @@ public class AdamsLoginController {
 	})
 	@PostMapping(value = "/auth/adamsLogin-jwt")
 	public HashMap<String, Object> selectLoginJWTInfo(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request, ModelMap model) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		List<AdamsMenuDTO> adamsLoginDTOs = new ArrayList<>();
-
-		// 1. 일반 로그인 처리
-		AdamsLoginDTO adamsLoginResultDTO = adamsLoginService.selectLoginInfo(adamsLoginDTO);
-		
-		if (adamsLoginResultDTO != null && adamsLoginResultDTO.getUsrId() != null && !adamsLoginResultDTO.getUsrId().equals("")) {
-
-			log.debug("===>>> adamsLoginDTO.getCsNo()  = "+adamsLoginDTO.getCsNo());
-			log.debug("===>>> adamsLoginDTO.getUsrId() = "+adamsLoginDTO.getUsrId());
-			//log.debug("===>>> loginVO.getPassword() = "+loginVO.getPassword());
-			
-			String jwtToken = adamsJwtTokenUtil.generateToken(adamsLoginResultDTO);
-			
-			String username = adamsJwtTokenUtil.getUserSeFromToken(jwtToken);
-	    	log.debug("Dec jwtToken username = "+username);
-	    	
-	    	adamsLoginDTOs = adamsLoginService.selectMenuList(adamsLoginResultDTO);
-	    	 
-	    	//서버사이드 권한 체크 통과를 위해 삽입
-	    	//EgovUserDetailsHelper.isAuthenticated() 가 그 역할 수행. DB에 정보가 없으면 403을 돌려 줌. 로그인으로 튕기는 건 프론트 쪽에서 처리
-	    	request.getSession().setAttribute("LoginVO"   , adamsLoginResultDTO);
-	    	request.getSession().setAttribute("MenuVOList", adamsLoginDTOs);
-	    	//request.getSession().setAttribute("LoginVO", loginResultVO);
-	    	
-			resultMap.put("resultVO", adamsLoginResultDTO);
-			resultMap.put("resultMenuVO", adamsLoginDTOs);
-			resultMap.put("jToken", jwtToken);
-			resultMap.put("resultCode", "200");
-			resultMap.put("resultMessage", "성공 !!!");
-			
-		} else {
-			resultMap.put("resultVO", adamsLoginResultDTO);
-			resultMap.put("resultMenuVO", adamsLoginDTOs);
-			resultMap.put("resultCode", "300");
-			resultMap.put("resultMessage", egovMessageSource.getMessage("fail.common.login"));
-		}
-		
-		return resultMap;
+		HashMap<String, Object> resultMap = processLogin(adamsLoginDTO, request, true);
+	    
+	    // 로그인 성공 시 페이지 이동 정보 추가
+	    if ("200".equals(resultMap.get("resultCode"))) {
+	        String nextPage = "/home"; // 로그인 후 이동할 기본 페이지, 실제 URL로 수정 필요
+	        resultMap.put("redirectUrl", nextPage);
+	    }
+	    
+	    return resultMap;
 	}
 
 	/**

@@ -70,7 +70,8 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 			.excludePathPatterns(
 				"/auth/login",
 				"/auth/login-jwt",
-				"/auth/logout"
+				"/auth/logout",
+				"/auth/adamsLogin"
 				);
 		registry.addInterceptor(new CustomAuthenticInterceptor())
 			.addPathPatterns(
