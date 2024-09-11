@@ -9,17 +9,17 @@
     <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
     <div class="page-wrapper" id="page-wrapper">
       <div class="container" id="container">
-        <h2>Financial Settlement</h2>
+        <h2>Insurance Summary</h2>
         <div class="ptag-container">
-          <span><a href="#"> Settlement></a></span>
-          <span><a href="#"> Financial Settlement</a></span>
+          <span><a href="#"> Settlement ></a></span>
+          <span><a href="#"> Insurance Summary</a></span>
           <div class="form-container">
             <div class="form-box">
               <form
                 id="filter-form"
                 name="form"
                 method="post"
-                action="/BIZJNL003M0SelectList"
+                action="/BIZJNL001M0SelectList"
                 onsubmit="return false;"
               >
                 <div class="row">
@@ -109,7 +109,10 @@
                   ></button>
                 </div>
                 <div class="modal-body">
-                  <div class="row"></div>
+                  <div class="row">
+                    <!-- Removed repetitive content for clarity -->
+                    <!-- Add necessary modal content here -->
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <a
@@ -134,130 +137,124 @@
     </div>
     <script src="/js/utils.js"></script>
     <script>
-      function checkData(data) {
-        return parentCheckData(data, check_cols);
-      }
-
-      function getFile(input) {
-        return parentGetFile(input, "/BIZJNL003M0SelectList");
-      }
+        function checkData(data){
+            return parentCheckData(data, check_cols);
+        }
+        
+        function getFile(input){
+            return parentGetFile(input, '/BIZJNL001M0SelectList');
+        }
+        
+        function insertFile(addedRow) { 
+            parentInsertFile(addedRow, '/BIZJNL001M0InsertList')
+        }
+        
+        function updateFile(updatedRow) {
+            parentUpdateFile(updatedRow, '/BIZJNL001M0UpdateList')
+        }
+        
+        function deleteFile(todeleteRow) {
+            parentDeleteFile(todeleteRow, '/BIZJNL001M0DeleteList')
+        }
     </script>
     <script>
-      $(document).ready(function () {
-        console.log("Document is ready.");
-        //화면 접속시 바로 조회
-        main();
-        //send버튼 누르면, 조건적용하여 검색
-        $("#send").click(main);
-        //엔터키누르면, 조건적용하여 검색
-        $("input").on("keyup", function (key) {
-          if (key.keyCode == 13) {
+        $(document).ready(function() {
+            console.log("Document is ready.");
+            //화면 접속시 바로 조회
             main();
-          }
+            //send버튼 누르면, 조건적용하여 검색
+            $("#send").click(main);
+            //엔터키누르면, 조건적용하여 검색
+            $("input").on("keyup", function(key) {
+                if (key.keyCode == 13) {
+                    main();
+                }
+            });
         });
-      });
-
-      var grid;
-      var dataView;
-      var data;
-      var unqId = "jrnlNo";
-      var xcpt_cols = [unqId, "regUsrid", "regDt"];
-      var check_cols = [unqId];
-      var columns = [
-        {
-          id: unqId,
-          name: "jrnl no.",
-          field: unqId,
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-        },
-        {
-          id: "atitCd",
-          name: "account title",
-          field: "atitCd",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-        },
-        {
-          id: "atitNm",
-          name: "account title name",
-          field: "atitNm",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-        },
-        {
-          id: "drCrDvCd",
-          name: "dr/cr",
-          field: "drCrDvCd",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-        },
-        {
-          id: "jrnlAmt",
-          name: "jrnl amt",
-          field: "jrnlAmt",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-        },
-        {
-          id: "regUsrid",
-          name: "registrant",
-          field: "regUsrid",
-          sortable: true,
-          editor: Slick.Editors.Text,
-        },
-        {
-          id: "regDt",
-          name: "registration date",
-          field: "regDt",
-          sortable: true,
-          editor: Slick.Editors.Text,
-        },
-      ];
-
-      var options = {
-        enableCellNavigation: true,
-        enableColumnReorder: false,
-        forceFitColumns: true,
-        multiColumnSort: true,
-        numberedMultiColumnSort: true,
-        tristateMultiColumnSort: true,
-        sortColNumberInSeparateSpan: true,
-        enableAutoSizeColumns: true,
-        editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
-        enableAddRow: true,
-        asyncEditorLoading: false,
-        autoEdit: false,
-        autoEditNewRow: false,
-      };
-
-      var newRowIds = 0;
-
-      var pluginOptions = {
-        clipboardCommandHandler: function (editCommand) {
-          undoRedoBuffer.queueAndExecuteCommand.call(
-            undoRedoBuffer,
-            editCommand
-          );
-        },
-        readOnlyMode: false,
-        includeHeaderWhenCopying: false,
-        newRowCreator: function (count) {
-          for (var i = 0; i < count; i++) {
-            var item = {
-              id: "newRow_" + newRowIds++,
-            };
-            grid.getData().addItem(item);
-          }
-        },
-      };
-
-      function addSlickGridSomeStyling() {
+        
+        var grid;
+        var dataView;
+        var data;
+        var unqId = ["inscDvCd", "valMetdCd", "lvl1Cd", "lvl2Cd", "lvl3Cd"];
+        var xcpt_cols = [unqId, "regUsrid", "regDt"];
+        var check_cols = [unqId];
+        var columns = [
+            {id: "inscDvCd",   name: "contract div", field: "inscDvCd", sortable: true, editor: function(args){
+					return new ComboBoxEditor(args, [
+						{ key: '1', value: '원수'},
+						{ key: '2', value: '출재'}
+					]);
+				}},
+			{id: "valMetdCd",   name: "valuation", field: "valMetdCd", sortable: true, editor: function(args){
+					return new ComboBoxEditor(args, [
+						{ key: '1', value: ''},
+						{ key: '2', value: ''}
+					]);
+				}},
+			{id: "lvl1Cd",   name: "level1", field: "lvl1Cd", sortable: true, editor: function(args){
+					return new ComboBoxEditor(args, [
+						{ key: '1', value: ''},
+						{ key: '2', value: ''}
+					]);
+				}},
+			{id: "lvl2Cd",   name: "level2", field: "lvl2Cd", sortable: true, editor: function(args){
+					return new ComboBoxEditor(args, [
+						{ key: '1', value: ''},
+						{ key: '2', value: ''}
+					]);
+				}},	
+			{id: "lvl3Cd",   name: "level3", field: "lvl3Cd", sortable: true, editor: function(args){
+					return new ComboBoxEditor(args, [
+						{ key: '1', value: ''},
+						{ key: '2', value: ''}
+					]);
+				}},
+            {id: "drAcSubjCd",   name: "dr code", field: "drAcSubjCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
+            {id: "crAcSubjCd",   name: "cr code", field: "crAcSubjCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
+            {id: "etcDesc", name: "note", field: "etcDesc", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
+            {id: "useYn", name: "use", field: "useYn", sortable: true, editor: function(args) {
+                    return new ComboBoxEditor(args, [
+                        { key: 'Y', value: 'Y' },
+                        { key: 'N', value: 'N' }
+                    ]);
+                }},
+            {id: "regUsrid", name: "registrant", field: "regUsrid", sortable: true, editor: Slick.Editors.Text},
+            {id: "regDt", name: "registration date", field: "regDt", sortable: true, editor: Slick.Editors.Text}
+        ];
+        
+        var options = {
+            enableCellNavigation: true,
+            enableColumnReorder: false,
+            forceFitColumns: true,
+            multiColumnSort: true,
+            numberedMultiColumnSort: true,
+            tristateMultiColumnSort: true,
+            sortColNumberInSeparateSpan: true,
+            enableAutoSizeColumns: true,
+            editable: false,   // grid도 편집가능.. grid 편집 기능 제거 필요..
+            enableAddRow: true,
+            asyncEditorLoading: false,
+            autoEdit: false,
+            autoEditNewRow: false
+        };
+        
+        var newRowIds = 0;
+    
+        var pluginOptions = {
+            clipboardCommandHandler: function(editCommand){ undoRedoBuffer.queueAndExecuteCommand.call(undoRedoBuffer,editCommand); },
+            readOnlyMode : false,
+            includeHeaderWhenCopying : false,
+            newRowCreator: function(count) {
+                for (var i = 0; i < count; i++) {
+                    var item = {
+                        id: "newRow_" + newRowIds++
+                    }
+                grid.getData().addItem(item);
+                }
+            }
+        };
+        
+        function addSlickGridSomeStyling() {
         const style = document.createElement("style");
         style.innerHTML = `
             .slick-header-columns {
@@ -391,13 +388,6 @@
           exportToExcel(fileName, sheetName, gridColumns, gridData);
         });
 
-      //   function addCustomModalStyling() {
-      //   const style = document.createElement("style");
-      //   style.innerHTML = `
-      //   `;
-      //   document.head.appendChild(style);
-      // }
-
       // 신규버튼 누르면 동작하는 함수
 
       function openDetails(modalType) {
@@ -500,27 +490,6 @@
 
         modalElement.show();
 
-        // for (const column of modalColumns) {
-        //     const detailLabelElm = document.createElement("label");
-        //     detailLabelElm.className = "form-label";
-        //     detailLabelElm.textContent = column.name;
-
-        //     const detailContainerElm = document.createElement("div");
-        //     detailContainerElm.className = "mb-3";
-
-        //     const inputElm = document.createElement("input");
-        //     inputElm.className = "form-control";
-        //     inputElm.dataset.editorid = column.id;
-        //     inputElm.value = modalType === "edit" ? dataContext[column.field] : ""; // Pre-fill in edit mode
-
-        //     detailContainerElm.appendChild(detailLabelElm);
-        //     detailContainerElm.appendChild(inputElm);
-        //     modalBodyElem.appendChild(detailContainerElm);
-        // }
-
-        // // Show the modal
-        // modalElement.show();
-
         // Save button logic
         const saveBtn = document.querySelector(".modal-footer .btn-primary");
         saveBtn.removeEventListener("click", saveHandler);
@@ -582,7 +551,8 @@
           }
           modalElement.hide(); // we hide the modal
         }
+
       }
     </script>
-  </th:block>
+</body>
 </html>
