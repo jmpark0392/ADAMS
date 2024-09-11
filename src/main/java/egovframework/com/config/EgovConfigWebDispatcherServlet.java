@@ -78,6 +78,11 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 				"/**/*.do")
 			.excludePathPatterns(
 				"/auth/**");
+		registry.addInterceptor(new CustomAuthenticInterceptor())
+			.addPathPatterns(
+				"/**/*")
+			.excludePathPatterns(
+				"/auth/**");
 	}
 
 	// -------------------------------------------------------------

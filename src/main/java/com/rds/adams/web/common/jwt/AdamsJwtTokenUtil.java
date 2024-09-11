@@ -1,4 +1,4 @@
-package com.rds.adams.web.com.jwt;
+package com.rds.adams.web.common.jwt;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.rds.adams.web.com.login.dto.AdamsLoginDTO;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 
 import egovframework.com.cmm.service.EgovProperties;
 import io.jsonwebtoken.Claims;

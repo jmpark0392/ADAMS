@@ -1,4 +1,4 @@
-package com.rds.adams.web.com.login.controller;
+package com.rds.adams.web.common.login.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rds.adams.web.com.jwt.AdamsJwtTokenUtil;
-import com.rds.adams.web.com.login.dto.AdamsCsNoDTO;
-import com.rds.adams.web.com.login.dto.AdamsLoginDTO;
-import com.rds.adams.web.com.login.dto.AdamsMenuDTO;
-import com.rds.adams.web.com.login.dto.AdamsResultDTO;
-import com.rds.adams.web.com.login.service.AdamsLoginService;
+import com.rds.adams.web.common.jwt.AdamsJwtTokenUtil;
+import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
+import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.common.login.dto.AdamsResultDTO;
+import com.rds.adams.web.common.login.service.AdamsLoginService;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.ResponseCode;

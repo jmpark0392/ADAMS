@@ -1,12 +1,12 @@
-package com.rds.adams.web.com.login.dao;
+package com.rds.adams.web.common.login.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.rds.adams.web.com.login.dto.AdamsCsNoDTO;
-import com.rds.adams.web.com.login.dto.AdamsLoginDTO;
-import com.rds.adams.web.com.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
+import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
 
 /**
  * 일반 로그인을 처리하는 비즈니스 구현 클래스

@@ -1,4 +1,4 @@
-package com.rds.adams.web.com.login.dto;
+package com.rds.adams.web.common.login.dto;
 
 import java.util.HashMap;
 import java.util.Map;

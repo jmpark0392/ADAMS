@@ -1,4 +1,4 @@
-package com.rds.adams.web.com.login.service;
+package com.rds.adams.web.common.login.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,10 +7,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.rds.adams.web.com.login.dao.AdamsLoginDAO;
-import com.rds.adams.web.com.login.dto.AdamsCsNoDTO;
-import com.rds.adams.web.com.login.dto.AdamsLoginDTO;
-import com.rds.adams.web.com.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.common.login.dao.AdamsLoginDAO;
+import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
+import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
 
 import egovframework.let.utl.fcc.service.EgovNumberUtil;
 import egovframework.let.utl.fcc.service.EgovStringUtil;

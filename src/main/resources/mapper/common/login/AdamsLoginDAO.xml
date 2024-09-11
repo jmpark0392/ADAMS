@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rds.adams.web.com.login.dao.AdamsLoginDAO">
+<mapper namespace="com.rds.adams.web.common.login.dao.AdamsLoginDAO">
 
 
 	<!-- 로그인 처리를 위한 resultMap -->
-	<resultMap id="login" type="com.rds.adams.web.com.login.dto.AdamsLoginDTO">
+	<resultMap id="login" type="com.rds.adams.web.common.login.dto.AdamsLoginDTO">
 		<result property="csNo" column="csNo"/>
 		<result property="usrDvCd" column="usrDvCd"/>
 		<result property="usrId" column="usrId"/>
@@ -23,7 +23,7 @@
 	</resultMap>
     
 	<!-- 메뉴 처리를 위한 resultMap -->
-	<resultMap id="menu" type="com.rds.adams.web.com.login.dto.AdamsMenuDTO">
+	<resultMap id="menu" type="com.rds.adams.web.common.login.dto.AdamsMenuDTO">
 		<result property="menuId" column="menuId"/>
 		<result property="menuNmKor" column="menuNmKor"/>
 		<result property="menuNmEng" column="menuNmEng"/>
@@ -36,18 +36,18 @@
 	</resultMap>
 
 	<!-- 고객사 목록 조회를 위한 resultMap -->
-	<resultMap id="company" type="com.rds.adams.web.com.login.dto.AdamsCsNoDTO">
+	<resultMap id="company" type="com.rds.adams.web.common.login.dto.AdamsCsNoDTO">
 		<result property="csNo" column="csNo"/>
 		<result property="compNm" column="compNm"/>
 	</resultMap>
 	
 	<!-- 아이디 찾기를 위한 resultMap -->
-	<resultMap id="id" type="com.rds.adams.web.com.login.dto.AdamsLoginDTO">
+	<resultMap id="id" type="com.rds.adams.web.common.login.dto.AdamsLoginDTO">
 		<result property="usrId" column="usrId"/>
 	</resultMap>
 	
 	<!-- 비밀번호 처리를 위한 resultMap -->
-	<resultMap id="password" type="com.rds.adams.web.com.login.dto.AdamsLoginDTO">
+	<resultMap id="password" type="com.rds.adams.web.common.login.dto.AdamsLoginDTO">
 		<result property="usrPassword" column="usrPassword"/>
 	</resultMap>
 	
