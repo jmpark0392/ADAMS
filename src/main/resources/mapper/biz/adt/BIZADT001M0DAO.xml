@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.biz.adt.dao.BIZADT001M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.biz.adt.dto.BIZADT001M0P0DTO" resultType="com.rds.adams.web.biz.adt.dto.BIZADT001M0R0DTO">
+	   SELECT
+	          A.STD_YYMM         AS STD_YYMM
+	        , A.SEQ_NO           AS SEQ_NO
+	        , A.ATIT_CD          AS ATIT_CD
+	        , B.ATIT_ENG_NM      AS ATIT_NM
+	  	    , A.INSU_PL_ITM_CD   AS INSU_PL_ITM_CD
+			, NULL               AS INSU_PL_ITM_NM
+	  	    , A.ACNT_AMT         AS ACNT_AMT
+	  	    , A.INSU_PL_ITM_AMT  AS INSU_PL_ITM_AMT
+	  	    , A.DIFF_AMT         AS DIFF_AMT
+	        , A.REG_USRID        AS REG_USRID
+	        , A.REG_DT           AS REG_DT
+	     FROM TB_ACNT_RECT_LST AS A
+	    INNER JOIN TB_ATIT_MNG_LST AS B
+	       ON A.ATIT_CD = B.ATIT_CD;
+         <if test='searchTxt != ""'>
+           AND (
+                   ATIT_CD LIKE '%' + #{searchTxt} + '%'
+				OR ATIT_NM LIKE '%' + #{searchTxt} + '%'
+                )
+         </if>
+    </select>
+</mapper>

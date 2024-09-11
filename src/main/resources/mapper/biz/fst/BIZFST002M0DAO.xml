@@ -2,8 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.rds.adams.web.biz.fst.dao.BIZFST001M0DAO">
-    <select id="selectList" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST001M0P0DTO" resultType="com.rds.adams.web.biz.fst.dto.BIZFST001M0R0DTO">
+<mapper namespace="com.rds.adams.web.biz.fst.dao.BIZFST002M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST002M0P0DTO" resultType="com.rds.adams.web.biz.fst.dto.BIZFST002M0R0DTO">
 		SELECT
 		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
 		     , A.STD_YYMM   AS STD_YYMM
@@ -19,7 +19,7 @@
 		 INNER JOIN TB_ATIT_MNG_LST AS B
 		      ON A.ATIT_CD = B.ATIT_CD
 		 WHERE 1=1
-		   AND A.FS_DV_CD = 'BS'
+		   AND A.FS_DV_CD = 'PL'
          <if test='searchTxt != ""'>
            AND (
                    ATIT_CD LIKE '%' + #{searchTxt} + '%'

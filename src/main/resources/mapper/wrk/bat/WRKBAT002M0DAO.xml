@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.wrk.bat.dao.WRKBAT002M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT002M0P0DTO" resultType="com.rds.adams.web.wrk.bat.dto.WRKBAT002M0R0DTO">
+		SELECT
+		       BAT_PROG_ID
+		     , BAT_PROG_NM
+		     , UP_PROG_ID
+		     , LWST_PROG_YN
+		     , EXE_PRD
+		     , MAIN_EMP_NO
+		     , SUB_EMP_NO
+		     , ETC_DESC
+		     , USE_YN
+		     , REG_USRID
+		     , REG_DT
+		  FROM TB_BAT_MNG_LST
+         WHERE 1=1
+         <if test='searchTxt != ""'>
+           AND (
+                	BAT_PROG_ID LIKE '%' + #{searchTxt} + '%'
+                OR BAT_PROG_NM LIKE '%' + #{searchTxt} + '%'
+                )
+         </if>
+    </select>
+</mapper>

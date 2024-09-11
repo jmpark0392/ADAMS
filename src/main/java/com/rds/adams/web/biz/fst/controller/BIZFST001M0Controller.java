@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-public class BIZFSTM0Controller {
+public class BIZFST001M0Controller {
 	
 	@Autowired
 	BIZFST001M0Service bIZFST001M0Service; 

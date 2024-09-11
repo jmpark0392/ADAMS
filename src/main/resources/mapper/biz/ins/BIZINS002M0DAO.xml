@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.biz.ins.dao.BIZINS002M0DAO">
+    <select id="selectList" parameterType="com.rds.adams.web.biz.ins.dto.BIZINS002M0P0DTO" resultType="com.rds.adams.web.biz.ins.dto.BIZINS002M0R0DTO">
+		SELECT
+		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
+		     , STD_YYMM
+		     , INSC_DV_CD
+		     , VALU_METD_CD
+		     , PTF_CD
+		     , BAS_AMT
+		     , OCI_AMT
+		     , NEW_CONT_AMT
+		     , INT_EFFT_AMT
+		     , ESTM_PRM
+		     , ESTM_FEE
+		     , ESTM_NEW_CONT_CCLS_AMT
+		     , ESTM_FEE_RFND_AMT
+		     , ESTM_CONT_MTN_AMT
+		     , ESTM_IVSG_EXP_AMT
+			 , ATS_ASSM_UPD_AMT
+			 , EXRT_EFFT_AMT
+			 , ENTM_AMT
+		     , REG_USRID
+		     , REG_DT
+		  FROM TB_INSU_PL_TTL_LST
+         WHERE 1=1
+           AND INSU_PL_CHNG_DV_CD = 'RA'
+         <if test='searchTxt != ""'>
+           AND (
+                	STD_YYMM LIKE '%' + #{searchTxt} + '%'
+                )
+         </if>
+    </select>
+</mapper>
