@@ -1,209 +1,140 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>보험손익(RA)</title>
-    <link rel="stylesheet" href="/js/slickgrid/dist/styles/css/slick.grid.css" type="text/css"/>
-    <link rel="stylesheet" href="/js/slickgrid/dist/styles/css/slick-alpine-theme.css" type="text/css"/>
-    
-    <style>
-    .slick-header-columns {
-        --alpine-header-name-flex-grow: 1;
-    }
-    .slick-cell.copied {
-      background: blue;
-      background: rgba(0, 0, 255, 0.2);
-      transition: 0.5s background;
-    }
-    .slick-container {
-      --alpine-header-column-height: 20px;
-      --alpine-header-font-weight: 500;
-      --alpine-cell-border-width: 0 1px 1px 0;
-      --alpine-cell-border-color: #d4d4d4;
-    }
-    #divMyGrid, #divMyGridB {
-        background: white;
-        outline: 0;
-        border: 1px solid gray;
-    }
-    .modal {
-      z-index: 10000;
-      display: inline-block;
-      border: 1px solid black;
-      margin: 8px;
-      background: #fbfbfb;
-      box-shadow: 0px 0px 15px black;
-      position: absolute;
-      top: 10px;
-      left: 150px;
-      width: 300px;
-    }
-    .modal h5 {
-      font-size: 18px;
-      margin: 0;
-      line-height: 20px;
-    }
-    .modal-body {
-      padding: 8px;
-    }
-    .modal-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      padding: 8px;
-      height: 25px;
-      border-bottom: 1px solid #c9c9c9;
-    }
-    .modal-footer {
-      margin-top: 5px;
-      border-top: 1px solid #c9c9c9;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 8px;
-    }
-    .modal-footer button {
-      margin-right: 5px;
-    }
-    .item-details-label {
-      margin-left: 10px;
-      margin-top: 15px;
-      display: block;
-      font-weight: bold;
-    }
-    .item-details-editor-container {
-      border: 1px solid silver;
-      background: white;
-      display: block;
-      margin: 4px 10px;
-      margin-top: 4px;
-      padding: 0;
-      padding-left: 4px;
-      padding-right: 0px;
-      line-height: 20px;
-    }
-    .item-details-editor-container textarea {
-      height: inherit;
-    }
-    .invalid {
-      color: red;
-    }
-    .item-details-editor-container.invalid {
-      border: 1px solid red;    
-    }
-    .item-details-validation {
-      color: red;
-      font-style: italic;
-      margin-left: 12px;
-    }
-		header {
-	        height: 60px;
-	        border : solid 0.5px #000000;
-	        background-color: #BFD8F2;
-			font-size:30px;
-		}
-		main {
-	        border: solid 0.5px #000000;
-	        width: 1200px;
-	        height: 700px;
-		}
-	    aside {
-	        width: 120px;
-	        height: 900px;
-	        float: left;
-	        border: solid 0.5px #000000;
-	        background-color: #BFD8F2;
-	
-	    }
-	    footer{
-	        height: 30px;
-	        margin: 2px;
-	        border: solid 0.5px #000000;
-	        background-color: #BFD8F2;
-	    }
-    </style>
-</head>
-<!---------- header,left (시작) -------------->
-    <header align="center">
-	<b>File Management System(Extract,Load,View)</b>
-	<img height="60" src="/images/img_charater.png" align="right"></header>
-	<aside>
-	  &nbsp;파일관리<br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/WRK/FIL/WRKFIL001M0.html" target="main">파일관리</a><br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/WRK/FIL/WRKFIL002M0.html" target="main">칼럼관리</a><br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/WRK/FIL/WRKFIL003M0.html" target="main">업로드  </a><br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/WRK/FIL/WRKFIL004M0.html" target="main">적재이력</a><br>
-	  &nbsp;&nbsp;&nbsp;검증관리(X)                                <br>
-	  &nbsp;&nbsp;&nbsp;검증결과(X)                                <br>
-	  &nbsp;&nbsp;&nbsp;파일목록(X)                                <br>
-	  &nbsp;시스템관리<br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/MST/SYS/MSTSYS001M0.html" target="main">사용자관리</a><br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/MST/SYS/MSTSYS002M0.html" target="main">코드관리</a><br>
-	  &nbsp;&nbsp;&nbsp;게시판(X)<br>
-	  &nbsp;배치관리<br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/WRK/BAT/WRKBAT001M0.html" target="main">배치관리</a><br>
-	  &nbsp;&nbsp;&nbsp;배치실행(X)<br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/WRK/BAT/WRKBAT003M0.html" target="main">배치결과</a><br>
-	  &nbsp;배치관리<br>
-	  &nbsp;&nbsp;&nbsp;데이터현황(X)<br>
-	  &nbsp;&nbsp;&nbsp;데이터상세(X)<br>
-	  &nbsp;ETL<br>
-	  &nbsp;&nbsp;&nbsp;DBtoDB(X)<br>
-	  &nbsp;&nbsp;&nbsp;DBtoFile(X)<br>
-	  &nbsp;&nbsp;&nbsp;FileToDb(X)<br>
-	  &nbsp;계정관리<br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/BIZ/JNL/BIZJNL001M0.html" target="main">계정과목관리</a><br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/BIZ/JNL/BIZJNL002M0.html" target="main">분개룰관리</a><br>
-	  &nbsp;&nbsp;&nbsp;<a href ="/views/BIZ/JNL/BIZJNL003M0.html" target="main">분개내역</a><br>
-	</aside>
-<!---------- header,left (종료) -------------->
-<body>
-    <form name="form" method="post" action="/BIZINS001M0SelectList" onsubmit="return false;">
-        * 조회조건<br/>
-        검색 : <input type="text"   id="inpSearchTxt" name="inpSearchTxt" value=""><br/>
-             <input type="button" id="inpSend"      value="send"  onclick="main()"/>
-        <p>&nbsp;</p>
-    </form>
-    <button 
-        form="new-form"
-        onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;"
-    >
-     신규
-    </button>
-    <button 
-        form="new-form"
-        onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;"
-    >
-     수정
-    </button>
-    <button id="downloadExcel">다운로드(엑셀)</button>
-    <table align="center">
-        <div id="divMyGrid" style="width:1200px;height:500px;"></div>
-    </table>
-    <script src="../../../js/jquery-3.7.1.min.js"></script>
-    <script src="../../../js/jquery-ui.min.js"></script>
-    <script src="/js/slickgrid/lib/jquery.event.drag-2.3.0.js"></script>
-    
-    <script src="/js/slickgrid/dist/browser/slick.core.js"></script>
-    <script src="/js/slickgrid/dist/browser/slick.interactions.js"></script>
-    <script src="/js/slickgrid/dist/browser/slick.grid.js"></script>
-    <script src="/js/slickgrid/dist/browser/slick.dataview.js"></script>
-    
-    <script src="/js/slickgrid/dist/browser/plugins/slick.autotooltips.js"></script>
-    <script src="/js/slickgrid/dist/browser/plugins/slick.cellrangedecorator.js"></script>
-    <script src="/js/slickgrid/dist/browser/plugins/slick.cellrangeselector.js"></script>
-    <script src="/js/slickgrid/dist/browser/plugins/slick.cellexternalcopymanager.js"></script>
-    <script src="/js/slickgrid/dist/browser/plugins/slick.cellselectionmodel.js"></script>
-    <script src="/js/slickgrid/dist/browser/plugins/slick.checkboxselectcolumn.js"></script>
-    <script src="/js/slickgrid/dist/browser/plugins/slick.rowselectionmodel.js"></script>
-    <script src="/js/slickgrid/dist/browser/slick.editors.js"></script>
-    <script src="/js/slickgrid/dist/browser/slick.formatters.js"></script>
-    <script src="/js/slickgrid/dist/browser/slick.compositeeditor.js"></script>
-    <script src="/js/slickgrid/dist/browser/controls/slick.pager.js"></script>
-    <script src="/js/xlsx.full.min.js"></script>
-    <script src="/js/utils.js"></script>
+<html
+  lang="ko"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+ <th:block layout:fragment="content">
+   <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+    <div class="page-wrapper" id="page-wrapper">
+      <div class="container" id="container">
+        <h2>File Management System</h2>
+        <div class="ptag-container">
+          <span><a href="#"> Home ></a></span>
+          <span><a href="#"> Cost Management</a></span>
+          <div class="form-container">
+            <div class="form-box">
+              <form
+                id="filter-form"
+                name="form"
+                method="post"
+                action="/BIZINS002M0SelectList"
+                onsubmit="return false;"
+              >
+                <div class="row">
+                  <div class="col">
+                    <input
+                      id="inpSearchTxt"
+                      name="inpSearchTxt"
+                      type="text"
+                      class="form-input-temp"
+                      placeholder="Input Name"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="main()"
+                    >
+                      Search
+                    </button>
+                  </div>
+                  <div class="col text-end">
+                    <button
+                      form="new-form"
+                      type="button"
+                      class="btn btn-primary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
+                      data-test="create-button"
+                      onsubmit="return false;"
+                    >
+                      Create
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-lime"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      id="downloadExcel"
+                    >
+                      Download
+                    </button>
+                    <button
+                      form="new-form"
+                      type="button"
+                      class="btn btn-secondary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
+                      data-test="edit-button"
+                      onsubmit="return false;"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div style="padding-top: 2em"></div>
+          <div id="divMyGrid">
+            <table align="center" class="table"></table>
+          </div>
+        </div>
+        <div class="popupDataForm">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            style="display: none"
+          >
+            Launch modal with form
+          </button>
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            style="display: none"
+          >
+            <div class="modal-dialog modal-small" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">New report</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <!-- Removed repetitive content for clarity -->
+                    <!-- Add necessary modal content here -->
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <a
+                    href="#"
+                    class="btn btn-link link-secondary"
+                    data-bs-dismiss="modal"
+                    >Cancel</a
+                  >
+                  <a
+                    href="#"
+                    class="btn btn-primary ms-auto"
+                    data-bs-dismiss="modal"
+                    style="padding: 4px 10px; color: white; font-size: 13px"
+                    >Save changes</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
         function checkData(data){
             return parentCheckData(data, check_cols);
@@ -214,6 +145,7 @@
         }
         
     </script>
+    <script src="js/utils.js"></script>
     <script>
         $(document).ready(function() {
             console.log("Document is ready.");
@@ -726,5 +658,5 @@
             }
         }
     </script>
-</body>
+ </th:block>
 </html>
