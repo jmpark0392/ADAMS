@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.rds.adams.web.core.controller;
+package com.rds.adams.web.common.menu.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

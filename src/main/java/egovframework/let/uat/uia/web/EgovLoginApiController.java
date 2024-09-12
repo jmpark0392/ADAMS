@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rds.adams.web.common.AdamsConstant;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.ResponseCode;
@@ -98,7 +100,7 @@ public class EgovLoginApiController {
 
 		if (loginResultVO != null && loginResultVO.getId() != null && !loginResultVO.getId().equals("")) {
 
-			request.getSession().setAttribute("LoginVO", loginResultVO);
+			request.getSession().setAttribute(AdamsConstant.SESSION_LOGIN_INFO, loginResultVO);
 			resultMap.put("resultVO", loginResultVO);
 			resultMap.put("resultCode", "200");
 			resultMap.put("resultMessage", "성공 !!!");
@@ -141,7 +143,7 @@ public class EgovLoginApiController {
 	    	 
 	    	//서버사이드 권한 체크 통과를 위해 삽입
 	    	//EgovUserDetailsHelper.isAuthenticated() 가 그 역할 수행. DB에 정보가 없으면 403을 돌려 줌. 로그인으로 튕기는 건 프론트 쪽에서 처리
-	    	request.getSession().setAttribute("LoginVO", loginResultVO);
+	    	request.getSession().setAttribute(AdamsConstant.SESSION_LOGIN_INFO, loginResultVO);
 	    	
 			resultMap.put("resultVO", loginResultVO);
 			resultMap.put("jToken", jwtToken);

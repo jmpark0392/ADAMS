@@ -39,40 +39,20 @@ public class BusinessInterceptor extends WebContentInterceptor {
 		HttpSession session = request.getSession();
 		List<AdamsMenuDTO> menuList = (List<AdamsMenuDTO>) session.getAttribute("MenuTreeVOList");
 		
-		//List<AdamsMenuDTO> menuList = new ArrayList<AdamsMenuDTO>();
-		//List<AdamsMenuDTO> subMenuList = new ArrayList<AdamsMenuDTO>();
-		//
-		//AdamsMenuDTO sub1 = new AdamsMenuDTO();
-		//sub1.setPgmUrl("/views/wrk/fil/WRKFIL001M0");
-		//sub1.setMenuNmEng("File");
-		//AdamsMenuDTO sub2 = new AdamsMenuDTO();
-		//sub2.setPgmUrl("/views/wrk/fil/WRKFIL002M0");
-		//sub2.setMenuNmEng("Column");
-		//AdamsMenuDTO sub3 = new AdamsMenuDTO();
-		//sub3.setPgmUrl("/views/wrk/fil/WRKFIL003M0");
-		//sub3.setMenuNmEng("Upload");
-		//AdamsMenuDTO sub4 = new AdamsMenuDTO();
-		//sub4.setPgmUrl("/views/wrk/fil/WRKFIL004M0");
-		//sub4.setMenuNmEng("History");
-		//
-		//subMenuList.add(sub1);
-		//subMenuList.add(sub2);
-		//subMenuList.add(sub3);
-		//subMenuList.add(sub4);
-		//
-		//AdamsMenuDTO main = new AdamsMenuDTO();
-		//main.setMenuId("101000000");
-		//main.setMenuNmEng("Input Files");
-		//main.setSubMenuList(subMenuList);
-		//
-		//menuList.add(main);
-		
+		String menuId = "";
+
 		if (modelAndView != null) {
 			modelAndView.addObject("menuList", menuList);
 		}
 		
 		log.info("========================================================");
 		
+	}
+	
+	private String getMenuIdByUrl(String url, HttpSession session) {
+		
+		List<AdamsMenuDTO> menuList = (List<AdamsMenuDTO>) session.getAttribute("MenuTreeVOList");
+		return null;
 	}
 
 }

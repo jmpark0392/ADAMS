@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.jwt.AdamsJwtTokenUtil;
 import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
@@ -105,7 +106,7 @@ public class AdamsLoginController {
 	    // 로그인 성공 시 페이지 이동 정보 추가
 	    if ("200".equals(resultMap.get("resultCode"))) {
 	        
-	    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute("LoginVO");
+	    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 	    	
 	    	// 로그인 성공시 로그린 이력 저장
 	    	adamsLoginService.insertLoginHist(sAdamsLoginDTO, request);
@@ -152,9 +153,9 @@ public class AdamsLoginController {
 	    	 
 	    	//서버사이드 권한 체크 통과를 위해 삽입
 	    	//EgovUserDetailsHelper.isAuthenticated() 가 그 역할 수행. DB에 정보가 없으면 403을 돌려 줌. 로그인으로 튕기는 건 프론트 쪽에서 처리
-	    	request.getSession().setAttribute("LoginVO"       , adamsLoginResultDTO);
-	    	request.getSession().setAttribute("MenuVOList"    , adamsMenuDTOs);
-	    	request.getSession().setAttribute("MenuTreeVOList", adamsMenuTreeDTOs);
+	    	request.getSession().setAttribute(AdamsConstant.SESSION_LOGIN_INFO		, adamsLoginResultDTO);
+	    	request.getSession().setAttribute(AdamsConstant.SESSION_MENU_FLATLIST	, adamsMenuDTOs);
+	    	request.getSession().setAttribute(AdamsConstant.SESSION_MENU_TREELIST	, adamsMenuTreeDTOs);
 	    	//request.getSession().setAttribute("LoginVO", loginResultVO);
 	    	
 			//resultMap.put("resultVO"        , adamsLoginResultDTO);
@@ -194,7 +195,7 @@ public class AdamsLoginController {
 	    // 로그인 성공 시 페이지 이동 정보 추가
 	    if ("200".equals(resultMap.get("resultCode"))) {
 
-	    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute("LoginVO");
+	    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 	    	
 	    	// 로그인 성공시 로그린 이력 저장
 	    	adamsLoginService.insertLoginHist(sAdamsLoginDTO, request);
@@ -304,7 +305,7 @@ public class AdamsLoginController {
 	    String nextPage = ""; 
 	    
 	    // 1. 세션에서 사용자 정보 가져오기
-	    AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute("LoginVO");
+	    AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 
 	    if ( sAdamsLoginDTO != null && sAdamsLoginDTO.getUsrId() != null && !sAdamsLoginDTO.getUsrId().equals("")) {
 		    // 2. 새 비밀번호 적용을 위한 세션정보 가져오기 
