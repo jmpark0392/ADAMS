@@ -19,6 +19,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import egovframework.com.cmm.interceptor.AuthenticInterceptor;
+import egovframework.com.cmm.interceptor.BusinessInterceptor;
 import egovframework.com.cmm.interceptor.CustomAuthenticInterceptor;
 
 /**
@@ -78,9 +79,9 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 				"/**/*.do")
 			.excludePathPatterns(
 				"/auth/**");
-		registry.addInterceptor(new CustomAuthenticInterceptor())
+		registry.addInterceptor(new BusinessInterceptor())
 			.addPathPatterns(
-				"/**/*")
+				"/*")
 			.excludePathPatterns(
 				"/auth/**");
 	}

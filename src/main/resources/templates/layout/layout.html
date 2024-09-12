@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-  <th:block th:replace="fragments/head :: headFragment"></th:block>
-  <body>
-    <div class="page">
-      <th:block th:replace="fragments/header :: headerFragment"></th:block>
-      <th:block th:replace="fragments/sidebar :: sidebarFragment"></th:block>
-      <th:block layout:fragment="content"></th:block>
-      <th:block th:replace="fragments/footer :: footerFragment"></th:block>
-    </div>
-  </body>
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+	<body>
+		<div class="page">
+			<script>
+				function goMenuPage (pageName) {
+					$("#pageName").val(pageName);
+					$("#form").submit();
+				}
+			</script>
+			<form id="form" name="form" method="post" action="/menuLink">
+				<input type="hidden" id="pageName" name="pageName" />
+			</form>
+			<th:block th:replace="fragments/header :: headerFragment"></th:block>
+			<th:block th:replace="fragments/sidebar :: sidebarFragment"></th:block>
+			<th:block layout:fragment="content"></th:block>
+			<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+		</div>
+	</body>
 </html>
