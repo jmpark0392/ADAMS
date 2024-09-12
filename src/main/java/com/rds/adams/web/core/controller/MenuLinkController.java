@@ -20,7 +20,20 @@ public class MenuLinkController {
 	@PostMapping("/menuLink")
 	public String goMenuPage(@RequestBody String pageName) {
 		log.debug("##################### pageName : ["+pageName.split("=")[1]+"] #####################");
-		return pageName.split("=")[1].replaceAll("%2F", "/");
+		
+		String newPageName = pageName.split("=")[1];
+		
+		if ( "myPage".equals(newPageName) ) {
+			return "/views/user/myPage";
+		}
+		if ( "pwChange".equals(newPageName) ) {
+			return "/views/wrk/fil/WRKTEST999M1";
+		}
+		if ( "login".equals(newPageName) ) {
+			return "/login";
+		}
+		
+		return newPageName.replaceAll("%2F", "/");
 	}
 
 }
