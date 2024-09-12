@@ -37,7 +37,7 @@ public class BusinessInterceptor extends WebContentInterceptor {
 		log.info(" BusinessInterceptor [URI : "+request.getRequestURI()+"]");
 		
 		HttpSession session = request.getSession();
-		List<AdamsMenuDTO> menuList = (List<AdamsMenuDTO>) session.getAttribute("MenuVOList");
+		List<AdamsMenuDTO> menuList = (List<AdamsMenuDTO>) session.getAttribute("MenuTreeVOList");
 		
 		//List<AdamsMenuDTO> menuList = new ArrayList<AdamsMenuDTO>();
 		//List<AdamsMenuDTO> subMenuList = new ArrayList<AdamsMenuDTO>();

@@ -9,8 +9,7 @@
 	<!-- 로그 파일 이름 -->
 	<property name="LOG_FILE_NAME" value="adams_server" />
 	<!-- 로그 출력 패턴 -->
-	<property name="LOG_PATTERN"
-		value="%-5level %d{yy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%line] - %msg%n" />
+	<property name="LOG_PATTERN" value="%-5level %d{yy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%line] - %msg%n" />
 	<!-- 로그 용량 -->
 	<property name="LOG_MAX_FILE_SIZE" value="10MB" />
 	<!-- 로그 보관주기 -->
@@ -22,35 +21,30 @@
 		경우엔 INFO 보다 위에 있는 DEBUG와 TRACE는 표시하지 않는다. -->
 
 	<!-- CONSOLE에 로그 출력 세팅 -->
-	<appender name="CONSOLE"
-		class="ch.qos.logback.core.ConsoleAppender">
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<Pattern>
-				[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} : %30logger{5} - %replace(%msg){'[\r\n]', ''}%n
+				<!--[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} : %30logger{5} - %replace(%msg){'[\r\n]', ''}%n-->
+				[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} : %30logger{5} - %msg%n
 			</Pattern>
 		</layout>
 	</appender>
 
 	<!-- File에 로그 출력 세팅 -->
-	<appender name="FILE"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<!-- 파일 경로 설정 -->
 		<file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
 
 		<!-- 출력패턴 설정 -->
-		<encoder
-			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<pattern>${LOG_PATTERN}</pattern>
 		</encoder>
 
 		<!-- Rolling 정책 -->
-		<rollingPolicy
-			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- .gz,.zip 등을 넣으면 자동 일자별 로그파일 압축 -->
-			<fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log
-			</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+			<fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<!-- 파일당 최고 용량 kb, mb, gb -->
 				<maxFileSize>${LOG_MAX_FILE_SIZE}</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
