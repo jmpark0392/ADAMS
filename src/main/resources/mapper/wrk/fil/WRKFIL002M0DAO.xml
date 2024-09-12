@@ -28,10 +28,10 @@
             [ORD_SEQ],                -- 정렬순서
             [ITM_DSC],                -- 항목설명
             [SEL_BAS_YN],             -- 조회기준여부
-            [REG_USRID],
-            [REG_DT],
-            [UPD_USRID],
-            [UPD_DT]
+            [FRST_REG_EMP_NO],
+            [FRST_REG_DTM],
+            [FNL_UPD_EMP_NO],
+            [FNL_UPD_DTM]
         )
         VALUES (
             #{tblId},                 -- 테이블ID
@@ -60,6 +60,8 @@
                ORD_SEQ = #{ordSeq},               -- 정렬순서
                ITM_DSC = #{itmDsc},               -- 항목설명
                SEL_BAS_YN = #{selBasYn}           -- 조회기준여부
+             , FNL_UPD_DTM    = GETDATE()
+             , FNL_UPD_EMP_NO = 'admin'
          WHERE 1=1
            AND TBL_ID = #{tblId}                  -- 필터링기준 : 테이블ID
            AND CLMN_ID = #{itmId}                 -- 필터링기준 : 컬럼ID

@@ -11,7 +11,7 @@
              , A.FILE_NM
              , A.LOAD_CNT
              , A.STD_YM
-             , A.REG_USRID
+             , A.FRST_REG_EMP_NO
              , A.LOAD_ST_DT
              , A.LOAD_ED_DT
              , A.LOAD_SUCC_YN

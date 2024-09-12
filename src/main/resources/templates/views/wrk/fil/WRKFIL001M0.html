@@ -176,7 +176,7 @@
       var dataView;
       var data;
       var unqId = "seqNo";
-      var xcpt_cols = [unqId, "regUsrid", "regDt"];
+      var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
       var check_cols = [unqId, "fileNm", "tblId"];
       var columns = [
         {
@@ -276,16 +276,16 @@
           },
         },
         {
-          id: "regUsrid",
+          id: "frstRegEmpNo",
           name: "등록사용자ID",
-          field: "regUsrid",
+          field: "frstRegEmpNo",
           sortable: true,
           editor: Slick.Editors.Text,
         },
         {
-          id: "regDt",
+          id: "frstRegDtm",
           name: "등록일",
-          field: "regDt",
+          field: "frstRegDtm",
           sortable: true,
           editor: Slick.Editors.Text,
         },

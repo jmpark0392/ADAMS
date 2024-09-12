@@ -84,10 +84,10 @@
                , LOAD_CNT
                , LOAD_SUCC_YN
                , STD_YM
-               , REG_USRID
-               , REG_DT
-               , UPD_USRID
-               , UPD_DT
+               , FNL_UPD_EMP_NO
+               , FNL_UPD_DTM
+               , FRST_REG_EMP_NO
+               , FRST_REG_DTM
                )
         VALUES
                (
@@ -113,7 +113,7 @@
              , LOAD_CNT     = #{loadCnt}
              , LOAD_SUCC_YN = #{loadSuccYn}
              , STD_YM       = #{stdYm}
-             , UPD_DT       = GETDATE()
+             , FNL_UPD_DTM  = GETDATE()
          WHERE 1=1
            AND SEQ_NO = #{seqNo}
     </update>

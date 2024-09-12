@@ -170,7 +170,8 @@
 		</div>
 		<script>
       function register() {
-        alert("The new registration feature is not yet implemented.");
+          $("#pageName").val("newReq");
+          $("#form").submit();
       }
 
       function login() {
@@ -181,7 +182,6 @@
           dataType: "json",
           contentType: "application/json; charset=utf-8",
           data: JSON.stringify({
-            csNo: $("#cmbCsNo").val(),
             usrId: $("#inpUsrId").val(),
             usrPassword: $("#inpUsrPassword").val(),
           }),
@@ -199,8 +199,8 @@
       }
 
       function resetPassword() {
-        alert("Requesting password reset...");
-        // 비밀번호 초기화 요청 코드 작성 필요
+          $("#pageName").val("pwReset");
+          $("#form").submit();
       }
     </script>
 	</body>

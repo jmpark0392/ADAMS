@@ -1,5 +1,6 @@
 package com.rds.adams.web.wrk.fil.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,7 +28,10 @@ public class WRKFIL004M0R0DTO {
     private String tblId;
     private int loadCnt;
     private String stdYm;
-    private String regUsrid;
+    
+    @Schema(description = "최초등록사원번호")
+	private String frstRegEmpNo;
+    
     private String loadStDt;
     private String loadEdDt;
     private String loadSuccYn;

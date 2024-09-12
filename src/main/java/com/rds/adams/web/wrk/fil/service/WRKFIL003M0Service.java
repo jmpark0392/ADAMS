@@ -112,10 +112,10 @@ public class WRKFIL003M0Service {
 		}
 		
 		/* 조회 컬럼중 등록/변경 정보 default Set */
-		sQuery = sQuery + "  , REG_USRID "  
-						+ "  , CONVERT(VARCHAR, REG_DT, 23) AS REG_DT "
-						+ "  , UPD_USRID "
-						+ "  , CONVERT(VARCHAR, UPD_DT, 23) AS UPD_DT "
+		sQuery = sQuery + "  , FRST_REG_EMP_NO "  
+						+ "  , CONVERT(VARCHAR, FRST_REG_DTM, 23) AS FRST_REG_DTM "
+						+ "  , FNL_UPD_EMP_NO "
+						+ "  , CONVERT(VARCHAR, FNL_UPD_DTM, 23) AS FNL_UPD_DTM "
 						+ "  FROM " + sDbId + ".dbo." + stblId;
 		
 		/* UI 조회 대상인 경우 조회 */
@@ -215,10 +215,10 @@ public class WRKFIL003M0Service {
 		}
 		
 		/* 공통 컬럼 정보 default Set */
-		sBaseQuery = sBaseQuery + "   , REG_USRID "
-								+ "   , REG_DT "
-								+ "   , UPD_USRID "
-								+ "   , UPD_DT "
+		sBaseQuery = sBaseQuery + "   , FRST_REG_EMP_NO "
+								+ "   , FRST_REG_DTM "
+								+ "   , FNL_UPD_EMP_NO "
+								+ "   , FNL_UPD_DTM "
 								+ "   )  "
 								+ " VALUES ";
 		
