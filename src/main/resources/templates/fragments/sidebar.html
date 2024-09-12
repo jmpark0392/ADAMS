@@ -136,7 +136,7 @@
 							</span>
 							<span th:text="${menu.menuNmEng}" class="nav-link-title"></span>
 						</a>
-						<div th:if="${menu.adamsMenuDTOList.size ge 0}" class="dropdown-menu show">
+						<div th:if="${menu.adamsMenuDTOList.size ge 0}" class="dropdown-menu">
 							<div th:each="subMenu:${menu.adamsMenuDTOList}">
 								<a th:text="${subMenu.menuNmEng}" class="dropdown-item" href="#" th:onClick="javascript:goMenuPage([[${subMenu.pgmUrl}]]);"></a>
 							</div>
