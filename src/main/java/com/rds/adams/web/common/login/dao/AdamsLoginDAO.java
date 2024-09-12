@@ -69,9 +69,23 @@ public interface AdamsLoginDAO {
 	public AdamsLoginDTO searchPassword(AdamsLoginDTO vo);
 
 	/**
+	 * 사용자 로그인 이력을 저장한다.
+	 * @param vo AdamsLoginDAO
+	 * @exception Exception
+	 */
+	public void insertLoginHist(AdamsLoginDTO vo) ;
+
+	/**
 	 * 변경된 비밀번호를 저장한다.
 	 * @param vo AdamsLoginDAO
 	 * @exception Exception
 	 */
 	public void updatePassword(AdamsLoginDTO vo) ;
+
+	/**
+	 * 초기화된 비밀번호를 저장한다.
+	 * @param vo AdamsLoginDAO
+	 * @exception Exception
+	 */
+	public void updatePasswordReset(AdamsLoginDTO vo) ;
 }

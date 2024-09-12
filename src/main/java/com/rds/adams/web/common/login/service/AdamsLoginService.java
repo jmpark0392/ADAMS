@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
@@ -87,6 +88,64 @@ public class AdamsLoginService {
 	}
 
 	/**
+	 * 사용자 메뉴를 Tree 구조 처리한다
+	 * @param vo AdamsLoginDTO
+	 * @return List<AdamsMenuDTO>
+	 * @exception Exception
+	 */
+	public List<AdamsMenuDTO> selectMenuTreeList(List<AdamsMenuDTO> adamsMenuDTOs) throws Exception {
+		System.out.println(" ================= AdamsLoginService.selectMenuTreeList [START]] ===================== ");
+		List<AdamsMenuDTO> rAdamssMenuDTOs = null;
+		AdamsMenuDTO       uAdamsMenuDTO   = null;
+		List<AdamsMenuDTO> sAdamssMenuDTOs = null;
+		int                           cnt  = 0;
+		
+		// 2. 결과를 리턴한다.
+		if (adamsMenuDTOs != null && adamsMenuDTOs.size() != 0 && !adamsMenuDTOs.get(0).getMenuId().equals("")) {
+			rAdamssMenuDTOs = new ArrayList<>();
+
+			System.out.println(" ================= adamsLoginDTOs ===================== ");
+			
+			for( AdamsMenuDTO adamsLoginDTO : adamsMenuDTOs ) {
+				if( "0".equals( adamsLoginDTO.getLevel() ) ) {
+
+					System.out.println(" ================= adamsLoginDTO LEVEL 0 : " + adamsLoginDTO.getMenuNmKor() + " ===================== ");
+					if( cnt > 0 ) {
+						uAdamsMenuDTO.setAdamsMenuDTOList(sAdamssMenuDTOs);
+						rAdamssMenuDTOs.add(uAdamsMenuDTO);
+					}
+					
+					uAdamsMenuDTO = new AdamsMenuDTO();
+					uAdamsMenuDTO.setMenuId(adamsLoginDTO.getMenuId());
+					uAdamsMenuDTO.setMenuNmKor(adamsLoginDTO.getMenuNmKor());
+					uAdamsMenuDTO.setMenuNmEng(adamsLoginDTO.getMenuNmEng());
+					uAdamsMenuDTO.setUpprMenuId(adamsLoginDTO.getUpprMenuId());
+					uAdamsMenuDTO.setMenuSrtOrd(adamsLoginDTO.getMenuSrtOrd());
+					uAdamsMenuDTO.setMenuDesc(adamsLoginDTO.getMenuDesc());
+					uAdamsMenuDTO.setPgmUrl(adamsLoginDTO.getPgmUrl());
+					uAdamsMenuDTO.setLevel(adamsLoginDTO.getLevel());
+					uAdamsMenuDTO.setSort(adamsLoginDTO.getSort());
+					sAdamssMenuDTOs = new ArrayList<>();
+					cnt++;
+				} else {
+					System.out.println(" ================= adamsLoginDTO LEVEL 1 : " + adamsLoginDTO.getMenuNmKor() + " ===================== ");
+					sAdamssMenuDTOs.add(adamsLoginDTO);
+				}
+				
+			}
+			uAdamsMenuDTO.setAdamsMenuDTOList(sAdamssMenuDTOs);
+			rAdamssMenuDTOs.add(uAdamsMenuDTO);
+			
+			return rAdamssMenuDTOs;
+		} else {
+			rAdamssMenuDTOs = new ArrayList<>();
+		}
+
+		System.out.println(" ================= AdamsLoginService.selectMenuTreeList [END]] ===================== ");
+		return rAdamssMenuDTOs;
+	}
+
+	/**
 	 * 고객사 목록을 조회한다
 	 * @param vo AdamsLoginDTO
 	 * @return List<AdamsCsNoDTO>
@@ -129,6 +188,63 @@ public class AdamsLoginService {
 	}
 
 	/**
+	 * 사용자 로그인 이력을 저장한다.
+	 * @param vo AdamsLoginDTO
+	 * @return boolean
+	 * @exception Exception
+	 */
+	public boolean insertLoginHist(AdamsLoginDTO vo, HttpServletRequest request) throws Exception {
+
+		boolean result = true;
+
+		// 1. 로그인 정보가 있는지 확인한다.
+		if (vo == null || vo.getUsrId() == null || "".equals(vo.getUsrId())) {
+			return false;
+		}
+		
+		// 2. 사용자의 접속IP를 가져온다. 
+		String ip = request.getHeader("X-Forwarded-For");
+		
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("Proxy-Client-IP");
+	    }
+	    if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("WL-Proxy-Client-IP");
+	    }
+	    if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getRemoteAddr();
+	    }
+	    
+	    vo.setAccIp(ip);
+
+		// 3. 신규 비밀번호를 DB에 저장한다.
+		adamsLoginDAO.insertLoginHist(vo);
+
+		return result;
+	}
+
+	/**
+	 * 사용자 로그인 이력을 저장한다.
+	 * @param vo AdamsLoginDTO
+	 * @return boolean
+	 * @exception Exception
+	 */
+	public boolean updateUsrPassword(AdamsLoginDTO vo) throws Exception {
+
+		boolean result = true;
+
+		// 1. 사용자 비밀번호 변경 정보가 있는지 확인한다.
+		if (vo == null || vo.getUsrId() == null || "".equals(vo.getUsrId()) || vo.getUsrPassword() == null || "".equals(vo.getUsrPassword())) {
+			return false;
+		}
+		
+		// 3. 신규 비밀번호를 DB에 저장한다.
+		adamsLoginDAO.updatePassword(vo);
+
+		return result;
+	}
+
+	/**
 	 * 비밀번호를 찾는다.
 	 * @param vo AdamsLoginDTO
 	 * @return boolean
@@ -162,7 +278,7 @@ public class AdamsLoginService {
 		pwVO.setUsrId(vo.getUsrId());
 		pwVO.setUsrPassword(enpassword);
 		pwVO.setUsrDvCd(vo.getUsrDvCd());
-		adamsLoginDAO.updatePassword(pwVO);
+		adamsLoginDAO.updatePasswordReset(pwVO);
 
 		return result;
 	}

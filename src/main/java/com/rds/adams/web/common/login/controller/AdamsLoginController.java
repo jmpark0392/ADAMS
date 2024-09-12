@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.egovframe.rte.fdl.cmmn.trace.LeaveaTrace;
 import org.egovframe.rte.fdl.property.EgovPropertyService;
@@ -106,12 +107,17 @@ public class AdamsLoginController {
 	        
 	    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute("LoginVO");
 	    	
-	    	nextPage = "myPage"; // 로그인 후 이동할 기본 페이지, 실제 URL로 수정 필요
+	    	// 로그인 성공시 로그린 이력 저장
+	    	adamsLoginService.insertLoginHist(sAdamsLoginDTO, request);
+	    	
+	    	nextPage = "myPage"; // 로그인 후 이동할 기본 페이지 
 	    	
 	    	if ( "Y".equals(sAdamsLoginDTO.getPasswordInitYn()) ) {
+	    		// 비밀번호 초기화 된 경우
 	    		nextPage = "pwChange";
 		        resultMap.put("loginMsg", "Your password has been reset. You will be taken to the reset screen.");
 	    	} else if ( "9".equals(sAdamsLoginDTO.getStatDvCd()) ) {
+	    		// 사용자의 상태가 종료인 경우 로그인 페이지로
 	    		nextPage = "login";
 		        resultMap.put("loginMsg", "This user is not available.");
 	    	}
@@ -123,8 +129,9 @@ public class AdamsLoginController {
 	}
 	
 	public HashMap<String, Object> processLogin(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request, boolean isJwtLogin) throws Exception {
-		HashMap<String,Object>  resultMap = new HashMap<String,Object>();
-		List<AdamsMenuDTO> adamsLoginDTOs = new ArrayList<>();
+		HashMap<String,Object>  resultMap         = new HashMap<String,Object>();
+		List<AdamsMenuDTO>      adamsMenuDTOs     = new ArrayList<>();
+		List<AdamsMenuDTO>      adamsMenuTreeDTOs = new ArrayList<>();
 
 		// 1. 일반 로그인 처리
 		AdamsLoginDTO adamsLoginResultDTO = adamsLoginService.selectLoginInfo(adamsLoginDTO);
@@ -140,24 +147,28 @@ public class AdamsLoginController {
 			String username = adamsJwtTokenUtil.getUserSeFromToken(jwtToken);
 	    	log.debug("Dec jwtToken username = "+username);
 	    	
-	    	adamsLoginDTOs = adamsLoginService.selectMenuList(adamsLoginResultDTO);
+	    	adamsMenuDTOs     = adamsLoginService.selectMenuList(adamsLoginResultDTO);
+	    	adamsMenuTreeDTOs = adamsLoginService.selectMenuTreeList(adamsMenuDTOs);
 	    	 
 	    	//서버사이드 권한 체크 통과를 위해 삽입
 	    	//EgovUserDetailsHelper.isAuthenticated() 가 그 역할 수행. DB에 정보가 없으면 403을 돌려 줌. 로그인으로 튕기는 건 프론트 쪽에서 처리
-	    	request.getSession().setAttribute("LoginVO"   , adamsLoginResultDTO);
-	    	request.getSession().setAttribute("MenuVOList", adamsLoginDTOs);
+	    	request.getSession().setAttribute("LoginVO"       , adamsLoginResultDTO);
+	    	request.getSession().setAttribute("MenuVOList"    , adamsMenuDTOs);
+	    	request.getSession().setAttribute("MenuTreeVOList", adamsMenuTreeDTOs);
 	    	//request.getSession().setAttribute("LoginVO", loginResultVO);
 	    	
-			//resultMap.put("resultVO"    , adamsLoginResultDTO);
-			//resultMap.put("resultMenuVO", adamsLoginDTOs);
+			//resultMap.put("resultVO"        , adamsLoginResultDTO);
+			//resultMap.put("resultMenuVO"    , adamsMenuDTOs);
+			//resultMap.put("resultMenuTreeVO", adamsMenuTreeDTOs);
 			if (isJwtLogin) {
 	            //resultMap.put("jToken", jwtToken);
 	        }
 			resultMap.put("resultCode"   , "200");
 			resultMap.put("resultMessage", "성공 !!!");
 		} else {
-			//resultMap.put("resultVO"    , adamsLoginResultDTO);
-			//resultMap.put("resultMenuVO", adamsLoginDTOs);
+			//resultMap.put("resultVO"        , adamsLoginResultDTO);
+			//resultMap.put("resultMenuVO"    , adamsMenuDTOs);
+			//resultMap.put("resultMenuTreeVO", adamsMenuTreeDTOs);
 			resultMap.put("resultCode"   , "300");
 			resultMap.put("resultMessage", egovMessageSource.getMessage("fail.common.login"));
 		}
@@ -178,10 +189,28 @@ public class AdamsLoginController {
 	@PostMapping(value = "/auth/adamsLogin-jwt")
 	public HashMap<String, Object> selectLoginJWTInfo(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request, ModelMap model) throws Exception {
 		HashMap<String, Object> resultMap = processLogin(adamsLoginDTO, request, true);
-	    
+		String nextPage = ""; 
+		
 	    // 로그인 성공 시 페이지 이동 정보 추가
 	    if ("200".equals(resultMap.get("resultCode"))) {
-	        String nextPage = "/home"; // 로그인 후 이동할 기본 페이지, 실제 URL로 수정 필요
+
+	    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute("LoginVO");
+	    	
+	    	// 로그인 성공시 로그린 이력 저장
+	    	adamsLoginService.insertLoginHist(sAdamsLoginDTO, request);
+	    	
+	    	nextPage = "myPage"; // 로그인 후 이동할 기본 페이지 
+	    	
+	    	if ( "Y".equals(sAdamsLoginDTO.getPasswordInitYn()) ) {
+	    		// 비밀번호 초기화 된 경우
+	    		nextPage = "pwChange";
+		        resultMap.put("loginMsg", "Your password has been reset. You will be taken to the reset screen.");
+	    	} else if ( "9".equals(sAdamsLoginDTO.getStatDvCd()) ) {
+	    		// 사용자의 상태가 종료인 경우 로그인 페이지로
+	    		nextPage = "login";
+		        resultMap.put("loginMsg", "This user is not available.");
+	    	}
+	    	
 	        resultMap.put("redirectUrl", nextPage);
 	    }
 	    
@@ -215,6 +244,13 @@ public class AdamsLoginController {
 		return adamsResultDTO;
 	}
 
+	/**
+	 * 고객 목록을 조회한다
+	 * @param vo - 빈 LoginVO
+	 * @param request - 세션처리를 위한 HttpServletRequest
+	 * @return result - 고객 목록
+	 * @exception Exception
+	 */
 	@Operation(
 			summary = "고객 목록",
 			description = "고객 목록 조회",
@@ -226,7 +262,7 @@ public class AdamsLoginController {
 	})
 	@RequestMapping(value = "/auth/adamsLoginCs", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.TEXT_HTML_VALUE})
 	public HashMap<String, Object> selectCsNoList(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request) throws Exception {
-	    HashMap<String, Object> resultMap = processLogin(adamsLoginDTO, request, false);
+	    HashMap<String, Object> resultMap = new HashMap<String,Object>();
 
 		// 1. 일반 로그인 처리
 	    List<AdamsCsNoDTO> adamsCsNoDTOs = adamsLoginService.selectCsNoList(adamsLoginDTO);
@@ -238,6 +274,66 @@ public class AdamsLoginController {
 			resultMap.put("resultMessage", "성공 !!!");
 		} else {
 			resultMap.put("resultVO"    , adamsCsNoDTOs);
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", egovMessageSource.getMessage("fail.common.login"));
+		}
+
+		return resultMap;
+	}
+
+	/**
+	 * 초기화된 비밀번호를 변경 한다
+	 * @param vo - 빈 LoginVO
+	 * @param request - 세션처리를 위한 HttpServletRequest
+	 * @return result - 고객 목록
+	 * @exception Exception
+	 */
+	@Operation(
+			summary = "사용자 비밀번호",
+			description = "사용자 비밀번호 변경",
+			tags = {"AdamsLoginController"}
+	)
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "비밀번호 변경 성공"),
+			@ApiResponse(responseCode = "300", description = "비밀번호 변경 실패")
+	})
+	@RequestMapping(value = "/auth/adamsLoginPw", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.TEXT_HTML_VALUE})
+	public HashMap<String, Object> updateUsrPassword(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request) throws Exception {
+	    HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	    boolean  bResult = false;
+	    String nextPage = ""; 
+	    
+	    // 1. 세션에서 사용자 정보 가져오기
+	    AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute("LoginVO");
+
+	    if ( sAdamsLoginDTO != null && sAdamsLoginDTO.getUsrId() != null && !sAdamsLoginDTO.getUsrId().equals("")) {
+		    // 2. 새 비밀번호 적용을 위한 세션정보 가져오기 
+	    	adamsLoginDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+	    	adamsLoginDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+	    	adamsLoginDTO.setUsrPassword(sAdamsLoginDTO.getUsrPassword());
+		    
+			// 3. 비밀번호 변경 처리
+		    bResult = adamsLoginService.updateUsrPassword(adamsLoginDTO);
+	    }
+	    
+		if (bResult) {
+			
+			// 4. 세션정보 초기화
+			HttpSession session = request.getSession(false); // 현재 세션을 가져옴, 없으면 null 반환
+		    if (session != null) {
+		        session.invalidate(); // 세션 무효화, 모든 세션 데이터를 제거하고 세션 종료
+		        log.info("Session has been invalidated.");
+		    } else {
+		        log.info("No active session to clear.");
+		    }
+			
+			// 사용자 재로그인 페이지로
+    		nextPage = "login";
+    		
+	        resultMap.put("redirectUrl", nextPage);
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "성공 !!!");
+		} else {
 			resultMap.put("resultCode"   , "300");
 			resultMap.put("resultMessage", egovMessageSource.getMessage("fail.common.login"));
 		}

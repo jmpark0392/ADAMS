@@ -58,7 +58,9 @@
              , A.USR_DV_CD         AS usrDvCd
              , A.USR_ID            AS usrId
              , A.USR_NM            AS usrNm
-             , ''                  AS usrPassword
+             , CASE WHEN A.PASSWORD_INIT_YN = 'Y' THEN #{usrPassword}
+                    ELSE  ''
+               END                 AS usrPassword
              , A.USR_PH_NO         AS usrPhNo
              , A.EMP_NO            AS empNo
              , A.STAT_DV_CD        AS statDvCd
@@ -190,7 +192,6 @@
 	
 	<!-- 인증서 로그인 -->
 	<select id="actionCrtfctLogin" resultMap="login">
-
         SELECT
                A.CS_NO             AS csNo
              , A.USR_DV_CD         AS usrDvCd
@@ -239,7 +240,7 @@
 		   AND A.STAT_DV_CD = '0'
 	</select>
 	
-	<!-- 고객사 목록 조회 -->
+	<!-- 사용자 로그인 저장 -->
 	<insert id="insertLoginHist">
         INSERT INTO [RDSDB].[dbo].[TB_USR_LOGIN_HIST]
                   ( [SEQ_NO]
@@ -253,7 +254,7 @@
                   , [FRST_REG_DTM]
                   )
         SELECT
-               CAST( ( SELECT ISNULL(MAX(CAST(SEQ_NO AS NUMERIC(10)), 0) + 1 FROM [RDSDB].[dbo].[TB_USR_LOGIN_HIST] ) AS VARCHAR(10) ) AS SEQ_NO
+               CAST( ( SELECT ISNULL( MAX( CAST( SEQ_NO AS NUMERIC(10) ) ), 0 ) + 1 FROM [RDSDB].[dbo].[TB_USR_LOGIN_HIST] ) AS VARCHAR(10) ) AS SEQ_NO
              , #{csNo}           AS CS_NO
              , #{usrId}          AS USR_ID
              , GETDATE()         AS ACC_DTM
@@ -271,6 +272,19 @@
 		 WHERE 1=1
            AND A.CS_NO  = #{csNo}
            AND A.USR_ID = #{usrId}
-           AND 1      = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
+           AND 1        = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
+	</update>
+	
+	<!-- 변경된 비밀번호를 저장 -->
+	<update id="updatePasswordReset">
+		UPDATE RDSDB.[dbo].[TB_USR_MNG_LST] A
+		   SET A.USR_PASSWORD     = PWDENCRYPT(#{usrNewPassword})
+		     , A.STAT_DV_CD       = '4'
+		     , A.PASSWORD_INIT_YN = 'Y'
+		 WHERE 1=1
+           AND A.CS_NO      = #{csNo}
+           AND A.USR_ID     = #{usrId}
+		   AND A.USR_NM     = #{usrNm}
+		   AND A.STAT_DV_CD = '0'
 	</update>
 </mapper>

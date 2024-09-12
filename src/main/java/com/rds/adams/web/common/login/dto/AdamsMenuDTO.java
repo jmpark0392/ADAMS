@@ -1,6 +1,7 @@
 package com.rds.adams.web.common.login.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -55,5 +56,8 @@ public class AdamsMenuDTO implements Serializable{
 
     @Schema(description = "정렬")
     private String sort;	
+
+    @Schema(description = "메뉴정보리스트")
+    private List<AdamsMenuDTO> adamsMenuDTOList;
 	
 }
