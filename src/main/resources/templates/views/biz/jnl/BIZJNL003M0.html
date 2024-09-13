@@ -160,14 +160,14 @@
       var grid;
       var dataView;
       var data;
-      var unqId = "jrnlNo";
+      var unqId = "rowNumber";
       var xcpt_cols = [unqId, "regUsrid", "regDt"];
       var check_cols = [unqId];
       var columns = [
         {
-          id: unqId,
+          id: "jrnlNo",
           name: "jrnl no.",
-          field: unqId,
+          field: "jrnlNo",
           sortable: true,
           editor: Slick.Editors.Text,
           validator: createValidator,
@@ -384,8 +384,8 @@
         .getElementById("downloadExcel")
         .addEventListener("click", function () {
           const currDate = getCurrentDateTime();
-          const fileName = "WRKFIL001_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
-          const sheetName = "파일관리"; // 시트 이름
+          const fileName = "BIZJNL003_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
+          const sheetName = "분개내역"; // 시트 이름
           const gridColumns = columns; // SlickGrid의 컬럼 배열
           const gridData = dataView.getItems(); // SlickGrid의 데이터 배열
           exportToExcel(fileName, sheetName, gridColumns, gridData);

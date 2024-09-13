@@ -14,8 +14,8 @@
 		     , SUB_EMP_NO
 		     , ETC_DESC
 		     , USE_YN
-		     , REG_USRID
-		     , REG_DT
+		     , FRST_REG_EMP_NO  AS REG_USR_ID
+		     , FRST_REG_DTM     AS REG_DT
 		  FROM TB_BAT_MNG_LST
          WHERE 1=1
          <if test='searchTxt != ""'>

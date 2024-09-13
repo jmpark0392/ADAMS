@@ -127,7 +127,6 @@
           </div>
         </div>
       </div>
-    </div>
     <script src="js/utils.js"></script>
     <script>
       function checkData(data) {
@@ -156,12 +155,10 @@
       var grid;
       var dataView;
       var data;
-      var unqId = "batProgId";
+      var unqId = "rowNumber";
       var xcpt_cols = [unqId, "regUsrid", "regDt"];
       var check_cols = [unqId];
       var columns = [
-        //{id: unqId,  name: "항목", field: unqId, sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-        // {id: "fileNm", name: "파일명", field: "fileNm", sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator])},
         {
           id: "batExeId",
           name: "실행ID",
@@ -171,9 +168,9 @@
           validator: createValidator,
         },
         {
-          id: unqId,
+          id: "batProgId",
           name: "배치프로그램ID",
-          field: unqId,
+          field: "batProgId",
           sortable: true,
           editor: Slick.Editors.Text,
           validator: createValidator,

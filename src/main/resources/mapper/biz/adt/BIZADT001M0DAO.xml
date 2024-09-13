@@ -14,8 +14,8 @@
 	  	    , A.ACNT_AMT         AS ACNT_AMT
 	  	    , A.INSU_PL_ITM_AMT  AS INSU_PL_ITM_AMT
 	  	    , A.DIFF_AMT         AS DIFF_AMT
-	        , A.REG_USRID        AS REG_USRID
-	        , A.REG_DT           AS REG_DT
+	        , A.FRST_REG_EMP_NO  AS REG_USR_ID
+	        , A.FRST_REG_DTM     AS REG_DT
 	     FROM TB_ACNT_RECT_LST AS A
 	    INNER JOIN TB_ATIT_MNG_LST AS B
 	       ON A.ATIT_CD = B.ATIT_CD;

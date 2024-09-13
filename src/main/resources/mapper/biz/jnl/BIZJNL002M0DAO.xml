@@ -15,22 +15,22 @@
              , BB.ATIT_ENG_NM                         AS CR_AC_SUBJ_NM
              , AA.ETC_DESC                            AS ETC_DESC
              , AA.USE_YN                              AS USE_YN
-             , AA.REG_USRID                           AS REG_USRID
-             , AA.REG_DT                              AS REG_DT
+             , AA.FRST_REG_EMP_NO                     AS REG_USR_ID
+             , AA.FRST_REG_DTM                        AS REG_DT
           FROM (
                  SELECT
-                        A.INSC_DV_CD     AS INSC_DV_CD
-                      , A.VALU_METD_CD   AS VALU_METD_CD
-                      , A.LVL_1_CD       AS LVL_1_CD
-                      , A.LVL_2_CD       AS LVL_2_CD
-                      , A.LVL_3_CD       AS LVL_3_CD
-                      , A.DR_AC_SUBJ_CD  AS DR_AC_SUBJ_CD
-                      , B.ATIT_ENG_NM    AS ATIT_ENG_NM
-                      , A.CR_AC_SUBJ_CD  AS CR_AC_SUBJ_CD
-                      , A.ETC_DESC       AS ETC_DESC
-                      , A.USE_YN         AS USE_YN
-                      , A.REG_USRID      AS REG_USRID
-                      , A.REG_DT         AS REG_DT
+                        A.INSC_DV_CD      AS INSC_DV_CD
+                      , A.VALU_METD_CD    AS VALU_METD_CD
+                      , A.LVL_1_CD        AS LVL_1_CD
+                      , A.LVL_2_CD        AS LVL_2_CD
+                      , A.LVL_3_CD        AS LVL_3_CD
+                      , A.DR_AC_SUBJ_CD   AS DR_AC_SUBJ_CD
+                      , B.ATIT_ENG_NM     AS ATIT_ENG_NM
+                      , A.CR_AC_SUBJ_CD   AS CR_AC_SUBJ_CD
+                      , A.ETC_DESC        AS ETC_DESC
+                      , A.USE_YN          AS USE_YN
+                      , A.FRST_REG_EMP_NO AS FRST_REG_EMP_NO
+                      , A.FRST_REG_DTM    AS FRST_REG_DTM
                    FROM TB_JNL_RUL_MNG_LST AS A
                   INNER JOIN TB_ATIT_MNG_LST AS B
                      ON A.DR_AC_SUBJ_CD = B.ATIT_CD
@@ -58,10 +58,10 @@
             , [CR_AC_SUBJ_CD]
             , [ETC_DESC]
             , [USE_YN]
-            , [REG_USRID]
-            , [REG_DT]
-            , [UPD_USRID]
-            , [UPD_DT]
+            , [FRST_REG_EMP_NO]
+            , [FRST_REG_DTM]
+            , [FNL_UPD_EMP_NO]
+            , [FNL_UPD_DTM]
             )
         VALUES (
                  #{inscDvCd}
@@ -82,12 +82,12 @@
     <update id="updateList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
         UPDATE TB_JNL_RUL_MNG_LST
            SET
-               DR_AC_SUBJ_CD = #{drAcSubjCd},
-               CR_AC_SUBJ_CD = #{crAcSubjCd},
-               ETC_DESC      = #{etcDesc},
-               USE_YN        = #{useYn},
-               UPD_USRID     = 'admin',
-               UPD_DT        = CONVERT(CHAR(10), getdate(), 23)
+               DR_AC_SUBJ_CD  = #{drAcSubjCd},
+               CR_AC_SUBJ_CD  = #{crAcSubjCd},
+               ETC_DESC       = #{etcDesc},
+               USE_YN         = #{useYn},
+               FNL_UPD_EMP_NO = 'admin',
+               FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
           WHERE 1=1
             AND INSC_DV_CD   = #{inscDvCd}
             AND VALU_METD_CD = #{valuMetdCd}

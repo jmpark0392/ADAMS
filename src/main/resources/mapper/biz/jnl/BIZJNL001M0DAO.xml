@@ -19,8 +19,8 @@
 		     , SRT_ORD
 		     , ETC_DESC
 		     , USE_YN
-		     , REG_USRID
-		     , REG_DT
+		     , FRST_REG_EMP_NO AS REG_USR_ID
+		     , FRST_REG_DTM    AS REG_DT
 		  FROM TB_ATIT_MNG_LST
          WHERE 1=1
          <if test='searchTxt != ""'>
@@ -47,10 +47,10 @@
 			, [SRT_ORD]
 			, [ETC_DESC]
 			, [USE_YN]
-			, [REG_USRID]
-		    , [REG_DT]
-			, [UPD_USRID]
-			, [UPD_DT]
+			, [FRST_REG_EMP_NO]
+		    , [FRST_REG_DTM]
+			, [FNL_UPD_EMP_NO]
+			, [FNL_UPD_DTM]
         )
         VALUES (
               #{atitCd}
@@ -89,8 +89,8 @@
 			   SRT_ORD = #{srtOrd},
 			   ETC_DESC = #{etcDesc},
                USE_YN = #{useYn},
-               UPD_USRID = 'admin',
-               UPD_DT = CONVERT(CHAR(10), getdate(), 23)
+               FNL_UPD_EMP_NO = 'admin',
+               FNL_UPD_DTM = CONVERT(CHAR(10), getdate(), 23)
          WHERE ATIT_CD = #{atitCd}
   </update>
     <delete id="deleteList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO">

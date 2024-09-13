@@ -69,7 +69,7 @@
     <delete id="deleteList">
         DELETE TB_UPL_ITM_LST
          WHERE 1=1
-           AND TBL_ID = #{tblId}                  -- 필터링기준 : 테이블ID
+           AND TBL_ID  = #{tblId}                  -- 필터링기준 : 테이블ID
            AND CLMN_ID = #{itmId}                 -- 필터링기준 : 컬럼ID
     </delete>
 </mapper>
