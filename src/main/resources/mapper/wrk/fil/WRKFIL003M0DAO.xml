@@ -105,7 +105,6 @@
                , GETDATE()
                )
     </insert>
-    
     <update id="updateUplHist"  parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P1DTO" >
         UPDATE RDSDB.dbo.TB_UPL_HIST
            SET FILE_NM      = #{fileNm}
@@ -117,5 +116,4 @@
          WHERE 1=1
            AND SEQ_NO = #{seqNo}
     </update>
-    
 </mapper>

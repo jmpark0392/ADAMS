@@ -23,6 +23,7 @@ import lombok.ToString;
 @Setter
 public class BIZJNL003M0R0DTO {
 	
+	private int rowNumber;
 	private String stdYymm;  /* 기준년월 */
 	private String jrnlNo; /* 분개번호 */
 	private String atitCd;  /* 계정과목코드 */

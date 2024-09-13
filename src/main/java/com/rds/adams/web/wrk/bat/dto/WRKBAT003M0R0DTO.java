@@ -23,6 +23,7 @@ import lombok.ToString;
 @Setter
 public class WRKBAT003M0R0DTO {
 	
+	private int rowNumber;
 	private String stdYymm;  /* 기준년월 */
 	private String batExeId;  /* 배치실행ID */
 	private String batProgId;  /* 배치프로그램ID */

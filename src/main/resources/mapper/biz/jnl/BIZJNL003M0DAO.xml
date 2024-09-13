@@ -3,13 +3,14 @@
 <mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL003M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0R0DTO">
              SELECT
-                    A.JRNL_NO        AS JRNL_NO
-                  , A.ATIT_CD        AS ATIT_CD
-				  , B.ATIT_KOR_NM    AS ATIT_NM
-                  , A.DR_CR_DV_CD    AS DR_CR_DV_CD
-                  , A.JRNL_AMT       AS JRNL_AMT
-                  , A.REG_USRID      AS REG_USRID
-                  , A.REG_DT         AS REG_DT
+                    ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS ROW_NUMBER
+                  , A.JRNL_NO                               AS JRNL_NO
+                  , A.ATIT_CD                               AS ATIT_CD
+				  , B.ATIT_KOR_NM                           AS ATIT_NM
+                  , A.DR_CR_DV_CD                           AS DR_CR_DV_CD
+                  , A.JRNL_AMT                              AS JRNL_AMT
+                  , A.FRST_REG_EMP_NO                       AS REG_USR_ID
+                  , A.FRST_REG_DTM                          AS REG_DT
                FROM TB_JNL_RST_LST AS A
               INNER JOIN TB_ATIT_MNG_LST AS B
                  ON A.ATIT_CD = B.ATIT_CD

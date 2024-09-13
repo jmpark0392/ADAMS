@@ -9,17 +9,17 @@
     <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
     <div class="page-wrapper" id="page-wrapper">
       <div class="container" id="container">
-        <h2>Insurance Summary</h2>
+        <h2>Journal Rules</h2>
         <div class="ptag-container">
           <span><a href="#"> Settlement ></a></span>
-          <span><a href="#"> Insurance Summary</a></span>
+          <span><a href="#"> Journal Rules</a></span>
           <div class="form-container">
             <div class="form-box">
               <form
                 id="filter-form"
                 name="form"
                 method="post"
-                action="/BIZJNL001M0SelectList"
+                action="/BIZJNL002M0SelectList"
                 onsubmit="return false;"
               >
                 <div class="row">
@@ -142,19 +142,19 @@
         }
         
         function getFile(input){
-            return parentGetFile(input, '/BIZJNL001M0SelectList');
+            return parentGetFile(input, '/BIZJNL002M0SelectList');
         }
         
         function insertFile(addedRow) { 
-            parentInsertFile(addedRow, '/BIZJNL001M0InsertList')
+            parentInsertFile(addedRow, '/BIZJNL002M0InsertList')
         }
         
         function updateFile(updatedRow) {
-            parentUpdateFile(updatedRow, '/BIZJNL001M0UpdateList')
+            parentUpdateFile(updatedRow, '/BIZJNL002M0UpdateList')
         }
         
         function deleteFile(todeleteRow) {
-            parentDeleteFile(todeleteRow, '/BIZJNL001M0DeleteList')
+            parentDeleteFile(todeleteRow, '/BIZJNL002M0DeleteList')
         }
     </script>
     <script>
@@ -175,42 +175,30 @@
         var grid;
         var dataView;
         var data;
-        var unqId = ["inscDvCd", "valMetdCd", "lvl1Cd", "lvl2Cd", "lvl3Cd"];
+        var unqId = "rowNumber";
         var xcpt_cols = [unqId, "regUsrid", "regDt"];
         var check_cols = [unqId];
         var columns = [
             {id: "inscDvCd",   name: "contract div", field: "inscDvCd", sortable: true, editor: function(args){
 					return new ComboBoxEditor(args, [
-						{ key: '1', value: '원수'},
-						{ key: '2', value: '출재'}
+						{ key: 'O', value: '원수'},
+						{ key: 'C', value: '수재'},
+						{ key: 'R', value: '출재'}
 					]);
 				}},
-			{id: "valMetdCd",   name: "valuation", field: "valMetdCd", sortable: true, editor: function(args){
+			{id: "valuMetdCd",   name: "valuation", field: "valuMetdCd", sortable: true, editor: function(args){
 					return new ComboBoxEditor(args, [
-						{ key: '1', value: ''},
-						{ key: '2', value: ''}
+						{ key: 'GMM', value: 'GMM'},
+						{ key: 'PAA', value: 'PAA'}
 					]);
 				}},
-			{id: "lvl1Cd",   name: "level1", field: "lvl1Cd", sortable: true, editor: function(args){
-					return new ComboBoxEditor(args, [
-						{ key: '1', value: ''},
-						{ key: '2', value: ''}
-					]);
-				}},
-			{id: "lvl2Cd",   name: "level2", field: "lvl2Cd", sortable: true, editor: function(args){
-					return new ComboBoxEditor(args, [
-						{ key: '1', value: ''},
-						{ key: '2', value: ''}
-					]);
-				}},	
-			{id: "lvl3Cd",   name: "level3", field: "lvl3Cd", sortable: true, editor: function(args){
-					return new ComboBoxEditor(args, [
-						{ key: '1', value: ''},
-						{ key: '2', value: ''}
-					]);
-				}},
+			{id: "lvl1Cd",   name: "level1", field: "lvl1Cd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
+			{id: "lvl2Cd",   name: "level2", field: "lvl2Cd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
+			{id: "lvl3Cd",   name: "level3", field: "lvl3Cd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
             {id: "drAcSubjCd",   name: "dr code", field: "drAcSubjCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
+            {id: "drAcSubjNm",   name: "dr name", field: "drAcSubjNm", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
             {id: "crAcSubjCd",   name: "cr code", field: "crAcSubjCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
+            {id: "crAcSubjNm",   name: "cr name", field: "crAcSubjNm", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
             {id: "etcDesc", name: "note", field: "etcDesc", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
             {id: "useYn", name: "use", field: "useYn", sortable: true, editor: function(args) {
                     return new ComboBoxEditor(args, [
@@ -381,8 +369,8 @@
         .getElementById("downloadExcel")
         .addEventListener("click", function () {
           const currDate = getCurrentDateTime();
-          const fileName = "WRKFIL001_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
-          const sheetName = "파일관리"; // 시트 이름
+          const fileName = "BIZJNL002_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
+          const sheetName = "분개룰관리"; // 시트 이름
           const gridColumns = columns; // SlickGrid의 컬럼 배열
           const gridData = dataView.getItems(); // SlickGrid의 데이터 배열
           exportToExcel(fileName, sheetName, gridColumns, gridData);
@@ -554,5 +542,5 @@
 
       }
     </script>
-</body>
+</th:block>
 </html>
