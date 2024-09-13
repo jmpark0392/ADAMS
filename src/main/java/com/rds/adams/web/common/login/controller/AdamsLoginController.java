@@ -143,7 +143,7 @@ public class AdamsLoginController {
 
 		if (adamsLoginResultDTO != null && adamsLoginResultDTO.getUsrId() != null && !adamsLoginResultDTO.getUsrId().equals("")) {
 
-			log.debug("===>>> adamsLoginDTO.getCsNo()  = "+adamsLoginDTO.getCsNo());
+			//log.debug("===>>> adamsLoginDTO.getCsNo()  = "+adamsLoginDTO.getCsNo());
 			log.debug("===>>> adamsLoginDTO.getUsrId() = "+adamsLoginDTO.getUsrId());
 			//log.debug("===>>> loginVO.getPassword() = "+loginVO.getPassword());
 			

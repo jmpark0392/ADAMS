@@ -27,7 +27,13 @@ public class MenuLinkController {
 			return "/views/user/myPage";
 		}
 		if ( "pwChange".equals(newPageName) ) {
-			return "/views/wrk/fil/WRKTEST999M1";
+			return "/views/user/newPassword";
+		}
+		if ( "newReq".equals(newPageName) ) {
+			return "/views/user/newCompany";
+		}
+		if ( "pwReset".equals(newPageName) ) {
+			return "/views/user/passwordReset";
 		}
 		if ( "login".equals(newPageName) ) {
 			return "/login";

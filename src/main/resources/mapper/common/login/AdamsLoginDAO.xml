@@ -73,7 +73,6 @@
           LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] B
                        ON A.CS_NO = B.CS_NO
          WHERE 1=1
-		   AND A.CS_NO  = CASE WHEN 'rdsadm' =  #{usrId} THEN A.CS_NO ELSE #{csNo} END
 		   AND A.USR_ID = #{usrId}
 		   AND 1        = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
 	</select>
@@ -94,7 +93,6 @@
                   LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] B
                                ON A.CS_NO = B.CS_NO
                  WHERE 1=1
-                   AND A.CS_NO  = CASE WHEN 'rdsadm' =  #{usrId} THEN A.CS_NO ELSE #{csNo} END
                    AND A.USR_ID = #{usrId}
              )
         ,    TMP_MEMU AS
@@ -210,10 +208,8 @@
           LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] B
                        ON A.CS_NO = B.CS_NO
          WHERE 1=1
-		   AND A.CS_NO  = #{csNo}
 		   AND A.USR_ID = #{usrId}
 		   AND 1        = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
-		 -- sub_dn = #{dn}
 	</select>
     
 	<!-- 아이디 찾기 -->
@@ -222,7 +218,6 @@
                A.USR_ID AS usrId
 		  FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
 		 WHERE 1=1
-           AND A.CS_NO      = #{csNo}
            AND A.USR_NM     = #{usrNm}
 		   AND A.STAT_DV_CD = '0'
 	</select>
@@ -233,10 +228,8 @@
                A.USR_PASSWORD AS usrPassword
 		  FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
 		 WHERE 1=1
-           AND A.CS_NO      = #{csNo}
            AND A.USR_ID     = #{usrId}
 		   AND A.USR_NM     = #{usrNm}
-		   --AND A.EMP_NO     = #{empNo}
 		   AND A.STAT_DV_CD = '0'
 	</select>
 	
@@ -267,24 +260,24 @@
 	
 	<!-- 변경된 비밀번호를 저장 -->
 	<update id="updatePassword">
-		UPDATE RDSDB.[dbo].[TB_USR_MNG_LST] A
-		   SET A.USR_PASSWORD = PWDENCRYPT(#{usrNewPassword})
+		UPDATE RDSDB.[dbo].[TB_USR_MNG_LST]
+		   SET USR_PASSWORD = PWDENCRYPT(#{usrNewPassword})
+		     , STAT_DV_CD       = '0'
+		     , PASSWORD_INIT_YN = 'N'
 		 WHERE 1=1
-           AND A.CS_NO  = #{csNo}
-           AND A.USR_ID = #{usrId}
-           AND 1        = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
+           AND USR_ID = #{usrId}
+           AND 1        = PWDCOMPARE(#{usrPassword}, USR_PASSWORD)
 	</update>
 	
 	<!-- 변경된 비밀번호를 저장 -->
 	<update id="updatePasswordReset">
-		UPDATE RDSDB.[dbo].[TB_USR_MNG_LST] A
-		   SET A.USR_PASSWORD     = PWDENCRYPT(#{usrNewPassword})
-		     , A.STAT_DV_CD       = '4'
-		     , A.PASSWORD_INIT_YN = 'Y'
+		UPDATE RDSDB.[dbo].[TB_USR_MNG_LST]
+		   SET USR_PASSWORD     = PWDENCRYPT(#{usrNewPassword})
+		     , STAT_DV_CD       = '4'
+		     , PASSWORD_INIT_YN = 'Y'
 		 WHERE 1=1
-           AND A.CS_NO      = #{csNo}
-           AND A.USR_ID     = #{usrId}
-		   AND A.USR_NM     = #{usrNm}
-		   AND A.STAT_DV_CD = '0'
+           AND USR_ID     = #{usrId}
+		   AND USR_NM     = #{usrNm}
+		   AND STAT_DV_CD = '0'
 	</update>
 </mapper>
