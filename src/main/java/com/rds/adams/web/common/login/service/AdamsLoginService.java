@@ -17,6 +17,7 @@ import egovframework.let.utl.fcc.service.EgovNumberUtil;
 import egovframework.let.utl.fcc.service.EgovStringUtil;
 import egovframework.let.utl.sim.service.EgovFileScrty;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 일반 로그인을 처리하는 비즈니스 구현 클래스
@@ -34,6 +35,7 @@ import lombok.RequiredArgsConstructor;
  *
  *  </pre>
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AdamsLoginService {
@@ -49,7 +51,7 @@ public class AdamsLoginService {
 	 */
 	public AdamsLoginDTO selectLoginInfo(AdamsLoginDTO vo) throws Exception {
 		
-		System.out.println(" =====================> AdamsLoginDTO : " + vo.toString() );
+		log.debug(" =====================> AdamsLoginDTO : " + vo.toString() );
 		// 1. 입력한 비밀번호를 암호화한다.
 		//생략 DB에서 진행
 		
@@ -94,7 +96,7 @@ public class AdamsLoginService {
 	 * @exception Exception
 	 */
 	public List<AdamsMenuDTO> selectMenuTreeList(List<AdamsMenuDTO> adamsMenuDTOs) throws Exception {
-		System.out.println(" ================= AdamsLoginService.selectMenuTreeList [START]] ===================== ");
+		log.debug(" ================= AdamsLoginService.selectMenuTreeList [START]] ===================== ");
 		List<AdamsMenuDTO> rAdamssMenuDTOs = null;
 		AdamsMenuDTO       uAdamsMenuDTO   = null;
 		List<AdamsMenuDTO> sAdamssMenuDTOs = null;
@@ -104,12 +106,12 @@ public class AdamsLoginService {
 		if (adamsMenuDTOs != null && adamsMenuDTOs.size() != 0 && !adamsMenuDTOs.get(0).getMenuId().equals("")) {
 			rAdamssMenuDTOs = new ArrayList<>();
 
-			System.out.println(" ================= adamsLoginDTOs ===================== ");
+			log.debug(" ================= adamsLoginDTOs ===================== ");
 			
 			for( AdamsMenuDTO adamsLoginDTO : adamsMenuDTOs ) {
 				if( "0".equals( adamsLoginDTO.getLevel() ) ) {
 
-					System.out.println(" ================= adamsLoginDTO LEVEL 0 : " + adamsLoginDTO.getMenuNmKor() + " ===================== ");
+					log.debug(" ================= adamsLoginDTO LEVEL 0 : " + adamsLoginDTO.getMenuNmKor() + " ===================== ");
 					if( cnt > 0 ) {
 						uAdamsMenuDTO.setAdamsMenuDTOList(sAdamssMenuDTOs);
 						rAdamssMenuDTOs.add(uAdamsMenuDTO);
@@ -128,7 +130,7 @@ public class AdamsLoginService {
 					sAdamssMenuDTOs = new ArrayList<>();
 					cnt++;
 				} else {
-					System.out.println(" ================= adamsLoginDTO LEVEL 1 : " + adamsLoginDTO.getMenuNmKor() + " ===================== ");
+					log.debug(" ================= adamsLoginDTO LEVEL 1 : " + adamsLoginDTO.getMenuNmKor() + " ===================== ");
 					sAdamssMenuDTOs.add(adamsLoginDTO);
 				}
 				
@@ -141,7 +143,7 @@ public class AdamsLoginService {
 			rAdamssMenuDTOs = new ArrayList<>();
 		}
 
-		System.out.println(" ================= AdamsLoginService.selectMenuTreeList [END]] ===================== ");
+		log.debug(" ================= AdamsLoginService.selectMenuTreeList [END]] ===================== ");
 		return rAdamssMenuDTOs;
 	}
 

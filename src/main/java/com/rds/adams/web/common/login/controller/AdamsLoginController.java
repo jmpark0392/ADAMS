@@ -53,6 +53,7 @@ import lombok.extern.slf4j.Slf4j;
  *  -------            --------        ---------------------------
  *  2009.03.06  박지욱     최초 생성
  *  2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성
+ *  
  *
  *  </pre>
  */
@@ -124,6 +125,9 @@ public class AdamsLoginController {
 	    	}
 	    	
 	        resultMap.put("redirectUrl", nextPage);
+	    } else {
+	        resultMap.put("loginMsg", "Please check your ID or password.");
+	        resultMap.put("redirectUrl", "login");
 	    }
 	    
 	    return resultMap;

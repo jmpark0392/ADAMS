@@ -188,7 +188,12 @@
 
           success: function (data) {
             console.log("AJAX request successful. Data received:", data);
-
+			var sMsg = data.loginMsg;
+			
+			if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+				alert(sMsg);
+			}
+			
             $("#pageName").val(data.redirectUrl);
             $("#form").submit();
           },
