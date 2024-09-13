@@ -41,7 +41,7 @@ public class BusinessInterceptor extends WebContentInterceptor {
 		HttpSession session = request.getSession();
 		List<AdamsMenuDTO> menuList = (List<AdamsMenuDTO>) session.getAttribute(AdamsConstant.SESSION_MENU_TREELIST);
 		
-		String menuId = getMenuIdByUrl(uri, request.getSession());
+		String menuId = getMenuIdByUrl(request);
 
 		if (modelAndView != null) {
 			modelAndView.addObject("menuList", menuList);
@@ -52,16 +52,19 @@ public class BusinessInterceptor extends WebContentInterceptor {
 		
 	}
 	
-	private String getMenuIdByUrl(String uri, HttpSession session) {
+	private String getMenuIdByUrl(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		String uri = request.getParameter("pageName");
 		
 		List<AdamsMenuDTO> menuList = (List<AdamsMenuDTO>) session.getAttribute(AdamsConstant.SESSION_MENU_FLATLIST);
 		String menuId = "";
 		
-		if (menuList == null) {
+		if (menuList == null || menuList.size() <= 0) {
 			return "";
 		} else {
 			for (AdamsMenuDTO menuDTO : menuList) {
-				if (uri.equals(menuDTO.getPgmUrl())) {
+				if (menuDTO.getPgmUrl().equals(uri)) {
 					menuId = menuDTO.getMenuId();
 				}
 			}

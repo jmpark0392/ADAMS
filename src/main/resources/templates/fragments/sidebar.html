@@ -22,7 +22,7 @@
 						</a>
 						<div th:if="${menu.adamsMenuDTOList.size ge 0}" class="dropdown-menu">
 							<div th:each="subMenu:${menu.adamsMenuDTOList}">
-								<a th:text="${subMenu.menuNmEng}" class="dropdown-item" href="#" th:onClick="javascript:goMenuPage([[${subMenu.pgmUrl}]]);"></a>
+								<a th:text="${subMenu.menuNmEng}" class="dropdown-item" th:id="${subMenu.menuId}" th:onClick="javascript:goMenuPage([[${subMenu.pgmUrl}]]);"></a>
 							</div>
 						</div>
 					</li>
@@ -30,5 +30,9 @@
 			</div>
 		</div>
 	</aside>
+	<script language="javascript">
+		var menuId = "[[${menuId}]]";
+		$("#[[${menuId}]]").parent().parent().attr("class", "dropdown-menu show");
+	</script>
 </th:block>
 </html>
