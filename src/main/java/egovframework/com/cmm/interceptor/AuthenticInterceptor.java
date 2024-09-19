@@ -1,15 +1,18 @@
 package egovframework.com.cmm.interceptor;
 
+import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
-import egovframework.com.cmm.LoginVO;
-import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -38,19 +41,46 @@ public class AuthenticInterceptor extends WebContentInterceptor {
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException {
-
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
-		if (loginVO.getId() != null) {
-			
-			log.debug("AuthenticInterceptor sessionID "+loginVO.getId());
-			log.debug("AuthenticInterceptor ================== ");
-			
-			return true;
-    }
-		log.debug("AuthenticInterceptor Fail!!!!!!!!!!!!================== ");
-    
-		ModelAndView modelAndView = new ModelAndView("redirect:http://localhost:8080/login");
-		throw new ModelAndViewDefiningException(modelAndView);
+		
+		String pageName = request.getParameter("pageName");
+		
+		log.info("========================================================");
+		log.info(" AuthenticationInterceptor [URI : "+request.getRequestURI()+"]");
+		log.info(" AuthenticationInterceptor [Requested Page : "+pageName+"]");
+		
+		// 세션을 따로 가져온 후 등록된 정보를 토대로 인증 
+    	HttpSession session = request.getSession();
+    	AdamsLoginDTO loginVO = (AdamsLoginDTO) session.getAttribute("LoginVO");
+    	
+    	if (pageName == null) {
+    		try {
+				response.sendRedirect("/");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		return false;
+    	}
+    	
+		// pageName이 "login"이면 인증 체크를 하지 않음
+        if ("/login".equals(pageName)) {
+        	return true;
+        }
+        else {
+        	log.debug("loginVO:", loginVO);
+    		
+    		if (loginVO.getUsrId() != null) {
+    			
+    			log.debug("AuthenticInterceptor sessionID "+loginVO.getUsrId());
+    			log.debug("AuthenticInterceptor ================== ");
+    			
+    			return true;
+    		}
+    		
+    		log.debug("AuthenticInterceptor Fail!!!!!!!!!!!!================== ");
+        	
+    		ModelAndView modelAndView = new ModelAndView("redirect:http://localhost:8080/login");
+    		throw new ModelAndViewDefiningException(modelAndView);
+        }
 	}
 }

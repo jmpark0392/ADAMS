@@ -65,25 +65,31 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new AuthenticInterceptor())
 			.addPathPatterns(
-//				"/cop/com/*.do",
-//				"/cop/bbs/*Master*.do",
-				"/auth/*")
+				"/**/*")
 			.excludePathPatterns(
-				"/auth/login",
-				"/auth/login-jwt",
-				"/auth/logout",
-				"/auth/adamsLogin"
+				"/",
+				"/login",
+				"/auth/*",
+				"/auth/**",
+				"/**/*.js",
+				"/**/*.css"
 				);
 		registry.addInterceptor(new CustomAuthenticInterceptor())
 			.addPathPatterns(
-				"/**/*.do")
+				"/**/*")
 			.excludePathPatterns(
-				"/auth/**");
+				"/auth/*",
+				"/auth/**",
+				"/login",
+				"/");
 		registry.addInterceptor(new BusinessInterceptor())
 			.addPathPatterns(
 				"/*")
 			.excludePathPatterns(
-				"/auth/**");
+				"/auth/*",
+				"/auth/**",
+				"/login",
+				"/");
 	}
 
 	// -------------------------------------------------------------

@@ -2,6 +2,8 @@ package egovframework.com.security;
 
 import java.util.Arrays;
 
+import javax.servlet.DispatcherType;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,6 +13,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -34,21 +38,14 @@ public class SecurityConfig {
 	
 	 //Http Methpd : Get 인증예외 List
     private String[] AUTH_GET_WHITELIST = {
-    		"/mainPage", //메인 화면 리스트 조회
-    		"/board", // 게시판 목록조회
-    		"/board/{bbsId}/{nttId}", // 게시물 상세조회
-    		"/boardFileAtch/{bbsId}", //게시판 파일 첨부가능 여부 조회
-            "/schedule/daily", //일별 일정 조회
-            "/schedule/week", //주간 일정 조회
-            "/schedule/{schdulId}", //일정 상세조회
-            "/image", //갤러리 이미지보기
-            "/index.html", //갤러리 이미지보기
+    		"/index.html",
     };
 
     // 인증 예외 List
     private String[] AUTH_WHITELIST = {
     		"/",
-            "/login/**",
+    		"/favicon.ico",
+            "/login",
             "/auth/login-jwt",//JWT 로그인
             "/auth/login",//일반 로그인
             "/file", //파일 다운로드
@@ -89,15 +86,18 @@ public class SecurityConfig {
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
-                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(AUTH_WHITELIST).permitAll()
-                        .antMatchers(HttpMethod.GET,AUTH_GET_WHITELIST).permitAll()
+                        .antMatchers(HttpMethod.GET, AUTH_GET_WHITELIST).permitAll()
                         .anyRequest().authenticated()
-                ).sessionManagement((sessionManagement) ->
-                    sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .sessionManagement((sessionManagement) ->
+                    sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // STATELESS vs IF_REQUIRED
                 )
                 .cors().and()
+                .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandlingConfigurer ->
                         exceptionHandlingConfigurer

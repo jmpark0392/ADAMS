@@ -49,7 +49,7 @@
                 			</svg>
                 			Docs
 						</a>
-						<a href="#!" class="btn" style="padding: 4px 10px; color: rgb(169, 169, 169); font-size: 13px;" onClick="javascript:goMenuPage('/login');">
+						<a href="#!" class="btn" id="logoutButton" style="padding: 4px 10px; color: rgb(169, 169, 169); font-size: 13px;">
 							<span class="avatar" style="background-image: url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&amp;w=3570&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);"></span>
 							Log out
 						</a>
@@ -58,5 +58,36 @@
 			</div>
 		</div>
 	</header>
+	<body>
+	<script>
+		function goMenuPage (pageName) {
+			$("#pageName").val(pageName);
+			$("#form").submit();
+		};
+		
+		$(document).ready(function () {
+			$('#logoutButton').click(function(e){
+				e.preventDefault(); // 링크 기본 동작 방지
+				console.log("Pushed logoutButten.");
+				$.ajax({
+			          type: "GET",
+			          url: "/auth/adamsLogout",
+			          async: true,
+			          dataType: "json",
+			          contentType: "application/json; charset=utf-8",
+			          success: function (response, textStatus, xhr) {
+			        	  if(xhr.status === 200) {
+			        		console.log("Success Logout. Go to Login page.");
+			        		goMenuPage("/login");
+			        	}
+			          },
+			          error: function(xhr, textStatus, errorThrown) {
+			                console.error('Request failed: ' + textStatus);
+			            }
+			        });
+			});
+		});
+	</script>
+	</body>
 </th:block>
 </html>
