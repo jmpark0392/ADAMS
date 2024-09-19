@@ -185,7 +185,7 @@
 	          //{id: "tblId",    name: "테이블ID", field: "tblId", sortable: true, editor: Slick.Editors.Text},
 	          {
 	            id: "itmNm",
-	            name: "칼럼명",
+	            name: "Column Name",
 	            field: "itmNm",
 	            sortable: true,
 	            editor: Slick.Editors.Text,
@@ -197,7 +197,7 @@
 	          },
 	          {
 	            id: unqId,
-	            name: "칼럼ID",
+	            name: "Column ID",
 	            field: unqId,
 	            sortable: true,
 	            editor: Slick.Editors.Text,
@@ -209,7 +209,7 @@
 	          },
 	          {
 	            id: "dataTpCd",
-	            name: "데이터타입코드",
+	            name: "Data Type",
 	            field: "dataTpCd",
 	            sortable: true,
 	            editor: function (args) {
@@ -223,7 +223,7 @@
 	          },
 	          {
 	            id: "pkYn",
-	            name: "PK여부",
+	            name: "Primary Key",
 	            field: "pkYn",
 	            sortable: true,
 	            editor: function (args) {
@@ -235,7 +235,7 @@
 	          },
 	          {
 	            id: "vlvlVrfYn",
-	            name: "유효값검증여부",
+	            name: "Validation Use",
 	            field: "vlvlVrfYn",
 	            sortable: true,
 	            editor: function (args) {
@@ -247,14 +247,14 @@
 	          },
 	          {
 	            id: "vlvlCd",
-	            name: "유효값코드",
+	            name: "Validation Code",
 	            field: "vlvlCd",
 	            sortable: true,
 	            editor: Slick.Editors.Text,
 	          },
 	          {
 	            id: "ordSeq",
-	            name: "정렬순서",
+	            name: "Sort",
 	            field: "ordSeq",
 	            sortable: true,
 	            editor: Slick.Editors.Text,
@@ -266,14 +266,14 @@
 	          },
 	          {
 	            id: "itmDsc",
-	            name: "항목설명",
+	            name: "Desc",
 	            field: "itmDsc",
 	            sortable: true,
 	            editor: Slick.Editors.Text,
 	          },
 	          {
 	            id: "selBasYn",
-	            name: "적재기준여부",
+	            name: "Load Standard",
 	            field: "selBasYn",
 	            sortable: true,
 	            editor: Slick.Editors.Text,
@@ -428,7 +428,7 @@
 	          .addEventListener("click", function () {
 	            const currDate = getCurrentDateTime();
 	            const fileName = "WRKFIL002M1_CM_" + currDate; // 원하는 파일 이름으로 변경 가능
-	            const sheetName = "파일관리"; // 시트 이름
+	            const sheetName = "컬럼관리"; // 시트 이름
 	            const gridColumns = columns; // SlickGrid의 컬럼 배열
 	            const gridData = dataView.getItems(); // SlickGrid의 데이터 배열
 	            exportToExcel(fileName, sheetName, gridColumns, gridData);
@@ -460,7 +460,8 @@
 	            );
 	          } else if (!activeCell && modalType === "edit") {
 	            throw new Error("No records selected for edit operation");
-	          } 
+	          }
+	          renewOptions(false);
 	            // var dataContext = grid.getDataItem(activeRow);
 	            // var isWithMassUpdate =
 	            //   modalType === "mass-update" || modalType === "mass-selection";
@@ -554,6 +555,7 @@
 	                return;
 	              }
 	            }
+	            renewOptions(false);
 	
 	
 	            //업데이트 대상제외 컬럼 필터링

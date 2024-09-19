@@ -183,7 +183,7 @@
         // {id: "fileNm", name: "파일명", field: "fileNm", sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator])},
         {
           id: unqId,
-          name: "배치프로그램ID",
+          name: "Program ID",
           field: unqId,
           sortable: true,
           editor: Slick.Editors.Text,
@@ -195,7 +195,7 @@
         },
         {
           id: "batProgNm",
-          name: "배치프로그램명",
+          name: "Program Name",
           field: "batProgNm",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -203,7 +203,7 @@
         },
         {
           id: "upProgId",
-          name: "상위프로그램ID",
+          name: "Group Name",
           field: "upProgId",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -215,7 +215,7 @@
         },
         {
           id: "lwstProgYn",
-          name: "최하위프로그램여부",
+          name: "Program",
           field: "lwstProgYn",
           sortable: true,
           editor: function (args) {
@@ -227,7 +227,7 @@
         },
         {
           id: "exePrd",
-          name: "실행주기",
+          name: "Cycle",
           field: "exePrd",
           sortable: true,
           editor: function (args) {
@@ -240,7 +240,7 @@
         },
         {
           id: "mainEmpNo",
-          name: "주사용자번호",
+          name: "Main User",
           field: "mainEmpNo",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -252,7 +252,7 @@
         },
         {
           id: "subEmpNo",
-          name: "부사용자번호",
+          name: "Sub User",
           field: "subEmpNo",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -264,7 +264,7 @@
         },
         {
           id: "etcDesc",
-          name: "기타내용",
+          name: "Desc",
           field: "etcDesc",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -272,7 +272,7 @@
         },
         {
           id: "useYn",
-          name: "사용여부",
+          name: "Use",
           field: "useYn",
           sortable: true,
           editor: function (args) {
@@ -284,14 +284,14 @@
         },
         {
           id: "regUsrid",
-          name: "등록사용자ID",
+          name: "Registrant",
           field: "regUsrid",
           sortable: true,
           editor: Slick.Editors.Text,
         },
         {
           id: "regDt",
-          name: "등록일",
+          name: "Registration Date",
           field: "regDt",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -519,6 +519,7 @@
         } else {
           console.error("error while loading the moda title: ");
         }
+        renewOptions(false);
 
         // Dynamically create form elements based on the columns that have editors
         const modalColumns = columns.filter((col) => col.editor);

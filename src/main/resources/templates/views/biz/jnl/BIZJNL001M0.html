@@ -572,6 +572,7 @@
         } else {
           console.error("error while loading the moda title: ");
         }
+        renewOptions(false);
 
         // Dynamically create form elements based on the columns that have editors
         const modalColumns = columns.filter((col) => col.editor);

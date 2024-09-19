@@ -181,7 +181,7 @@
       var columns = [
         {
           id: unqId,
-          name: "순번",
+          name: "Seq",
           field: unqId,
 
           editor: Slick.Editors.Text,
@@ -189,7 +189,7 @@
         },
         {
           id: "fileNm",
-          name: "파일명",
+          name: "File Name",
           field: "fileNm",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -201,7 +201,7 @@
         },
         {
           id: "dbId",
-          name: "데이터베이스ID",
+          name: "Database ID",
           field: "dbId",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -209,7 +209,7 @@
         },
         {
           id: "tblId",
-          name: "테이블ID",
+          name: "Table ID",
           field: "tblId",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -221,7 +221,7 @@
         },
         {
           id: "fileDsc",
-          name: "파일설명",
+          name: "File Info",
           field: "fileDsc",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -229,7 +229,7 @@
         },
         {
           id: "fileDelYn",
-          name: "파일삭제여부",
+          name: "File Del",
           field: "fileDelYn",
           sortable: true,
           editor: function (args) {
@@ -241,7 +241,7 @@
         },
         {
           id: "uiSelYn",
-          name: "화면조회여부",
+          name: "Screen Select",
           field: "uiSelYn",
           sortable: true,
           editor: function (args) {
@@ -253,7 +253,7 @@
         },
         {
           id: "useYn",
-          name: "사용여부",
+          name: "Use",
           field: "useYn",
           sortable: true,
           editor: function (args) {
@@ -265,7 +265,7 @@
         },
         {
           id: "vrfUseYn",
-          name: "검증사용여부",
+          name: "Verification",
           field: "vrfUseYn",
           sortable: true,
           editor: function (args) {
@@ -277,14 +277,14 @@
         },
         {
           id: "frstRegEmpNo",
-          name: "등록사용자ID",
+          name: "Registrant ID",
           field: "frstRegEmpNo",
           sortable: true,
           editor: Slick.Editors.Text,
         },
         {
           id: "frstRegDtm",
-          name: "등록일",
+          name: "Registration Date",
           field: "frstRegDtm",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -518,8 +518,9 @@
             originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
           }
         } else {
-          console.error("error while loading the moda title: ");
+          console.error("error while loading the modal title: ");
         }
+        renewOptions(false);
 
         // Dynamically create form elements based on the columns that have editors
         const modalColumns = columns.filter((col) => col.editor);
