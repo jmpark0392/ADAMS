@@ -27,14 +27,4 @@ public class RsfWebApplication extends SpringBootServletInitializer  {
 	public static void main(String[] args) {
 		SpringApplication.run(RsfWebApplication.class, args);
 	}
-	
-	/*
-	@Bean
-    public FilterRegistrationBean<SimpleCORSFilter> simpleCORSFilter() {
-        FilterRegistrationBean<SimpleCORSFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new SimpleCORSFilter());
-        registrationBean.addUrlPatterns("/*"); // URL 패턴을 /* 로 설정
-        return registrationBean;
-    }
-    */
 }
