@@ -42,6 +42,8 @@ public class BusinessInterceptor extends WebContentInterceptor {
 		List<AdamsMenuDTO> menuList = (List<AdamsMenuDTO>) session.getAttribute(AdamsConstant.SESSION_MENU_TREELIST);
 		
 		String menuId = getMenuIdByUrl(request);
+		
+		log.info(" AdamsMenuDTO [Data : "+menuId+"]");
 
 		if (modelAndView != null) {
 			modelAndView.addObject("menuList", menuList);

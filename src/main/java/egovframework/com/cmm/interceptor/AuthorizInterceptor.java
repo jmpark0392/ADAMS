@@ -1,6 +1,7 @@
 package egovframework.com.cmm.interceptor;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
 import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
+import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.core.utils.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,56 +37,66 @@ import lombok.extern.slf4j.Slf4j;
  *  </pre>
  */
 @Slf4j
-public class AuthenticInterceptor extends WebContentInterceptor {
-
-	/**
-	 * 세션에 계정정보(LoginVO)가 있는지 여부로 인증 여부를 체크한다.
-	 * 계정정보(LoginVO)가 없다면, 로그인 페이지로 이동한다.
-	 */
+public class AuthorizInterceptor extends WebContentInterceptor {
+	
+	/*
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException {
+		return true;
+	}
+	*/
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException {
 		
 		String pageName = request.getParameter("pageName");
 		
 		log.info("========================================================");
-		log.info(" AuthenticationInterceptor [URI : "+request.getRequestURI()+"]");
-		log.info(" AuthenticationInterceptor [Requested Page : "+pageName+"]");
+		log.info(" AuthorizationInterceptor [URI : "+request.getRequestURI()+"]");
+		log.info(" AuthorizationInterceptor [Requested Page : "+pageName+"]");
 		
 		// 세션을 따로 가져온 후 등록된 정보를 토대로 인증 
     	HttpSession session = request.getSession();
-    	AdamsLoginDTO loginVO = (AdamsLoginDTO) session.getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+    	//List<AdamsMenuDTO> menuVOList = (List<AdamsMenuDTO>) session.getAttribute(AdamsConstant.SESSION_MENU_FLATLIST);
+    	String menuId = getMenuIdByUrl(request);
     	
-    	/*
-    	if (pageName == null) {
-    		try {
-				response.sendError(404, "Not Found.");
+    	log.info(" menuId [Data : "+menuId+"]");
+    	
+    	// pageName이 "login", "myPage"이면 인가 체크를 하지 않음
+        if ("/login".equals(pageName) || "myPage".equals(pageName)) {
+        	return true;
+        }
+        else if (StringUtil.isEmpty(menuId)) {
+        	try {
+				response.sendError(404, menuId);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     		return false;
     	}
-    	*/
-    	
-		// pageName이 "login"이면 인증 체크를 하지 않음
-        if ("/login".equals(pageName)) {
-        	return true;
-        }
-        else {
-        	log.debug("loginVO:", loginVO);
-    		
-    		if (loginVO.getUsrId() != null) {
-    			
-    			log.debug("AuthenticInterceptor sessionID "+loginVO.getUsrId());
-    			log.debug("AuthenticInterceptor ================== ");
-    			
-    			return true;
-    		}
-    		
-    		log.debug("AuthenticInterceptor Fail!!!!!!!!!!!!================== ");
-        	
-    		ModelAndView modelAndView = new ModelAndView("redirect:http://localhost:8080/login");
-    		throw new ModelAndViewDefiningException(modelAndView);
-        }
+    	return true;
+	}
+	
+	private String getMenuIdByUrl(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		String uri = request.getParameter("pageName");
+		
+		List<AdamsMenuDTO> menuList = (List<AdamsMenuDTO>) session.getAttribute(AdamsConstant.SESSION_MENU_FLATLIST);
+		String menuId = "";
+		
+		if (menuList == null || menuList.size() <= 0) {
+			return "";
+		} else {
+			for (AdamsMenuDTO menuDTO : menuList) {
+				if (menuDTO.getPgmUrl().equals(uri)) {
+					menuId = menuDTO.getMenuId();
+				}
+			}
+		}
+		
+		return menuId;
+		
 	}
 }

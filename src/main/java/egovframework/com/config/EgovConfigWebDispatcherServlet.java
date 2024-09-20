@@ -19,6 +19,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import egovframework.com.cmm.interceptor.AuthenticInterceptor;
+import egovframework.com.cmm.interceptor.AuthorizInterceptor;
 import egovframework.com.cmm.interceptor.BusinessInterceptor;
 import egovframework.com.cmm.interceptor.CustomAuthenticInterceptor;
 
@@ -71,17 +72,13 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 				"/login",
 				"/auth/*",
 				"/auth/**",
+				"/**/*.jpg",
+				"/**/*.png",
 				"/**/*.js",
-				"/**/*.css"
+				"/**/*.css",
+				"/**/*.js.map"
 				);
-		registry.addInterceptor(new CustomAuthenticInterceptor())
-			.addPathPatterns(
-				"/**/*")
-			.excludePathPatterns(
-				"/auth/*",
-				"/auth/**",
-				"/login",
-				"/");
+		
 		registry.addInterceptor(new BusinessInterceptor())
 			.addPathPatterns(
 				"/*")
@@ -90,6 +87,22 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 				"/auth/**",
 				"/login",
 				"/");
+		registry.addInterceptor(new AuthorizInterceptor())
+			.addPathPatterns(
+				"/*"
+				)
+			.excludePathPatterns(
+				"/",
+				"/call/*",
+				"/login",
+				"/auth/*",
+				"/auth/**",
+				"/**/*.jpg",
+				"/**/*.png",
+				"/**/*.js",
+				"/**/*.css",
+				"/**/*.js.map"
+	            );
 	}
 
 	// -------------------------------------------------------------
@@ -179,6 +192,9 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 		Properties statusCode = new Properties();
 		statusCode.setProperty("egovSampleError", "400");
 		statusCode.setProperty("egovSampleError", "500");
+		statusCode.setProperty("egovSampleError", "404");
+		statusCode.setProperty("egovSampleError", "403");
+		statusCode.setProperty("egovSampleError", "503");
 
 		SimpleMappingExceptionResolver smer = new SimpleMappingExceptionResolver();
 		smer.setDefaultErrorView("egovSampleError");

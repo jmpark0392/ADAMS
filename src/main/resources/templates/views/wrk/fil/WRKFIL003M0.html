@@ -9,7 +9,7 @@
 					<span><a href="#"> File Upload2</a></span>
 					<div class="form-container">
 						<div class="form-box">
-							<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
+							<form id="divSearch" name="divSearch" method="post" action="/call/WRKFIL001M0SelectList" onsubmit="return false;">
 								<div class="row">
 									<div class="col">
 										<label for="fileDropdown" class="form-label"> Year / Month:</label>
@@ -73,7 +73,7 @@
 			                        // MyBatis를 통해 데이터를 가져오는 AJAX 요청
 			                        $.ajax({
 			                            type: 'post',
-			                            url: '/WRKFIL003M0SelectFileList',
+			                            url: '/call/WRKFIL003M0SelectFileList',
 			                            async: false,
 			                            dataType: 'json',
 			                            contentType: 'application/json; charset=utf-8',
@@ -113,7 +113,7 @@
 			    
 			    $.ajax({
 			             type       : 'post'
-			           , url        : '/WRKFIL003M0SelectList'
+			           , url        : '/call/WRKFIL003M0SelectList'
 			           , async      : true
 			           , dataType   : 'json'
 			           , contentType: 'application/json; charset=utf-8'
@@ -275,7 +275,7 @@
 			        //enctype: 'multipart/form-data',
 			        //contentType: 'multipart/form-data; charset=utf-8',
 			        type: 'POST',
-			        url        : '/WRKFIL003M0SaveUploadFile',
+			        url        : '/call/WRKFIL003M0SaveUploadFile',
 			        processData: false,   
 			        contentType: false,
 			        cache: false,

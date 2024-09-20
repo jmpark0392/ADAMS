@@ -19,7 +19,7 @@
                 id="filter-form"
                 name="form"
                 method="post"
-                action="/MSTSYS001M0SelectList"
+                action="/call/MSTSYS001M0SelectList"
                 onsubmit="return false;"
               >
                 <div class="row">
@@ -139,15 +139,15 @@
       }
 
       function getFile(input) {
-        return parentGetFile(input, "/MSTSYS001M0SelectList");
+        return parentGetFile(input, "/call/MSTSYS001M0SelectList");
       }
 
       function insertFile(addedRow) {
-        parentInsertFile(addedRow, "/MSTSYS001M0InsertList");
+        parentInsertFile(addedRow, "/call/MSTSYS001M0InsertList");
       }
 
       function updateFile(updatedRow) {
-        parentUpdateFile(updatedRow, "/MSTSYS001M0UpdateList");
+        parentUpdateFile(updatedRow, "/call/MSTSYS001M0UpdateList");
       }
     </script>
     <script>

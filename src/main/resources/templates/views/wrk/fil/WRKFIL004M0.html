@@ -21,7 +21,7 @@
 				<span><a href="#"> Home ></a></span> <span><a href="#"> Load History</a></span>
 				<div class="form-container">
 					<div class="form-box">
-						<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
+						<form id="divSearch" name="divSearch" method="post" action="/call/WRKFIL001M0SelectList" onsubmit="return false;">
 							<div class="row">
 								<div class="col">
 									<div class="col">
@@ -165,7 +165,7 @@
         // MyBatis를 통해 데이터를 가져오는 AJAX 요청
         $.ajax({
           type: "post",
-          url: "/WRKFIL003M0SelectFileList",
+          url: "/call/WRKFIL003M0SelectFileList",
           async: false,
           dataType: "json",
           contentType: "application/json; charset=utf-8",
@@ -198,7 +198,7 @@
 
         $.ajax({
           type: "post",
-          url: "/WRKFIL004M0SelectList",
+          url: "/call/WRKFIL004M0SelectList",
           async: true,
           dataType: "json",
           contentType: "application/json; charset=utf-8",
