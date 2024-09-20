@@ -15,7 +15,6 @@ import com.rds.adams.web.wrk.bat.service.WRKBAT003M0Service;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/call")
 @RestController
 public class WRKBAT003M0Controller {
 	

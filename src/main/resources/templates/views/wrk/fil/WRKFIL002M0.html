@@ -11,7 +11,7 @@
 
 					<div class="form-container">
 						<div class="form-box">
-							<form id="filter-form" name="form" method="post" action="/call/WRKFIL001M0SelectList" onsubmit="return false;">
+							<form id="filter-form" name="form" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
 								<div class="row">
 									<div class="col">
 										<label for="fileDropdown">Select a file:</label>
@@ -113,19 +113,19 @@
 	        }
 	
 	        function getFile(input) {
-	          return parentGetFile(input, "/call/WRKFIL002M1SelectList");
+	          return parentGetFile(input, "/WRKFIL002M1SelectList");
 	        }
 	
 	        function insertFile(addedRow) {
-	          parentInsertFile(addedRow, "/call/WRKFIL002M0InsertList");
+	          parentInsertFile(addedRow, "/WRKFIL002M0InsertList");
 	        }
 	
 	        function updateFile(updatedRow) {
-	          parentUpdateFile(updatedRow, "/call/WRKFIL002M0UpdateList");
+	          parentUpdateFile(updatedRow, "/WRKFIL002M0UpdateList");
 	        }
 	
 	        function deleteFile(todeleteRow) {
-	          parentDeleteFile(todeleteRow, "/call/WRKFIL002M0DeleteList");
+	          parentDeleteFile(todeleteRow, "/WRKFIL002M0DeleteList");
 	        }
 	    </script>
 	<script>
@@ -137,7 +137,7 @@
 	          // MyBatis를 통해 데이터를 가져오는 AJAX 요청
 	          $.ajax({
 	            type: "post",
-	            url: "/call/WRKFIL002M0SelectList",
+	            url: "/WRKFIL002M0SelectList",
 	            async: false,
 	            dataType: "json",
 	            contentType: "application/json; charset=utf-8",

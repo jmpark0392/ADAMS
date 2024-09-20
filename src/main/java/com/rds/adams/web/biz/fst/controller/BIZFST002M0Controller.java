@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
  * 
  */
 @Slf4j
-@RequestMapping("/call")
 @RestController
 public class BIZFST002M0Controller {
 	

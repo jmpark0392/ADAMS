@@ -19,7 +19,7 @@
                 id="filter-form"
                 name="form"
                 method="post"
-                action="/call/WRKFIL001M0SelectList"
+                action="/WRKFIL001M0SelectList"
                 onsubmit="return false;"
               >
                 <div class="row">
@@ -141,19 +141,19 @@
       }
 
       function getFile(input) {
-        return parentGetFile(input, "/call/WRKFIL001M0SelectList");
+        return parentGetFile(input, "/WRKFIL001M0SelectList");
       }
 
       function insertFile(addedRow) {
-        parentInsertFile(addedRow, "/call/WRKFIL001M0InsertList");
+        parentInsertFile(addedRow, "/WRKFIL001M0InsertList");
       }
 
       function updateFile(updatedRow) {
-        parentUpdateFile(updatedRow, "/call/WRKFIL001M0UpdateList");
+        parentUpdateFile(updatedRow, "/WRKFIL001M0UpdateList");
       }
 
       function deleteFile(todeleteRow) {
-        parentDeleteFile(todeleteRow, "/call/WRKFIL001M0DeleteList");
+        parentDeleteFile(todeleteRow, "/WRKFIL001M0DeleteList");
       }
     </script>
     <script src="js/utils.js"></script>
