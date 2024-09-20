@@ -1,8 +1,10 @@
 package egovframework.com.config;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +23,6 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import egovframework.com.cmm.interceptor.AuthenticInterceptor;
 import egovframework.com.cmm.interceptor.AuthorizInterceptor;
 import egovframework.com.cmm.interceptor.BusinessInterceptor;
-import egovframework.com.cmm.interceptor.CustomAuthenticInterceptor;
 
 /**
  * @ClassName : EgovConfigWebDispatcherServlet.java
@@ -41,12 +42,21 @@ import egovframework.com.cmm.interceptor.CustomAuthenticInterceptor;
  *
  */
 @Configuration
-@ComponentScan(basePackages = "egovframework", excludeFilters = {
+@ComponentScan(basePackages = "com.rds.adams.web", excludeFilters = {
 	@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Service.class),
 	@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Repository.class),
 	@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Configuration.class)
 })
 public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
+	
+	@Autowired
+	AuthenticInterceptor authenticInterceptor;
+	
+	@Autowired
+	AuthorizInterceptor authorizInterceptor;
+	
+	@Autowired
+	BusinessInterceptor businessInterceptor;
 
 	//final static String RESOLVER_DEFAULT_ERROR_VIEW = "cmm/error/egovError";
 
@@ -64,45 +74,33 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 	// -------------------------------------------------------------
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new AuthenticInterceptor())
-			.addPathPatterns(
-				"/**/*")
-			.excludePathPatterns(
-				"/",
-				"/login",
-				"/auth/*",
-				"/auth/**",
-				"/**/*.jpg",
-				"/**/*.png",
-				"/**/*.js",
-				"/**/*.css",
-				"/**/*.js.map"
-				);
 		
-		registry.addInterceptor(new BusinessInterceptor())
-			.addPathPatterns(
-				"/*")
-			.excludePathPatterns(
-				"/auth/*",
-				"/auth/**",
-				"/login",
-				"/");
-		registry.addInterceptor(new AuthorizInterceptor())
-			.addPathPatterns(
-				"/*"
-				)
-			.excludePathPatterns(
-				"/",
-				"/call/*",
-				"/login",
-				"/auth/*",
-				"/auth/**",
-				"/**/*.jpg",
-				"/**/*.png",
-				"/**/*.js",
-				"/**/*.css",
-				"/**/*.js.map"
-	            );
+		List<String> excludePathList = new ArrayList<String>();
+
+		// 에러화면
+		excludePathList.add("/error/*");
+		
+		// 로그인/로그아웃
+		excludePathList.add("/");
+		excludePathList.add("/login");
+		excludePathList.add("/auth/**");
+		excludePathList.add("/logout");
+
+		// 웹자원
+		excludePathList.add("/css/**");
+		excludePathList.add("/images/**");
+		excludePathList.add("/js/**");
+		
+		registry.addInterceptor(authenticInterceptor)
+			.addPathPatterns("/**/*", "/*")
+			.excludePathPatterns(excludePathList);
+		registry.addInterceptor(authorizInterceptor)
+			.addPathPatterns("/menuLink")
+			.excludePathPatterns(excludePathList);
+		registry.addInterceptor(businessInterceptor)
+			.addPathPatterns("/menuLink")
+			.excludePathPatterns(excludePathList);
+		
 	}
 
 	// -------------------------------------------------------------

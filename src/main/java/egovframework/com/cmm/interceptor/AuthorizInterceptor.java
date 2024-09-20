@@ -8,12 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
 import com.rds.adams.web.common.AdamsConstant;
-import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
 import com.rds.adams.web.core.utils.StringUtil;
 
@@ -37,6 +35,8 @@ import lombok.extern.slf4j.Slf4j;
  *  </pre>
  */
 @Slf4j
+@Component
+@SuppressWarnings("unchecked")
 public class AuthorizInterceptor extends WebContentInterceptor {
 	
 	/*
@@ -56,7 +56,6 @@ public class AuthorizInterceptor extends WebContentInterceptor {
 		log.info(" AuthorizationInterceptor [Requested Page : "+pageName+"]");
 		
 		// 세션을 따로 가져온 후 등록된 정보를 토대로 인증 
-    	HttpSession session = request.getSession();
     	//List<AdamsMenuDTO> menuVOList = (List<AdamsMenuDTO>) session.getAttribute(AdamsConstant.SESSION_MENU_FLATLIST);
     	String menuId = getMenuIdByUrl(request);
     	

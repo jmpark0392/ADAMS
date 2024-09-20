@@ -1,12 +1,11 @@
 package egovframework.com.cmm.interceptor;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
@@ -34,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
  *  </pre>
  */
 @Slf4j
+@Component
 public class AuthenticInterceptor extends WebContentInterceptor {
 
 	/**
@@ -68,21 +68,21 @@ public class AuthenticInterceptor extends WebContentInterceptor {
 		// pageName이 "login"이면 인증 체크를 하지 않음
         if ("/login".equals(pageName)) {
         	return true;
-        }
-        else {
+        } else {
         	log.debug("loginVO:", loginVO);
     		
-    		if (loginVO.getUsrId() != null) {
-    			
+    		if (loginVO != null && loginVO.getUsrId() != null) {
     			log.debug("AuthenticInterceptor sessionID "+loginVO.getUsrId());
     			log.debug("AuthenticInterceptor ================== ");
-    			
     			return true;
     		}
     		
     		log.debug("AuthenticInterceptor Fail!!!!!!!!!!!!================== ");
         	
-    		ModelAndView modelAndView = new ModelAndView("redirect:http://localhost:8080/login");
+    		ModelAndView modelAndView = new ModelAndView("/error/error_auth");
+    		modelAndView.addObject("errorTitle", "Authentication Fail!!");
+    		modelAndView.addObject("errorMessage", "AuthenticInterceptor Fail!!!!!!!!!!!!");
+    		
     		throw new ModelAndViewDefiningException(modelAndView);
         }
 	}

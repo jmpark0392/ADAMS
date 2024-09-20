@@ -24,7 +24,7 @@ public class MenuLinkController {
 		String newPageName = pageName.split("=")[1];
 		
 		if ( "myPage".equals(newPageName) ) {
-			return "/views/user/myPage";
+			return "views/user/myPage";
 		}
 		if ( "pwChange".equals(newPageName) ) {
 			return "/views/user/newPassword";
