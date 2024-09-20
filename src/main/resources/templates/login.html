@@ -9,6 +9,7 @@
 		<!-- Javascript file -->
 		<script src="js/js-tabler/tabler.min.js?1692870487" defer></script>
 		<script src="js/jquery-3.7.1.min.js"></script>
+		<script src="js/common.js"></script>
 		<style>
 			@import url('https://rsms.me/inter/inter.css');
 			:root {
@@ -82,7 +83,7 @@
 						$("#form").submit();
 					},
 					error: function (xhr, status, error) {
-						console.error("!!!! ERROR !!!!!", status, error);
+						errorHandler(xhr);
 					},
 				});
 			}
