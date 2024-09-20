@@ -2,37 +2,63 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="sidebarFragment">
 	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-	<aside class="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark">
-		<div class="container-fluid" style="background-color: rgb(0, 37, 171)">
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<h1 class="navbar-brand navbar-brand-autodark">
-				<a href="." style="color: #d4d4d4">iFrame 2.0</a>
-			</h1>
-			<div class="collapse navbar-collapse" id="sidebar-menu">
-				<ul class="navbar-nav pt-lg-3">
-					<li th:each="menu:${menuList}" class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
-							<span class="nav-link-icon d-md-none d-lg-inline-block">
-								<!-- Download SVG icon from http://tabler-icons.io/i/lifebuoy -->
-								<th:block th:replace="fragments/icon :: ${menu.menuId}"></th:block>
-							</span>
-							<span th:text="${menu.menuNmEng}" class="nav-link-title"></span>
-						</a>
-						<div th:if="${menu.adamsMenuDTOList.size ge 0}" class="dropdown-menu">
-							<div th:each="subMenu:${menu.adamsMenuDTOList}">
-								<a th:text="${subMenu.menuNmEng}" class="dropdown-item" th:id="${subMenu.menuId}" th:onClick="javascript:goMenuPage([[${subMenu.pgmUrl}]]);"></a>
-							</div>
-						</div>
-					</li>
-				</ul>
+
+	<!-- Javascript by hsseo / 전체 메뉴 영역(menu-accordion)에서 Anchor 태그만 가져와서, 전체 초기화 후 클릭한 메뉴의 Class/속성/배경색을 변경시킴 -->
+	<script>
+		function changeClass(id, pageName) {
+			var anchors = document.querySelectorAll("#menu-accordion a");
+			for(var i=0; i<anchors.length; i++) {
+				var anchor_id = anchors[i].getAttribute('id');
+				document.getElementById(anchor_id).classList.replace('btn-light', 'btn-ghost-light');
+			}
+			document.getElementById(id).classList.replace('btn-ghost-light', 'btn-light');
+			goMenuPage(pageName);
+		}
+	</script>
+
+	<!-- Sidebar 영역 -->
+	<aside class="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark" style="overflow: hidden; background-color: #0054a6">
+		
+		<!-- Sidebar 내부 전체 -->
+		<div class="container-fluid">
+
+			<!-- 상단 시스템명 iFrame2.0 -->
+			<div class="text-center mt-2 mb-2">
+				<div class="navbar-brand" style="font-style: italic; font-size: 1.7em; font-family: Times New Roman; color: white;">i</div>&nbsp;<div class="navbar-brand" style="font-size: 1.7em; color: white;">Frame 2.0</div>
 			</div>
+
+			<!-- 전체 메뉴 영역 -->
+			<div class="menu" id="menu-accordion">
+
+				<!-- 메뉴 그룹별 영역 (반복) / 상위 메뉴 + 하위 메뉴 -->
+				<div th:each="menu:${menuList}" class="menu-item">
+
+					<!-- 상위(레벨1) 메뉴 -->
+					<div class="menu-header" id="heading">
+
+						<!-- 상위(레벨1) 메뉴 마우스오버 효과를 위해 Button 사용 -->	
+						<a th:href="'#'+ ${menu.menuId}" class="btn btn-ghost-light btn-square w-100" id="mainmenu1" data-bs-toggle="collapse" style="margin-top:5px; padding-left:20px;">
+							<!-- 상위(레벨1) 메뉴 아이콘 -->
+							<th:block th:replace="fragments/icon :: ${menu.menuId}"></th:block>
+
+							<!-- 상위(레벨1) 메뉴명 -->
+							<div th:text="${menu.menuNmEng}" class="w-100" style="text-align:left"></div>
+						</a>
+					</div>
+
+					<!-- 하위(레벨2) 메뉴 / 상위 메뉴 클릭시 숨겨지는 영역 -->
+					<div th:if="${menu.adamsMenuDTOList.size ge 0}" th:id="${menu.menuId}" th:class="${menu.menuId.toString().substring(0, 3) == menuId.toString().substring(0, 3) ? 'menu-collapse collapse.show' : 'menu-collapse collapse'}" data-bs-parent="#menu-accordion">
+
+						<!-- 메뉴 링크 (반복)-->
+						<a th:each="subMenu:${menu.adamsMenuDTOList}" href="#" th:class="${subMenu.menuId.toString() == menuId.toString() ? 'btn btn-light btn-square w-100 rounded-start-pill' : 'btn btn-ghost-light btn-square w-100 rounded-start-pill'}" style="margin-top:5px; margin-left:15px;" th:id="${subMenu.menuId}" th:onclick="javascript:changeClass(this.id, [[${subMenu.pgmUrl}]]);">
+
+							<!-- 하위(레벨2) 메뉴명 -->
+							<div th:text="'- ' + ${subMenu.menuNmEng}" class="w-100" style="text-align:left; padding-left:5px;"></div>
+						</a>
+					</div>
+				</div>
+			</div>	
 		</div>
 	</aside>
-	<script language="javascript">
-		var menuId = "[[${menuId}]]";
-		$("#[[${menuId}]]").parent().parent().attr("class", "dropdown-menu show");
-	</script>
 </th:block>
 </html>
