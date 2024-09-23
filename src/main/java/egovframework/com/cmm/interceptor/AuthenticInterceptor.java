@@ -69,7 +69,7 @@ public class AuthenticInterceptor extends WebContentInterceptor {
         if ("/login".equals(pageName)) {
         	return true;
         } else {
-        	log.debug("loginVO:", loginVO);
+        	log.debug("loginVO:", loginVO.toString());
     		
     		if (loginVO != null && loginVO.getUsrId() != null) {
     			log.debug("AuthenticInterceptor sessionID "+loginVO.getUsrId());

@@ -80,7 +80,7 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 		// 에러화면
 		excludePathList.add("/error/*");
 		
-		// 로그인/로그아웃
+		// 인증 예외대상
 		excludePathList.add("/");
 		excludePathList.add("/login");
 		excludePathList.add("/auth/**");

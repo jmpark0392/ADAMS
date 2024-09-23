@@ -62,7 +62,7 @@ public class AuthorizInterceptor extends WebContentInterceptor {
     	log.info(" menuId [Data : "+menuId+"]");
     	
     	// pageName이 "login", "myPage"이면 인가 체크를 하지 않음
-        if ("/login".equals(pageName) || "myPage".equals(pageName)) {
+        if ("/login".equals(pageName) || "myPage".equals(pageName) || "/subscription".equals(pageName)) {
         	return true;
         }
         else if (StringUtil.isEmpty(menuId)) {
