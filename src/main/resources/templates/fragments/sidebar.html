@@ -6,12 +6,14 @@
 	<!-- Javascript by hsseo / 전체 메뉴 영역(menu-accordion)에서 Anchor 태그만 가져와서, 전체 초기화 후 클릭한 메뉴의 Class/속성/배경색을 변경시킴 -->
 	<script>
 		function changeClass(id, pageName) {
+			<!-- 메뉴를 서버를 통하지 않고 구성할 경우, 초기화 및 선택한 메뉴 하일라이트를 위한 로직 / 현재는 사용하지 않음  
 			var anchors = document.querySelectorAll("#menu-accordion a");
 			for(var i=0; i<anchors.length; i++) {
 				var anchor_id = anchors[i].getAttribute('id');
 				document.getElementById(anchor_id).classList.replace('btn-light', 'btn-ghost-light');
 			}
 			document.getElementById(id).classList.replace('btn-ghost-light', 'btn-light');
+			-->
 			goMenuPage(pageName);
 		}
 	</script>
@@ -46,16 +48,34 @@
 						</a>
 					</div>
 
-					<!-- 하위(레벨2) 메뉴 / 상위 메뉴 클릭시 숨겨지는 영역 -->
-					<div th:if="${menu.adamsMenuDTOList.size ge 0}" th:id="${menu.menuId}" th:class="${menu.menuId.toString().substring(0, 3) == menuId.toString().substring(0, 3) ? 'menu-collapse collapse.show' : 'menu-collapse collapse'}" data-bs-parent="#menu-accordion">
+					<!-- Sidebar 메뉴인 경우 -->
+					<th:block th:if="${menuId != ''}">
+						<!-- 하위(레벨2) 메뉴 / 상위 메뉴 클릭시 숨겨지는 영역 -->
+						<div th:if="${menu.adamsMenuDTOList.size ge 0}" th:id="${menu.menuId}" th:class="${menu.menuId.toString().substring(0, 3) == menuId.toString().substring(0, 3) ? 'menu-collapse collapse show' : 'menu-collapse collapse'}" data-bs-parent="#menu-accordion">
 
-						<!-- 메뉴 링크 (반복)-->
-						<a th:each="subMenu:${menu.adamsMenuDTOList}" href="#" th:class="${subMenu.menuId.toString() == menuId.toString() ? 'btn btn-light btn-square w-100 rounded-start-pill' : 'btn btn-ghost-light btn-square w-100 rounded-start-pill'}" style="margin-top:5px; margin-left:15px;" th:id="${subMenu.menuId}" th:onclick="javascript:changeClass(this.id, [[${subMenu.pgmUrl}]]);">
+							<!-- 메뉴 링크 (반복)-->
+							<a th:each="subMenu:${menu.adamsMenuDTOList}" href="#" th:class="${subMenu.menuId.toString() == menuId.toString() ? 'btn btn-light btn-square w-100 rounded-start-pill' : 'btn btn-ghost-light btn-square w-100 rounded-start-pill'}" style="margin-top:5px; margin-left:15px;" th:id="${subMenu.menuId}" th:onclick="javascript:changeClass(this.id, [[${subMenu.pgmUrl}]]);">
+	
+								<!-- 하위(레벨2) 메뉴명 -->
+								<div th:text="'- ' + ${subMenu.menuNmEng}" class="w-100" style="text-align:left; padding-left:5px;"></div>
+							</a>
+						</div>
+					</th:block>
 
-							<!-- 하위(레벨2) 메뉴명 -->
-							<div th:text="'- ' + ${subMenu.menuNmEng}" class="w-100" style="text-align:left; padding-left:5px;"></div>
-						</a>
-					</div>
+					<!-- Sidebar 메뉴가 아닌 경우 / Mypage -->
+					<th:block th:if="${menuId == ''}">
+						<!-- 하위(레벨2) 메뉴 / 상위 메뉴 클릭시 숨겨지는 영역 -->
+						<div th:if="${menu.adamsMenuDTOList.size ge 0}" th:id="${menu.menuId}" class="menu-collapse collapse" data-bs-parent="#menu-accordion">
+
+							<!-- 메뉴 링크 (반복)-->
+							<a th:each="subMenu:${menu.adamsMenuDTOList}" href="#" class="btn btn-ghost-light btn-square w-100 rounded-start-pill" style="margin-top:5px; margin-left:15px;" th:id="${subMenu.menuId}" th:onclick="javascript:changeClass(this.id, [[${subMenu.pgmUrl}]]);">
+
+								<!-- 하위(레벨2) 메뉴명 -->
+								<div th:text="'- ' + ${subMenu.menuNmEng}" class="w-100" style="text-align:left; padding-left:5px;"></div>
+							</a>
+						</div>
+					</th:block>
+
 				</div>
 			</div>	
 		</div>
