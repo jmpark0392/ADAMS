@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rds.adams.web.adm.srv.dao.ADMSRV001M0DAO">
+    <select id="selectSubscriptionList" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0R0DTO">
+        SELECT 
+            A.CS_NO,                 -- 고객사번호 from TB_CS_SRVC_OPT_INF
+            A.SRVC_CD,               -- 서비스코드 from TB_CS_SRVC_OPT_INF
+            A.OPT_CD,                -- 옵션코드 from TB_CS_SRVC_OPT_INF
+            A.OPT_DTLS_CD,           -- 옵션상세코드 from TB_CS_SRVC_OPT_INF
+            A.FNL_UPD_EMP_NO,        -- 최종변경사원번호 from TB_CS_SRVC_OPT_INF
+            A.FNL_UPD_DTM,           -- 최종변경일시 from TB_CS_SRVC_OPT_INF
+            A.FRST_REG_EMP_NO,       -- 최초등록사원번호 from TB_CS_SRVC_OPT_INF
+            A.FRST_REG_DTM,          -- 최초등록일시 from TB_CS_SRVC_OPT_INF
+            B.OPT_DTLS_NM            -- 옵션상세명 from TB_OPT_DTLS_INF
+        FROM TB_CS_SRVC_OPT_INF A
+        LEFT JOIN TB_OPT_DTLS_INF B 
+        ON A.OPT_CD = B.OPT_CD
+        AND A.OPT_DTLS_CD = B.OPT_DTLS_CD
+    </select>
+    <select id="selectAllOptions" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P2DTO">
+        SELECT 
+            OPT_CD,                  -- Option Code
+            OPT_DTLS_CD,             -- Optional Details Code
+            OPT_DTLS_NM              -- Options Details Name
+        FROM TB_OPT_DTLS_INF
+    </select>
+    <select id="selectOptionInfoByCustomer" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0R0DTO">
+        SELECT 
+            CS_NO,
+            SRVC_CD,
+            OPT_CD,
+            OPT_DTLS_CD,
+            FNL_UPD_EMP_NO,
+            FNL_UPD_DTM,
+            FRST_REG_EMP_NO,
+            FRST_REG_DTM
+        FROM TB_CS_SRVC_OPT_INF
+        WHERE CS_NO = #{csNo}
+    </select>
+    <update id="mergeServiceOption" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO">
+        MERGE INTO TB_CS_SRVC_OPT_INF AS A
+        USING (
+            VALUES (
+                #{csNo}, 
+                #{optCd}, 
+                #{optDtlsCd}, 
+                #{optStrDtm}, 
+                #{optEndDtm}, 
+                #{fnlUpdEmpNo}, 
+                GETDATE(),    
+                #{frstRegEmpNo}, 
+                GETDATE()     
+            )
+        ) AS B (CS_NO, OPT_CD, OPT_DTLS_CD, OPT_STR_DTM, OPT_END_DTM, FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM)
+        ON (A.CS_NO = B.CS_NO)
+        WHEN MATCHED THEN
+            UPDATE SET
+                A.OPT_CD = B.OPT_CD, 
+                A.OPT_DTLS_CD = B.OPT_DTLS_CD,
+                A.FNL_UPD_EMP_NO = B.FNL_UPD_EMP_NO,
+                A.FNL_UPD_DTM = B.FNL_UPD_DTM
+        WHEN NOT MATCHED THEN
+            INSERT (CS_NO, OPT_CD, OPT_DTLS_CD, OPT_STR_DTM, OPT_END_DTM, FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM)
+            VALUES (B.CS_NO, B.OPT_CD, B.OPT_DTLS_CD, B.OPT_STR_DTM, B.OPT_END_DTM, B.FNL_UPD_EMP_NO, B.FNL_UPD_DTM, B.FRST_REG_EMP_NO, B.FRST_REG_DTM);
+    </update>
+
+    <update id="updateCustomerServiceHistory" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO">
+    <![CDATA[
+        DECLARE @newServiceStartDate DATE = GETDATE();
+        DECLARE @newServiceEndDate DATE = '2999-12-31';
+        DECLARE @newSeqNo NUMERIC(10);
+
+
+        SELECT @newSeqNo = ISNULL(MAX(CAST(SEQ_NO AS NUMERIC(10))), 0) + 1 
+        FROM TB_CS_SRVC_HIST
+        WHERE CS_NO = #{csNo};
+    
+
+        -- Check if the user already has a subscription record in the service history table
+        UPDATE TB_CS_SRVC_HIST
+        SET
+            SRVC_END_DTM = @newServiceStartDate,
+            FNL_UPD_EMP_NO = #{fnlUpdEmpNo},
+            FNL_UPD_DTM = GETDATE()
+        WHERE CS_NO = #{csNo}
+            AND SRVC_END_DTM = '2999-12-31';
+
+        -- Insert a new service history reecords
+        INSERT INTO TB_CS_SRVC_HIST (
+            CS_NO, SEQ_NO, SRVC_CD, SRVC_STR_DTM, SRVC_END_DTM, 
+            FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM
+        )
+        VALUES (
+            #{csNo}, @newSeqNo,
+            #{srvcCd}, @newServiceStartDate, @newServiceEndDate, 
+            #{fnlUpdEmpNo}, GETDATE(), #{frstRegEmpNo}, GETDATE()
+        );
+    ]]>
+    </update>
+    <update id="updateCustomerOptionHistory" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO">
+    <![CDATA[
+        DECLARE @newServiceStartDate DATE = GETDATE();
+        DECLARE @newServiceEndDate DATE = '2999-12-31';
+        DECLARE @newSeqNo NUMERIC(10);
+
+        SELECT @newSeqNo = ISNULL(MAX(CAST(SEQ_NO AS NUMERIC(10))), 0) + 1 
+        FROM TB_CS_OPT_HIST
+        WHERE CS_NO = #{csNo};
+
+
+        -- Update existing active option records
+        UPDATE TB_CS_OPT_HIST 
+        SET 
+            OPT_END_DTM = @newServiceStartDate,
+            FNL_UPD_EMP_NO = #{fnlUpdEmpNo},
+            FNL_UPD_DTM = GETDATE()
+        WHERE CS_NO = #{csNo}
+            AND OPT_END_DTM = '2999-12-31';
+
+        -- Insert a new option history record
+        INSERT INTO TB_CS_OPT_HIST (
+            CS_NO, SEQ_NO, OPT_CD, OPT_DTLS_CD, OPT_STR_DTM, OPT_END_DTM, 
+            FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM
+        )
+        VALUES (
+            #{csNo}, @newSeqNo,
+            #{optCd}, #{optDtlsCd}, @newServiceStartDate, @newServiceEndDate,
+            #{fnlUpdEmpNo}, GETDATE(), #{frstRegEmpNo}, GETDATE()
+        );
+    ]]>
+    </update>
+</mapper>
