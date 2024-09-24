@@ -1,6 +1,7 @@
 package egovframework.com.cmm.interceptor;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -49,6 +50,16 @@ public class AuthorizInterceptor extends WebContentInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException {
 		
+		List<String> exceptPageNameList = new ArrayList<>();
+		
+		// 패턴으로 예외처리 안되는 페이지들은 exceptPageNameList로 리스트를 관리
+		exceptPageNameList.add("/login");
+		exceptPageNameList.add("/subscription");
+		
+		exceptPageNameList.add("myPage");
+		exceptPageNameList.add("newReq");
+		exceptPageNameList.add("pwReset");
+		
 		String pageName = request.getParameter("pageName");
 		
 		log.info("========================================================");
@@ -56,13 +67,12 @@ public class AuthorizInterceptor extends WebContentInterceptor {
 		log.info(" AuthorizationInterceptor [Requested Page : "+pageName+"]");
 		
 		// 세션을 따로 가져온 후 등록된 정보를 토대로 인증 
-    	//List<AdamsMenuDTO> menuVOList = (List<AdamsMenuDTO>) session.getAttribute(AdamsConstant.SESSION_MENU_FLATLIST);
     	String menuId = getMenuIdByUrl(request);
     	
     	log.info(" menuId [Data : "+menuId+"]");
     	
-    	// pageName이 "login", "myPage"이면 인가 체크를 하지 않음
-        if ("/login".equals(pageName) || "myPage".equals(pageName) || "/subscription".equals(pageName)) {
+    	// 패턴으로 예외처리 안되는 페이지들은 exceptPageNameList로 리스트를 관리
+        if (exceptPageNameList.contains(pageName)) {
         	return true;
         }
         else if (StringUtil.isEmpty(menuId)) {

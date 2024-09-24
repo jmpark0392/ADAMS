@@ -1,5 +1,8 @@
 package egovframework.com.cmm.interceptor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +45,15 @@ public class AuthenticInterceptor extends WebContentInterceptor {
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException {
+		List<String> exceptPageNameList = new ArrayList<>();
+		
+		// 패턴으로 예외처리 안되는 페이지들은 exceptPageNameList로 리스트를 관리
+		exceptPageNameList.add("/login");
+		exceptPageNameList.add("/subscription");
+		
+		exceptPageNameList.add("myPage");
+		exceptPageNameList.add("newReq");
+		exceptPageNameList.add("pwReset");
 		
 		String pageName = request.getParameter("pageName");
 		
@@ -53,20 +65,8 @@ public class AuthenticInterceptor extends WebContentInterceptor {
     	HttpSession session = request.getSession();
     	AdamsLoginDTO loginVO = (AdamsLoginDTO) session.getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
     	
-    	/*
-    	if (pageName == null) {
-    		try {
-				response.sendError(404, "Not Found.");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		return false;
-    	}
-    	*/
-    	
-		// pageName이 "login"이면 인증 체크를 하지 않음
-        if ("/login".equals(pageName)) {
+    	// 패턴으로 예외처리 안되는 페이지들은 exceptPageNameList로 리스트를 관리
+        if (exceptPageNameList.contains(pageName)) {
         	return true;
         } else {
         	log.debug("loginVO:", loginVO.toString());
