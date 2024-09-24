@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
+import com.rds.adams.web.common.login.dto.AdamsFindPwDTO;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
 
@@ -63,10 +64,10 @@ public interface AdamsLoginDAO {
 	/**
 	 * 비밀번호를 찾는다.
 	 * @param vo AdamsLoginDAO
-	 * @return AdamsLoginDAO
+	 * @return AdamsFindPwDTO
 	 * @exception Exception
 	 */
-	public AdamsLoginDTO searchPassword(AdamsLoginDTO vo);
+	public AdamsLoginDTO searchPassword(AdamsFindPwDTO vo);
 
 	/**
 	 * 사용자 로그인 이력을 저장한다.

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.jwt.AdamsJwtTokenUtil;
 import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
+import com.rds.adams.web.common.login.dto.AdamsFindPwDTO;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
 import com.rds.adams.web.common.login.dto.AdamsResultDTO;
@@ -331,6 +332,47 @@ public class AdamsLoginController {
 		    } else {
 		        log.info("No active session to clear.");
 		    }
+			
+			// 사용자 재로그인 페이지로
+    		nextPage = "login";
+    		
+	        resultMap.put("redirectUrl", nextPage);
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "성공 !!!");
+		} else {
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", egovMessageSource.getMessage("fail.common.login"));
+		}
+
+		return resultMap;
+	}
+
+	/**
+	 * 초기화된 비밀번호를 변경 한다
+	 * @param vo - 빈 LoginVO
+	 * @param request - 세션처리를 위한 HttpServletRequest
+	 * @return result - 고객 목록
+	 * @exception Exception
+	 */
+	@Operation(
+			summary = "사용자 비밀번호 찾기",
+			description = "사용자 비밀번호 찾기",
+			tags = {"AdamsLoginController"}
+	)
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "비밀번호 찾기 성공"),
+			@ApiResponse(responseCode = "300", description = "비밀번호 찾기 실패")
+	})
+	@RequestMapping(value = "/auth/adamsFindPw", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.TEXT_HTML_VALUE})
+	public HashMap<String, Object> searchPassword(@RequestBody AdamsFindPwDTO adamsFindPwDTO, HttpServletRequest request) throws Exception {
+	    HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	    boolean  bResult = false;
+	    String nextPage = ""; 
+	    
+	    // 1. 비밀번호 찾기 처리
+		bResult = adamsLoginService.searchPassword(adamsFindPwDTO);
+	    
+		if (bResult) {
 			
 			// 사용자 재로그인 페이지로
     		nextPage = "login";

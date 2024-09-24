@@ -13,6 +13,7 @@
 		<result property="usrPassword" column="usrPassword"/>
 		<result property="usrNewPassword" column="usrNewPassword"/>
 		<result property="usrPhNo" column="usrPhNo"/>
+		<result property="usrEmail" column="usrEmail"/>
 		<result property="empNo" column="empNo"/>
 		<result property="statDvCd" column="statDvCd"/>
 		<result property="useStrDtm" column="useStrDtm"/>
@@ -62,19 +63,20 @@
                     ELSE  ''
                END                 AS usrPassword
              , A.USR_PH_NO         AS usrPhNo
+             , A.USR_EMAIL         AS usrEmail
              , A.EMP_NO            AS empNo
              , A.STAT_DV_CD        AS statDvCd
-             , A.USE_STR_DTM       AS useStrDtm                                    
+             , A.USE_STR_DTM       AS useStrDtm
              , A.USE_END_DTM       AS useEndDtm
-			 , A.PASSWORD_UPD_DTM  AS passwordUpdDtm
-			 , A.PASSWORD_INIT_YN  AS passwordInitYn
+             , A.PASSWORD_UPD_DTM  AS passwordUpdDtm
+             , A.PASSWORD_INIT_YN  AS passwordInitYn
              , B.SRVC_CD           AS srvcCd
           FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
           LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] B
                        ON A.CS_NO = B.CS_NO
          WHERE 1=1
-		   AND A.USR_ID = #{usrId}
-		   AND 1        = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
+           AND A.USR_ID = #{usrId}
+           AND 1        = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
 	</select>
 	
     <!-- 로그인 사용자 메뉴 정보 -->
@@ -198,6 +200,7 @@
              , A.USR_NM            AS usrNm
              , ''                  AS usrPassword
              , A.USR_PH_NO         AS usrPhNo
+             , A.USR_EMAIL         AS usrEmail
              , A.EMP_NO            AS empNo
              , A.STAT_DV_CD        AS statDvCd
              , A.USE_STR_DTM       AS useStrDtm
@@ -224,14 +227,31 @@
 	</select>
 	
 	<!-- 비밀번호 찾기 -->
-	<select id="searchPassword" resultMap="password">
+	<select id="searchPassword" resultMap="login">
 		SELECT 
-               A.USR_PASSWORD AS usrPassword
-		  FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
+		       A.CS_NO             AS csNo
+             , A.USR_DV_CD         AS usrDvCd
+             , A.USR_ID            AS usrId
+             , A.USR_NM            AS usrNm
+             , ''                  AS usrPassword
+             , A.USR_PH_NO         AS usrPhNo
+             , A.USR_EMAIL         AS usrEmail
+             , A.EMP_NO            AS empNo
+             , A.STAT_DV_CD        AS statDvCd
+             , A.USE_STR_DTM       AS useStrDtm
+             , A.USE_END_DTM       AS useEndDtm
+			 , A.PASSWORD_UPD_DTM  AS passwordUpdDtm
+			 , A.PASSWORD_INIT_YN  AS passwordInitYn
+             , ''                  AS srvcCd
+		  FROM RDSDB.[dbo].[TB_USR_MNG_LST] A  /* 사용자관리 */
+		     , RDSDB.[dbo].[TB_CS_MNG_LST]  B  /* 고객사관리 */
 		 WHERE 1=1
-           AND A.USR_ID     = #{usrId}
-		   AND A.USR_NM     = #{usrNm}
-		   AND A.STAT_DV_CD = '0'
+           AND A.USR_ID        = #{usrId}
+           AND A.USR_PH_NO     = #{usrPhNo}
+		   AND A.STAT_DV_CD    = '0'
+		   AND A.CS_NO         = B.CS_NO
+		   AND B.COMP_NO_DV_CD = #{compNoDvCd}
+		   AND B.COMP_NO       = #{compNo}
 	</select>
 	
 	<!-- 사용자 로그인 저장 -->
@@ -277,8 +297,8 @@
 		     , STAT_DV_CD       = '4'
 		     , PASSWORD_INIT_YN = 'Y'
 		 WHERE 1=1
+		   AND CS_NO      = #{csNo}
            AND USR_ID     = #{usrId}
-		   AND USR_NM     = #{usrNm}
 		   AND STAT_DV_CD = '0'
 	</update>
 </mapper>

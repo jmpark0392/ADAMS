@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 
 import com.rds.adams.web.common.login.dao.AdamsLoginDAO;
 import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
+import com.rds.adams.web.common.login.dto.AdamsFindPwDTO;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.core.utils.EmailUtil;
+import com.rds.adams.web.core.utils.dto.EmailDTO;
 
 import egovframework.let.utl.fcc.service.EgovNumberUtil;
 import egovframework.let.utl.fcc.service.EgovStringUtil;
-import egovframework.let.utl.sim.service.EgovFileScrty;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -252,13 +254,13 @@ public class AdamsLoginService {
 	 * @return boolean
 	 * @exception Exception
 	 */
-	public boolean searchPassword(AdamsLoginDTO vo) throws Exception {
+	public boolean searchPassword(AdamsFindPwDTO vo) throws Exception {
 
 		boolean result = true;
 
 		// 1. 아이디, 이름, 이메일주소, 비밀번호 힌트, 비밀번호 정답이 DB와 일치하는 사용자 Password를 조회한다.
 		AdamsLoginDTO adamsLoginDTO = adamsLoginDAO.searchPassword(vo);
-		if (adamsLoginDTO == null || adamsLoginDTO.getUsrPassword() == null || adamsLoginDTO.getUsrPassword().equals("")) {
+		if (adamsLoginDTO == null || adamsLoginDTO.getUsrId() == null || "".equals(adamsLoginDTO.getUsrId())) {
 			return false;
 		}
 
@@ -276,12 +278,22 @@ public class AdamsLoginService {
 
 		// 3. 임시 비밀번호를 암호화하여 DB에 저장한다.
 		AdamsLoginDTO pwVO = new AdamsLoginDTO();
-		String enpassword = EgovFileScrty.encryptPassword(newpassword, vo.getUsrId());
-		pwVO.setUsrId(vo.getUsrId());
-		pwVO.setUsrPassword(enpassword);
-		pwVO.setUsrDvCd(vo.getUsrDvCd());
+		pwVO.setUsrId(adamsLoginDTO.getUsrId());
+		pwVO.setCsNo(adamsLoginDTO.getCsNo());
+		pwVO.setUsrNewPassword(newpassword);
+		//pwVO.setUsrDvCd(vo.getUsrDvCd());
 		adamsLoginDAO.updatePasswordReset(pwVO);
-
+		
+		// 4. 임시 비밀번호를 사용자 이메일로 전송한다.
+		EmailDTO emailDTO = new EmailDTO(); 
+		
+		emailDTO.setRecipientAddress(adamsLoginDTO.getUsrEmail());
+		//emailDTO.setSubject("ADAMS : 사용자 임시 비밀번호 발송");
+		emailDTO.setSubject("ADAMS: Send User Temporary Password");
+		emailDTO.setBodyPlainText("User Temporary Password : " + newpassword);
+		
+		EmailUtil.sendEmail(emailDTO);
+		
 		return result;
 	}
 }
