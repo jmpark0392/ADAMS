@@ -244,8 +244,11 @@
               async: true,
               dataType: "json",
               contentType: "application/json; charset=utf-8",
+              xhrFields: {
+                withCredentials: true,
+              },
               data: JSON.stringify({
-                srvcCd: "02", // Service code for Basic Subscription
+                srvcCd: "001", // Service code for Basic Subscription
               }),
               success: function (data) {
                 console.log("Response data:", data);
@@ -268,8 +271,8 @@
               },
               error: function (xhr, status, error) {
                 console.error(
-                  "Error activating Basic Subscription:",
-                  status,
+                  "Error activating Premium Subscription:",
+                  xhr.responseText || status,
                   error
                 );
                 alert("Failed to activate Basic Subscription.");
@@ -285,8 +288,11 @@
               async: true,
               dataType: "json",
               contentType: "application/json; charset=utf-8",
+              xhrFields: {
+                withCredentials: true,
+              },
               data: JSON.stringify({
-                srvcCd: "PREMIUM", // Service code for Premium Subscription
+                srvcCd: "004", // Service code for Premium Subscription
               }),
               success: function (data) {
                 console.log("Response data:", data);
@@ -310,7 +316,7 @@
               error: function (xhr, status, error) {
                 console.error(
                   "Error activating Premium Subscription:",
-                  status,
+                  xhr.responseText || status,
                   error
                 );
                 alert("Failed to activate Premium Subscription.");
@@ -373,14 +379,14 @@
                 // Update the UI based on the subscription info
                 if (data && data.length > 0) {
                   var subscription = data[0]; // Assuming only one subscription
-                  if (subscription.srvcCd === "BASIC") {
+                  if (subscription.srvcCd === "02") {
                     $("#basicSubscriptionButton")
                       .text("Current Plan")
                       .prop("disabled", true);
                     $("#premiumSubscriptionButton")
                       .text("Use")
                       .prop("disabled", false);
-                  } else if (subscription.srvcCd === "PREMIUM") {
+                  } else if (subscription.srvcCd === "01") {
                     $("#premiumSubscriptionButton")
                       .text("Current Plan")
                       .prop("disabled", true);
