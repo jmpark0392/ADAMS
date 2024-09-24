@@ -1,7 +1,8 @@
 package com.rds.adams.web.adm.srv.controller;
 
-import org.hsqldb.lib.HashMap;
-import org.hsqldb.lib.Map;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Enumeration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,12 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO;
 import com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO;
 import com.rds.adams.web.adm.srv.dto.ADMSRV001M0P2DTO;
 import com.rds.adams.web.adm.srv.dto.ADMSRV001M0R0DTO;
 import com.rds.adams.web.adm.srv.service.ADMSRV001M0Service;
+import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,8 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Slf4j
 @RestController
@@ -42,7 +47,7 @@ public class ADMSRV001MController {
 
         try {
             // get the user information from session
-            AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute("LoginVO");
+            AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
             if(sAdamsLoginDTO == null){
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("message", "User not logged in");
@@ -93,22 +98,37 @@ public class ADMSRV001MController {
      * @param inVo
      * @return  
      */
-     @RequestMapping(
-         value="/ADMSRV001M0MergeServiceOption",
-         method=RequestMethod.POST, 
+     @PostMapping(
+         value="/ADMSRV001M0MergeServiceOption", 
          consumes = "application/json",  
          produces = "application/json"
     )
-     public ResponseEntity<Map<String, Object>> mergeServiceOption(@RequestBody ADMSRV001M0P1DTO inVo, HttpServletRequest request){
-        Map<String, Object> response = new HashMap<>();
+     public Map<String, Object> mergeServiceOption(@RequestBody ADMSRV001M0P1DTO inVo, HttpServletRequest request,  HttpServletResponse response){
+        Map<String, Object> result = new HashMap<>();
         try {
 
+            // Log the session ID and attributes
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                log.debug("Session ID: {}", session.getId());
+                Enumeration<String> attributeNames = session.getAttributeNames();
+                while (attributeNames.hasMoreElements()) {
+                    String attributeName = attributeNames.nextElement();
+                    Object attributeValue = session.getAttribute(attributeName);
+                    log.debug("Session attribute [{}]: {}", attributeName, attributeValue);
+                }
+            } else {
+                log.warn("No session found.");
+            }
+  
+
             // get the user info from the session 
-            AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute("LoginVO");
+            AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
             if(sAdamsLoginDTO == null){
-                Map<String, Object> errorResponse = new HashMap<>();
-                errorResponse.put("message", "User not logged in");
-                return ResponseEntity.status(401).body(errorResponse);
+                // Map<String, Object> errorResponse = new HashMap<>();
+                result.put("message", "User not logged in");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return result;
             }
 
             String csNo = sAdamsLoginDTO.getCsNo();
@@ -118,6 +138,14 @@ public class ADMSRV001MController {
             inVo.setFnlUpdEmpNo(csNo);
             inVo.setFrstRegEmpNo(csNo);
 
+            if(inVo.getSrvcCd() == null){
+                log.warn("Service code is null");
+                result.put("status", "error");
+                result.put("message", "Service code is required");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return result;
+            }
+
             // udpate the service history
             admSrv001M0Service.updateCustomerServiceHistory(inVo);
 
@@ -126,14 +154,17 @@ public class ADMSRV001MController {
                 admSrv001M0Service.updateCustomerOptionHistory(inVo);
             }
 
-            response.put("status", "success");
-            return ResponseEntity.ok(response);
+            result.put("status", "success");
+            log.debug("Service option merged successfully: {}", result);
+            return result;
 
         } catch (Exception e) {
             log.error("Error merging service option", e);
-            response.put("status", "error");
-            response.put("message", e.getMessage());
-            return ResponseEntity.status(500).body(response);
+            result.put("status", "error");
+            result.put("message", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            log.debug("Service option merge failed: {}", result);
+            return result;
         }
      }
 
@@ -142,7 +173,7 @@ public class ADMSRV001MController {
       * @param inVo
       * @return 
       */
-      @RequestMapping(value="ADMSRV001M0UpdateCustomerServiceHistory", method=RequestMethod.POST, consumes = "application/json")
+      @RequestMapping(value="/ADMSRV001M0UpdateCustomerServiceHistory", method=RequestMethod.POST, consumes = "application/json")
       public void updateCustomerServiceHistory(@RequestBody ADMSRV001M0P1DTO inVo){
         log.info(inVo.toString());
 
@@ -154,16 +185,24 @@ public class ADMSRV001MController {
        * @param inVo
        * @return 
        */
-      @RequestMapping(value="/ADMSRV001M0UpdateCustomerOptionHistory", method = RequestMethod.POST, consumes = "application/json")
-      public @ResponseBody Map<String, Object> updateCustomerOptionHistory(@RequestBody ADMSRV001M0P1DTO inVo) {
+      @PostMapping(value="/ADMSRV001M0UpdateCustomerOptionHistory", consumes = "application/json")
+      public @ResponseBody Map<String, Object> updateCustomerOptionHistory(@RequestBody ADMSRV001M0P1DTO inVo, HttpServletResponse response) {
 
-        log.info(inVo.toString());
-    
-        admSrv001M0Service.updateCustomerOptionHistory(inVo);
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", "success");
-        return response;
+        Map<String, Object> result = new HashMap<>();
+        try {
+            log.info(inVo.toString());
+
+            admSrv001M0Service.updateCustomerOptionHistory(inVo);
+
+            result.put("status", "success");
+            return result;
+        } catch (Exception e) {
+            log.error("Error updating customer option history", e);
+            result.put("status", "error");
+            result.put("message", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return result;
+        }
       }
 
   /**
@@ -176,12 +215,14 @@ public class ADMSRV001MController {
 public ResponseEntity<List<ADMSRV001M0R0DTO>> getUserSubscriptionInfo(HttpServletRequest request) {
     try {
         // get the user info from the session
-        AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute("LoginVO");
+        AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
         if(sAdamsLoginDTO == null){
+            log.warn("User not logged in, returning 401");
             return ResponseEntity.status(401).build();
         }
     
         String csNo = sAdamsLoginDTO.getCsNo();
+        log.debug("Retrieved csNo from session: {}", csNo);
 
         ADMSRV001M0P0DTO inVo = new ADMSRV001M0P0DTO();
         inVo.setCsNo(csNo);
@@ -191,11 +232,12 @@ public ResponseEntity<List<ADMSRV001M0R0DTO>> getUserSubscriptionInfo(HttpServle
 
     } catch (Exception e) {
         e.getStackTrace();
-    }
+        log.error("Error in getUserSubscriptionInfo", e);
         return ResponseEntity.status(500).build();
     }
+        // return ResponseEntity.status(500).build();
+    }
 }
-
 
 
     // /**

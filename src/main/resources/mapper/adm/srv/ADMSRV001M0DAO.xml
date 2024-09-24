@@ -43,6 +43,7 @@
         USING (
             VALUES (
                 #{csNo}, 
+                #{srvcCd},
                 #{optCd}, 
                 #{optDtlsCd}, 
                 #{optStrDtm}, 
@@ -50,20 +51,22 @@
                 #{fnlUpdEmpNo}, 
                 GETDATE(),    
                 #{frstRegEmpNo}, 
-                GETDATE()     
+                GETDATE()
             )
-        ) AS B (CS_NO, OPT_CD, OPT_DTLS_CD, OPT_STR_DTM, OPT_END_DTM, FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM)
+        ) AS B (CS_NO, SRVC_CD, OPT_CD, OPT_DTLS_CD, OPT_STR_DTM, OPT_END_DTM, FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM)
         ON (A.CS_NO = B.CS_NO)
         WHEN MATCHED THEN
             UPDATE SET
+                A.SRVC_CD = B.SRVC_CD,
                 A.OPT_CD = B.OPT_CD, 
                 A.OPT_DTLS_CD = B.OPT_DTLS_CD,
                 A.FNL_UPD_EMP_NO = B.FNL_UPD_EMP_NO,
                 A.FNL_UPD_DTM = B.FNL_UPD_DTM
         WHEN NOT MATCHED THEN
-            INSERT (CS_NO, OPT_CD, OPT_DTLS_CD, OPT_STR_DTM, OPT_END_DTM, FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM)
-            VALUES (B.CS_NO, B.OPT_CD, B.OPT_DTLS_CD, B.OPT_STR_DTM, B.OPT_END_DTM, B.FNL_UPD_EMP_NO, B.FNL_UPD_DTM, B.FRST_REG_EMP_NO, B.FRST_REG_DTM);
+            INSERT (CS_NO, SRVC_CD, OPT_CD, OPT_DTLS_CD, OPT_STR_DTM, OPT_END_DTM, FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM)
+            VALUES (B.CS_NO, SRVC_CD, B.OPT_CD, B.OPT_DTLS_CD, B.OPT_STR_DTM, B.OPT_END_DTM, B.FNL_UPD_EMP_NO, B.FNL_UPD_DTM, B.FRST_REG_EMP_NO, B.FRST_REG_DTM);
     </update>
+    
 
     <update id="updateCustomerServiceHistory" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO">
     <![CDATA[
@@ -84,7 +87,7 @@
             FNL_UPD_EMP_NO = #{fnlUpdEmpNo},
             FNL_UPD_DTM = GETDATE()
         WHERE CS_NO = #{csNo}
-            AND SRVC_END_DTM = '2999-12-31';
+            AND SRVC_END_DTM = (SELECT MAX(SRVC_END_DTM) FROM TB_CS_SRVC_HIST WHERE CS_NO = #{csNo});
 
         -- Insert a new service history reecords
         INSERT INTO TB_CS_SRVC_HIST (
