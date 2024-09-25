@@ -1,42 +1,20 @@
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-  <head> </head>
-  <th:block th:fragment="footerFragment">
-    <!-- #footer -->
-    <div id="footer">
-      <footer class="footer footer-transparent d-print-none">
-        <div class="container-xl">
-          <div class="row text-center align-items-center flex-row-reverse">
-            <div class="col-lg-auto ms-lg-auto">
-              <ul class="list-inline list-inline-dots mb-0">
-                <li class="list-inline-item"><a href="https://tabler.io/docs" target="_blank" class="link-secondary" rel="noopener">Documentation</a></li>
-                <li class="list-inline-item"><a href="./license.html" class="link-secondary">License</a></li>
-                <li class="list-inline-item"><a href="https://github.com/tabler/tabler" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
-                <li class="list-inline-item">
-                  <a href="https://github.com/sponsors/codecalm" target="_blank" class="link-secondary" rel="noopener">
-                    <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-pink icon-filled icon-inline"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path></svg>
-                    Sponsor
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-12 col-lg-auto mt-3 mt-lg-0">
-              <ul class="list-inline list-inline-dots mb-0">
-                <li class="list-inline-item">
-                  Copyright © 2024
-                  <a href="." class="link-secondary">RDS</a>.
-                  All rights reserved.
-                </li>
-                <li class="list-inline-item">
-                  <a href="./changelog.html" class="link-secondary" rel="noopener">
-                    v1.0.0-beta21
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
-  </th:block>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="footerFragment">
+	<footer class="navbar navbar-expand-md d-none d-lg-flex d-print-none">
+		<div class="container-xl">
+			<div class="navbar-nav align-items-center flex-row order-md-last">
+						<span><a href="https://www.rnadatasystem.com" class="link-dark" target="_blank" rel="noopener" style="text-decoration: none;">Homepage</a></span>
+						<span style="padding-left:30px;"><a href="./TermsofService.html" class="link-dark" style="text-decoration: none;">Terms of Service</a></span>
+						<span style="padding-left:30px;"><a href="./PrivacyPolicy.html" class="link-dark" style="text-decoration: none;">Privacy Policy</a></span>
+						<span style="padding-left:30px;"><a href="./SaaSCertification.html" class="link-dark" style="text-decoration: none;">SaaS Certification</a></span>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar-menu">
+						<span style="padding-right:30px;">Copyright © 2024 RNA Data System. All Rights Reserved.</span>
+						<span>v0.3.1 (2024.09.25)</span>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+</th:block>
 </html>
-

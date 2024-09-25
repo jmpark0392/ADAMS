@@ -1,93 +1,58 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="headerFragment">
-	<!-- <div class="page"> -->
-	<header class="navbar navbar-expand-md d-print-none">
+	<header class="navbar navbar-expand-md d-none d-lg-flex d-print-none">
 		<div class="container-xl">
-			<div class="d-flex align-items-center justify-content-between w-100">
-				<!-- Left Side: Brand and Toggler -->
-				<div class="d-flex align-items-center">
-					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-						<!-- Here -->
-					</h1>
-				</div>
-
-				<!-- Right Side: Nav Items and Avatar/Login Button -->
-				<div class="navbar-nav d-flex align-items-center ms-auto">
-					<a href="?theme=dark" class="nav-link px-0 hide-theme-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Enable dark mode" data-bs-original-title="Enable dark mode"> 
-						<!-- Dark mode icon -->
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                			<path stroke="none" d="M0 0h24H0z" fill="none"></path>
-                			<path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
-              			</svg>
-					</a>
-					<a href="?theme=light" class="nav-link px-0 hide-theme-light" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Enable light mode" data-bs-original-title="Enable light mode">
-						<!-- Light mode icon -->
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                			<path stroke="none" d="M0 0h24H0z" fill="none"></path>
-                			<path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
-                			<path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
-              			</svg>
-					</a>
-					<div class="nav-item dropdown">
-						<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
-							<div class="card">
-								<!-- Notification content -->
-							</div>
-						</div>
-					</div>
-					<div style="justify-content: space-between">
-						<a href="https://www.notion.so/" class="btn" style="padding: 4px 10px; color: rgb(169, 169, 169); font-size: 13px;">
-							<!-- SVG icon from http://tabler-icons.io -->
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-link">
-	                  			<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-	                  			<path d="M9 15l6 -6" />
-                  				<path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" />
-                  				<path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" />
-                			</svg>
-                			Docs
-						</a>
-						<a href="#!" class="btn" id="logoutButton" style="padding: 4px 10px; color: rgb(169, 169, 169); font-size: 13px;">
-							<span class="avatar" style="background-image: url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&amp;w=3570&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);"></span>
-							Log out
-						</a>
-					</div>
-				</div>
+			<div class="navbar-nav align-items-center flex-row order-md-last">
+				<span>
+				<a href="" class="link-dark" style="text-decoration: none;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-square-rounded"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 13a3 3 0 1 0 0 -6a3 3 0 0 0 0 6z" /><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /><path d="M6 20.05v-.05a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v.05" /></svg>
+					Mypage
+				</a>
+				</span>
+				<span style="padding-left:30px;">
+				<a href="https://www.notion.so/" class="link-dark" style="text-decoration: none;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-report-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697" /><path d="M18 12v-5a2 2 0 0 0 -2 -2h-2" /><path d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" /><path d="M8 11h4" /><path d="M8 15h3" /><path d="M16.5 17.5m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0" /><path d="M18.5 19.5l2.5 2.5" /></svg>
+					Manual
+				</a>
+				</span>
+				<span style="padding-left:30px;">
+				<a href="#" class="link-dark" style="text-decoration: none;" id="logoutButton">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-logout"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>
+					Logout
+				</a>
+				</span>
 			</div>
+			<!-- 작은 화면에서 아이콘 우측 정렬을 위한 공간 확보용 -->
+			<div class="collapse navbar-collapse" id="navbar-menu"></div>
 		</div>
 	</header>
-	<body>
 	<script>
-		function goMenuPage (pageName) {
-			$("#pageName").val(pageName);
-			$("#form").submit();
-		};
-		
-		$(document).ready(function () {
-			$('#logoutButton').click(function(e){
-				e.preventDefault(); // 링크 기본 동작 방지
-				console.log("Pushed logoutButten.");
-				$.ajax({
-			          type: "GET",
-			          url: "/auth/adamsLogout",
-			          async: true,
-			          dataType: "json",
-			          contentType: "application/json; charset=utf-8",
-			          success: function (response, textStatus, xhr) {
-			        	  if(xhr.status === 200) {
-			        		console.log("Success Logout. Go to Login page.");
-			        		goMenuPage("/login");
-			        	}
-			          },
-			          error: function(xhr, textStatus, errorThrown) {
-			                console.error('Request failed: ' + textStatus);
-			            }
-			        });
+	function goMenuPage (pageName) {
+		$("#pageName").val(pageName);
+		$("#form").submit();
+	};
+	$(document).ready(function () {
+		$('#logoutButton').click(function(e){
+			e.preventDefault(); // 링크 기본 동작 방지
+			console.log("Pushed logoutButten.");
+			$.ajax({
+					type: "GET",
+					url: "/auth/adamsLogout",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					success: function (response, textStatus, xhr) {
+						if(xhr.status == 200) {
+						console.log("Success Logout. Go to Login page.");
+						goMenuPage("/login");
+						}
+					},
+					error: function(xhr, textStatus, errorThrown) {
+						console.error('Request failed: ' + textStatus);
+					}
 			});
 		});
+	});
 	</script>
-	</body>
 </th:block>
 </html>

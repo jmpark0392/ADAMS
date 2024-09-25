@@ -13,6 +13,7 @@ import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.common.login.dto.AdamsFindPwDTO;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.core.utils.EmailUtil;
 import com.rds.adams.web.core.utils.dto.EmailDTO;
 
@@ -294,6 +295,29 @@ public class AdamsLoginService {
 		
 		EmailUtil.sendEmail(emailDTO);
 		
+		return result;
+	}
+
+	/**
+	 * 신규 고객 신청 정보를 저장한다.
+	 * @param vo AdamsNewCsDTO
+	 * @return boolean
+	 * @exception Exception
+	 */
+	public boolean insertNewCs(AdamsNewCsDTO vo) throws Exception {
+
+		boolean result = true;
+
+		// 1. 신규 고객 신청 정보가 있는지 확인한다.
+		if (vo == null || vo.getPtbEmail() == null || "".equals(vo.getPtbEmail())
+				 || vo.getPtbPhNo() == null || "".equals(vo.getPtbPhNo())
+				 || vo.getCompNoDvCd() == null || "".equals(vo.getCompNoDvCd())
+				 || vo.getCompNo() == null || "".equals(vo.getCompNo()) ) {
+			return false;
+		}
+		// 2. 신규 고객 신청 정보를 DB에 저장한다.
+		adamsLoginDAO.insertNewCs(vo);
+
 		return result;
 	}
 }

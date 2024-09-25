@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
   <th:block th:replace="fragments/head :: headFragment"></th:block>
-  <body>
+  <body style="background-color:#ffffff">
     <div class="page">
       <script>
         function goMenuPage(pageName) {
@@ -12,8 +12,8 @@
       <form id="form" name="form" method="post" action="/menuLink">
         <input type="hidden" id="pageName" name="pageName" />
       </form>
-      <th:block th:replace="fragments/header :: headerFragment"></th:block>
       <th:block th:replace="fragments/sidebar :: sidebarFragment"></th:block>
+      <th:block th:replace="fragments/header :: headerFragment"></th:block>
       <th:block layout:fragment="content"></th:block>
       <th:block th:replace="fragments/footer :: footerFragment"></th:block>
     </div>

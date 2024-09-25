@@ -342,3 +342,25 @@ function exportToExcel(fileNm, sheetNm = "Sheet1", columns, data) {
   // 워크북을 엑셀 파일로 작성하고 다운로드 트리거
   XLSX.writeFile(workbook, `${fileNm}.xlsx`);
 }
+
+/*===========================================
+ * 입력값이 NULL이면 "" 리턴
+ * @param obj   Object
+ * @return true : Null 또는 공백
+ ===========================================*/
+function isNull(obj) {
+    if (obj == null || obj == "") {
+    	return "";  
+    }
+    return obj;
+}
+
+/*===========================================
+ * 이메일 형식을 검증하는 함수
+ * @param obj   Object
+ * @return true : true
+ ===========================================*/
+function validateEmail(email) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email);
+}

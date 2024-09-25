@@ -10,6 +10,7 @@
 		<script src="js/js-tabler/tabler.min.js?1692870487" defer></script>
 		<script src="js/jquery-3.7.1.min.js"></script>
 		<script src="js/common.js"></script>
+    	<script src="js/utils.js"></script>
 		<style>
 			@import url('https://rsms.me/inter/inter.css');
 			:root {
@@ -31,14 +32,14 @@
 					<form id="loginForm" name="loginForm" method="post" action="/auth/adamsLogin" autocomplete="off" onsubmit="return false;">
 						<div class="form-floating mb-2">
 							<input type="email" class="form-control border-2" id="inpUsrId" name="inpUsrId" minLength="8" maxLength="50" placeholder="your@email.com" autocomplete="off" required>
-							<label for="floatingInput">your@email.com</label>
+							<label for="inpUsrId">your@email.com</label>
 						</div>
 						<div class="form-floating">
 							<input type="password" class="form-control border-2" id="inpUsrPassword" name="inpUsrPassword" minLength="8" maxLength="20" placeholder="your password" autocomplete="off" required>
-							<label for="floatingInput">your password</label>
+							<label for="inpUsrPassword">your password</label>
 						</div>
 						<div class="form-footer">
-							<button type="submit" class="btn btn-outline-primary w-100 border-2" onclick="login()">Sign in</button>
+							<button type="submit" class="btn btn-primary w-100 border-2" onclick="login()">Sign in</button>
 						</div>
 					</form>
 					<div class="text-center text-secondary mt-4">
@@ -63,6 +64,31 @@
 		</form>
 		<script>
 			function login() {
+				var vUsrId       = $("#inpUsrId").val();
+				var vUsrPassword = $("#inpUsrPassword").val();
+
+		    	if ( isNull(vUsrId) == "" ) {
+		            alert("Enter your email.");
+		            $("#inpUsrId").focus();
+		    		return;
+		    	}
+
+		    	if ( isNull(vUsrPassword) == "" ) {
+		            alert("Enter your password.");
+		            $("#inpUsrPassword").focus();
+		    		return;
+		    	}
+				
+				
+		        // 이메일 형식이 올바르지 않은 경우
+		        if (!validateEmail(vUsrId)) {
+		            alert("Please enter a valid your email address."); // 오류 메시지 표시
+		            $("#inpUsrId").focus();
+		            // TO-DO : 테스트 ID 사용 안할 시 주석해제
+		            //return;
+		        }
+				
+				
 				$.ajax({
 					type: "post",
 					url: "/auth/adamsLogin",
@@ -70,8 +96,8 @@
 					dataType: "json",
 					contentType: "application/json; charset=utf-8",
 					data: JSON.stringify({
-						usrId: $("#inpUsrId").val(),
-						usrPassword: $("#inpUsrPassword").val(),
+						usrId: vUsrId,
+						usrPassword: vUsrPassword
 					}),
 					success: function (data) {
 						console.log("AJAX request successful. Data received:", data);

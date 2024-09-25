@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회사 정보 입력</title>
+    <title>Company Information Input</title>
     <link href="css/css-tabler/tabler.min.css?1692870487" rel="stylesheet" />
     <link href="css/file-css.css" rel="stylesheet" />
     <link href="css/common-css.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/jquery-3.7.1.min.js"></script>
+	<!-- Javascript file -->
+	<script src="js/js-tabler/tabler.min.js?1692870487" defer></script>
+	<script src="js/jquery-3.7.1.min.js"></script>
+	<script src="js/common.js"></script>
+    <script src="js/utils.js"></script>
     <style>
         body {
             background-color: #d0d8e8;
@@ -26,14 +29,14 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
+            width: 800px;
         }
         .form-container .form-label {
             font-size: 14px;
             margin-bottom: 5px;
         }
         .form-container input, .form-container select {
-            width: calc(100% - 10px);
+            width: 100%;
             padding: 5px;
             margin-bottom: 10px;
             box-sizing: border-box;
@@ -57,135 +60,247 @@
 <body>
 
 <div class="form-container">
-    <form id="companyInfoForm" name="companyInfoForm" method="post" action="/submitCompanyInfo" onsubmit="return false;">
+    <form id="companyInfoForm" name="companyInfoForm" method="post" action="/auth/adamsNewCs" onsubmit="return false;">
+        
         <div class="row">
-            <div class="col">
-                <label for="countryName" class="form-label">국가명(영문)</label>
-                <input id="countryName" name="countryName" type="text" class="form-control" placeholder="국가명 입력" required>
+            <div class="col-md-4">
+                <!-- 국가명(영문) -->
+                <label for="countryName" class="form-label">Country Name (English)</label>
+                <input id="countryName" name="countryName" type="text" class="form-control" placeholder="Enter Country Name" required>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col">
-                <label for="companyDivision" class="form-label">회사번호구분</label>
+            <div class="col-md-4">
+                <!-- 회사번호구분 -->
+                <label for="companyDivision" class="form-label">Company Number Type</label>
                 <select id="companyDivision" name="companyDivision" class="form-select" required>
-                    <option selected="selected" value="">- 선택 -</option>
-                    <option value="001">CS_NO1</option>
-                    <option value="999">ADMIN</option>
+                    <option selected="selected" value="">- select -</option>
+                    <option value="1">DUNS Number</option>
+                    <option value="2">Corporation Number</option>
+                    <option value="3">Business Registration Number</option>
                 </select>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col">
-                <label for="companyNo" class="form-label">회사번호</label>
-                <input id="companyNo" name="companyNo" type="text" class="form-control" placeholder="회사번호 입력" required>
+            <div class="col-md-4">
+                <!-- 회사번호 -->
+                <label for="companyNo" class="form-label">Company Number(without '-')</label>
+                <input id="companyNo" name="companyNo" type="text" class="form-control" placeholder="Enter Company Number" required>
             </div>
         </div>
+
         <div class="row mt-2">
-            <div class="col">
-                <label for="companyName" class="form-label">회사명</label>
-                <input id="companyName" name="companyName" type="text" class="form-control" placeholder="회사명 입력" required>
+            <div class="col-md-4">
+                <!-- 회사명 -->
+                <label for="companyName" class="form-label">Company Name</label>
+                <input id="companyName" name="companyName" type="text" class="form-control" placeholder="Enter Company Name" required>
+            </div>
+            <div class="col-md-4">
+                <!-- 대표전화번호 -->
+                <label for="representativePhone" class="form-label">Representative Phone</label>
+                <input id="representativePhone" name="representativePhone" type="text" class="form-control" placeholder="Enter Phone Number" required>
+            </div>
+            <div class="col-md-4">
+                <!-- 대표자명 -->
+                <label for="representativeName" class="form-label">Representative Name</label>
+                <input id="representativeName" name="representativeName" type="text" class="form-control" placeholder="Enter Representative Name" required>
             </div>
         </div>
+
         <div class="row mt-2">
-            <div class="col">
-                <label for="representativePhone" class="form-label">대표전화번호</label>
-                <input id="representativePhone" name="representativePhone" type="text" class="form-control" placeholder="전화번호 입력" required>
+            <div class="col-md-4">
+                <!-- 담당자명 -->
+                <label for="managerName" class="form-label">Manager Name</label>
+                <input id="managerName" name="managerName" type="text" class="form-control" placeholder="Enter Manager Name" required>
+            </div>
+            <div class="col-md-4">
+                <!-- 담당자전화번호 -->
+                <label for="managerPhone" class="form-label">Manager Phone</label>
+                <input id="managerPhone" name="managerPhone" type="text" class="form-control" placeholder="Enter Manager Phone" required>
+            </div>
+            <div class="col-md-4">
+                <!-- 담당자이메일(관리자ID) -->
+                <label for="managerEmail" class="form-label">Manager Email (Admin ID)</label>
+                <input id="managerEmail" name="managerEmail" type="email" class="form-control" placeholder="Enter Manager Email" required>
+            </div>
+            <div class="col-md-4">
+                <!-- 관리자비밀번호 -->
+                <label for="usrPassword" class="form-label">Admin Password</label>
+                <input id="usrPassword" name="usrPassword" type="password" class="form-control" placeholder="Enter Password" required>
             </div>
         </div>
+
         <div class="row mt-2">
-            <div class="col">
-                <label for="representativeName" class="form-label">대표자명</label>
-                <input id="representativeName" name="representativeName" type="text" class="form-control" placeholder="대표자명 입력" required>
+            <div class="col-md-4">
+                <!-- 회사우편번호 -->
+                <label for="postalCode" class="form-label">Company Postal Code</label>
+                <input id="postalCode" name="postalCode" type="text" class="form-control" placeholder="Enter Postal Code" required>
+            </div>
+            <div class="col-md-8">
+                <!-- 회사기본주소 -->
+                <label for="basicAddress" class="form-label">Company Address (Basic)</label>
+                <input id="basicAddress" name="basicAddress" type="text" class="form-control" placeholder="Enter Basic Address" required>
             </div>
         </div>
+
         <div class="row mt-2">
-            <div class="col">
-                <label for="managerName" class="form-label">담당자명</label>
-                <input id="managerName" name="managerName" type="text" class="form-control" placeholder="담당자명 입력" required>
+            <div class="col-md-12">
+                <!-- 회사상세주소 -->
+                <label for="detailedAddress" class="form-label">Company Address (Detailed)</label>
+                <input id="detailedAddress" name="detailedAddress" type="text" class="form-control" placeholder="Enter Detailed Address" required>
             </div>
         </div>
-        <div class="row mt-2">
-            <div class="col">
-                <label for="managerPhone" class="form-label">담당자전화번호</label>
-                <input id="managerPhone" name="managerPhone" type="text" class="form-control" placeholder="담당자 전화번호 입력" required>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col">
-                <label for="managerEmail" class="form-label">담당자이메일</label>
-                <input id="managerEmail" name="managerEmail" type="email" class="form-control" placeholder="담당자 이메일 입력" required>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col">
-                <label for="postalCode" class="form-label">우편번호</label>
-                <input id="postalCode" name="postalCode" type="text" class="form-control" placeholder="우편번호 입력" required>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col">
-                <label for="basicAddress" class="form-label">기본주소</label>
-                <input id="basicAddress" name="basicAddress" type="text" class="form-control" placeholder="기본주소 입력" required>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col">
-                <label for="detailedAddress" class="form-label">상세주소</label>
-                <input id="detailedAddress" name="detailedAddress" type="text" class="form-control" placeholder="상세주소 입력" required>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col">
-                <label for="adminId" class="form-label">관리자ID</label>
-                <input id="adminId" name="adminId" type="text" class="form-control" placeholder="관리자 ID 입력" required>
-            </div>
-        </div>
+
         <div class="row mt-3 text-center">
             <div class="col">
-                <button type="submit" class="btn btn-primary">신청</button>
+                <!-- 신청 버튼 -->
+                <button type="submit" class="btn btn-primary" onclick="submitCompanyInfo()">Submit</button>
             </div>
         </div>
     </form>
+	<form id="form" name="form" method="post" action="/menuLink">
+		<input type="hidden" id="pageName" name="pageName" />
+	</form>
 </div>
 
 <script>
     function submitCompanyInfo() {
-        const requestData = {
-            countryName: $("#countryName").val(),
-            companyDivision: $("#companyDivision").val(),
-            companyNo: $("#companyNo").val(),
-            companyName: $("#companyName").val(),
-            representativePhone: $("#representativePhone").val(),
-            representativeName: $("#representativeName").val(),
-            managerName: $("#managerName").val(),
-            managerPhone: $("#managerPhone").val(),
-            managerEmail: $("#managerEmail").val(),
-            postalCode: $("#postalCode").val(),
-            basicAddress: $("#basicAddress").val(),
-            detailedAddress: $("#detailedAddress").val(),
-            adminId: $("#adminId").val()
+        
+    	var vCountryNmEng = $("#countryName").val();
+    	var vCompNoDvCd   = $("#companyDivision").val();
+    	var vCompNo       = $("#companyNo").val();
+    	var vCompNm       = $("#companyName").val();
+    	var vRepPhNo      = $("#representativePhone").val();
+    	var vReperNm      = $("#representativeName").val();
+    	var vPtbNm        = $("#managerName").val();
+    	var vPtbPhNo      = $("#managerPhone").val();
+    	var vPtbEmail     = $("#managerEmail").val();
+    	var vUsrPassword  = $("#usrPassword").val();
+    	var vPostNo       = $("#postalCode").val();
+    	var vAddrs        = $("#basicAddress").val();
+    	var vDtlsAddrs    = $("#detailedAddress").val();
+    	
+    	if ( isNull(vCountryNmEng) == "" ) {
+            alert("Enter Country Name.");
+            $("#countryName").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vCompNoDvCd) == "" ) {
+            alert("Select Company Number Type.");
+            $("#companyDivision").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vCompNo) == "" ) {
+            alert("Enter Company Number");
+            $("#companyNo").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vCompNm) == "" ) {
+            alert("Enter Company Name.");
+            $("#companyName").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vRepPhNo) == "" ) {
+            alert("Enter Phone Number.");
+            $("#representativePhone").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vReperNm) == "" ) {
+            alert("Enter Representative Name.");
+            $("#representativeName").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vPtbNm) == "" ) {
+            alert("Enter Manager Name.");
+            $("#managerName").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vPtbPhNo) == "" ) {
+            alert("Enter Manager Phone.");
+            $("#managerPhone").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vPtbEmail) == "" ) {
+            alert("Enter Manager Email.");
+            $("#managerEmail").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vUsrPassword) == "" ) {
+            alert("Enter Password.");
+            $("#usrPassword").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vPostNo) == "" ) {
+            alert("Enter Postal Code.");
+            $("#postalCode").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vAddrs) == "" ) {
+            alert("Enter Basic Address.");
+            $("#basicAddress").focus();
+    		return;
+    	}
+    	
+    	if ( isNull(vDtlsAddrs) == "" ) {
+            alert("Enter Detailed Address.");
+            $("#detailedAddress").focus();
+    		return;
+    	}
+    	
+        // 이메일 형식이 올바르지 않은 경우
+        if (!validateEmail(vPtbEmail)) {
+            alert("Please enter a valid email address."); // 오류 메시지 표시
+            $("#managerEmail").focus();
+            return;
+        }
+    	
+    	const requestData = {
+        	  countryNmEng: vCountryNmEng
+            , compNoDvCd  : vCompNoDvCd
+            , compNo      : vCompNo
+            , compNm      : vCompNm
+            , repPhNo     : vRepPhNo
+            , reperNm     : vReperNm
+            , ptbNm       : vPtbNm
+            , ptbPhNo     : vPtbPhNo
+            , ptbEmail    : vPtbEmail
+            , usrPassword : vUsrPassword
+            , postNo      : vPostNo
+            , addrs       : vAddrs
+            , dtlsAddrs   : vDtlsAddrs
         };
 
         $.ajax({
             type: "post",
-            url: "/submitCompanyInfo",
+            url: "/auth/adamsNewCs",
             async: true,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(requestData),
             success: function (data) {
-                alert("신청이 완료되었습니다.");
+
+                //alert("신청이 완료되었습니다. 관리자가 확인 후 연락을 드립니다.");
+                alert("YYour application has been completed. An administrator will contact you after verification.");
+
+				console.log("AJAX request successful. Data received:", data);
+				
+				$("#pageName").val(data.redirectUrl);
+				$("#form").submit();
             },
             error: function (xhr, status, error) {
-                alert("오류가 발생했습니다. 다시 시도해주세요.");
+                //alert("오류가 발생했습니다. 다시 시도해주세요.");
+                alert("An error occurred. Please try again.");
             }
         });
     }
-
-    $("#companyInfoForm").on("submit", function (e) {
-        e.preventDefault();
-        submitCompanyInfo();
-    });
+    
 </script>
 
 </body>

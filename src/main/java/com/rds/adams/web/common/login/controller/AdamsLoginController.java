@@ -28,6 +28,7 @@ import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.common.login.dto.AdamsFindPwDTO;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.common.login.dto.AdamsResultDTO;
 import com.rds.adams.web.common.login.service.AdamsLoginService;
 
@@ -371,6 +372,47 @@ public class AdamsLoginController {
 	    
 	    // 1. 비밀번호 찾기 처리
 		bResult = adamsLoginService.searchPassword(adamsFindPwDTO);
+	    
+		if (bResult) {
+			
+			// 사용자 재로그인 페이지로
+    		nextPage = "login";
+    		
+	        resultMap.put("redirectUrl", nextPage);
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "성공 !!!");
+		} else {
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", egovMessageSource.getMessage("fail.common.login"));
+		}
+
+		return resultMap;
+	}
+
+	/**
+	 * 신규 고객 신청 정보를 저장 한다
+	 * @param vo - 빈 LoginVO
+	 * @param request - 세션처리를 위한 HttpServletRequest
+	 * @return result - 고객 목록
+	 * @exception Exception
+	 */
+	@Operation(
+			summary = "신규 고객 신청",
+			description = "사신규 고객 신청 정보 저장",
+			tags = {"AdamsLoginController"}
+	)
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "신규 고객 신청 성공"),
+			@ApiResponse(responseCode = "300", description = "신규 고객 신청 실패")
+	})
+	@RequestMapping(value = "/auth/adamsNewCs", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.TEXT_HTML_VALUE})
+	public HashMap<String, Object> insertNewCs(@RequestBody AdamsNewCsDTO adamsNewCsDTO, HttpServletRequest request) throws Exception {
+	    HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	    boolean  bResult = false;
+	    String nextPage = ""; 
+	    
+	    // 1. 비밀번호 찾기 처리
+		bResult = adamsLoginService.insertNewCs(adamsNewCsDTO);
 	    
 		if (bResult) {
 			

@@ -8,6 +8,7 @@ import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.common.login.dto.AdamsFindPwDTO;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 
 /**
  * 일반 로그인을 처리하는 비즈니스 구현 클래스
@@ -89,4 +90,20 @@ public interface AdamsLoginDAO {
 	 * @exception Exception
 	 */
 	public void updatePasswordReset(AdamsLoginDTO vo) ;
+
+	/**
+	 * 인증서 로그인을 처리한다
+	 * @param vo AdamsLoginDAO
+	 * @return AdamsLoginDAO
+	 * @exception Exception
+	 */
+	public AdamsLoginDTO actionCrtfctLogin(AdamsLoginDTO vo) ;
+
+	/**
+	 * 신규 고객 저장을 처리한다
+	 * @param vo AdamsNewCsDTO
+	 * @exception Exception
+	 */
+	public void insertNewCs(AdamsNewCsDTO vo) ;
+	
 }
