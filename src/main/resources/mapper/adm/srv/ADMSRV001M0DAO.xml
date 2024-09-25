@@ -44,30 +44,38 @@
             VALUES (
                 #{csNo}, 
                 #{srvcCd},
-                #{optCd}, 
-                #{optDtlsCd}, 
-                #{optStrDtm}, 
-                #{optEndDtm}, 
                 #{fnlUpdEmpNo}, 
                 GETDATE(),    
                 #{frstRegEmpNo}, 
                 GETDATE()
             )
-        ) AS B (CS_NO, SRVC_CD, OPT_CD, OPT_DTLS_CD, OPT_STR_DTM, OPT_END_DTM, FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM)
+        ) AS B (CS_NO, SRVC_CD, FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM)
         ON (A.CS_NO = B.CS_NO)
         WHEN MATCHED THEN
             UPDATE SET
                 A.SRVC_CD = B.SRVC_CD,
-                A.OPT_CD = B.OPT_CD, 
-                A.OPT_DTLS_CD = B.OPT_DTLS_CD,
                 A.FNL_UPD_EMP_NO = B.FNL_UPD_EMP_NO,
                 A.FNL_UPD_DTM = B.FNL_UPD_DTM
         WHEN NOT MATCHED THEN
-            INSERT (CS_NO, SRVC_CD, OPT_CD, OPT_DTLS_CD, OPT_STR_DTM, OPT_END_DTM, FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM)
-            VALUES (B.CS_NO, SRVC_CD, B.OPT_CD, B.OPT_DTLS_CD, B.OPT_STR_DTM, B.OPT_END_DTM, B.FNL_UPD_EMP_NO, B.FNL_UPD_DTM, B.FRST_REG_EMP_NO, B.FRST_REG_DTM);
+            INSERT (CS_NO, SRVC_CD, FNL_UPD_EMP_NO, FNL_UPD_DTM, FRST_REG_EMP_NO, FRST_REG_DTM)
+            VALUES (B.CS_NO, B.SRVC_CD, B.FNL_UPD_EMP_NO, B.FNL_UPD_DTM, B.FRST_REG_EMP_NO, B.FRST_REG_DTM);
     </update>
-    
-
+    <update id="mergeOptionDetails" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO">
+        MERGE INTO TB_CS_SRVC_OPT_INF AS A
+        USING (
+            VALUES (
+                #{csNo},
+                #{optCd}, 
+                #{optDtlsCd}
+            )
+        ) AS B (CS_NO, OPT_CD, OPT_DTLS_CD)
+        ON (A.CS_NO = B.CS_NO)
+        WHEN MATCHED THEN
+            UPDATE SET
+                A.OPT_CD = B.OPT_CD,
+                A.OPT_DTLS_CD = B.OPT_DTLS_CD;
+            COMMIT;
+    </update>
     <update id="updateCustomerServiceHistory" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO">
     <![CDATA[
         DECLARE @newServiceStartDate DATE = GETDATE();
@@ -78,7 +86,6 @@
         SELECT @newSeqNo = ISNULL(MAX(CAST(SEQ_NO AS NUMERIC(10))), 0) + 1 
         FROM TB_CS_SRVC_HIST
         WHERE CS_NO = #{csNo};
-    
 
         -- Check if the user already has a subscription record in the service history table
         UPDATE TB_CS_SRVC_HIST
@@ -88,6 +95,7 @@
             FNL_UPD_DTM = GETDATE()
         WHERE CS_NO = #{csNo}
             AND SRVC_END_DTM = (SELECT MAX(SRVC_END_DTM) FROM TB_CS_SRVC_HIST WHERE CS_NO = #{csNo});
+        COMMIT;
 
         -- Insert a new service history reecords
         INSERT INTO TB_CS_SRVC_HIST (
@@ -99,6 +107,7 @@
             #{srvcCd}, @newServiceStartDate, @newServiceEndDate, 
             #{fnlUpdEmpNo}, GETDATE(), #{frstRegEmpNo}, GETDATE()
         );
+        COMMIT;
     ]]>
     </update>
     <update id="updateCustomerOptionHistory" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO">
@@ -111,7 +120,6 @@
         FROM TB_CS_OPT_HIST
         WHERE CS_NO = #{csNo};
 
-
         -- Update existing active option records
         UPDATE TB_CS_OPT_HIST 
         SET 
@@ -119,7 +127,8 @@
             FNL_UPD_EMP_NO = #{fnlUpdEmpNo},
             FNL_UPD_DTM = GETDATE()
         WHERE CS_NO = #{csNo}
-            AND OPT_END_DTM = '2999-12-31';
+            AND OPT_END_DTM = (SELECT MAX(SRVC_END_DTM) FROM TB_CS_SRVC_HIST WHERE CS_NO = #{csNo});
+        COMMIT;
 
         -- Insert a new option history record
         INSERT INTO TB_CS_OPT_HIST (
@@ -131,6 +140,7 @@
             #{optCd}, #{optDtlsCd}, @newServiceStartDate, @newServiceEndDate,
             #{fnlUpdEmpNo}, GETDATE(), #{frstRegEmpNo}, GETDATE()
         );
+        COMMIT;
     ]]>
     </update>
 </mapper>

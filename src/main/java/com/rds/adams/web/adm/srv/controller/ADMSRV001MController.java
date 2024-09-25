@@ -103,7 +103,7 @@ public class ADMSRV001MController {
          consumes = "application/json",  
          produces = "application/json"
     )
-     public Map<String, Object> mergeServiceOption(@RequestBody ADMSRV001M0P1DTO inVo, HttpServletRequest request,  HttpServletResponse response){
+     public Map<String, Object> mergeServiceOptions(@RequestBody ADMSRV001M0P1DTO inVo, HttpServletRequest request,  HttpServletResponse response){
         Map<String, Object> result = new HashMap<>();
         try {
 
@@ -132,11 +132,14 @@ public class ADMSRV001MController {
             }
 
             String csNo = sAdamsLoginDTO.getCsNo();
-
-            // set the necessarry fileds
+            String userId = sAdamsLoginDTO.getUsrId();
+        
+            // setting the customer number and user id
             inVo.setCsNo(csNo);
-            inVo.setFnlUpdEmpNo(csNo);
-            inVo.setFrstRegEmpNo(csNo);
+            inVo.setFnlUpdEmpNo(userId);
+            inVo.setFrstRegEmpNo(userId);
+
+            // inVo.setSrvcCd(srvcCd);
 
             if(inVo.getSrvcCd() == null){
                 log.warn("Service code is null");
@@ -146,8 +149,8 @@ public class ADMSRV001MController {
                 return result;
             }
 
-            // udpate the service history
-            admSrv001M0Service.updateCustomerServiceHistory(inVo);
+            // udpate the service info table with the service subcription code
+            admSrv001M0Service.mergeServiceOption(inVo);
 
             // update the option history if needed
             if(inVo.getOptCd() != null && inVo.getOptDtlsCd() != null) {
@@ -167,6 +170,57 @@ public class ADMSRV001MController {
             return result;
         }
      }
+     /**
+      * Wil update the option selection to the user that is subcribed.
+      * @param inVo
+      * @return Returns a map that contains 
+      */
+      @PostMapping(
+        value = "/ADMSRV001M0UpdateOptionDetails",
+        consumes = "application/json",
+        produces = "application/json"
+      )
+      public Map<String, Object> mergeOptionDetails(@RequestBody ADMSRV001M0P1DTO inVo, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+            if(sAdamsLoginDTO == null){
+                result.put("message", "User not logged in");
+                // result.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return result;
+            }
+
+            String csNo = sAdamsLoginDTO.getCsNo();
+            String userId = sAdamsLoginDTO.getUsrId();
+
+            inVo.setCsNo(csNo);
+            inVo.setFnlUpdEmpNo(userId);
+            inVo.setFrstRegEmpNo(userId);
+
+            if (inVo.getOptCd() == null || inVo.getOptDtlsCd() == null) {
+                result.put("status", "error");
+                result.put("message", "Option Code and Option Details Code are required.");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return result;
+            }
+            
+            // update the option history first  
+            admSrv001M0Service.updateCustomerOptionHistory(inVo);
+
+            // then update the service option table
+            admSrv001M0Service.mergeOptionDetails(inVo);
+
+            result.put("status","success");
+            log.debug("Service Option Adding sunccessfully done: {}", result);
+            return result;
+        }
+        catch(Exception e) {
+            log.error("Error merging the service option");
+            result.put("status", "error");
+            result.put("message", e.getMessage());
+            return result;
+        }
+      }
 
      /**
       *  Updates the service history for a customer, effectively recording changes over time.
@@ -239,25 +293,3 @@ public ResponseEntity<List<ADMSRV001M0R0DTO>> getUserSubscriptionInfo(HttpServle
     }
 }
 
-
-    // /**
-    //  * Retrieves option information specific to a particular customer.
-    //  * @param inVo
-    //  * @return List of option information by customer
-    //  */
-    // @RequestMapping(value="/ADMSRV001M0SelectOptionInfoByCustomer", method=RequestMethod.POST, consumes = "application/json")
-    // public ResponseEntity<List <ADMSRV001M0R0DTO>> selectOptionInfoByCustomer(@RequestBody ADMSRV001M0P0DTO inVo) {
-    //     try {
-    //         log.info(inVo.toString());
-    //         List<ADMSRV001M0R0DTO> result = admSrv001M0Service.selectOptionInfoByCustomer(inVo);
-
-    //         for (ADMSRV001M0R0DTO dto: result) {
-    //             log.info(dto.toString());
-    //         }
-    
-    //         return ResponseEntity.ok(result);
-    //     } catch (Exception e){
-    //         e.getStackTrace();
-    //         return ResponseEntity.status(500).body(Collections.emptyList());
-    //     }
-    // }

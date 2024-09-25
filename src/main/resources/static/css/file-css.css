@@ -60,16 +60,7 @@ h2 {
   font-size: 13px;
   /* font-weight: bold; */
 }
-.form-control {
-  font-size: 13px;
-  padding: 3px;
-  /* padding-right: 80px; */
-  border-radius: 6.5px;
-  box-shadow: 0 1px 10px rgba(169, 169, 255, 0.5);
-  /* display: flex; */
-  margin-right: 10px;
-  /* margin-bottom: 4px; */
-}
+
 .form-input-temp {
   font-size: 13px;
   padding: 3.7px;
