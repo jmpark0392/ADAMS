@@ -31,7 +31,7 @@ import javax.servlet.http.HttpSession;
 
 @Slf4j
 @RestController
-public class ADMSRV001MController {
+public class ADMSRV001M0Controller {
 
     @Autowired
     private ADMSRV001M0Service admSrv001M0Service;

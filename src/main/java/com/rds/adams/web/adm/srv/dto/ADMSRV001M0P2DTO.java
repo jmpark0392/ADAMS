@@ -26,5 +26,5 @@ public class ADMSRV001M0P2DTO {
     private String optCd;         // 옵션코드 (Option Code)
     private String optDtlsCd;     // 옵션상세코드 (Option Details Code)
     private String optDtlsNm;     // 옵션상세명 (Option Details Name)
-    
+    private String optDtlsDesc;   // 옵션상세설명 (Option Details Description)    
 }

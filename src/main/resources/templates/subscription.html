@@ -380,9 +380,9 @@
               </div>
               <div class="subscription-card">
                 <div class="card-body text-center">
-                  <div class="text-uppercase text-secondary font-weight-medium">
+                  <!-- <div class="text-uppercase text-secondary font-weight-medium">
                     Options Panel
-                  </div>
+                  </div> -->
                   <form id="optionForm">
                     <div class="mb-3">
                     <h3 class="flex-container"><label for="optionSelect">Add User: </label></h3>
@@ -513,12 +513,12 @@
                  );
                  $.each(data, function (index, option) {
                    // Combine optCd and optDtlsCd as the value
-                   var value = option.optCd + "|" + option.optDtlsCd;
+                   var value = option.optCd + "|" + option.optDtlsNm + "|" + option.optDtlsDesc;
                    $optionSelect.append(
                      '<option value="' +
                        value +
                        '">' +
-                       option.optDtlsNm +
+                       option.optDtlsDesc +
                        "</option>"
                    );
                  });

@@ -19,11 +19,16 @@
         AND A.OPT_DTLS_CD = B.OPT_DTLS_CD
     </select>
     <select id="selectAllOptions" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P2DTO">
-        SELECT 
-            OPT_CD,                  -- Option Code
-            OPT_DTLS_CD,             -- Optional Details Code
-            OPT_DTLS_NM              -- Options Details Name
-        FROM TB_OPT_DTLS_INF
+       SELECT 
+             A.OPT_CD                   -- Option Code
+           , B.OPT_DTLS_CD              -- Optional Details Code
+           , B.OPT_DTLS_NM              -- Options Details Name
+		   , B.OPT_DTLS_NM + ' | ' + FORMAT(A.OPT_UPRC * B.OPT_DTLS_VLU, '#,###') + ' Won / M' AS OPT_DTLS_DESC
+        FROM TB_OPT_INF      A
+		   , TB_OPT_DTLS_INF B
+	   WHERE 1=1
+	     AND A.OPT_CD = B.OPT_CD
+		 AND A.OPT_CD = '01'
     </select>
     <select id="selectOptionInfoByCustomer" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0R0DTO">
         SELECT 
