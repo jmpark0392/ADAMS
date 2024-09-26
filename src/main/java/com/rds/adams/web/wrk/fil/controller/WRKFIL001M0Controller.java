@@ -71,18 +71,4 @@ public class WRKFIL001M0Controller {
 		}
 		return;
 	}
-	
-	@RequestMapping(value="/WRKFIL001M0DeleteList", method=RequestMethod.POST, consumes="application/json")
-	public void delete(@RequestBody WRKFIL001M0P1DTO inVo) {
-		
-		log.info(inVo.toString());
-		try {
-			wRKFIL001M0Service.deleteList(inVo);
-			log.info("success");
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.info("fail");
-		}
-		return;
-	}
 }
