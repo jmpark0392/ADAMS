@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
 import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
+import com.rds.adams.web.core.utils.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +46,7 @@ public class AuthenticInterceptor extends WebContentInterceptor {
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException {
+		
 		List<String> exceptPageNameList = new ArrayList<>();
 		
 		// 패턴으로 예외처리 안되는 페이지들은 exceptPageNameList로 리스트를 관리
@@ -69,23 +71,31 @@ public class AuthenticInterceptor extends WebContentInterceptor {
     	
     	// 패턴으로 예외처리 안되는 페이지들은 exceptPageNameList로 리스트를 관리
         if (exceptPageNameList.contains(pageName)) {
+        	
         	return true;
+        	
         } else {
-        	log.debug("loginVO:", loginVO.toString());
-    		
-    		if (loginVO != null && loginVO.getUsrId() != null) {
+        	
+        	if (loginVO == null || StringUtil.isEmpty(loginVO.getUsrId())) {
+        		
+        		log.debug("AuthenticInterceptor Fail!!!!!!!!!!!!================== ");
+            	
+        		ModelAndView modelAndView = new ModelAndView("/error/error_auth");
+        		modelAndView.addObject("errorTitle", "Authentication Fail!!");
+        		modelAndView.addObject("errorMessage", "AuthenticInterceptor Fail!!!!!!!!!!!!");
+        		
+        		throw new ModelAndViewDefiningException(modelAndView);
+        		
+        	} else {
+        		
+    			log.debug("loginVO:", loginVO.toString());
     			log.debug("AuthenticInterceptor sessionID "+loginVO.getUsrId());
     			log.debug("AuthenticInterceptor ================== ");
     			return true;
+    			
     		}
     		
-    		log.debug("AuthenticInterceptor Fail!!!!!!!!!!!!================== ");
-        	
-    		ModelAndView modelAndView = new ModelAndView("/error/error_auth");
-    		modelAndView.addObject("errorTitle", "Authentication Fail!!");
-    		modelAndView.addObject("errorMessage", "AuthenticInterceptor Fail!!!!!!!!!!!!");
-    		
-    		throw new ModelAndViewDefiningException(modelAndView);
         }
+        
 	}
 }
