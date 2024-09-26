@@ -32,43 +32,43 @@ public class AdamsNewCsDTO implements Serializable{
     @Schema(description = "고객사번호")
     private String csNo;
 
-    @Schema(description = "회사명")
+    @Schema(description = "회사번호구분코드")
     private String compNoDvCd;
 
-    @Schema(description = "회사명")
+    @Schema(description = "회사번호")
     private String compNo;
 
     @Schema(description = "회사명")
     private String compNm;
 
-    @Schema(description = "회사명")
+    @Schema(description = "대표전화번호")
     private String repPhNo;
 
-    @Schema(description = "회사명")
+    @Schema(description = "대표자명")
     private String reperNm;
 
-    @Schema(description = "회사명")
+    @Schema(description = "담당자명")
     private String ptbNm;
 
-    @Schema(description = "회사명")
+    @Schema(description = "담당자전화번호")
     private String ptbPhNo;
 
-    @Schema(description = "회사명")
+    @Schema(description = "담당자이메일")
     private String ptbEmail;
 
-    @Schema(description = "회사명")
+    @Schema(description = "사용자비밀번호")
     private String usrPassword;
 
-    @Schema(description = "회사명")
+    @Schema(description = "우편번호")
     private String postNo;
 
-    @Schema(description = "회사명")
+    @Schema(description = "주소")
     private String addrs;
 
-    @Schema(description = "회사명")
+    @Schema(description = "상세주소")
     private String dtlsAddrs;
 
-    @Schema(description = "회사명")
+    @Schema(description = "국가명_영문")
     private String countryNmEng;
 	
 	
