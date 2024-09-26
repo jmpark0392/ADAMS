@@ -28,11 +28,6 @@
             [ORD_SEQ],                -- 정렬순서
             [ITM_DSC],                -- 항목설명
             [SEL_BAS_YN],             -- 조회기준여부
-            [VRF_ID],                 -- 검증ID
-            [SEQ],                    -- 일련번호
-            [VRF_TP_CD],              -- 검증코드
-            [VRF_1_LVL_CD],           -- 검증1레벨코드
-            [VRF_2_LVL_CD],           -- 검증2레벨코드
             [FRST_REG_EMP_NO],
             [FRST_REG_DTM],
             [FNL_UPD_EMP_NO],
@@ -49,11 +44,6 @@
             #{ordSeq},                -- 정렬순서
             #{itmDsc},                -- 항목설명
             #{selBasYn},              -- 조회기준여부
-            #{vrfId},                 -- 검증ID
-            #{seqNo},                 -- 일련번호
-            #{vrfTpCd},               -- 검증코드
-            #{vrf1LvlCd},             -- 검증1레벨코드
-            #{vrf2LvlCd},             -- 검증2레벨코드
              'admin',
             CONVERT(CHAR(10), getdate(), 23),
             'admin',

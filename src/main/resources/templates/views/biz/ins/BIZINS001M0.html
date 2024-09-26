@@ -167,15 +167,6 @@
         var unqId = "rowNumber";
         var xcpt_cols = [unqId, "regUsrid", "regDt"];
         var check_cols = [unqId, ];
-        
-        var curAmt = ["basAmt", "ociAmt", "newContAmt", "intEfftAmt", "estmPrm", "estmFee", "estmNewContCclsAmt"
-        	, "estmFeeRfndAmt", "estmContMtnAmt", "estmIvsgExpAmt", "atsAssmUpdAmt", "exrtEfftAmt", "entmAmt"];
-        
-        function priceToString(curAmt) {
-        	
-        }
-        
-        
         var columns = [
             {id: "ptfCd",   name: "portfolio", field: "ptfCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
             {id: "basAmt", name: "basis", field: "basAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
@@ -208,10 +199,8 @@
             enableAddRow: true,
             asyncEditorLoading: false,
             autoEdit: false,
-            autoEditNewRow: false,
-            autoResize: true
+            autoEditNewRow: false
         };
-
         
         var newRowIds = 0;
     

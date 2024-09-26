@@ -16,7 +16,4 @@ public interface WRKFIL001M0DAO {
 	public void insertList(WRKFIL001M0P1DTO inVo);
 	
 	public void updateList(WRKFIL001M0P1DTO inVo);
-	
-	public void deleteList(WRKFIL001M0P1DTO inVo);
-	
 }

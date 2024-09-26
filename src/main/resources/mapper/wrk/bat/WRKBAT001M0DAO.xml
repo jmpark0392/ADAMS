@@ -51,7 +51,7 @@
             , #{subEmpNo}
             , #{etcDesc}
             , #{useYn}
-			, 'admin2'
+			, 'admin'
             , CONVERT(CHAR(10), getdate(), 23)
             , 'admin'
             , CONVERT(CHAR(10), getdate(), 23)

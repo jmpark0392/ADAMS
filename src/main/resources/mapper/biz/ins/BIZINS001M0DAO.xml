@@ -33,8 +33,4 @@
                 )
          </if>
     </select>
-    <delete id="deleteList_bf" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P1DTO">
-		DELETE FROM TB_BAT_MNG_LST
-		WHERE STD_YYMM  = #{stdYymm}
-	</delete>
 </mapper>
