@@ -11,8 +11,8 @@
       <div class="container" id="container">
         <h2>File Management System</h2>
         <div class="ptag-container">
-          <span><a href="#"> Home ></a></span>
-          <span><a href="#"> Cost Management</a></span>
+          <!-- <span><a href="#"> Home ></a></span> -->
+          <span><a href="#"> File/Table Mapping</a></span>
           <div class="form-container">
             <div class="form-box">
               <form
@@ -131,6 +131,13 @@
                     data-bs-dismiss="modal"
                     >Cancel</a
                   >
+                  <!-- <a
+                    href="#"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                    style="padding: 4px 10px; color: white; font-size: 13px"
+                    >Delete</a
+                  > -->
                   <a
                     href="#"
                     class="btn btn-primary ms-auto"
@@ -155,7 +162,7 @@
       }
 
       function insertFile(addedRow) {
-        parentInsertFile(addedRow, "/WRKFIL001M0InsertList");
+        parentInsertFile(addedRow, "/WRKFIL001M0InsertList"); 
       }
 
       function updateFile(updatedRow) {
@@ -189,133 +196,145 @@
       var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
       var check_cols = [unqId, "fileNm", "tblId"];
       var columns = [
-        {
-          id: unqId,
-          name: "Seq",
-          field: unqId,
+          {
+            id: unqId,
+            name: "Seq",
+            field: unqId,
+            editor: Slick.Editors.Text,
+            validator: createValidator,
+            width : 10
+          },
+          {
+            id: "fileNm",
+            name: "File Name",
+            field: "fileNm",
+            sortable: true,
+            editor: Slick.Editors.Text,
+            validator: (value, args) =>
+              complexValidator(value, args, [
+                createValidator,
+                noWhitespaceValidator,
+              ]),
+              width : 170
+          },
+          {
+            id: "dbId",
+            name: "Database ID",
+            field: "dbId",
+            sortable: true,
+            editor: Slick.Editors.Text,
+            validator: createValidator,
+            width : 60
+          },
+          {
+            id: "tblId",
+            name: "Table ID",
+            field: "tblId",
+            sortable: true,
+            editor: Slick.Editors.Text,
+            validator: (value, args) =>
+              complexValidator(value, args, [
+                createValidator,
+                noWhitespaceValidator,
+              ]),
+              width : 120
+          },
+          {
+            id: "fileDsc",
+            name: "File Info",
+            field: "fileDsc",
+            sortable: true,
+            editor: Slick.Editors.Text,
+            validator: createValidator,
+            width : 120
+          },
+          {
+            id: "fileDelYn",
+            name: "File Del YN",
+            field: "fileDelYn",
+            sortable: true,
+            editor: function (args) {
+              return new ComboBoxEditor(args, [
+                { key: "Y", value: "Y" },
+                { key: "N", value: "N" },
+              ]);
+            },
+            width : 60
+          },
+          {
+            id: "uiSelYn",
+            name: "UI view YN",
+            field: "uiSelYn",
+            sortable: true,
+            editor: function (args) {
+              return new ComboBoxEditor(args, [
+                { key: "Y", value: "Y" },
+                { key: "N", value: "N" },
+              ]);
+            },
+            width : 60
+          },
+          {
+            id: "useYn",
+            name: "Use YN",
+            field: "useYn",
+            sortable: true,
+            editor: function (args) {
+              return new ComboBoxEditor(args, [
+                { key: "Y", value: "Y" },
+                { key: "N", value: "N" },
+              ]);
+            },
+            width : 50
+          },
+          {
+            id: "vrfUseYn",
+            name: "Validation YN",
+            field: "vrfUseYn",
+            sortable: true,
+            editor: function (args) {
+              return new ComboBoxEditor(args, [
+                { key: "Y", value: "Y" },
+                { key: "N", value: "N" },
+              ]);
+            },
+            width : 70
+          },
+          {
+            id: "frstRegEmpNo",
+            name: "Registrant ID",
+            field: "frstRegEmpNo",
+            sortable: true,
+            editor: Slick.Editors.Text,
+            width : 60
+          },
+          {
+            id: "frstRegDtm",
+            name: "Registration Date",
+            field: "frstRegDtm",
+            sortable: true,
+            editor: Slick.Editors.Text,
+            width : 80
+          },
+        ];
 
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-        },
-        {
-          id: "fileNm",
-          name: "File Name",
-          field: "fileNm",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: (value, args) =>
-            complexValidator(value, args, [
-              createValidator,
-              noWhitespaceValidator,
-            ]),
-        },
-        {
-          id: "dbId",
-          name: "Database ID",
-          field: "dbId",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-        },
-        {
-          id: "tblId",
-          name: "Table ID",
-          field: "tblId",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: (value, args) =>
-            complexValidator(value, args, [
-              createValidator,
-              noWhitespaceValidator,
-            ]),
-        },
-        {
-          id: "fileDsc",
-          name: "File Info",
-          field: "fileDsc",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-        },
-        {
-          id: "fileDelYn",
-          name: "File Del",
-          field: "fileDelYn",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-        },
-        {
-          id: "uiSelYn",
-          name: "Screen Select",
-          field: "uiSelYn",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-        },
-        {
-          id: "useYn",
-          name: "Use",
-          field: "useYn",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-        },
-        {
-          id: "vrfUseYn",
-          name: "Verification",
-          field: "vrfUseYn",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-        },
-        {
-          id: "frstRegEmpNo",
-          name: "Registrant ID",
-          field: "frstRegEmpNo",
-          sortable: true,
-          editor: Slick.Editors.Text,
-        },
-        {
-          id: "frstRegDtm",
-          name: "Registration Date",
-          field: "frstRegDtm",
-          sortable: true,
-          editor: Slick.Editors.Text,
-        },
-      ];
+        var options = {
+          enableCellNavigation: true,
+          enableColumnReorder: false,
+          forceFitColumns: true,
+          multiColumnSort: true,
+          numberedMultiColumnSort: true,
+          tristateMultiColumnSort: true,
+          sortColNumberInSeparateSpan: true,
+          enableAutoSizeColumns: true,
+          editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
+          enableAddRow: true,
+          asyncEditorLoading: false,
+          autoEdit: false,
+          autoEditNewRow: false
+          //enableAutoResize: true
+        };
 
-      var options = {
-        enableCellNavigation: true,
-        enableColumnReorder: false,
-        forceFitColumns: true,
-        multiColumnSort: true,
-        numberedMultiColumnSort: true,
-        tristateMultiColumnSort: true,
-        sortColNumberInSeparateSpan: true,
-        enableAutoSizeColumns: true,
-        editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
-        enableAddRow: true,
-        asyncEditorLoading: false,
-        autoEdit: false,
-        autoEditNewRow: false,
-      };
 
       var newRowIds = 0;
 
@@ -480,7 +499,6 @@
       // }
 
       // 신규버튼 누르면 동작하는 함수
-
       function openDetails(modalType) {
         grid.render();
 
@@ -610,6 +628,7 @@
 
         // saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
         function saveHandler() {
+          
           const formData = {};
 
           // Collect form data
@@ -622,16 +641,23 @@
             }
           });
 
+
           if (modalType === "create") {
+
             // Add new item to grid data
             if (checkData(formData)) {
+            	console.log(formData);
               formData[unqId] = grid.getDataLength() + 1;
               dataView.insertItem(grid.getDataLength(), formData);
+              insertFile(formData);
+              //main();
+              
             } else {
               alert("Please fill out all required fields.");
               return;
             }
           } else if (modalType === "edit") {
+        	  console.log("EDIT 테스트");
             // Update existing item in grid data
             let isChanged = false;
             for (let key in formData) {
@@ -644,6 +670,7 @@
             if (isChanged) {
               formData[unqId] = originalData[unqId];
               dataView.updateItem(originalData[unqId], formData);
+              updateFile(formData);
             } else {
               alert("No changes detected.");
               return;
@@ -652,6 +679,8 @@
           grid.render();
           modalElement.hide(); // Hide the modal after saving\
         }
+        
+        
 
         // Close button logic
         const closeBtn = document.querySelector(".modal-footer .btn-link");
@@ -670,6 +699,20 @@
         //         dataView.updateItem(originalData[unqId], originalData); // Revert changes if canceled
         //     }
         // });
+        
+       // Delete button logic
+       /*
+        const delBtn = document.querySelector(".modal-footer .btn-danger");
+        delBtn.removeEventListener("click", saveHandler);
+        delBtn.addEventListener("click", saveHandler);
+        
+        function deleteHandler(){
+        	if (modalType == "edit") {
+        	 saveBtn.appendChild(delBtn);
+        	}
+        	saveBtn.appendChild(delBtn);
+        }
+        */
       }
     </script>
   </th:block>

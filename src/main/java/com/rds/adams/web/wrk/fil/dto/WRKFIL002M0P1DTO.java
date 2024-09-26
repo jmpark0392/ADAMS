@@ -32,4 +32,11 @@ public class WRKFIL002M0P1DTO {
     private int ordSeq;            // 정렬순서
     private String itmDsc;         // 항목설명
     private String selBasYn;       // 적재기준여부
+    private String vrfId;         // 검증ID
+    private int seqNo;            // 일련번호
+    private String vrfTpCd;       // 검증코드
+    private String vrf1LvlCd;     // 검증1레벨코드
+    private String vrf2LvlCd;     // 검증2레벨코드
+    private String regUsrid;  /* 등록사용자ID */
+	private String regDt;  /* 등록일 */
 }

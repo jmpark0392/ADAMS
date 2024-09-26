@@ -47,6 +47,9 @@
          </if>
     </select>
     <insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
+        <selectKey>
+        	SELECT MAX(ROW_NUMBER)+1 FROM TB_JNL_RUL_MNG_LST;
+        </selectKey>
         INSERT INTO [dbo].[TB_JNL_RUL_MNG_LST] 
            (
               [INSC_DV_CD]

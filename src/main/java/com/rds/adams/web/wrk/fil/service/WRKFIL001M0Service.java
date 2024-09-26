@@ -29,4 +29,8 @@ public class WRKFIL001M0Service {
 	public void updateList(WRKFIL001M0P1DTO inVo) {
 		wRKFIL001M0DAO.updateList(inVo);
 	}
+	
+	public void deleteList(WRKFIL001M0P1DTO inVo) {
+		wRKFIL001M0DAO.deleteList(inVo);
+	}
 }
