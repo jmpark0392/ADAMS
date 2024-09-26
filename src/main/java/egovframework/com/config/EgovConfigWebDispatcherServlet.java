@@ -90,6 +90,7 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 		excludePathList.add("/css/**");
 		excludePathList.add("/images/**");
 		excludePathList.add("/js/**");
+		excludePathList.add("/*.ico");
 		
 		registry.addInterceptor(authenticInterceptor)
 			.addPathPatterns("/**/*", "/*")
@@ -110,7 +111,8 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/cmmn/validator.do")
 			.setViewName("cmmn/validator");
-		registry.addViewController("/index.html").setViewName("forward:/index.html");
+		registry.addViewController("/index.html").setViewName("forward:/login.html");
+		registry.addViewController("/").setViewName("login");
 	}
 
 	// -------------------------------------------------------------
