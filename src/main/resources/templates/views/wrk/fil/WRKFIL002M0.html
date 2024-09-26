@@ -3,6 +3,7 @@
 <th:block layout:fragment="content">
 	<div class="page">
 		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+		
 		<div class="page-wrapper" id="page-wrapper">
 			<div class="container" id="'container">
 				<h2>File Input</h2>
@@ -44,7 +45,7 @@
 					<div class="popupDataForm">
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">Launch modal with form</button>
 
-						<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+						<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-small" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -174,6 +175,32 @@
 	          //화면 접속시 바로 조회
 	          //main();
 	        });
+
+			// this method will trigger the popup modal to be draggle by mouse click
+			$(document).ready(function (){
+				// we initialize draggable when the modal is shown
+				$('#exampleModal').on('shown.bs.modal', function () {
+					// then we make the modal draggable
+					$(this).find(".modal-dialog").draggable({
+						handle: ".modal-header", // we will restrict dragging to the header
+						containment: "window"    // we prevent dragging outside the window box for popup container
+					});
+				});
+
+				// this will then reset position when the modal is hidden
+				$('#exampleModal').on('hidden.bs.modal', function () {
+					$(this).find(".modal-dialog").css({
+						top: "",
+						left: "",
+						right: "",
+						bottom: ""
+					});
+				});
+
+				// // Optional Case:  we can trigger the modal for test pirpose
+				// // this should be romoved when the code is ready for production 
+				// $('.btn-primary').trigger('click');
+			})
 	
 	        var grid;
 	        var dataView;
@@ -434,8 +461,23 @@
 	            exportToExcel(fileName, sheetName, gridColumns, gridData);
 	          });
 	
+
+
 	        // 신규버튼 누르면 동작하는 함수
 	        function openDetails(modalType) {
+
+				let options6 = [
+					{ value: "1", text: "Option 1", column: "dataTpCd" },
+					{ value: "2", text: "Option 2", column: "dataTpCd" },
+					{ value: "3", text: "Option 3", column: "dataTpCd" },
+				];
+
+				let options8 = [
+					{ value: "1", text: "Option 1", column: "vlvlVrfYn" },
+					{ value: "2", text: "Option 2", column: "vlvlVrfYn" },
+					{ value: "3", text: "Option 3", column: "vlvlVrfYn" },
+				];
+				console.log("options6 in the console:", options6);
 	          grid.render();
 	
 	          let originalData = null; // 수정 직전의 데이터를 저장할 변수
@@ -490,14 +532,20 @@
 	                originalData = JSON.parse(JSON.stringify(dataContext));
 	              }
 	            }
-	
 	            // Dynamically create form elements based on the columns that have editors
 	            const modalColumns = columns.filter(col => col.editor);
 	
 	            const columnsPerShow = 6;
 	            let currentRow;
+
+
+				function createInputField(column){
+					
+				}
+
 	
 	            modalColumns.forEach((column, index) => {
+
 	              // we create new row after 6 columms, 
 	              if(index % columnsPerShow === 0){
 	                currentRow = document.createElement("div")
@@ -519,12 +567,106 @@
 	              inputElem.className = "form-control";
 	              inputElem.dataset.editorid = column.id;
 	              inputElem.value = modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
-	
-	              formGroupElem.appendChild(detailLabelitem);
-	              formGroupElem.appendChild(inputElem);
-	
+
+				  formGroupElem.appendChild(detailLabelitem);
+
+				  if(column.id === "dataTpCd" || column.id === "vlvlCd"|| column.id === "selBasYn" || column.id === "itmDsc"){
+					if(column.id === "itmDsc"){
+						// this is the date input field
+						const dateInputContainer = document.createElement('div');
+						dateInputContainer.className = "input-icon mb-2";
+						const dateInput = document.createElement('input');
+						dateInput.type = "date";
+						dateInput.className = "form-control";
+						dateInput.id = "datepicker-icon";
+						dateInput.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // Pre-fill if in edit mode
+
+						const dateInputAddon = document.createElement('span');
+						dateInputAddon.className = "input-icon-addon";
+						const svgElement = document.createElement('svg');
+						svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+						svgElement.setAttribute("class", "icon");
+						svgElement.setAttribute("width", "24");
+						svgElement.setAttribute("height", "24");
+						svgElement.setAttribute("viewBox", "0 0 24 24");
+						svgElement.setAttribute("stroke-width", "2");
+						svgElement.setAttribute("stroke", "currentColor");
+						svgElement.setAttribute("fill", "none");
+						svgElement.setAttribute("stroke-linecap", "round");
+						svgElement.setAttribute("stroke-linejoin", "round");
+
+						const pathElement1 = document.createElement('path');
+						pathElement1.setAttribute("stroke", "none");
+						pathElement1.setAttribute("d", "M0 0h24v24H0z");
+						pathElement1.setAttribute("fill", "none");
+
+						svgElement.appendChild(pathElement1);
+
+						dateInputContainer.appendChild(dateInput);
+						dateInputContainer.appendChild(dateInputAddon);
+						dateInputAddon.appendChild(svgElement);
+
+						// we add the date input to  to the form group element
+						formGroupElem.appendChild(dateInputContainer);
+					} else {
+						const selectInput = document.createElement('select');
+						selectInput.className = "form-select";
+						selectInput.dataset.editorid = column.id;
+
+						// console.log("selectInput in the console:", selectInput);
+
+						// we add a default option for the select dropdown
+						const defaultOption = document.createElement('option');
+						defaultOption.value = "";
+						defaultOption.textContent = "- options -";
+						selectInput.appendChild(defaultOption);
+
+						
+						// we define the select options based on the column id or index
+						let optionsData = [];
+						if(column.id === "dataTpCd" || column.id === "vlvlCd"){
+							optionsData = options6;
+						} else if (column.id === "selBasYn"){
+							optionsData = options8;
+						}
+						// we define which optins to use based on the column index
+						// const optionsData = (index == 6) && (index === 7) ? options6 : options8;
+
+						console.log("optionsData in the console:", optionsData);
+
+						// i have to develop a function that will fetch the options from the db later
+
+						// populate the select box with options hard-coded  variable arrray of objects
+						optionsData.forEach(option => {
+							const optionElemen = document.createElement('option');
+							optionElemen.value = option.value;
+							optionElemen.textContent = option.text;
+							selectInput.appendChild(optionElemen);
+						});
+
+						// we pre-fill the select box in the edit box;
+						if(modalType === "edit"){
+							selectInput.value = dataContext[column.field] || "";
+						}
+
+						// we append the select box to the form group element
+						formGroupElem.appendChild(selectInput);
+				
+						// const selectOption = document.createElement('option');
+						// selectOption.value = "";
+		
+						// selectInput.appendChild(selectOption);
+						// formGroupElem.appendChild(selectInput);
+					}	
+				} else {
+					const inputElem = document.createElement('input');
+					inputElem.className = "form-control";
+					inputElem.dataset.editorid = column.id;
+					inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+					formGroupElem.appendChild(inputElem);
+				  }
+				 
 	              colElem.appendChild(formGroupElem);
-	
 	              currentRow.appendChild(colElem);
 	            })
 	
@@ -634,8 +776,30 @@
 	            modalElm.appendChild(modalBodyElm);
 	
 	
-	            //modal을 마우스로 드래그가능하도록 설정
-	            $(".modal").draggable();
+	            // //modal을 마우스로 드래그가능하도록 설정
+	            // $(".modal").draggable();
+		
+				// // Initialize draggable when the modal is shown
+				// $('#exampleModal').on('shown.bs.modal', function () {
+				// 	// Make the modal draggable
+				// 	$(this).find(".modal-dialog").draggable({
+				// 		handle: ".modal-header" // Restrict dragging to the header
+				// 	});
+
+				// 	// Optional: Prevent modal from being dragged outside the viewport
+				// 	$(this).find(".modal-dialog").draggable("option", "containment", "window");
+				// });
+
+				// // Optional: Reset position when the modal is hidden
+				// $('#exampleModal').on('hidden.bs.modal', function () {
+				// 	$(this).find(".modal-dialog").css({
+				// 		top: "",
+				// 		left: "",
+				// 		right: "",
+				// 		bottom: ""
+				// 	});
+				// });
+ 
 	
 	            grid.onClick.subscribe(function (e, args) {
 	              renewOptions(false);
@@ -645,6 +809,9 @@
 	          const saveBtn = document.querySelector(".modal-footer .btn-primary");
 	          saveBtn.removeEventListener("click", saveHandler);
 	          saveBtn.addEventListener("click", saveHandler);
+
+			    //modal을 마우스로 드래그가능하도록 설정
+				$(".modal").draggable();
 	
 	          // saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
 	          function saveHandler(){
@@ -708,6 +875,7 @@
 	              }
 	          }); 
 	        }
+    
 	    </script>
 </th:block>
 </html>

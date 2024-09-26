@@ -261,7 +261,7 @@ public class ADMSRV001M0Controller {
 
   /**
    * Fetches the user's current suncsription info.
-   * @param reuest HttpServletRequest to get session information.
+   * @param request HttpServletRequest to get session information.
    * @return User's subscription info.
    */
 
