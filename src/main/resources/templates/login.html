@@ -31,15 +31,15 @@
 					</div>
 					<form id="loginForm" name="loginForm" method="post" action="/auth/adamsLogin" autocomplete="off" onsubmit="return false;">
 						<div class="form-floating mb-2">
-							<input type="email" class="form-control border-2" id="inpUsrId" name="inpUsrId" minLength="8" maxLength="50" placeholder="your@email.com" autocomplete="off" required>
+							<input type="email" class="form-control" id="inpUsrId" name="inpUsrId" minLength="8" maxLength="50" placeholder="your@email.com" autocomplete="off" required>
 							<label for="inpUsrId">your@email.com</label>
 						</div>
 						<div class="form-floating">
-							<input type="password" class="form-control border-2" id="inpUsrPassword" name="inpUsrPassword" minLength="8" maxLength="20" placeholder="your password" autocomplete="off" required>
+							<input type="password" class="form-control" id="inpUsrPassword" name="inpUsrPassword" minLength="8" maxLength="20" placeholder="your password" autocomplete="off" required>
 							<label for="inpUsrPassword">your password</label>
 						</div>
 						<div class="form-footer">
-							<button type="submit" class="btn btn-primary w-100 border-2" onclick="login()">Sign in</button>
+							<button type="submit" class="btn btn-primary w-100" onclick="login()">Sign in</button>
 						</div>
 					</form>
 					<div class="text-center text-secondary mt-4">
