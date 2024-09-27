@@ -30,7 +30,7 @@
                       name="inpSearchTxt"
                       type="text"
                       class="form-input-temp"
-                      placeholder="Input Name"
+                      placeholder="Account Title/Name"
                     />
                     <button
                       type="button"
@@ -169,6 +169,33 @@
           }
         });
       });
+      
+   // this method will trigger the popup modal to be draggle by mouse click
+		$(document).ready(function (){
+			// we initialize draggable when the modal is shown
+			$('#exampleModal').on('shown.bs.modal', function () {
+				// then we make the modal draggable
+				$(this).find(".modal-dialog").draggable({
+					handle: ".modal-header", // we will restrict dragging to the header
+					// containment: "window"    // we prevent dragging outside the window box for popup container
+				});
+			});
+
+			// this will then reset position when the modal is hidden
+			$('#exampleModal').on('hidden.bs.modal', function () {
+				$(this).find(".modal-dialog").css({
+					top: "",
+					left: "",
+					right: "",
+					bottom: ""
+				});
+			});
+
+			// // Optional Case:  we can trigger the modal for test pirpose
+			// // this should be romoved when the code is ready for production 
+			// $('.btn-primary').trigger('click');
+		})
+
 
       var grid;
       var dataView;
@@ -455,7 +482,7 @@
         grid.registerPlugin(new Slick.AutoTooltips());
 
         // set keyboard focus on the grid
-        grid.getCanvasNode().focus();
+        //grid.getCanvasNode().focus();
         grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
 
         grid.onAddNewRow.subscribe(function (e, args) {
@@ -567,10 +594,10 @@
         // Define the modal title based on action
         if (modalTitleElem) {
           if (modalType === "create") {
-            modalTitleElem.textContent = "Create a new report";
+            modalTitleElem.textContent = "NEW";
             // modalTitleElem.className = "mb-3";
           } else if (modalType === "edit") {
-            modalTitleElem.textContent = "Edit report";
+            modalTitleElem.textContent = "EDIT";
             originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
           }
         } else {
