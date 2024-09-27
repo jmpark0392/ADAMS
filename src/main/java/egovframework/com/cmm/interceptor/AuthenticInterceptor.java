@@ -59,6 +59,10 @@ public class AuthenticInterceptor extends WebContentInterceptor {
 		exceptPageNameList.add("login");
 		exceptPageNameList.add("pwChange");
 		
+		exceptPageNameList.add("/error/error_400");
+		exceptPageNameList.add("/error/error_500");
+		exceptPageNameList.add("/error/error_auth");
+		
 		String pageName = request.getParameter("pageName");
 		
 		log.info("========================================================");

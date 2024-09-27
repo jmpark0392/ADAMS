@@ -135,7 +135,7 @@ public class AdamsLoginController {
 	    return resultMap;
 	}
 	
-	public HashMap<String, Object> processLogin(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request, boolean isJwtLogin) throws Exception {
+	private HashMap<String, Object> processLogin(AdamsLoginDTO adamsLoginDTO, HttpServletRequest request, boolean isJwtLogin) throws Exception {
 		HashMap<String,Object>  resultMap         = new HashMap<String,Object>();
 		List<AdamsMenuDTO>      adamsMenuDTOs     = new ArrayList<>();
 		List<AdamsMenuDTO>      adamsMenuTreeDTOs = new ArrayList<>();
