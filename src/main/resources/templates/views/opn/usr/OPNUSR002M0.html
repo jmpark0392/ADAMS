@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html
   lang="ko"
@@ -10,66 +9,46 @@
     <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
     <div class="page-wrapper" id="page-wrapper">
       <div class="container" id="container">
-        <h2>Job List</h2>
+        <h2>Company Stats</h2>
         <div class="ptag-container">
           <span><a href="#"> Home ></a></span>
-          <span><a href="#">Job List</a></span>
+          <span><a href="#"> System Admin</a></span>
           <div class="form-container">
             <div class="form-box">
-              <form
-                id="filter-form"
-                name="form"
-                method="post"
-                action="/WRKBAT001M0SelectList"
-                onsubmit="return false;"
-              >
+              <form id="filter-form" name="form" method="post" action="/OPNUSR002M0SelectList" onsubmit="return false;">
                 <div class="row">
                   <div class="col">
-                    <input
-                      id="inpSearchTxt"
-                      name="inpSearchTxt"
-                      type="text"
-                      class="form-input-temp"
-                      placeholder="Program ID/Name"
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="main()"
-                    >
+                    <!-- 회사번호구분코드 -->
+                    <label for="lblCompNoDvCd">Company Number Type : </label>
+					<select id="selCompNoDvCd" style="padding: 3px">
+						<option selected="selected" value="">- select -</option>
+	                    <option value="1">DUNS Number</option>
+	                    <option value="2">Corporation Number</option>
+	                    <option value="3">Business Registration Number</option>
+					</select>
+                    <!-- 회사번호/명 -->
+                    <label for=lblCompNoNm>Company Number/Name : </label>
+                    <input id="inpCompNoNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
+                    <!-- 담당자명 -->
+                    <label for="lblPtbNm">Manager Name : </label>
+                    <input id="inpPtbNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
+                    <!-- 국가명 -->
+                    <label for="lblCountryNm">Country Name : </label>
+                    <input id="inpCountryNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
+                    <button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">
                       Search
                     </button>
                   </div>
                   <div class="col text-end">
-                    <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
+                    <button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px"
                       onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-                      data-test="create-button"
-                      onsubmit="return false;"
-                    >
-                      Create
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-lime"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      id="downloadExcel"
-                    >
+                      data-test="create-button" onsubmit="return false;">Create</button>
+                    <button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px"id="downloadExcel">
                       Download
                     </button>
-                    <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-secondary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
+                    <button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" 
                       onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-                      data-test="edit-button"
-                      onsubmit="return false;"
-                    >
+                      data-test="edit-button" onsubmit="return false;" >
                       Edit
                     </button>
                   </div>
@@ -83,31 +62,15 @@
           </div>
         </div>
         <div class="popupDataForm">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            style="display: none"
-          >
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none" >
             Launch modal with form
           </button>
-          <div
-            class="modal fade"
-            id="exampleModal"
-            tabindex="-1"
-            style="display: none"
-          >
+          <div class="modal fade" id="exampleModal" tabindex="-1" style="display: none" >
             <div class="modal-dialog modal-small" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title">New report</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <div class="row">
@@ -116,19 +79,12 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <a
-                    href="#"
-                    class="btn btn-link link-secondary"
-                    data-bs-dismiss="modal"
-                    >Cancel</a
-                  >
-                  <a
-                    href="#"
-                    class="btn btn-primary ms-auto"
-                    data-bs-dismiss="modal"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    >Save changes</a
-                  >
+                  <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal" >
+                    Cancel
+                  </a>
+                  <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">
+                    Save changes
+                  </a>
                 </div>
               </div>
             </div>
@@ -142,19 +98,19 @@
       }
 
       function getFile(input) {
-        return parentGetFile(input, "/WRKBAT001M0SelectList");
+        return parentGetFile(input, "/OPNUSR002M0SelectList");
       }
 
       function insertFile(addedRow) {
-        parentInsertFile(addedRow, "/WRKBAT001M0InsertList");
+        parentInsertFile(addedRow, "/OPNUSR002M0InsertList");
       }
 
       function updateFile(updatedRow) {
-        parentUpdateFile(updatedRow, "/WRKBAT001M0UpdateList");
+        parentUpdateFile(updatedRow, "/OPNUSR002M0UpdateList");
       }
 
       function deleteFile(todeleteRow) {
-        parentDeleteFile(todeleteRow, "/WRKBAT001M0DeleteList");
+        parentDeleteFile(todeleteRow, "/OPNUSR002M0DeleteList");
       }
     </script>
     <script src="js/utils.js"></script>
@@ -172,173 +128,52 @@
           }
         });
       });
-      
-   // this method will trigger the popup modal to be draggle by mouse click
-		$(document).ready(function (){
-			// we initialize draggable when the modal is shown
-			$('#exampleModal').on('shown.bs.modal', function () {
-				// then we make the modal draggable
-				$(this).find(".modal-dialog").draggable({
-					handle: ".modal-header", // we will restrict dragging to the header
-					// containment: "window"    // we prevent dragging outside the window box for popup container
-				});
-			});
-
-			// this will then reset position when the modal is hidden
-			$('#exampleModal').on('hidden.bs.modal', function () {
-				$(this).find(".modal-dialog").css({
-					top: "",
-					left: "",
-					right: "",
-					bottom: ""
-				});
-			});
-
-			// // Optional Case:  we can trigger the modal for test pirpose
-			// // this should be romoved when the code is ready for production 
-			// $('.btn-primary').trigger('click');
-		})
-
 
       var grid;
       var dataView;
       var data;
-      var unqId = "batProgId";
-      var xcpt_cols = [unqId, "regUsrid", "regDt"];
-      var check_cols = [unqId, "batProgNm"];
+      var unqId = "seqNo";
+      var xcpt_cols = [unqId, "frstRegDtm"];
+      var check_cols = [unqId, "compNo", "compNm"];
       var columns = [
-        {
-          id: unqId,
-          name: "Program ID",
-          field: unqId,
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: (value, args) =>
-            complexValidator(value, args, [
-              createValidator,
-              noWhitespaceValidator,
-            ]),
-        },
-        {
-          id: "batProgNm",
-          name: "Program Name",
-          field: "batProgNm",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-        },
-        {
-          id: "upProgId",
-          name: "Group Name",
-          field: "upProgId",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: (value, args) =>
-            complexValidator(value, args, [
-              createValidator,
-              noWhitespaceValidator,
-            ]),
-        },
-        {
-          id: "lwstProgYn",
-          name: "Program",
-          field: "lwstProgYn",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-        },
-        {
-          id: "exePrd",
-          name: "Cycle",
-          field: "exePrd",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "Q", value: "Q" },
-              { key: "M", value: "M" },
-            ]);
-          },
-        },
-        {
-          id: "mainEmpNo",
-          name: "Main User",
-          field: "mainEmpNo",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: (value, args) =>
-            complexValidator(value, args, [
-              createValidator,
-              noWhitespaceValidator,
-            ]),
-        },
-        {
-          id: "subEmpNo",
-          name: "Sub User",
-          field: "subEmpNo",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: (value, args) =>
-            complexValidator(value, args, [
-              createValidator,
-              noWhitespaceValidator,
-            ]),
-        },
-        {
-          id: "etcDesc",
-          name: "Desc",
-          field: "etcDesc",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-        },
-        {
-          id: "useYn",
-          name: "Use",
-          field: "useYn",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-        },
-        {
-          id: "regUsrid",
-          name: "Registrant",
-          field: "regUsrid",
-          sortable: true,
-          editor: Slick.Editors.Text,
-        },
-        {
-          id: "regDt",
-          name: "Registration Date",
-          field: "regDt",
-          sortable: true,
-          editor: Slick.Editors.Text,
-        },
-      ];
+                      { id: unqId,          name: "Seq",                            field: unqId,                          width: 20, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "csNo",         name: "customer number",                field: "csNo",         sortable: true, width: 40, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "compNoDvCd",   name: "type of company identification", field: "compNoDvCd",   sortable: true, width: 80, editor: function (args) { return new ComboBoxEditor(args, [ { key: "DUNS Number", value: "1" }, { key: "Corporation Number", value: "2" }, { key: "Business Registration Number", value: "3" } ]);} }
+                    , { id: "compNo",       name: "company identification number",  field: "compNo",       sortable: true, width: 80, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator])}
+                    , { id: "compNm",       name: "company name",                   field: "compNm",       sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "repPhNo",      name: "representative phone number",    field: "repPhNo",      sortable: true, width: 80, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "reperNm",      name: "representative person name",     field: "reperNm",      sortable: true, width: 80, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "ptbNm",        name: "manager name",                   field: "ptbNm",        sortable: true, width: 80, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "ptbPhNo",      name: "manager phone number",           field: "ptbPhNo",      sortable: true, width: 80, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "ptbEmail",     name: "manager email",                  field: "ptbEmail",     sortable: true, width: 160, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "postNo",       name: "postal code",                    field: "postNo",       sortable: true, width: 60, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "addrs",        name: "company address 1",              field: "addrs",        sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "dtlsAddrs",    name: "company address 2",              field: "dtlsAddrs",    sortable: true, width: 160, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "statDvCd",     name: "status",                         field: "statDvCd",     sortable: true, width: 80, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Normal use", value: "0" }, { key: "Application for use", value: "1" }, { key: "Waiting for use", value: "2" }, { key: "Application for change", value: "3" }, { key: "Application for suspension of use", value: "8" }, { key: "Suspension of use", value: "9" }]);} }
+                    , { id: "useStrDtm",    name: "use start date/time",            field: "useStrDtm",    sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "useEndDtm",    name: "use end date/time",              field: "useEndDtm",    sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "countryCd",    name: "country code",                   field: "countryCd",    sortable: true, width: 40, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "countryNmKor", name: "country Name(Korea)",            field: "countryNmKor", sortable: true, width: 80, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "countryNmEng", name: "country Name(English)",          field: "countryNmEng", sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
+                    , { id: "frstRegDtm",   name: "first registration date/time",   field: "frstRegDtm",   sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
+                    ];
 
       var options = {
-        enableCellNavigation: true,
-        enableColumnReorder: false,
-        forceFitColumns: true,
-        multiColumnSort: true,
-        numberedMultiColumnSort: true,
-        tristateMultiColumnSort: true,
-        sortColNumberInSeparateSpan: true,
-        enableAutoSizeColumns: true,
-        editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
-        enableAddRow: true,
-        asyncEditorLoading: false,
-        autoEdit: false,
-        autoEditNewRow: false,
-      };
+                      enableCellNavigation: true
+                    , enableColumnReorder: false
+                    , forceFitColumns: false
+                    , multiColumnSort: true
+                    , numberedMultiColumnSort: true
+                    , tristateMultiColumnSort: true
+                    , sortColNumberInSeparateSpan: true
+                    , enableAutoSizeColumns: false
+                    , editable: false 
+                    , enableAddRow: true
+                    , autoWidth: true
+                    , asyncEditorLoading: false
+                    , autoEdit: false
+                    , autoEditNewRow: false
+                    };	
 
       var newRowIds = 0;
 
@@ -432,7 +267,7 @@
         grid.registerPlugin(new Slick.AutoTooltips());
 
         // set keyboard focus on the grid
-        //grid.getCanvasNode().focus();
+        grid.getCanvasNode().focus();
         grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
 
         grid.onAddNewRow.subscribe(function (e, args) {
@@ -488,14 +323,22 @@
         .getElementById("downloadExcel")
         .addEventListener("click", function () {
           const currDate = getCurrentDateTime();
-          const fileName = "WRKBAT001_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
-          const sheetName = "배치관리"; // 시트 이름
+          const fileName = "WRKFIL001_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
+          const sheetName = "파일관리"; // 시트 이름
           const gridColumns = columns; // SlickGrid의 컬럼 배열
           const gridData = dataView.getItems(); // SlickGrid의 데이터 배열
           exportToExcel(fileName, sheetName, gridColumns, gridData);
         });
 
+      //   function addCustomModalStyling() {
+      //   const style = document.createElement("style");
+      //   style.innerHTML = `
+      //   `;
+      //   document.head.appendChild(style);
+      // }
+
       // 신규버튼 누르면 동작하는 함수
+
       function openDetails(modalType) {
         grid.render();
 
@@ -533,18 +376,17 @@
 
         modalBodyElem.innerHTML = ""; // Clear previous content
 
-        
         // Define the modal title based on action
         if (modalTitleElem) {
           if (modalType === "create") {
-            modalTitleElem.textContent = "NEW";
+            modalTitleElem.textContent = "Create a new report";
             // modalTitleElem.className = "mb-3";
           } else if (modalType === "edit") {
-            modalTitleElem.textContent = "EDIT";
+            modalTitleElem.textContent = "Edit report";
             originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
           }
         } else {
-          console.error("error while loading the moda title: ");
+          console.error("error while loading the modal title: ");
         }
         renewOptions(false);
 
@@ -598,6 +440,27 @@
 
         modalElement.show();
 
+        // for (const column of modalColumns) {
+        //     const detailLabelElm = document.createElement("label");
+        //     detailLabelElm.className = "form-label";
+        //     detailLabelElm.textContent = column.name;
+
+        //     const detailContainerElm = document.createElement("div");
+        //     detailContainerElm.className = "mb-3";
+
+        //     const inputElm = document.createElement("input");
+        //     inputElm.className = "form-control";
+        //     inputElm.dataset.editorid = column.id;
+        //     inputElm.value = modalType === "edit" ? dataContext[column.field] : ""; // Pre-fill in edit mode
+
+        //     detailContainerElm.appendChild(detailLabelElm);
+        //     detailContainerElm.appendChild(inputElm);
+        //     modalBodyElem.appendChild(detailContainerElm);
+        // }
+
+        // // Show the modal
+        // modalElement.show();
+
         // Save button logic
         const saveBtn = document.querySelector(".modal-footer .btn-primary");
         saveBtn.removeEventListener("click", saveHandler);
@@ -605,6 +468,11 @@
 
         // saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
         function saveHandler() {
+
+
+          
+
+
           const formData = {};
 
           // Collect form data
@@ -620,9 +488,8 @@
           if (modalType === "create") {
             // Add new item to grid data
             if (checkData(formData)) {
-              //formData[unqId] = grid.getDataLength() + 1;
+              formData[unqId] = grid.getDataLength() + 1;
               dataView.insertItem(grid.getDataLength(), formData);
-              insertFile(formData);
             } else {
               alert("Please fill out all required fields.");
               return;
@@ -640,7 +507,6 @@
             if (isChanged) {
               formData[unqId] = originalData[unqId];
               dataView.updateItem(originalData[unqId], formData);
-              updateFile(formData);
             } else {
               alert("No changes detected.");
               return;
@@ -661,6 +527,12 @@
           }
           modalElement.hide(); // we hide the modal
         }
+
+        // closeBtn.addEventListener("click", function () {
+        //     if (modalType === "edit" && originalData) {
+        //         dataView.updateItem(originalData[unqId], originalData); // Revert changes if canceled
+        //     }
+        // });
       }
     </script>
   </th:block>

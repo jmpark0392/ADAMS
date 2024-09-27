@@ -30,7 +30,7 @@
                       name="inpSearchTxt"
                       type="text"
                       class="form-input-temp"
-                      placeholder="Input Name"
+                      placeholder="Account Title/Name"
                     />
                     <button
                       type="button"
@@ -264,7 +264,7 @@
             grid.registerPlugin(new Slick.AutoTooltips());
             
             // set keyboard focus on the grid
-            grid.getCanvasNode().focus();
+            //grid.getCanvasNode().focus();
             grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
             
             grid.onAddNewRow.subscribe(function (e, args) {

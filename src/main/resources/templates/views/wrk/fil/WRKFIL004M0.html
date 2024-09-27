@@ -2,18 +2,6 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
   <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-   <script
-      src="js/libs-tabler/nouislider/dist/nouislider.min.js?1692870487"
-      defer
-    ></script>
-    <script
-      src="js/libs-tabler/litepicker/dist/litepicker.js?1692870487"
-      defer
-    ></script>
-    <script
-      src="js/libs-tabler/tom-select/dist/js/tom-select.base.min.js?1692870487"
-      defer
-    ></script>
 	<div class="page-wrapper" id="page-wrapper">
 		<div class="container" id="'container">
 			<h2>[[${menuNm}]]</h2>
@@ -34,7 +22,8 @@
 								<div class="col">
 									<label class="form-label">From</label>
 									<div class="input-icon mb-2">
-										<input class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" /> <span class="input-icon-addon"> <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										<input class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" /> 
+                    <span class="input-icon-addon"> <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
                           <path d="M16 3v4" />
@@ -394,66 +383,6 @@
         });
       }
   </script>
-	<script>
-  // @formatter:off
-  document.addEventListener("DOMContentLoaded", function () {
-    window.Litepicker && (new Litepicker({
-        element: document.getElementById('datepicker-default'),
-        buttonText: {
-            previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
-            nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
-        },
-    }));
-  });
-  // @formatter:on
-  </script>
-	<script>
-  // @formatter:off
-  document.addEventListener("DOMContentLoaded", function () {
-    window.Litepicker && (new Litepicker({
-        element: document.getElementById('datepicker-icon'),
-        buttonText: {
-            previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
-            nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
-        },
-    }));
-  });
-  // @formatter:on
-  </script>
-	<script>
-  // @formatter:off
-  document.addEventListener("DOMContentLoaded", function () {
-    window.Litepicker && (new Litepicker({
-        element: document.getElementById('datepicker-icon-prepend'),
-        buttonText: {
-            previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
-            nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
-        },
-    }));
-  });
-  // @formatter:on
-  </script>
-	<script>
-  // @formatter:off
-  document.addEventListener("DOMContentLoaded", function () {
-    window.Litepicker && (new Litepicker({
-        element: document.getElementById('datepicker-inline'),
-        buttonText: {
-            previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
-            nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
-        },
-        inlineMode: true,
-    }));
-  });
-  // @formatter:on
-  </script>
+	
 </th:block>
 </html>

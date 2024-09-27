@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.opn.usr.dao.OPNUSR002M0DAO">
+    <select id="selectCsNoList" parameterType="com.rds.adams.web.opn.usr.dto.OPNUSR002M0P0DTO" resultType="com.rds.adams.web.opn.usr.dto.OPNUSR002M0R0DTO">
+        /* web.opn.usr.dao.OPNUSR002M0DAO.selectCsNoList */
+        SELECT 
+               ROW_NUMBER() OVER(ORDER BY A.CS_NO)    AS seqNo
+			 , A.CS_NO                                AS csNo           /* 고객사번호 */
+             , A.COMP_NO_DV_CD                        AS compNoDvCd     /* 회사번호구분코드 */
+             , A.COMP_NO                              AS compNo         /* 회사번호 */
+             , A.COMP_NM                              AS compNm         /* 회사명 */
+             , A.REP_PH_NO                            AS repPhNo        /* 대표전화번호 */
+             , A.REPER_NM                             AS reperNm        /* 대표자명 */
+             , A.PTB_NM                               AS ptbNm          /* 담당자명 */
+             , A.PTB_PH_NO                            AS ptbPhNo        /* 담당자전화번호 */
+             , A.PTB_EMAIL                            AS ptbEmail       /* 담당자이메일 */
+             , A.ADMIN_ID                             AS adminId        /* 관리자ID */
+             , ''                                     AS adminPassword  /* 관리자비밀번호 */
+             , A.POST_NO                              AS postNo         /* 우편번호 */
+             , A.ADDRS                                AS addrs          /* 주소 */
+             , A.DTLS_ADDRS                           AS dtlsAddrs      /* 상세주소 */
+             , A.STAT_DV_CD                           AS statDvCd       /* 상태구분코드 */
+             , A.STAT_DV_CD                           AS oldStatDvCd    /* old상태구분코드 */
+             , CONVERT(CHAR(10), A.USE_STR_DTM, 23)   AS useStrDtm      /* 사용시작일시 */
+             , CONVERT(CHAR(10), A.USE_END_DTM, 23)   AS useEndDtm      /* 사용종료일시 */
+             , A.COUNTRY_CD                           AS countryCd      /* 국가코드 */
+             , A.COUNTRY_NM_KOR                       AS countryNmKor   /* 국가명_한글 */
+             , A.COUNTRY_NM_ENG                       AS countryNmEng   /* 국가명_영문 */
+             , CONVERT(CHAR(10), A.FRST_REG_DTM, 23)  AS frstRegDtm     /* 최초등록일시 */
+          FROM [RDSDB].[dbo].[TB_CS_MNG_LST] A
+         WHERE 1=1
+        <if test='compNoDvCd != "" and compNoDvCd != null'>
+           AND A.COMP_NO_DV_CD = #{compNoDvCd}
+        </if>
+        <if test='compNoNm != "" and compNoNm != null'>
+           AND ( A.COMP_NO     LIKE '%' + #{compNoNm} + '%' OR A.COMP_NM LIKE '%' + #{compNoNm} + '%' )
+        </if>
+        <if test='countryNm != "" and countryNm != null'>
+           AND ( A.COUNTRY_CD  LIKE '%' + #{countryNm} + '%' OR A.COUNTRY_NM_KOR  LIKE '%' + #{countryNm} + '%' OR A.COUNTRY_NM_ENG  LIKE '%' + #{countryNm} + '%' )
+        </if>
+        <if test='ptbNm != "" and ptbNm != null'>
+           AND A.PTB_NM  LIKE '%' + #{ptbNm} + '%'
+        </if>
+         ORDER BY A.CS_NO
+    </select>
+</mapper>
