@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html
   lang="ko"
@@ -176,11 +177,9 @@
       var dataView;
       var data;
       var unqId = "batProgId";
-      var xcpt_cols = ["regUsrid", "regDt"];
+      var xcpt_cols = [unqId, "regUsrid", "regDt"];
       var check_cols = [unqId, "batProgNm"];
       var columns = [
-        //{id: unqId,  name: "항목", field: unqId, sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-        // {id: "fileNm", name: "파일명", field: "fileNm", sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator])},
         {
           id: unqId,
           name: "Program ID",
@@ -507,6 +506,7 @@
 
         modalBodyElem.innerHTML = ""; // Clear previous content
 
+        
         // Define the modal title based on action
         if (modalTitleElem) {
           if (modalType === "create") {
@@ -593,8 +593,9 @@
           if (modalType === "create") {
             // Add new item to grid data
             if (checkData(formData)) {
-              formData[unqId] = grid.getDataLength() + 1;
+              //formData[unqId] = grid.getDataLength() + 1;
               dataView.insertItem(grid.getDataLength(), formData);
+              insertFile(formData);
             } else {
               alert("Please fill out all required fields.");
               return;
@@ -612,6 +613,7 @@
             if (isChanged) {
               formData[unqId] = originalData[unqId];
               dataView.updateItem(originalData[unqId], formData);
+              updateFile(formData);
             } else {
               alert("No changes detected.");
               return;

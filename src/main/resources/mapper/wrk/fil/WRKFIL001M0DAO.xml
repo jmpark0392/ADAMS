@@ -14,8 +14,8 @@
 		     , UI_SEL_YN
 		     , USE_YN
 		     , VRF_USE_YN
-		     , FRST_REG_EMP_NO   AS REG_USR_ID
-		     , FRST_REG_DTM      AS REG_DT
+		     , FRST_REG_EMP_NO 
+		     , FRST_REG_DTM
 		  FROM TB_UPL_FILE_LST
          WHERE 1=1
          <if test='searchTxt != ""'>

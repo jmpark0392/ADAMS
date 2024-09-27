@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html
   lang="ko"
@@ -501,8 +502,9 @@
           if (modalType === "create") {
             // Add new item to grid data
             if (checkData(formData)) {
-              formData[unqId] = grid.getDataLength() + 1;
+              //formData[unqId] = grid.getDataLength() + 1;
               dataView.insertItem(grid.getDataLength(), formData);
+              inserFile(formData);
             } else {
               alert("Please fill out all required fields.");
               return;
@@ -520,6 +522,7 @@
             if (isChanged) {
               formData[unqId] = originalData[unqId];
               dataView.updateItem(originalData[unqId], formData);
+              updateFile(formData);
             } else {
               alert("No changes detected.");
               return;
