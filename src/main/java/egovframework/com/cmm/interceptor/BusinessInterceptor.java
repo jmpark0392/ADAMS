@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
 import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.core.utils.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,6 +53,7 @@ public class BusinessInterceptor extends WebContentInterceptor {
 			modelAndView.addObject("menuList", menuList);
 			modelAndView.addObject("menuId", menuId);
 			modelAndView.addObject("menuNm", menuNm);
+			modelAndView.addObject("navigator", getNavigator(request, menuId));
 		}
 		
 		log.info("========================================================");
@@ -100,6 +102,32 @@ public class BusinessInterceptor extends WebContentInterceptor {
 		
 		return menuNm;
 		
+	}
+	
+	private String getNavigator(HttpServletRequest request, String menuId) {
+		
+		HttpSession session = request.getSession();
+		
+		List<AdamsMenuDTO> menuList = (List<AdamsMenuDTO>) session.getAttribute(AdamsConstant.SESSION_MENU_FLATLIST);
+		String navigator = "";
+		
+		if (menuList == null || menuList.size() <= 0) {
+			return navigator;
+		} else {
+			for (AdamsMenuDTO menuDTO : menuList) {
+				if (menuDTO.getMenuId().equals(menuId)) {
+					navigator = menuDTO.getMenuNmEng();
+					if (StringUtil.isEmpty(menuDTO.getUpprMenuId())) {
+						navigator = menuDTO.getMenuNmEng();
+					} else {
+						navigator = getNavigator(request, menuDTO.getUpprMenuId()) + " > " + navigator;
+					}
+				}
+			}
+		}
+		
+		return navigator;
+
 	}
 
 }
