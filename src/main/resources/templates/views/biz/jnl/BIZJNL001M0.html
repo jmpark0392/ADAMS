@@ -247,6 +247,11 @@
               { key: "2", value: "2" },
               { key: "3", value: "3" },
               { key: "4", value: "4" },
+              { key: "5", value: "5" },
+              { key: "6", value: "6" },
+              { key: "7", value: "7" },
+              { key: "8", value: "8" },
+              { key: "9", value: "9" },
             ]);
           },
         },
@@ -555,6 +560,45 @@
       // 신규버튼 누르면 동작하는 함수
 
       function openDetails(modalType) {
+    	  
+    	  let options5 = [
+      		{ value: "1", text: "1", column: "acLvlCd"},
+      		{ value: "2", text: "2", column: "acLvlCd"},
+      		{ value: "3", text: "3", column: "acLvlCd"},
+      		{ value: "4", text: "4", column: "acLvlCd"},
+      		{ value: "5", text: "5", column: "acLvlCd"},
+      		{ value: "6", text: "6", column: "acLvlCd"},
+      		{ value: "7", text: "7", column: "acLvlCd"},
+      		{ value: "8", text: "8", column: "acLvlCd"},
+      		{ value: "9", text: "9", column: "acLvlCd"},
+      	  ];
+    	  
+    	  let options6 = [
+    		{ value: "Y", text: "Y", column: " "},
+    		{ value: "N", text: "N", column: " "}
+    	  ];
+    	  
+    	  let options7 = [
+      		{ value: "BS", text: "BS", column: "fsDvCd"},
+      		{ value: "PL", text: "PL", column: "fsDvCd"}
+      	  ];
+    	  
+    	  let options8 = [
+        	{ value: "Assets", text: "Assets", column: "acDvCd"},
+        	{ value: "Liabilities", text: "Liabilities", column: "acDvCd"},
+        	{ value: "Capital", text: "Capital", column: "acDvCd"},
+        	{ value: "Profit", text: "Profit", column: "acDvCd"},
+        	{ value: "Loss", text: "Loss", column: "acDvCd"},
+          ];
+    	  
+    	  let options9 = [
+          	{ value: "1", text: "AssetsSum", column: "acKindCd"},
+          	{ value: "2", text: "LiabilitiesSum", column: "acKindCd"},
+          	{ value: "3", text: "CapitalSum", column: "acKindCd"},
+          	{ value: "4", text: "ProfitSum", column: "acKindCd"},
+          	{ value: "5", text: "LossSum", column: "acKindCd"}
+            ];
+    	    
         grid.render();
 
         let originalData = null;
@@ -582,9 +626,7 @@
         }
 
         const dataContext = grid.getDataItem(activeRow);
-        const modalElement = new bootstrap.Modal(
-          document.getElementById("exampleModal")
-        );
+        const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
         const modalTitleElem = document.querySelector(".modal-title");
         const modalBodyElem = document.querySelector(".modal-body");
         console.log("modalTitleElem:", modalTitleElem);
@@ -634,20 +676,62 @@
           const inputElem = document.createElement("input");
           inputElem.className = "form-control";
           inputElem.dataset.editorid = column.id;
-          inputElem.value =
-            modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+          inputElem.value = modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 
           formGroupElem.appendChild(detailLabelitem);
-          formGroupElem.appendChild(inputElem);
+          
+          if(column.id === "acLvlCd" || column.id === "bkgAcYn" || column.id === "fsDvCd" || column.id === "acDvCd" || column.id === "acKindCd" || column.id === "useYn"){
+        	  
+        		const selectInput = document.createElement('select');
+        		selectInput.className = "form-select";
+        		selectInput.dataset.editorid = column.id;
+        		
+        		const defaultOption = document.createElement('option');
+				defaultOption.value = "";
+				defaultOption.textContent = "- options -";
+				selectInput.appendChild(defaultOption);
+				
+				let optionsData = [];
+				
+        	 if(column.id === "acLvlCd"){
+        		 optionsData = options5;
+        	  } else if (column.id === "fsDvCd"){
+        		 optionsData = options7;
+        	  } else if (column.id === "acDvCd"){
+        		 optionsData = options8;
+        	  } else if (column.id === "acKindCd"){
+        		 optionsData = options9;
+        	  } else {
+        		 optionsData = options6;
+        	  }
+          
+          optionsData.forEach(option => {
+				const optionElem = document.createElement('option');
+				optionElem.value = option.value;
+				optionElem.textContent = option.text;
+				selectInput.appendChild(optionElem);
+			});
+          
+          if(modalType === "edit"){
+				selectInput.value = dataContext[column.field] || "";
+			}
+          
+          formGroupElem.appendChild(selectInput);
+          
+         } else {
+        	 const inputElem = document.createElement('input');
+			 inputElem.className = "form-control";
+			 inputElem.dataset.editorid = column.id;
+			 inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+			 formGroupElem.appendChild(inputElem);
+         }
 
           colElem.appendChild(formGroupElem);
-
           currentRow.appendChild(colElem);
-        });
+        })
 
         if (modalColumns.length % columnsPerShow !== 0) {
-          const remainingCols =
-            columnsPerShow - (modalColumns.length % columnsPerShow);
+          const remainingCols = columnsPerShow - (modalColumns.length % columnsPerShow);
           const spacerCol = document.createElement("div");
           spacerCol.className = `col-lg-${remainingCols * 2}`; // adjust the spacer column
           currentRow.appendChild(spacerCol);
@@ -687,9 +771,7 @@
 
           // Collect form data
           modalColumns.forEach((column) => {
-            const input = modalBodyElem.querySelector(
-              `[data-editorid="${column.id}"]`
-            );
+            const input = modalBodyElem.querySelector(`[data-editorid="${column.id}"]`);
             if (input) {
               formData[column.field] = input.value.trim();
             }

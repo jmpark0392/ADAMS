@@ -497,6 +497,20 @@
 
       // 신규버튼 누르면 동작하는 함수
       function openDetails(modalType) {
+    	  
+    	let options4 = [
+      	 { value: "Y", text: "Y", column: " "},
+      	 { value: "N", text: "N", column: " "}
+      	];
+    	
+    	let options5 = [
+         { value: "Yearly", text: "Yearly", column: "exePrd"},
+         { value: "Halfly", text: "Halfly", column: "exePrd"},
+         { value: "Quarterly", text: "Quarterly", column: "exePrd"},
+         { value: "Monthly", text: "Monthly", column: "exePrd"}
+        ];
+    	
+    	
         grid.render();
 
         let originalData = null;
@@ -524,9 +538,7 @@
         }
 
         const dataContext = grid.getDataItem(activeRow);
-        const modalElement = new bootstrap.Modal(
-          document.getElementById("exampleModal")
-        );
+        const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
         const modalTitleElem = document.querySelector(".modal-title");
         const modalBodyElem = document.querySelector(".modal-body");
         console.log("modalTitleElem:", modalTitleElem);
@@ -581,16 +593,53 @@
             modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 
           formGroupElem.appendChild(detailLabelitem);
-          formGroupElem.appendChild(inputElem);
+          
+          if(column.id === "exePrd" || column.id === "lwstProgYn" || column.id === "useYn"){
+        	  
+        	  const selectInput = document.createElement('select');
+      		  selectInput.className = "form-select";
+      		  selectInput.dataset.editorid = column.id;
+      		
+      		  const defaultOption = document.createElement('option');
+			  defaultOption.value = "";
+			  defaultOption.textContent = "- options -";
+			  selectInput.appendChild(defaultOption);
+				
+			  let optionsData = [];
+             
+		  if(column.id === "exePrd"){
+			  optionsData = options5;
+		  } else {
+			  optionsData = options4;
+		  }
+		  
+		  optionsData.forEach(option => {
+				const optionElem = document.createElement('option');
+				optionElem.value = option.value;
+				optionElem.textContent = option.text;
+				selectInput.appendChild(optionElem);
+			});
+        
+        if(modalType === "edit"){
+				selectInput.value = dataContext[column.field] || "";
+			}
+        
+         formGroupElem.appendChild(selectInput);
+        	  
+          } else {
+        	 const inputElem = document.createElement('input');
+ 			 inputElem.className = "form-control";
+ 			 inputElem.dataset.editorid = column.id;
+ 			 inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+ 			 formGroupElem.appendChild(inputElem); 
+          }
 
           colElem.appendChild(formGroupElem);
-
           currentRow.appendChild(colElem);
         });
 
         if (modalColumns.length % columnsPerShow !== 0) {
-          const remainingCols =
-            columnsPerShow - (modalColumns.length % columnsPerShow);
+          const remainingCols = columnsPerShow - (modalColumns.length % columnsPerShow);
           const spacerCol = document.createElement("div");
           spacerCol.className = `col-lg-${remainingCols * 2}`; // adjust the spacer column
           currentRow.appendChild(spacerCol);

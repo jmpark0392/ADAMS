@@ -522,6 +522,28 @@
 
       // 신규버튼 누르면 동작하는 함수
       function openDetails(modalType) {
+    	  
+    	let options6 = [
+    		{ value: "Y", text: "Y", column: "fileDelYn"},
+    		{ value: "N", text: "N", column: "fileDelYn"}    		
+    	];
+    	
+    	/* 동일한 형태의 콤보 키-값
+    	let options7 = [
+    		{ value: "1", text: "Y", column: "uiSelYn"},
+    		{ value: "2", text: "N", column: "uiSelYn"}    		
+    	];
+    	
+    	let options8 = [
+    		{ value: "1", text: "Y", column: "useYn"},
+    		{ value: "2", text: "N", column: "useYn"}    		
+    	];
+    	
+    	let options9 = [
+    		{ value: "1", text: "Y", column: "vrfUseYn"},
+    		{ value: "2", text: "N", column: "vrfUseYn"}    		
+    	]; */
+    	  
         grid.render();
 
         let originalData = null;
@@ -549,9 +571,7 @@
         }
 
         const dataContext = grid.getDataItem(activeRow);
-        const modalElement = new bootstrap.Modal(
-          document.getElementById("exampleModal")
-        );
+        const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
         const modalTitleElem = document.querySelector(".modal-title");
         const modalBodyElem = document.querySelector(".modal-body");
         console.log("modalTitleElem:", modalTitleElem);
@@ -601,20 +621,52 @@
           const inputElem = document.createElement("input");
           inputElem.className = "form-control";
           inputElem.dataset.editorid = column.id;
-          inputElem.value =
-            modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+          inputElem.value = modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 
           formGroupElem.appendChild(detailLabelitem);
-          formGroupElem.appendChild(inputElem);
+          
+         if(column.id === "fileDelYn" || column.id === "uiSelYn" || column.id === "useYn" || column.id === "vrfUseYn" ) {
+        	const selectInput = document.createElement('select');
+        	selectInput.className = "form-select";
+        	selectInput.dataset.editorid = column.id;
+        	
+        	const defaultOption = document.createElement('option');
+        	defaultOption.value = "Y";
+        	defaultOption.textContent = "-options-";
+        	selectInput.appendChild(defaultOption);
+        	
+        	let optionsData = [];
+        	optionsData = options6;
+         
+         
+         optionsData.forEach(option => {
+        	 const optionElem = document.createElement('option');
+        	 optionElem.value = option.value;
+        	 optionElem.textContent = option.text;
+        	 selectInput.appendChild(optionElem);
+         });
+         
+         if(modalType === "edit"){
+        	 selectInput.value = dataContext[column.field] || "";
+         }
+         
+         formGroupElem.appendChild(selectInput);
+         } else {
+        	 const inputElem = document.createElement('input');
+			 inputElem.className = "form-control";
+			 inputElem.dataset.editorid = column.id;
+			 inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+			 formGroupElem.appendChild(inputElem);  
+         }
+         
+          //formGroupElem.appendChild(inputElem);
 
           colElem.appendChild(formGroupElem);
-
           currentRow.appendChild(colElem);
         });
 
         if (modalColumns.length % columnsPerShow !== 0) {
-          const remainingCols =
-            columnsPerShow - (modalColumns.length % columnsPerShow);
+          const remainingCols = columnsPerShow - (modalColumns.length % columnsPerShow);
           const spacerCol = document.createElement("div");
           spacerCol.className = `col-lg-${remainingCols * 2}`; // adjust the spacer column
           currentRow.appendChild(spacerCol);
