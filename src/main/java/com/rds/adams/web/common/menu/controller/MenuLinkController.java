@@ -3,6 +3,9 @@
  */
 package com.rds.adams.web.common.menu.controller;
 
+import java.security.SecureRandom;
+import java.util.Base64;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +22,7 @@ public class MenuLinkController {
 	
 	@PostMapping("/menuLink")
 	public String goMenuPage(@RequestBody String pageName) {
+		
 		log.debug("##################### pageName : ["+pageName.split("=")[1]+"] #####################");
 		
 		String newPageName = pageName.split("=")[1];
@@ -40,6 +44,17 @@ public class MenuLinkController {
 		}
 		
 		return newPageName.replaceAll("%2F", "/");
+		
 	}
+	
+	private String generateNonce() {
+		
+        SecureRandom random = new SecureRandom();
+        byte[] nonceBytes = new byte[16];
+        random.nextBytes(nonceBytes);
+        
+        return Base64.getEncoder().encodeToString(nonceBytes);
+
+    }
 
 }
