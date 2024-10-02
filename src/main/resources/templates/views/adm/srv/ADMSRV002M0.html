@@ -136,7 +136,8 @@
                     <div
                       class="text-uppercase text-secondary font-weight-medium"
                     >
-                      Basic Service
+                      <!-- Basic Service -->
+                      <span id="serviceChange"> </span>
                     </div>
 
                     <ul class="list-unstyled lh-lg">
@@ -573,25 +574,10 @@
                   $("#userNumber").css("font-weight", "bold");
                   console.log("Subscription list fetched successfully:", data);
                   // update the ui based on the user subscription
-                  optDtlsCd;
-                  if (data && data.length > 0) {
-                    var subscription = data[0]; // Assuming we hvae only one subscrition
-                    // Display the currently selected option data
-                    if (subscription.optDtlsCd) {
-                      $("#selectedOption").text(
-                        "+ " + subscription.optDtlsCd + " Users"
-                      );
-                      // we make the text bold
-                      $("#selectedOption").css("font-weight", "bold");
-                    }
+                  if (data[0].srvcCd === "01") {
+                    $("#serviceChange").text("Basic Service");
                   } else {
-                    // No subscription info found
-                    $("#basicSubscriptionButton")
-                      .text("Use")
-                      .prop("disabled", false);
-                    $("#premiumSubscriptionButton")
-                      .text("Use")
-                      .prop("disabled", false);
+                    $("#serviceChange").text("Premium Service");
                   }
                 },
                 error: function (xhr, status, error) {
@@ -603,55 +589,6 @@
                 },
               });
             }
-
-            // we make a fetch call to ADMSRV001M0SelectAllOptions to get the list of the (users) options
-            // function fetchOptions() {
-            //   $.ajax({
-            //     type: "GET",
-            //     url: "/ADMSRV001M0SelectAllOptions",
-            //     async: true,
-            //     dataType: "json",
-            //     success: function (data) {
-            //       console.log("Options fetched successfully:", data);
-            //       $("#userNumber").text(data[0].optDtlsNm + " users");
-            //       $("#userNumber").css("font-weight", "bold");
-
-            //       // if(data && )
-            //       // $optionSelect.empty();
-            //       // if (data.length > 0) {
-            //       //   $optionSelect.append(
-            //       //     '<option value="">Add User: </option>'
-            //       //   );
-            //       //   $.each(data, function (index, option) {
-            //       //     // Combine optCd and optDtlsCd as the value
-            //       //     var value =
-            //       //       option.optCd +
-            //       //       "|" +
-            //       //       option.optDtlsNm +
-            //       //       "|" +
-            //       //       option.optDtlsDesc;
-            //       //     $optionSelect.append(
-            //       //       '<option value="' +
-            //       //         value +
-            //       //         '">' +
-            //       //         option.optDtlsDesc +
-            //       //         "</option>"
-            //       //     );
-            //       //   });
-            //       // } else {
-            //       //   $optionSelect.append(
-            //       //     '<option value="">No options available</option>'
-            //       //   );
-            //       // }
-            //     },
-            //     error: function (xhr, status, error) {
-            //       console.error("Error fetching options:", status, error);
-            //       $("#optionSelect").html(
-            //         '<option value="">Error loading options</option>'
-            //       );
-            //     },
-            //   });
-            // }
 
             // Function to fetch and display the user's current subscription info
             function getUserSubscriptionInfo() {
@@ -695,7 +632,6 @@
 
             $(document).ready(function () {
               fetchSubscriptionList();
-              // fetchOptions();
               // we fetch the user subcrioption info
               getUserSubscriptionInfo();
               searchFunction();
