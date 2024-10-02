@@ -224,9 +224,15 @@ function parentGetFile(input, url) {
   return result_data;
 }
 
+var ajaxRequest = null;
+
 // Insert 함수 : '/WRKFIL001M0InsertList'
 function parentInsertFile(addedRow, url) {
-  $.ajax({
+	if(ajaxRequest !== null){
+		ajaxRequest.abort();
+	}
+	
+ajaxRequest =  $.ajax({
     type: "post",
     url: url,
     async: true,
@@ -243,7 +249,10 @@ function parentInsertFile(addedRow, url) {
 }
 // Update 함수 : '/WRKFIL001M0UpdateList'
 function parentUpdateFile(updatedRow, url) {
-  $.ajax({
+	if(ajaxRequest !== null){
+		ajaxRequest.abort();
+	}
+ ajaxRequest = $.ajax({
     type: "post",
     url: url,
     async: true,
@@ -252,6 +261,7 @@ function parentUpdateFile(updatedRow, url) {
     data: JSON.stringify(updatedRow),
     success: function (response) {
       alert("Successfully Updated");
+      console.log("update 테스트js");
     },
     error: function (error) {
       console.error("Error updating data:", error);

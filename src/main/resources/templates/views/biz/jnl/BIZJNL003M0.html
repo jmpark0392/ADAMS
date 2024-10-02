@@ -46,11 +46,11 @@
                       type="button"
                       class="btn btn-primary"
                       style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
+                      onclick="execute()"
                       data-test="create-button"
                       onsubmit="return false;"
                     >
-                      Create
+                      Journalize
                     </button>
                     <button
                       type="button"
@@ -82,49 +82,23 @@
           </div>
         </div>
         <div class="popupDataForm">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            style="display: none"
-          >
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">
             Launch modal with form
           </button>
-          <div
-            class="modal fade"
-            id="exampleModal"
-            tabindex="-1"
-            style="display: none"
-          >
+          <div  class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
             <div class="modal-dialog modal-small" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title">New report</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <div class="row"></div>
                 </div>
                 <div class="modal-footer">
-                  <a
-                    href="#"
-                    class="btn btn-link link-secondary"
-                    data-bs-dismiss="modal"
-                    >Cancel</a
-                  >
-                  <a
-                    href="#"
-                    class="btn btn-primary ms-auto"
-                    data-bs-dismiss="modal"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    >Save changes</a
-                  >
+                  <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
+                  <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal"
+                  style="padding: 4px 10px; color: white; font-size: 13px">Save changes</a>
                 </div>
               </div>
             </div>
@@ -378,11 +352,16 @@
         grid.setActiveCell(0, 0);
         console.log("SlickGrid initialized.");
       }
+      
+      function execute(){
+    	  addSlickGridSomeStyling();
+    	  data = getFile(
+    	          (input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
+    	        );
+      }
 
       // Download Excel functionality
-      document
-        .getElementById("downloadExcel")
-        .addEventListener("click", function () {
+      document.getElementById("downloadExcel").addEventListener("click", function () {
           const currDate = getCurrentDateTime();
           const fileName = "BIZJNL003_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
           const sheetName = "분개내역"; // 시트 이름
