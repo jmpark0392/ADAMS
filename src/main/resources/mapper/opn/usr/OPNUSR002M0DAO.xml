@@ -7,7 +7,7 @@
         /* web.opn.usr.dao.OPNUSR002M0DAO.selectCsNoList */
         SELECT 
                ROW_NUMBER() OVER(ORDER BY A.CS_NO)    AS seqNo
-			 , A.CS_NO                                AS csNo           /* 고객사번호 */
+             , A.CS_NO                                AS csNo           /* 고객사번호 */
              , A.COMP_NO_DV_CD                        AS compNoDvCd     /* 회사번호구분코드 */
              , A.COMP_NO                              AS compNo         /* 회사번호 */
              , A.COMP_NM                              AS compNm         /* 회사명 */
@@ -45,4 +45,162 @@
         </if>
          ORDER BY A.CS_NO
     </select>
+    
+    <update id="updateCsNo">
+        <selectKey keyProperty="newCsNo" resultType="String" order="BEFORE">
+            SELECT TOP (1)
+                   FORMAT( CAST( ISNULL(MAX(CS_NO), '0') AS numeric(5,0) ) + 1, '000') AS newCsNo
+              FROM [RDSDB].[dbo].[TB_CS_MNG_LST]
+             WHERE 1=1
+               AND CS_NO <![CDATA[<>]]> '999'
+        </selectKey>
+        /* web.opn.usr.dao.OPNUSR002M0DAO.updateCsNo */
+        MERGE INTO [RDSDB].[dbo].[TB_CS_MNG_LST] A
+        USING (
+                SELECT
+                       #{csNo}                          AS CS_NO
+                     , #{compNoDvCd}                    AS COMP_NO_DV_CD
+                     , #{compNo}                        AS COMP_NO
+                     , #{compNm}                        AS COMP_NM
+                     , #{repPhNo}                       AS REP_PH_NO
+                     , #{reperNm}                       AS REPER_NM
+                     , #{ptbNm}                         AS PTB_NM
+                     , #{ptbPhNo}                       AS PTB_PH_NO
+                     , #{ptbEmail}                      AS PTB_EMAIL
+                     , #{adminId}                       AS ADMIN_ID
+                     , #{postNo}                        AS POST_NO
+                     , #{addrs}                         AS ADDRS
+                     , #{dtlsAddrs}                     AS DTLS_ADDRS
+                     , #{statDvCd}                      AS STAT_DV_CD
+                     , CONVERT(DATE, #{useStrDtm}, 23)  AS USE_STR_DTM
+                     , CONVERT(DATE, #{useEndDtm}, 23)  AS USE_END_DTM
+                     , #{countryCd}                     AS COUNTRY_CD
+                     , #{countryNmKor}                  AS COUNTRY_NM_KOR
+                     , #{countryNmEng}                  AS COUNTRY_NM_ENG
+              ) B
+        ON    (
+                A.CS_NO = B.CS_NO
+              )
+        WHEN MATCHED THEN
+             UPDATE
+                SET A.COMP_NO_DV_CD   = B.COMP_NO_DV_CD
+                  , A.COMP_NO         = B.COMP_NO
+                  , A.COMP_NM         = B.COMP_NM
+                  , A.REP_PH_NO       = B.REP_PH_NO
+                  , A.REPER_NM        = B.REPER_NM
+                  , A.PTB_NM          = B.PTB_NM
+                  , A.PTB_PH_NO       = B.PTB_PH_NO
+                  , A.PTB_EMAIL       = B.PTB_EMAIL
+                  , A.ADMIN_ID        = B.ADMIN_ID
+                  , A.POST_NO         = B.POST_NO
+                  , A.ADDRS           = B.ADDRS
+                  , A.DTLS_ADDRS      = B.DTLS_ADDRS
+                  , A.STAT_DV_CD      = B.STAT_DV_CD
+                  , A.USE_STR_DTM     = B.USE_STR_DTM
+                  , A.USE_END_DTM     = B.USE_END_DTM
+                  , A.COUNTRY_CD      = B.COUNTRY_CD
+                  , A.COUNTRY_NM_KOR  = B.COUNTRY_NM_KOR
+                  , A.COUNTRY_NM_ENG  = B.COUNTRY_NM_ENG
+                  , A.FNL_UPD_EMP_NO  = #{usrId}
+                  , A.FNL_UPD_DTM     = GETDATE()
+        WHEN NOT MATCHED THEN
+             INSERT
+                  (
+                    CS_NO
+                  , COMP_NO_DV_CD
+                  , COMP_NO
+                  , COMP_NM
+                  , REP_PH_NO
+                  , REPER_NM
+                  , PTB_NM
+                  , PTB_PH_NO
+                  , PTB_EMAIL
+                  , ADMIN_ID
+                  , ADMIN_PASSWORD
+                  , POST_NO
+                  , ADDRS
+                  , DTLS_ADDRS
+                  , STAT_DV_CD
+                  , USE_STR_DTM
+                  , USE_END_DTM
+                  , COUNTRY_CD
+                  , COUNTRY_NM_KOR
+                  , COUNTRY_NM_ENG
+                  , FNL_UPD_EMP_NO
+                  , FNL_UPD_DTM
+                  , FRST_REG_EMP_NO
+                  , FRST_REG_DTM
+                  )
+             VALUES
+                  (
+                    #{newCsNo}
+                  , B.COMP_NO_DV_CD
+                  , B.COMP_NO
+                  , B.COMP_NM
+                  , B.REP_PH_NO
+                  , B.REPER_NM
+                  , B.PTB_NM
+                  , B.PTB_PH_NO
+                  , B.PTB_EMAIL
+                  , B.ADMIN_ID
+                  , PWDENCRYPT(#{adminPassword})
+                  , B.POST_NO
+                  , B.ADDRS
+                  , B.DTLS_ADDRS
+                  , B.STAT_DV_CD
+                  , B.USE_STR_DTM
+                  , B.USE_END_DTM
+                  , B.COUNTRY_CD
+                  , B.COUNTRY_NM_KOR
+                  , B.COUNTRY_NM_ENG
+                  , #{usrId}
+                  , GETDATE()
+                  , #{usrId}
+                  , GETDATE()
+                  );
+    </update>
+    
+    <insert id="insertAdmUsr">
+        INSERT INTO [RDSDB].[dbo].[TB_USR_MNG_LST]
+               (
+                 CS_NO
+               , USR_DV_CD
+               , USR_ID
+               , USR_NM
+               , USR_PASSWORD
+               , USR_PH_NO
+               , USR_EMAIL
+               , EMP_NO
+               , STAT_DV_CD
+               , USE_STR_DTM
+               , USE_END_DTM
+               , PASSWORD_UPD_DTM
+               , PASSWORD_INIT_YN
+               , FNL_UPD_EMP_NO
+               , FNL_UPD_DTM
+               , FRST_REG_EMP_NO
+               , FRST_REG_DTM
+               )
+        SELECT
+               #{csNo}          AS CS_NO
+             , '2'              AS USR_DV_CD
+             , A.PTB_EMAIL      AS USR_ID
+             , A.PTB_NM         AS USR_NM
+             , A.ADMIN_PASSWORD AS USR_PASSWORD
+             , A.PTB_PH_NO      AS USR_PH_NO
+             , A.PTB_EMAIL      AS USR_EMAIL
+             , NULL             AS EMP_NO
+             , '0'              AS STAT_DV_CD
+             , GETDATE()        AS USE_STR_DTM
+             , NULL             AS USE_END_DTM
+             , GETDATE()        AS PASSWORD_UPD_DTM
+             , 'N'              AS PASSWORD_INIT_YN
+             , #{usrId}         AS FNL_UPD_EMP_NO
+             , GETDATE()        AS FNL_UPD_DTM
+             , #{usrId}         AS FRST_REG_EMP_NO
+             , GETDATE()        AS FRST_REG_DTM
+          FROM [RDSDB].[dbo].[TB_CS_MNG_LST] A
+         WHERE 1=1
+           AND A.CS_NO = #{csNo}
+    </insert>
 </mapper>

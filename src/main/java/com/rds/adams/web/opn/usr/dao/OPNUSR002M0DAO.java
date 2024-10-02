@@ -32,4 +32,18 @@ public interface OPNUSR002M0DAO {
 	 */
 	public List<OPNUSR002M0R0DTO> selectCsNoList(OPNUSR002M0P0DTO inVo);
 
+	/**
+	 * 고객사 정보를 저장한다
+	 * @param vo OPNUSR002M0P1DTO
+	 * @exception Exception
+	 */
+	public void updateCsNo(OPNUSR002M0R0DTO inVo);
+
+	/**
+	 * 고객사 관리자 사용자를 저장한다
+	 * @param vo OPNUSR002M0P1DTO
+	 * @exception Exception
+	 */
+	public void insertAdmUsr(OPNUSR002M0R0DTO inVo);
+
 }

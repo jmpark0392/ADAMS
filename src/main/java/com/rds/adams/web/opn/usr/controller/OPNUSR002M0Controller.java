@@ -1,6 +1,9 @@
 package com.rds.adams.web.opn.usr.controller;
 
+import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rds.adams.web.common.AdamsConstant;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR002M0P0DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR002M0R0DTO;
 import com.rds.adams.web.opn.usr.service.OPNUSR002M0Service;
@@ -49,6 +54,37 @@ public class OPNUSR002M0Controller {
 		log.info(result.toString());
 		
 		return result;
+		
+	}
+	
+	/**
+	 * @param model
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value="/OPNUSR002M0UpdateList", method=RequestMethod.POST, consumes="application/json")
+	public HashMap<String, Object> saveCsNo(@RequestBody OPNUSR002M0R0DTO inVo, HttpServletRequest request) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	    boolean  bResult = false;
+		
+		log.info(inVo.toString());
+
+    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+    	inVo.setUsrId(sAdamsLoginDTO.getUsrId());
+		
+		bResult = oPNUSR002M0Service.saveCsNo(inVo);
+		
+		if (bResult) {
+			
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
+		} else {
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "Save Failed !!!");
+		}
+		
+		return resultMap;
 		
 	}
 

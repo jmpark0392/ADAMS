@@ -228,10 +228,10 @@ var ajaxRequest = null;
 
 // Insert 함수 : '/WRKFIL001M0InsertList'
 function parentInsertFile(addedRow, url) {
-	if(ajaxRequest !== null){
-		ajaxRequest.abort();
-	}
-	
+    if(ajaxRequest !== null){
+        ajaxRequest.abort();
+    }
+    
 ajaxRequest =  $.ajax({
     type: "post",
     url: url,
@@ -249,9 +249,9 @@ ajaxRequest =  $.ajax({
 }
 // Update 함수 : '/WRKFIL001M0UpdateList'
 function parentUpdateFile(updatedRow, url) {
-	if(ajaxRequest !== null){
-		ajaxRequest.abort();
-	}
+    if(ajaxRequest !== null){
+        ajaxRequest.abort();
+    }
  ajaxRequest = $.ajax({
     type: "post",
     url: url,
@@ -360,7 +360,7 @@ function exportToExcel(fileNm, sheetNm = "Sheet1", columns, data) {
  ===========================================*/
 function isNull(obj) {
     if (obj == null || obj == "") {
-    	return "";  
+        return "";  
     }
     return obj;
 }
@@ -373,4 +373,76 @@ function isNull(obj) {
 function validateEmail(email) {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailPattern.test(email);
+}
+
+
+
+/*===========================================
+ * 이메일 형식을 검증하는 함수
+ * @param obj   Object
+ * @return true : true
+ ===========================================*/
+function gf_Transaction(option, callbackFn ) {
+  console.log("Sending AJAX request...");
+  
+  var sType        = "post";
+  var sUrl         = "t"; 
+  var bAsync       = true; 
+  var sDataType    = "json"; 
+  var sContentType = "application/json; charset=utf-8"; 
+  
+  if ( option.type != null && option.type != "" && typeof option.type !== 'undefined' ) {
+      sType = option.type;
+  }
+  if ( option.url != null && option.url != "" && typeof option.url !== 'undefined' ) {
+      sUrl = option.url;
+  }
+  if ( option.async != null && option.async != "" && typeof option.async !== 'undefined' ) {
+      bAsync = option.async;
+  }
+  if ( option.dataType != null && option.dataType != "" && typeof option.dataType !== 'undefined' ) {
+      sDataType = option.dataType;
+  }
+  if ( option.contentType != null && option.contentType != "" && typeof option.contentType !== 'undefined' ) {
+      sContentType = option.contentType;
+  }
+  if ( option.data == null || option.data == "" && typeof option.data === 'undefined' ) {
+      console.log("Data not Found :", data);
+      return;
+  }  
+  
+  var result = {};
+  $.ajax({
+           type       : sType
+         , url        : sUrl
+         , async      : bAsync
+         , dataType   : sDataType
+         , contentType: sContentType
+         , data       : option.data
+         , success    : function (data) {
+                            console.log("AJAX request successful. Data received:", data);
+                            if (data && data.length > 0) {
+                                console.log("The number of Data :", data.length);
+                            } else {
+                                console.log("No data returned from the server.");
+                            }
+                            result.resultCd = "S";
+                            result.id       = option.id;
+                            result.data     = data;
+                            
+                            if(typeof  callbackFn === 'function' ){
+								callbackFn(result);
+							}
+                        }
+         , error      : function (xhr, status, error) {
+		                    console.error("!!!! ERROR !!!!!", status, error);
+                            result.resultCd = "E";
+                            result.id       = option.id;
+                            result.xhr      = xhr;
+                            result.status   = status;
+                            result.error    = error;
+                            eval(callbackFn+"("+result+")");
+		                }
+  });
+  
 }

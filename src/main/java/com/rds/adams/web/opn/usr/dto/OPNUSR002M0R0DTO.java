@@ -31,6 +31,9 @@ public class OPNUSR002M0R0DTO {
     @Schema(description = "시퀀스")
     private int seqNo;
     
+    @Schema(description = "신규고객사번호")
+    private String newCsNo;
+    
     @Schema(description = "고객사번호")
     private String csNo;
 
