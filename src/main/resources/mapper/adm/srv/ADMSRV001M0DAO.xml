@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rds.adams.web.adm.srv.dao.ADMSRV001M0DAO">
-    <select id="selectSubscriptionList" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0R0DTO">
+    <select id="selectSubscriptionList" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO">
         SELECT 
             A.CS_NO,                 -- 고객사번호 from TB_CS_SRVC_OPT_INF
             A.SRVC_CD,               -- 서비스코드 from TB_CS_SRVC_OPT_INF

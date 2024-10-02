@@ -106,7 +106,6 @@ public class ADMSRV001M0Controller {
      public Map<String, Object> mergeServiceOptions(@RequestBody ADMSRV001M0P1DTO inVo, HttpServletRequest request,  HttpServletResponse response){
         Map<String, Object> result = new HashMap<>();
         try {
-
             // Log the session ID and attributes
             HttpSession session = request.getSession(false);
             if (session != null) {
@@ -290,6 +289,39 @@ public ResponseEntity<List<ADMSRV001M0R0DTO>> getUserSubscriptionInfo(HttpServle
         return ResponseEntity.status(500).build();
     }
         // return ResponseEntity.status(500).build();
-    }
+    }    
+      
+   /**
+   * Fetches the user's current subscription info list
+   * @param inVo User's subscription info.
+   * @return User's subscription info list.
+   */
+    @RequestMapping(value="/selectSubscriptionList", method=RequestMethod.GET) 
+    public ResponseEntity<List<ADMSRV001M0R0DTO>> selectSubscriptionList(HttpServletRequest request) {
+        try {
+            // get the user info from the session
+            AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+            if(sAdamsLoginDTO == null){
+                log.warn("User not logged in, returning 401");
+                return ResponseEntity.status(401).build();
+            }
+        
+            String csNo = sAdamsLoginDTO.getCsNo();
+            log.debug("Retrieved csNo from session: {}", csNo);
+
+            ADMSRV001M0P0DTO inVo = new ADMSRV001M0P0DTO();
+            inVo.setCsNo(csNo);
+            // 
+            List<ADMSRV001M0R0DTO> subscriptionInfo = admSrv001M0Service.selectOptionInfoByCustomer(inVo);
+            return ResponseEntity.ok(subscriptionInfo);
+
+        } catch (Exception e) {
+            e.getStackTrace();
+            log.error("Error in getUserSubscriptionInfo", e);
+            return ResponseEntity.status(500).build();
+        }
+            // return ResponseEntity.status(500).build();
+        }
+    
 }
 

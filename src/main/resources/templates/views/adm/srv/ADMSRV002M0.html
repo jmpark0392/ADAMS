@@ -6,695 +6,706 @@
   layout:decorate="~{layout/layout}"
 >
   <th:block layout:fragment="content">
-    <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-
-    <div class="page-wrapper" id="page-wrapper">
-      <!-- Main Container -->
-      <div class="container" id="container">
-        <h2 class="mt-4">Usage Status</h2>
-        <div class="ptag-container mb-4">
-          <span><a href="#"> Company Admin ></a></span>
-          <span><a href="#"> Usage Status</a></span>
-        </div>
-
-        <!-- Form Container -->
-        <div class="form-container">
-          <div class="form-box">
-            <form
-              id="filter-form"
-              name="form"
-              method="post"
-              action="/WRKFIL001M0SelectList"
-              onsubmit="return false;"
-            >
-              <div class="row align-items-center">
-                <!-- Input and Search Button on the far left -->
-                <div class="col-md-4 mb-3 mb-md-0">
-                  <label for="datepicker-icon-prepend" class="form-label"
-                    >Year / Month</label
-                  >
-                  <div class="input-group" style="padding-bottom: 10px">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Select a date"
-                      id="datepicker-icon-prepend"
-                      value="2020-06-20"
-                      aria-label="Until"
-                      aria-describedby="basic-addon1"
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      onclick="searchFunction();"
-                    >
-                      <!-- Search Icon -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                        <path d="M21 21l-6 -6" />
-                      </svg>
-                      Search
-                    </button>
+    <div class="page">
+      <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+      <div class="page-wrapper" id="page-wrapper">
+        <!-- Main Container -->
+        <div class="container" id="container">
+          <h2>[[${menuNm}]]</h2>
+          <div class="ptag-container">
+            <!-- <span><a href="#"> Home ></a></span> -->
+            <span>[[${navigator}]]</span>
+          </div>
+          <!-- Form Container -->
+          <div class="form-container">
+            <div class="form-box">
+              <form
+                id="filter-form"
+                name="form"
+                method="post"
+                action="/WRKFIL001M0SelectList"
+                onsubmit="return false;"
+              >
+                <div class="row align-items-center">
+                  <!-- Input and Search Button on the far left -->
+                  <div class="col-md-4 mb-2 mb-md-0" style="margin-left: 8px">
+                    <!-- <label for="datepicker-icon-prepend" class="form-label"
+                      >Year / Month</label
+                    > -->
+                    <div class="mb-3">
+                      <label class="form-label">Year / Month</label>
+                      <div class="row">
+                        <div class="col-5">
+                          <select name="user[month]" class="form-select p-2">
+                            <option selected="selected" value="">Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option selected="selected" value="9">
+                              September
+                            </option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                          </select>
+                        </div>
+                        <!-- <div class="col-3"></div> -->
+                        <div class="col-4">
+                          <select name="user[year]" class="form-select p-2">
+                            <option value="">Year</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option selected="selected" value="2024">
+                              2024
+                            </option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                          </select>
+                        </div>
+                        <div class="col-1">
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="searchButton"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="icon"
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              stroke-width="2"
+                              stroke="currentColor"
+                              fill="none"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <path
+                                stroke="none"
+                                d="M0 0h24v24H0z"
+                                fill="none"
+                              />
+                              <path
+                                d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"
+                              />
+                              <path d="M21 21l-6 -6" />
+                            </svg>
+                            Search
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- Page content -->
-      <!-- <input
-                      id="inpSearchTxt"
-                      name="inpSearchTxt"
-                      type="text"
-                      class="form-input-temp"
-                      placeholder="Input Name"
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="main()"
+        <!-- Page content -->
+        <!-- <input
+          id="inpSearchTxt"
+          name="inpSearchTxt"
+          type="text"
+          class="form-input-temp"
+          placeholder="Input Name"
+        />
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="padding: 4px 10px; color: white; font-size: 13px"
+          onclick="main()"
+        >
+          Search
+        </button> -->
+        <!-- Page content -->
+
+        <!-- Page content -->
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-sm-6 col-lg-3">
+                <div class="card card-md d-flex flex-column h-100">
+                  <div class="card-body text-center flex-grow-1">
+                    <div
+                      class="text-uppercase text-secondary font-weight-medium"
                     >
-                      Search
-                    </button> -->
-      <!-- Page content -->
-      <!-- Page content -->
-      <div class="page-body">
-        <div class="container-xl">
-          <div class="row row-cards">
-            <div class="col-sm-6 col-lg-3">
-              <div class="card card-md">
-                <div class="card-body text-center">
-                  <div class="text-uppercase text-secondary font-weight-medium">
-                    Free
-                  </div>
-                  <!-- <div class="display-5 fw-bold my-3">$0</div> -->
-                  <ul class="list-unstyled lh-lg">
-                    <li><strong>3</strong> Users</li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-success"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                      </svg>
-                      Sharing Tools
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/x -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-danger"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                      </svg>
-                      Design Tools
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/x -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-danger"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                      </svg>
-                      Private Messages
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/x -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-danger"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                      </svg>
-                      Twitter API
-                    </li>
-                  </ul>
-                  <div class="text-center mt-4">
+                      Basic Service
+                    </div>
+
+                    <ul class="list-unstyled lh-lg">
+                      <li>
+                        <!-- <strong>5</strong> Users -->
+                      </li>
+                      <li>
+                        <!-- Download SVG icon from http://tabler-icons.io/i/x -->
+                        <!-- <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="icon icon-tabler icons-tabler-outline icon-tabler-user-check"
+                        >
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                          <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
+                          <path d="M15 19l2 2l4 -4" />
+                        </svg> -->
+                        <div class="mt-2 flex-container">
+                          <span class="mb-2">User:&nbsp;</span>
+                          <span id="userNumber"> </span>
+                        </div>
+                        <!-- - Basic User: 5 -->
+                      </li>
+                      <li>
+                        <!-- Download SVG icon from http://tabler-icons.io/i/x -->
+                        <!-- <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          class="icon icon-tabler icons-tabler-filled icon-tabler-category"
+                        >
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M10 3h-6a1 1 0 0 0 -1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1 -1v-6a1 1 0 0 0 -1 -1z"
+                          />
+                          <path
+                            d="M20 3h-6a1 1 0 0 0 -1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1 -1v-6a1 1 0 0 0 -1 -1z"
+                          />
+                          <path
+                            d="M10 13h-6a1 1 0 0 0 -1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1 -1v-6a1 1 0 0 0 -1 -1z"
+                          />
+                          <path
+                            d="M17 13a4 4 0 1 1 -3.995 4.2l-.005 -.2l.005 -.2a4 4 0 0 1 3.995 -3.8z"
+                          />
+                        </svg> -->
+                        <!-- - Basic Menu -->
+                      </li>
+                    </ul>
+                    <!-- <div class="text-center mt-4">
                     <a href="#" class="btn w-100">Choose plan</a>
+                  </div> -->
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-              <div class="card card-md">
-                <div class="card-body text-center">
-                  <div class="text-uppercase text-secondary font-weight-medium">
-                    Premium
-                  </div>
-                  <ul class="list-unstyled lh-lg">
-                    <li><strong>10</strong> Users</li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-success"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                      </svg>
-                      Sharing Tools
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-success"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                      </svg>
-                      Design Tools
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/x -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-danger"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                      </svg>
-                      Private Messages
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/x -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-danger"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                      </svg>
-                      Twitter API
-                    </li>
-                  </ul>
-                  <div class="text-center mt-4">
-                    <a href="#" class="btn btn-green w-100">Choose plan</a>
+
+              <div class="col-sm-6 col-lg-3">
+                <div class="card card-md d-flex flex-column h-100">
+                  <div class="card-body text-center text-center flex-grow-1">
+                    <div
+                      class="text-uppercase text-secondary font-weight-medium"
+                    >
+                      Total Usage
+                    </div>
+                    <!-- <div class="display-5 fw-bold my-3">$99</div> -->
+                    <ul class="list-unstyled lh-lg">
+                      <li>
+                        <!-- <strong>100</strong> Users -->
+                      </li>
+                      <li>
+                        <div class="mt-2 flex-container">
+                          <span class="mb-2">Total:&nbsp</span>
+                          <span id="totalUsage"> </span>
+                        </div>
+                        <!-- Total: 11.580.000 (KRW) -->
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-              <div class="card card-md">
-                <div class="card-body text-center">
-                  <div class="text-uppercase text-secondary font-weight-medium">
-                    Enterprise
-                  </div>
-                  <!-- <div class="display-5 fw-bold my-3">$99</div> -->
-                  <ul class="list-unstyled lh-lg">
-                    <li><strong>100</strong> Users</li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-success"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                      </svg>
-                      Sharing Tools
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-success"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                      </svg>
-                      Design Tools
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-success"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                      </svg>
-                      Private Messages
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/x -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-danger"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M18 6l-12 12" />
-                        <path d="M6 6l12 12" />
-                      </svg>
-                      Twitter API
-                    </li>
-                  </ul>
-                  <div class="text-center mt-4">
-                    <a href="#" class="btn w-100">Choose plan</a>
+              <div class="col-sm-6 col-lg-3">
+                <div class="card card-md d-flex flex-column h-100">
+                  <div class="card-body text-center text-center flex-grow-1">
+                    <div
+                      class="text-uppercase text-secondary font-weight-medium"
+                    >
+                      Estimated Usage
+                    </div>
+                    <!-- <div class="display-5 fw-bold my-3">$139</div> -->
+                    <ul class="list-unstyled lh-lg">
+                      <li>
+                        <!-- <strong>Unlimited</strong> Users -->
+                      </li>
+                      <li>
+                        <div class="mt-2 flex-container">
+                          <span class="mb-2">Total:&nbsp;</span>
+                          <span id="estimatedUsage"> </span>
+                        </div>
+                        <!-- Total: 18.651.000 (KRW) -->
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-              <div class="card card-md">
-                <div class="card-body text-center">
-                  <div class="text-uppercase text-secondary font-weight-medium">
-                    Unlimited
-                  </div>
-                  <!-- <div class="display-5 fw-bold my-3">$139</div> -->
-                  <ul class="list-unstyled lh-lg">
-                    <li><strong>Unlimited</strong> Users</li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-success"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                      </svg>
-                      Sharing Tools
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-success"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                      </svg>
-                      Design Tools
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-success"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                      </svg>
-                      Private Messages
-                    </li>
-                    <li>
-                      <!-- Download SVG icon from http://tabler-icons.io/i/check -->
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon me-1 text-success"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                      </svg>
-                      Twitter API
-                    </li>
-                  </ul>
-                  <div class="text-center mt-4">
-                    <a href="#" class="btn w-100">Choose plan</a>
+              <div class="col-sm-6 col-lg-3">
+                <div class="card card-md d-flex flex-column h-100">
+                  <div class="card-body text-center text-center flex-grow-1">
+                    <div
+                      class="text-uppercase text-secondary font-weight-medium"
+                    >
+                      Option(s) Panel
+                    </div>
+                    <ul class="list-unstyled lh-lg">
+                      <li></li>
+                      <!-- <li><strong>10</strong> Users</li> -->
+                      <!-- <form class="optionForm"> -->
+                      <div class="card card-lg">
+                        <div class="mt-2 flex-container">
+                          <span class="mb-2">User's Option: &nbsp;</span>
+                          <span id="selectedOption"> </span>
+                        </div>
+                      </div>
+                      <!-- <div class="d-flex align-items-center">
+                        <select id="optionSelect" class="form-select  me-2 p-2">
+                          <option value="2021-01">Add User:</option>
+                        </select>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          onclick="searchFunction();"
+                        >
+                          Save
+                        </button>
+                      </div> -->
+                      <!-- </form> -->
+                      <!-- <div class="mt-2 flex-container">
+                      <span>Currently selected option:&nbsp;</span>
+                      <span id="selectedOption"> None</span>
+                    </div> -->
+                    </ul>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-12">
-              <div class="card card-md">
-                <div class="container my-5">
-                  <canvas id="mixedChart" width="300" height="150"></canvas>
+              <div class="col-12 mb-3">
+                <div class="card card-md">
+                  <div class="container my-5">
+                    <canvas id="mixedChart" width="300" height="150"></canvas>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <script>
-        //  we have to wait for the DOM to load
-        document.addEventListener("DOMContentLoaded", function () {
-          // Get the context of the canvas element we want to select
-          const ctx = document.getElementById("mixedChart").getContext("2d");
+        <script>
+          let initlaizedChart;
+          //  we have to wait for the DOM to load
+          document.addEventListener("DOMContentLoaded", function () {
+            const ctx = document.getElementById("mixedChart").getContext("2d");
 
-          // Define the labels (e.g., months)
-          const labels = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-          ];
-
-          // Define the data
-          const data = {
-            labels: labels,
-            datasets: [
-              // First Bar Dataset (e.g., Sales for Product A)
-              {
-                type: "bar",
-                label: "Product A Sales",
-                data: [65, 59, 80, 81, 56, 55, 40],
-                backgroundColor: "rgba(54, 162, 235, 0.6)",
-                borderColor: "rgba(54, 162, 235, 1)",
-                borderWidth: 1,
-                yAxisID: "y",
+            // const mixedChart = new Chart(ctx, config);
+            initlaizedChart = new Chart(ctx, {
+              data: {
+                labels: [],
+                datasets: [],
               },
-              // Second Bar Dataset (e.g., Sales for Product B)
-              {
-                type: "bar",
-                label: "Product B Sales",
-                data: [35, 49, 60, 71, 46, 45, 30],
-                backgroundColor: "rgba(255, 99, 132, 0.6)",
-                borderColor: "rgba(255, 99, 132, 1)",
-                borderWidth: 1,
-                yAxisID: "y",
-              },
-              // First Line Dataset (e.g., Price for Product A)
-              {
-                type: "line",
-                label: "Product A Price",
-                data: [20, 22, 19, 23, 21, 24, 25],
-                borderColor: "rgba(75, 192, 192, 1)",
-                backgroundColor: "rgba(75, 192, 192, 0.2)",
-                borderWidth: 2,
-                fill: false,
-                yAxisID: "y1",
-              },
-              // Second Line Dataset (e.g., Price for Product B)
-              {
-                type: "line",
-                label: "Product B Price",
-                data: [18, 19, 17, 20, 18, 21, 22],
-                borderColor: "rgba(153, 102, 255, 1)",
-                backgroundColor: "rgba(153, 102, 255, 0.2)",
-                borderWidth: 2,
-                fill: false,
-                yAxisID: "y1",
-              },
-            ],
-          };
-
-          // Define the chart configuration
-          const config = {
-            data: data,
-            options: {
-              responsive: true,
-              interaction: {
-                mode: "index",
-                intersect: false,
-              },
-              stacked: false,
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Sales and Price Overview",
-                  font: {
-                    size: 18,
-                    textAlign: "flex-start",
-                  },
-                },
-                tooltip: {
-                  enabled: true,
+              options: {
+                responsive: true,
+                interaction: {
                   mode: "index",
                   intersect: false,
                 },
-                legend: {
-                  position: "top",
-                },
-              },
-              scales: {
-                // Primary y-axis for Sales (Bar Charts)
-                y: {
-                  type: "linear",
-                  display: true,
-                  position: "left",
+                stacked: false,
+                plugins: {
                   title: {
                     display: true,
-                    text: "Sales (Units)",
+                    text: "Usage and Price Comparison",
                     font: {
-                      size: 14,
+                      size: 18,
+                      textAlign: "flex-start",
                     },
-                    align: "start", // align the title to the left
                   },
-                  ticks: {
-                    beginAtZero: true,
+                  tooltip: {
+                    enabled: true,
+                    mode: "index",
+                    intersect: false,
+                  },
+                  legend: {
+                    position: "top",
                   },
                 },
-                // Secondary y-axis for Prices (Line Charts)
-                y1: {
-                  type: "linear",
-                  display: true,
-                  position: "right",
-                  grid: {
-                    drawOnChartArea: false, // Only want the grid lines for one axis
-                  },
-                  title: {
+                scales: {
+                  // Primary y-axis for Sales (Bar Charts)
+                  y: {
+                    type: "linear",
                     display: true,
-                    text: "Price ($)",
-                    font: {
-                      size: 14,
+                    position: "left",
+                    title: {
+                      display: true,
+                      text: "Usage Option (Units)",
+                      font: {
+                        size: 14,
+                      },
+                      // align: "start", // we align the title to the start of the axis
+                    },
+                    ticks: {
+                      beginAtZero: true,
+                      min: 0,
+                      max: 150,
                     },
                   },
-                  ticks: {
-                    beginAtZero: false,
+                  // Secondary y-axis for Prices (Line Charts)
+                  y1: {
+                    type: "linear",
+                    display: true,
+                    position: "right",
+                    grid: {
+                      drawOnChartArea: false, // Only want the grid lines for one axis
+                    },
+                    title: {
+                      display: true,
+                      text: "Price ($)",
+                      font: {
+                        size: 14,
+                      },
+                    },
+                    ticks: {
+                      beginAtZero: false,
+                    },
                   },
                 },
               },
-            },
-          };
-
-          //   console.log("Options fetched successfully:", data);
-          //        var $optionSelect = $("#optionSelect");
-          //        $optionSelect.empty();
-          //        if (data.length > 0) {
-          //          $optionSelect.append(
-          //            '<option value="">Select an option</option>'
-          //          );
-          //          $.each(data, function (index, option) {
-          //            // Combine optCd and optDtlsCd as the value
-          //            var value = option.optCd + "|" + option.optDtlsNm + "|" + option.optDtlsDesc;
-          //            $optionSelect.append(
-          //              '<option value="' +
-          //                value +
-          //                '">' +
-          //                option.optDtlsDesc +
-          //                "</option>"
-          //            );
-          //          });
-          //        } else {
-          //          $optionSelect.append(
-          //            '<option value="">No options available</option>'
-          //          );
-          //        }
-          //      },
-          //      error: function (xhr, status, error) {
-          //        console.error("Error fetching options:", status, error);
-          //        $("#optionSelect").html(
-          //          '<option value="">Error loading options</option>'
-          //        );
-          //      },
-
-          // we fetch the data from this endpoint
-          // ADMSRV001M0SelectAllOptions
-          $.ajax({
-            type: "GET",
-            url: "/ADMSRV001M0SelectAllOptions",
-            async: true,
-            crossDomain: true,
-            dataType: "json",
-            processData: false,
-            contentType: false,
-            headers: {
-              Accept: "application/json",
-            },
-          })
-            .done(function (data) {
-              let $optionSelect = $("#optionSelect");
-              $optionSelect.empty();
-              if (data.length > 0) {
-                $.each(data, function (index, option) {
-                  // we combine the optCd and optDtlCd as the value for better veiw
-                  let value =
-                    option.optCd +
-                    "|" +
-                    option.optDtlsNm +
-                    " |" +
-                    option.optDtlsDesc;
-                  $optionSelect.append(
-                    '<option value="' +
-                      value +
-                      ">" +
-                      option.optDtlsDesc +
-                      "</option>"
-                  );
-                });
-              } else {
-                $optionSelect.append(
-                  '<option value="">No options available</option>'
-                );
-              }
-            })
-            .fail(function (xhr, status, error) {
-              alert("An error occured  while fetching the options");
-              console.error("Error fetching options:", status, error);
-              $("#optionSelect").html(
-                '<option value="">Error loading options</option>'
-              );
             });
-          // Create and render the chart
-          const mixedChart = new Chart(ctx, config);
-        });
-      </script>
+
+            // Function to update the chart with new data
+            function updateChart(data) {
+              // Extract the month label from the ymd data;
+              const labels = data.map((item) => item.ymd);
+
+              // column chart data
+              const bsrvcVal = data.map((item) => item.bsrvcVal || 0);
+              const psrvcVal = data.map((item) => item.psrvcVal || 0);
+
+              // line chart data
+              const totalCost = data.map((item) => item.srvcCostSum || null);
+
+              // Method to filter total cost from the first date of the month until today
+              const filterTotalCostUntilToday = (data) => {
+                const today = new Date();
+                const firstDateOfMonth = new Date(
+                  today.getFullYear(),
+                  today.getMonth(),
+                  1
+                );
+
+                return data
+                  .filter((item) => {
+                    const itemDate = new Date(item.ymd);
+                    return itemDate >= firstDateOfMonth && itemDate <= today;
+                  })
+                  .map((item) => item.srvcCost);
+              };
+
+              const filteredTotalCost = filterTotalCostUntilToday(data);
+
+              const expectedCost = data.map(
+                (item) => item.srvcCostExpSum || null
+              );
+
+              // Update the chart data
+              initlaizedChart.data.labels = labels;
+              initlaizedChart.data.datasets = [
+                {
+                  type: "bar",
+                  label: "Basic Service",
+                  data: bsrvcVal,
+                  backgroundColor: "rgba(255, 99, 132, 0.2)",
+                  borderColor: "rgba(255, 99, 132, 1)",
+                  yAxisID: "y",
+                  orderWidth: 1,
+                  barThickness: "flex",
+                  maxBarThickness: 50,
+                },
+                {
+                  type: "bar",
+                  label: "Premium Service",
+                  data: psrvcVal,
+                  backgroundColor: "rgba(54, 162, 235, 0.2)",
+                  borderColor: "rgba(54, 162, 235, 1)",
+                  yAxisID: "y",
+                  orderWidth: 1,
+                  barThickness: "flex",
+                  maxBarThickness: 50,
+                },
+                {
+                  type: "line",
+                  label: "Total Cost",
+                  data: totalCost,
+                  fill: false,
+                  borderColor: "rgba(75, 192, 192, 1)",
+                  yAxisID: "y1",
+                  orderWidth: 2,
+                  spanGaps: true,
+                },
+                {
+                  type: "line",
+                  label: "Expected Cost",
+                  data: expectedCost,
+                  fill: false,
+                  borderColor: "rgba(255, 206, 86, 1)",
+                  yAxisID: "y1",
+                  orderWidth: 2,
+                  spanGaps: true,
+                },
+              ];
+
+              // Update the chart
+              initlaizedChart.update();
+            }
+            // search function to make a fetch call to the server
+            function searchFunction() {
+              // Get the selected month and year values
+              var month = $('select[name="user[month]"]').val();
+              var year = $('select[name="user[year]"]').val();
+
+              // Validate that both month and year are selected
+              if (!month || !year) {
+                alert("Please select both month and year.");
+                return;
+              }
+
+              // Pad the month with a leading zero if necessary
+              if (month.length === 1) {
+                month = "0" + month;
+              }
+
+              // Send an AJAX GET request to the endpoint
+              $.ajax({
+                type: "GET",
+                url: "/ADMSRV002M0GetUserDataAndCost",
+                data: {
+                  month: month,
+                  year: year,
+                },
+                dataType: "json",
+                success: function (data) {
+                  console.log("Data received:", data);
+                  // Handle the data as needed
+                  // For example, update the chart with new data
+                  updateChart(data);
+                  if (data && data.length > 0) {
+                    let totalCostUsage = data[0].maxSrvcCostSum;
+                    // let totalCostUsage = data[0].reduce(
+                    //   (acc, item) => acc + item.srvcCostSum
+                    // );
+                    // map((item) => item.maxSrvcCostSum);
+                    let estimatedCostUsage = data[0].maxSrvcCostExpSum;
+                    // let estimatedUsage = data[0].reduce(
+                    //   (acc, item) => acc + item.maxSrvcCostExpSum
+                    // );
+
+                    // .map((item) => item.maxSrvcCostExpSum);
+                    console.log("totalCostUsage", totalCostUsage);
+                    console.log("estimatedUsage", estimatedUsage);
+                    // Display the currently selected option data
+                    if (estimatedUsage > 0 || totalCostUsage > 0) {
+                      $("#estimatedUsage")
+                        .text(
+                          "+ " + estimatedCostUsage.toLocaleString() + " (KRW)"
+                        )
+                        .css("font-weight", "bold");
+                      $("#totalUsage")
+                        .text("+ " + totalCostUsage.toLocaleString() + " (KRW)")
+                        .css("font-weight", "bold");
+                    } else {
+                      // No positive values found
+                      $("#estimatedUsage").text("0 (KRW)");
+                      $("#estimatedUsage").css("font-weight", "bold");
+                      $("#totalUsage").text("0 (KRW)");
+                      $("#totalUsage").css("font-weight", "bold");
+                    }
+                  } else if (data && data.length === 0) {
+                    // No subscription info found
+                    // No data found
+                    $("#estimatedUsage").text("0 (KRW)");
+                    $("#estimatedUsage").css("font-weight", "bold");
+                    $("#totalUsage").text("0 (KRW)");
+                    $("#totalUsage").css("font-weight", "bold");
+                  }
+                },
+                error: function (xhr, status, error) {
+                  console.error("Error fetching data:", status, error);
+                },
+              });
+            }
+
+            // seafch button event listener
+            const searchButton = document.getElementById("searchButton");
+            searchButton.addEventListener("click", searchFunction);
+
+            // Function to update the summary cards
+
+            // // Get the context of the canvas element we want to select
+            // const ctx = document.getElementById("mixedChart").getContext("2d");
+
+            // @GetMapping("/selectSubscriptionList")
+            // public ResponseEntity<List<ADMSRV001M0R0DTO>> selectSubscriptionList(@RequestBody ADMSRV001M0P0DTO inVo) {
+            //     try {
+            //         List<ADMSRV001M0R0DTO> subscriptionList = admSrv001M0Service.selectSubscriptionList(inVo);
+            //         return ResponseEntity.ok(subscriptionList);
+            //     } catch (Exception e) {
+            //         e.printStackTrace();
+            //         return ResponseEntity.status(500).build();
+            //     }
+            // }
+
+            // write me a fetch method to get the subscription list
+            function fetchSubscriptionList() {
+              $.ajax({
+                type: "GET",
+                url: "/selectSubscriptionList",
+                async: true,
+                dataType: "json",
+                success: function (data) {
+                  $("#userNumber").text(data[0].optDtlsCd + " users");
+                  $("#userNumber").css("font-weight", "bold");
+                  console.log("Subscription list fetched successfully:", data);
+                  // update the ui based on the user subscription
+                  optDtlsCd;
+                  if (data && data.length > 0) {
+                    var subscription = data[0]; // Assuming we hvae only one subscrition
+                    // Display the currently selected option data
+                    if (subscription.optDtlsCd) {
+                      $("#selectedOption").text(
+                        "+ " + subscription.optDtlsCd + " Users"
+                      );
+                      // we make the text bold
+                      $("#selectedOption").css("font-weight", "bold");
+                    }
+                  } else {
+                    // No subscription info found
+                    $("#basicSubscriptionButton")
+                      .text("Use")
+                      .prop("disabled", false);
+                    $("#premiumSubscriptionButton")
+                      .text("Use")
+                      .prop("disabled", false);
+                  }
+                },
+                error: function (xhr, status, error) {
+                  console.error(
+                    "Error fetching subscription list:",
+                    status,
+                    error
+                  );
+                },
+              });
+            }
+
+            // we make a fetch call to ADMSRV001M0SelectAllOptions to get the list of the (users) options
+            // function fetchOptions() {
+            //   $.ajax({
+            //     type: "GET",
+            //     url: "/ADMSRV001M0SelectAllOptions",
+            //     async: true,
+            //     dataType: "json",
+            //     success: function (data) {
+            //       console.log("Options fetched successfully:", data);
+            //       $("#userNumber").text(data[0].optDtlsNm + " users");
+            //       $("#userNumber").css("font-weight", "bold");
+
+            //       // if(data && )
+            //       // $optionSelect.empty();
+            //       // if (data.length > 0) {
+            //       //   $optionSelect.append(
+            //       //     '<option value="">Add User: </option>'
+            //       //   );
+            //       //   $.each(data, function (index, option) {
+            //       //     // Combine optCd and optDtlsCd as the value
+            //       //     var value =
+            //       //       option.optCd +
+            //       //       "|" +
+            //       //       option.optDtlsNm +
+            //       //       "|" +
+            //       //       option.optDtlsDesc;
+            //       //     $optionSelect.append(
+            //       //       '<option value="' +
+            //       //         value +
+            //       //         '">' +
+            //       //         option.optDtlsDesc +
+            //       //         "</option>"
+            //       //     );
+            //       //   });
+            //       // } else {
+            //       //   $optionSelect.append(
+            //       //     '<option value="">No options available</option>'
+            //       //   );
+            //       // }
+            //     },
+            //     error: function (xhr, status, error) {
+            //       console.error("Error fetching options:", status, error);
+            //       $("#optionSelect").html(
+            //         '<option value="">Error loading options</option>'
+            //       );
+            //     },
+            //   });
+            // }
+
+            // Function to fetch and display the user's current subscription info
+            function getUserSubscriptionInfo() {
+              $.ajax({
+                type: "GET",
+                url: "/getUserSubscriptionInfo",
+                async: true,
+                dataType: "json",
+                success: function (data) {
+                  console.log("User subscription info:", data);
+                  // update the ui based on the user subscription
+                  if (data && data.length > 0) {
+                    var subscription = data[0]; // Assuming we hvae only one subscrition
+                    // Display the currently selected option data
+                    if (subscription.optDtlsCd) {
+                      $("#selectedOption").text(
+                        "+ " + subscription.optDtlsCd + " Users"
+                      );
+                      // we make the text bold
+                      $("#selectedOption").css("font-weight", "bold");
+                    }
+                  } else {
+                    // No subscription info found
+                    $("#basicSubscriptionButton")
+                      .text("Use")
+                      .prop("disabled", false);
+                    $("#premiumSubscriptionButton")
+                      .text("Use")
+                      .prop("disabled", false);
+                  }
+                },
+                error: function (xhr, status, error) {
+                  console.error(
+                    "Error fetching user subscription info:",
+                    status,
+                    error
+                  );
+                },
+              });
+            }
+
+            $(document).ready(function () {
+              fetchSubscriptionList();
+              // fetchOptions();
+              // we fetch the user subcrioption info
+              getUserSubscriptionInfo();
+              searchFunction();
+            });
+
+            // Create and render the chart
+            // const mixedChart = new Chart(ctx, config);
+          });
+        </script>
+      </div>
     </div>
     <script src="js/utils.js"></script>
   </th:block>
