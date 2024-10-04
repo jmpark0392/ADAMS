@@ -86,68 +86,47 @@
 			}
 			
 		</style>
-		</script>
+		<!-- litepicker library for making a datepicker -->
 		<script>
-	  // @formatter:off
-	  document.addEventListener("DOMContentLoaded", function () {
-		window.Litepicker && (new Litepicker({
-			element: document.getElementById('datepicker-default'),
-			buttonText: {
-				previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-	  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
-				nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-	  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
-			},
-		}));
-	  });
-	  // @formatter:on
-	  </script>
-		<script>
-	  // @formatter:off
-	  document.addEventListener("DOMContentLoaded", function () {
-		window.Litepicker && (new Litepicker({
-			element: document.getElementById('datepicker-icon'),
-			buttonText: {
-				previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-	  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
-				nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-	  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
-			},
-		}));
-	  });
-	  // @formatter:on
-	  </script>
-		<script>
-	  // @formatter:off
-	  document.addEventListener("DOMContentLoaded", function () {
-		window.Litepicker && (new Litepicker({
-			element: document.getElementById('datepicker-icon-prepend'),
-			buttonText: {
-				previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-	  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
-				nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-	  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
-			},
-		}));
-	  });
-	  // @formatter:on
-	  </script>
-		<script>
-	  // @formatter:off
-	  document.addEventListener("DOMContentLoaded", function () {
-		window.Litepicker && (new Litepicker({
-			element: document.getElementById('datepicker-inline'),
-			buttonText: {
-				previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-	  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
-				nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-	  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
-			},
-			inlineMode: true,
-		}));
-	  });
-	  // @formatter:on
-	  </script>
+			document.addEventListener("DOMContentLoaded",
+			function() {
+			  // this will only when the input date type is avaible in the DOM
+			  let dateLitePickerIcon = document.getElementById('datepicker-icon');
+			  if (dateLitePickerIcon && window.Litepicker) {
+		  
+				new Litepicker({
+				  element: dateLitePickerIcon,
+				  buttonText: {
+					previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
+						nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
+					},
+				});
+				}
+				});
+				// @formatter: on
+		  </script>
+		  <script>
+			// @formatter:off
+			document.addEventListener("DOMContentLoaded",
+			function() {
+			  // this will only when the input date type is avaible in the DOM
+			  let dateLitePickerPrepend = document.getElementById('datepicker-icon-prepend');
+			  if (dateLitePickerPrepend && window.Litepicker) {
+				new Litepicker({
+				  element: dateLitePickerPrepend,
+				  buttonText: {
+					previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
+						nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
+					},
+				});
+				}
+				});
+				// @formatter: on
+		  </script>
 	</head>
 </th:block>
 </html>
