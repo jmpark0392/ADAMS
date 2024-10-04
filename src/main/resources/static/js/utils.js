@@ -441,7 +441,10 @@ function gf_Transaction(option, callbackFn ) {
                             result.xhr      = xhr;
                             result.status   = status;
                             result.error    = error;
-                            eval(callbackFn+"("+result+")");
+                            
+                            if(typeof  callbackFn === 'function' ){
+								callbackFn(result);
+							}
 		                }
   });
   
