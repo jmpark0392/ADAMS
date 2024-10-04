@@ -15,8 +15,6 @@ public interface BIZINS001M0DAO {
 	
 	public void insertList(BIZINS001M0P1DTO inVo);
 	
-	public void updateList(BIZINS001M0P1DTO inVo);
-	
-	public void deleteList(BIZINS001M0P1DTO inVo);
+	public void deleteListBf(BIZINS001M0P1DTO inVo);
 	
 }
