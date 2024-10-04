@@ -4,28 +4,85 @@
 
 <mapper namespace="com.rds.adams.web.biz.fst.dao.BIZFST002M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST002M0P0DTO" resultType="com.rds.adams.web.biz.fst.dto.BIZFST002M0R0DTO">
-		SELECT
-		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-		     , A.STD_YYMM         AS STD_YYMM
-		     , A.ATIT_CD          AS ATIT_CD  /* 계정과목코드 */
-			 , B.ATIT_KOR_NM      AS ATIT_NM /* 계정과목명 */
-		     , A.BAS_AMT          AS BAS_AMT /* 기초금액 */
-		     , A.DR_AMT           AS DR_AMT  /* 차변금액 */
-		     , A.CR_AMT           AS CR_AMT  /* 대변금액 */
-		     , A.ENTM_AMT         AS ENTM_AMT  /* 당기말금액 */
-		     , A.FRST_REG_EMP_NO  AS REG_USR_ID
-		     , A.FRST_REG_DTM     AS REG_DT
-		  FROM TB_FS_LST AS A
-		 INNER JOIN TB_ATIT_MNG_LST AS B
-		      ON A.ATIT_CD = B.ATIT_CD
-		 WHERE 1=1
-		   AND A.FS_DV_CD = 'PL'
-         <if test='searchTxt != ""'>
-           AND (
-                   ATIT_CD LIKE '%' + #{searchTxt} + '%'
-                OR ATIT_NM LIKE '%' + #{searchTxt} + '
-                  %'
-                )
+        WITH 
+          LVL4 AS (
+                    SELECT 
+                           ATIT_CD
+                         , BAS_AMT
+                         , DR_AMT
+                         , CR_AMT
+                         , ENTM_AMT
+                      FROM TB_FS_LST 
+                     WHERE 1=1
+                       AND STD_YYMM = '202406' 
+                       AND FS_DV_CD = 'PL'   --STD_YYMM , FS_DV_CD  변수
+                  )
+        , LVL3 AS (
+                    SELECT 
+                           B.HGRK_ATIT_CD   AS ATIT_CD
+                         , SUM( BAS_AMT  )  AS BAS_AMT
+                         , SUM( DR_AMT   )  AS DR_AMT
+                         , SUM( CR_AMT   )  AS CR_AMT
+                         , SUM( ENTM_AMT )  AS ENTM_AMT
+                        FROM LVL4 A
+                        LEFT OUTER JOIN TB_ATIT_MNG_LST B
+                          ON A.ATIT_CD = B.ATIT_CD
+                       WHERE B.AC_LVL_CD = '4'
+                       GROUP BY B.HGRK_ATIT_CD 
+                  )
+        , LVL2 AS (
+                    SELECT 
+                           B.HGRK_ATIT_CD   AS ATIT_CD
+                         , SUM( BAS_AMT  )  AS BAS_AMT
+                         , SUM( DR_AMT   )  AS DR_AMT
+                         , SUM( CR_AMT   )  AS CR_AMT
+                         , SUM( ENTM_AMT )  AS ENTM_AMT
+                      FROM LVL3 A
+                      LEFT OUTER JOIN TB_ATIT_MNG_LST B
+                        ON A.ATIT_CD = B.ATIT_CD
+                     WHERE B.AC_LVL_CD = '3'
+                     GROUP BY B.HGRK_ATIT_CD 
+                  ) 
+        , LVL1 AS (
+                    SELECT 
+                           B.HGRK_ATIT_CD   AS ATIT_CD
+                         , SUM( BAS_AMT  )  AS BAS_AMT
+                         , SUM( DR_AMT   )  AS DR_AMT
+                         , SUM( CR_AMT   )  AS CR_AMT
+                         , SUM( ENTM_AMT )  AS ENTM_AMT
+                      FROM LVL2 A
+                      LEFT OUTER JOIN TB_ATIT_MNG_LST B
+                        ON A.ATIT_CD = B.ATIT_CD
+                     WHERE B.AC_LVL_CD = '2'
+                     GROUP BY B.HGRK_ATIT_CD 
+                  )
+        SELECT 
+               ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
+             , AA.ATIT_CD
+             , CASE WHEN BB.AC_LVL_CD = '4' THEN '----'
+                    WHEN BB.AC_LVL_CD = '3' THEN '---'
+                    WHEN BB.AC_LVL_CD = '2' THEN '--'
+                    ELSE '' END 
+             + BB.ATIT_ENG_NM  AS ATIT_NM
+             , BAS_AMT
+             , DR_AMT
+             , CR_AMT
+             , ENTM_AMT
+          FROM (
+                           SELECT * FROM LVL4
+                 UNION ALL SELECT * FROM LVL3
+                 UNION ALL SELECT * FROM LVL2
+                 UNION ALL SELECT * FROM LVL1
+               ) AA 
+          LEFT OUTER JOIN TB_ATIT_MNG_LST BB 
+            ON AA.ATIT_CD = BB.ATIT_CD
+          ORDER BY BB.SRT_ORD
+                 <if test='searchTxt != ""'>
+                   AND (
+                           ATIT_CD LIKE '%' + #{searchTxt} + '%'
+                        OR ATIT_NM LIKE '%' + #{searchTxt} + '
+                          %'
+                        )
          </if>
     </select>
 </mapper>
