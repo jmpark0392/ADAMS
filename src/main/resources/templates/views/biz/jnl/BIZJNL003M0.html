@@ -355,9 +355,21 @@
       
       function execute(){
     	  addSlickGridSomeStyling();
-    	  data = getFile(
-    	          (input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
-    	        );
+    	  $.ajax({
+    		    type: "post",
+    		    url: '/BIZJNL003M0ExecuteList',
+    		    async: true,
+    		    dataType: "text", //서버에서 어떤 타입을 받을 것인가
+    		    contentType: "application/json; charset=utf-8", //서버로 어떤 타입을 보낼 것인가
+    		    data: JSON.stringify(),
+    		    success: function (response) {
+    		      alert("Successfully Updated");
+    		      console.log("update 테스트js");
+    		    },
+    		    error: function (error) {
+    		      console.error("Error updating data:", error);
+    		    },
+    		  });
       }
 
       // Download Excel functionality
