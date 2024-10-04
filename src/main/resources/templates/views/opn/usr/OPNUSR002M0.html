@@ -171,14 +171,11 @@
 						right: "",
 						bottom: ""
 					});
-					const modalBodyElem = document.querySelector(".modal-body");
-				    modalBodyElem.innerHTML = ""; // 모달 내용 초기화
 				});
 					// // Optional Case:	we can trigger the modal for test pirpose
 					// // this should be romoved when the code is ready for production 
 					// $('.btn-primary').trigger('click');
 			})
-	
 			var grid;
 			var dataView;
 			var data;
@@ -419,13 +416,6 @@
 				exportToExcel(fileName, sheetName, gridColumns, gridData);
 			});
 	
-			//	function addCustomModalStyling() {
-			//	const style = document.createElement("style");
-			//	style.innerHTML = `
-			//	`;
-			//	document.head.appendChild(style);
-			// }
-	
 			// 신규버튼 누르면 동작하는 함수
 			function openDetails(modalType) {
 			    
@@ -472,13 +462,6 @@
 				// var dataContext = grid.getDataItem(activeRow);
 				var isWithMassUpdate = modalType === "mass-update" || modalType === "mass-selection";
 				// lastActiveRowNumber = activeRow;
-	
-				// // 수정 직전의 데이터 저장
-				// if (modalType === "edit") {
-				//	try {
-				//	 originalData = JSON.parse(JSON.stringify(dataContext));
-				//	} catch {}
-				
 	
 				const dataContext    = grid.getDataItem(activeRow);
 				const modalElement   = new bootstrap.Modal(document.getElementById("exampleModal"));
@@ -732,46 +715,19 @@
 				
 				modalElm.appendChild(modalBodyElm);
 	
-	
-				// //modal을 마우스로 드래그가능하도록 설정
-				// $(".modal").draggable();
-		
-				// // Initialize draggable when the modal is shown
-				// $('#exampleModal').on('shown.bs.modal', function () {
-				// 	// Make the modal draggable
-				// 	$(this).find(".modal-dialog").draggable({
-				// 		handle: ".modal-header" // Restrict dragging to the header
-				// 	});
-
-				// 	// Optional: Prevent modal from being dragged outside the viewport
-				// 	$(this).find(".modal-dialog").draggable("option", "containment", "window");
-				// });
-
-				// // Optional: Reset position when the modal is hidden
-				// $('#exampleModal').on('hidden.bs.modal', function () {
-				// 	$(this).find(".modal-dialog").css({
-				// 		top: "",
-				// 		left: "",
-				// 		right: "",
-				// 		bottom: ""
-				// 	});
-				// });
- 
-	
 				grid.onClick.subscribe(function (e, args) {
 					renewOptions(false);
 				});
 				
 				// Save button logic
 				const saveBtn = document.querySelector(".modal-footer .btn-primary");
-				saveBtn.removeEventListener("click", saveHandler);
-				saveBtn.addEventListener("click", saveHandler);
-
+				saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
+			
 				//modal을 마우스로 드래그가능하도록 설정
 				$(".modal").draggable();
 	
-				// saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
-				function saveHandler(){
+			    // this will only be triggered when the save button is clicked
+				saveBtn.onclick = function saveHandler(){
 				
 					const formData = {};
 	
@@ -794,6 +750,7 @@
 							formData[unqId] = grid.getDataLength() + 1;
 							//dataView.insertItem(grid.getDataLength(), formData);
 							insertCs(JSON.stringify(formData));
+
 						} else {
 							alert("Please fill out all required fields.");
 							return;

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html
   lang="en"
@@ -102,7 +101,12 @@
           >
             Launch modal with form
           </button>
-          <div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            style="display: none"
+          >
             <div class="modal-dialog modal-small" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -158,7 +162,7 @@
       }
 
       function insertFile(addedRow) {
-        parentInsertFile(addedRow, "/WRKFIL001M0InsertList"); 
+        parentInsertFile(addedRow, "/WRKFIL001M0InsertList");
       }
 
       function updateFile(updatedRow) {
@@ -184,32 +188,32 @@
           }
         });
       });
-      
-   // this method will trigger the popup modal to be draggle by mouse click
-		$(document).ready(function (){
-			// we initialize draggable when the modal is shown
-			$('#exampleModal').on('shown.bs.modal', function () {
-				// then we make the modal draggable
-				$(this).find(".modal-dialog").draggable({
-					handle: ".modal-header", // we will restrict dragging to the header
-					// containment: "window"    // we prevent dragging outside the window box for popup container
-				});
-			});
 
-			// this will then reset position when the modal is hidden
-			$('#exampleModal').on('hidden.bs.modal', function () {
-				$(this).find(".modal-dialog").css({
-					top: "",
-					left: "",
-					right: "",
-					bottom: ""
-				});
-			});
+      // this method will trigger the popup modal to be draggle by mouse click
+      $(document).ready(function () {
+        // we initialize draggable when the modal is shown
+        $("#exampleModal").on("shown.bs.modal", function () {
+          // then we make the modal draggable
+          $(this).find(".modal-dialog").draggable({
+            handle: ".modal-header", // we will restrict dragging to the header
+            // containment: "window"    // we prevent dragging outside the window box for popup container
+          });
+        });
 
-			// // Optional Case:  we can trigger the modal for test pirpose
-			// // this should be romoved when the code is ready for production 
-			// $('.btn-primary').trigger('click');
-		})
+        // this will then reset position when the modal is hidden
+        $("#exampleModal").on("hidden.bs.modal", function () {
+          $(this).find(".modal-dialog").css({
+            top: "",
+            left: "",
+            right: "",
+            bottom: "",
+          });
+        });
+
+        // // Optional Case:  we can trigger the modal for test pirpose
+        // // this should be romoved when the code is ready for production
+        // $('.btn-primary').trigger('click');
+      });
 
       var grid;
       var dataView;
@@ -218,145 +222,144 @@
       var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
       var check_cols = [unqId, "fileNm", "tblId"];
       var columns = [
-          {
-            id: unqId,
-            name: "Seq",
-            field: unqId,
-            editor: Slick.Editors.Text,
-            validator: createValidator,
-            width : 10
+        {
+          id: unqId,
+          name: "Seq",
+          field: unqId,
+          editor: Slick.Editors.Text,
+          validator: createValidator,
+          width: 10,
+        },
+        {
+          id: "fileNm",
+          name: "File Name",
+          field: "fileNm",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          validator: (value, args) =>
+            complexValidator(value, args, [
+              createValidator,
+              noWhitespaceValidator,
+            ]),
+          width: 170,
+        },
+        {
+          id: "dbId",
+          name: "Database ID",
+          field: "dbId",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          validator: createValidator,
+          width: 60,
+        },
+        {
+          id: "tblId",
+          name: "Table ID",
+          field: "tblId",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          validator: (value, args) =>
+            complexValidator(value, args, [
+              createValidator,
+              noWhitespaceValidator,
+            ]),
+          width: 120,
+        },
+        {
+          id: "fileDsc",
+          name: "File Info",
+          field: "fileDsc",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          validator: createValidator,
+          width: 120,
+        },
+        {
+          id: "fileDelYn",
+          name: "File Del YN",
+          field: "fileDelYn",
+          sortable: true,
+          editor: function (args) {
+            return new ComboBoxEditor(args, [
+              { key: "Y", value: "Y" },
+              { key: "N", value: "N" },
+            ]);
           },
-          {
-            id: "fileNm",
-            name: "File Name",
-            field: "fileNm",
-            sortable: true,
-            editor: Slick.Editors.Text,
-            validator: (value, args) =>
-              complexValidator(value, args, [
-                createValidator,
-                noWhitespaceValidator,
-              ]),
-              width : 170
+          width: 60,
+        },
+        {
+          id: "uiSelYn",
+          name: "UI view YN",
+          field: "uiSelYn",
+          sortable: true,
+          editor: function (args) {
+            return new ComboBoxEditor(args, [
+              { key: "Y", value: "Y" },
+              { key: "N", value: "N" },
+            ]);
           },
-          {
-            id: "dbId",
-            name: "Database ID",
-            field: "dbId",
-            sortable: true,
-            editor: Slick.Editors.Text,
-            validator: createValidator,
-            width : 60
+          width: 60,
+        },
+        {
+          id: "useYn",
+          name: "Use YN",
+          field: "useYn",
+          sortable: true,
+          editor: function (args) {
+            return new ComboBoxEditor(args, [
+              { key: "Y", value: "Y" },
+              { key: "N", value: "N" },
+            ]);
           },
-          {
-            id: "tblId",
-            name: "Table ID",
-            field: "tblId",
-            sortable: true,
-            editor: Slick.Editors.Text,
-            validator: (value, args) =>
-              complexValidator(value, args, [
-                createValidator,
-                noWhitespaceValidator,
-              ]),
-              width : 120
+          width: 50,
+        },
+        {
+          id: "vrfUseYn",
+          name: "Validation YN",
+          field: "vrfUseYn",
+          sortable: true,
+          editor: function (args) {
+            return new ComboBoxEditor(args, [
+              { key: "Y", value: "Y" },
+              { key: "N", value: "N" },
+            ]);
           },
-          {
-            id: "fileDsc",
-            name: "File Info",
-            field: "fileDsc",
-            sortable: true,
-            editor: Slick.Editors.Text,
-            validator: createValidator,
-            width : 120
-          },
-          {
-            id: "fileDelYn",
-            name: "File Del YN",
-            field: "fileDelYn",
-            sortable: true,
-            editor: function (args) {
-              return new ComboBoxEditor(args, [
-                { key: "Y", value: "Y" },
-                { key: "N", value: "N" },
-              ]);
-            },
-            width : 60
-          },
-          {
-            id: "uiSelYn",
-            name: "UI view YN",
-            field: "uiSelYn",
-            sortable: true,
-            editor: function (args) {
-              return new ComboBoxEditor(args, [
-                { key: "Y", value: "Y" },
-                { key: "N", value: "N" },
-              ]);
-            },
-            width : 60
-          },
-          {
-            id: "useYn",
-            name: "Use YN",
-            field: "useYn",
-            sortable: true,
-            editor: function (args) {
-              return new ComboBoxEditor(args, [
-                { key: "Y", value: "Y" },
-                { key: "N", value: "N" },
-              ]);
-            },
-            width : 50
-          },
-          {
-            id: "vrfUseYn",
-            name: "Validation YN",
-            field: "vrfUseYn",
-            sortable: true,
-            editor: function (args) {
-              return new ComboBoxEditor(args, [
-                { key: "Y", value: "Y" },
-                { key: "N", value: "N" },
-              ]);
-            },
-            width : 70
-          },
-          {
-            id: "frstRegEmpNo",
-            name: "Registrant ID",
-            field: "frstRegEmpNo",
-            sortable: true,
-            editor: Slick.Editors.Text,
-            width : 60
-          },
-          {
-            id: "frstRegDtm",
-            name: "Registration Date",
-            field: "frstRegDtm",
-            sortable: true,
-            editor: Slick.Editors.Text,
-            width : 80
-          },
-        ];
+          width: 70,
+        },
+        {
+          id: "frstRegEmpNo",
+          name: "Registrant ID",
+          field: "frstRegEmpNo",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          width: 60,
+        },
+        {
+          id: "frstRegDtm",
+          name: "Registration Date",
+          field: "frstRegDtm",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          width: 80,
+        },
+      ];
 
-        var options = {
-          enableCellNavigation: true,
-          enableColumnReorder: false,
-          forceFitColumns: true,
-          multiColumnSort: true,
-          numberedMultiColumnSort: true,
-          tristateMultiColumnSort: true,
-          sortColNumberInSeparateSpan: true,
-          enableAutoSizeColumns: true,
-          editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
-          enableAddRow: true,
-          asyncEditorLoading: false,
-          autoEdit: false,
-          autoEditNewRow: false
-          //enableAutoResize: true
-        };
-
+      var options = {
+        enableCellNavigation: true,
+        enableColumnReorder: false,
+        forceFitColumns: true,
+        multiColumnSort: true,
+        numberedMultiColumnSort: true,
+        tristateMultiColumnSort: true,
+        sortColNumberInSeparateSpan: true,
+        enableAutoSizeColumns: true,
+        editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
+        enableAddRow: true,
+        asyncEditorLoading: false,
+        autoEdit: false,
+        autoEditNewRow: false,
+        //enableAutoResize: true
+      };
 
       var newRowIds = 0;
 
@@ -385,6 +388,7 @@
             .slick-header-columns {
               font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
               font-size: 13px;
+              font-weight: bold;
             }
             .slick-cell {
               font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
@@ -522,13 +526,12 @@
 
       // 신규버튼 누르면 동작하는 함수
       function openDetails(modalType) {
-    	  
-    	let options6 = [
-    		{ value: "Y", text: "Y", column: " "},
-    		{ value: "N", text: "N", column: " "}    		
-    	];
-    	
-    	/* 동일한 형태의 콤보 키-값
+        let options6 = [
+          { value: "Y", text: "Y", column: " " },
+          { value: "N", text: "N", column: " " },
+        ];
+
+        /* 동일한 형태의 콤보 키-값
     	let options7 = [
     		{ value: "1", text: "Y", column: "uiSelYn"},
     		{ value: "2", text: "N", column: "uiSelYn"}    		
@@ -543,7 +546,7 @@
     		{ value: "1", text: "Y", column: "vrfUseYn"},
     		{ value: "2", text: "N", column: "vrfUseYn"}    		
     	]; */
-    	  
+
         grid.render();
 
         let originalData = null;
@@ -571,7 +574,9 @@
         }
 
         const dataContext = grid.getDataItem(activeRow);
-        const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
+        const modalElement = new bootstrap.Modal(
+          document.getElementById("exampleModal")
+        );
         const modalTitleElem = document.querySelector(".modal-title");
         const modalBodyElem = document.querySelector(".modal-body");
         console.log("modalTitleElem:", modalTitleElem);
@@ -621,44 +626,52 @@
           const inputElem = document.createElement("input");
           inputElem.className = "form-control";
           inputElem.dataset.editorid = column.id;
-          inputElem.value = modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+          inputElem.value =
+            modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 
           formGroupElem.appendChild(detailLabelitem);
-          
-         if(column.id === "fileDelYn" || column.id === "uiSelYn" || column.id === "useYn" || column.id === "vrfUseYn" ) {
-        	const selectInput = document.createElement('select');
-        	selectInput.className = "form-select";
-        	selectInput.dataset.editorid = column.id;
-        	
-        	const defaultOption = document.createElement('option');
-        	defaultOption.value = "Y";
-        	defaultOption.textContent = "-options-";
-        	selectInput.appendChild(defaultOption);
-        	
-        	let optionsData = [];
-        	optionsData = options6;
-         
-         
-         optionsData.forEach(option => {
-        	 const optionElem = document.createElement('option');
-        	 optionElem.value = option.value;
-        	 optionElem.textContent = option.text;
-        	 selectInput.appendChild(optionElem);
-         });
-         
-         if(modalType === "edit"){
-        	 selectInput.value = dataContext[column.field] || "";
-         }
-         
-         formGroupElem.appendChild(selectInput);
-         } else {
-        	 const inputElem = document.createElement('input');
-			 inputElem.className = "form-control";
-			 inputElem.dataset.editorid = column.id;
-			 inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
-			 formGroupElem.appendChild(inputElem);  
-         }
-         
+
+          if (
+            column.id === "fileDelYn" ||
+            column.id === "uiSelYn" ||
+            column.id === "useYn" ||
+            column.id === "vrfUseYn"
+          ) {
+            const selectInput = document.createElement("select");
+            selectInput.className = "form-select";
+            selectInput.dataset.editorid = column.id;
+
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "Y";
+            defaultOption.textContent = "-options-";
+            selectInput.appendChild(defaultOption);
+
+            let optionsData = [];
+            optionsData = options6;
+
+            optionsData.forEach((option) => {
+              const optionElem = document.createElement("option");
+              optionElem.value = option.value;
+              optionElem.textContent = option.text;
+              selectInput.appendChild(optionElem);
+            });
+
+            if (modalType === "edit") {
+              selectInput.value = dataContext[column.field] || "";
+            }
+
+            formGroupElem.appendChild(selectInput);
+          } else {
+            const inputElem = document.createElement("input");
+            inputElem.className = "form-control";
+            inputElem.dataset.editorid = column.id;
+            inputElem.value =
+              modalType === "edit" && dataContext
+                ? dataContext[column.field]
+                : ""; // pre-filling in the edit mode;
+            formGroupElem.appendChild(inputElem);
+          }
+
           //formGroupElem.appendChild(inputElem);
 
           colElem.appendChild(formGroupElem);
@@ -666,7 +679,8 @@
         });
 
         if (modalColumns.length % columnsPerShow !== 0) {
-          const remainingCols = columnsPerShow - (modalColumns.length % columnsPerShow);
+          const remainingCols =
+            columnsPerShow - (modalColumns.length % columnsPerShow);
           const spacerCol = document.createElement("div");
           spacerCol.className = `col-lg-${remainingCols * 2}`; // adjust the spacer column
           currentRow.appendChild(spacerCol);
@@ -699,7 +713,6 @@
         const saveBtn = document.querySelector(".modal-footer .btn-primary");
         saveBtn.removeEventListener("click", saveHandler);
         saveBtn.addEventListener("click", saveHandler);
-        
 
         // saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
         function saveHandler() {
@@ -711,36 +724,35 @@
             const input = modalBodyElem.querySelector(
               `[data-editorid="${column.id}"]`
             );
-            
+
             if (input) {
               formData[column.field] = input.value.trim();
             }
-            
+
             console.log("input테스트");
           });
 
           if (modalType === "create") {
-        	  console.log("create테스트");
+            console.log("create테스트");
 
             // Add new item to grid data
             if (checkData(formData)) {
-            	console.log(formData);
+              console.log(formData);
               formData[unqId] = grid.getDataLength() + 1;
               dataView.insertItem(grid.getDataLength(), formData);
-              
-              if(confirm("Do you want to register?") == true){
-            	  console.log("등록테스트");
-            	  insertFile(formData);
-            	  location.reload(true);
+
+              if (confirm("Do you want to register?") == true) {
+                console.log("등록테스트");
+                insertFile(formData);
+                location.reload(true);
               }
               //main();
-              
             } else {
               alert("Please fill out all required fields.");
               return;
             }
           } else if (modalType === "edit") {
-        	  console.log("EDIT 테스트");
+            console.log("EDIT 테스트");
             // Update existing item in grid data
             let isChanged = false;
             for (let key in formData) {
@@ -753,12 +765,11 @@
             if (isChanged) {
               formData[unqId] = originalData[unqId];
               dataView.updateItem(originalData[unqId], formData);
-              
-              if(confirm("Do you want to modify?") == true){
-            	  updateFile(formData);
+
+              if (confirm("Do you want to modify?") == true) {
+                updateFile(formData);
               }
               location.reload(true);
-              
             } else {
               alert("No changes detected.");
               return;
@@ -768,8 +779,6 @@
           grid.render();
           modalElement.hide(); // Hide the modal after saving\
         }
-        
-        
 
         // Close button logic
         const closeBtn = document.querySelector(".modal-footer .btn-link");
@@ -788,9 +797,9 @@
         //         dataView.updateItem(originalData[unqId], originalData); // Revert changes if canceled
         //     }
         // });
-        
-       // Delete button logic
-       /*
+
+        // Delete button logic
+        /*
         const delBtn = document.querySelector(".modal-footer .btn-danger");
         delBtn.removeEventListener("click", saveHandler);
         delBtn.addEventListener("click", saveHandler);
