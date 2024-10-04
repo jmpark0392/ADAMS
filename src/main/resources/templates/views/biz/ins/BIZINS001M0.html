@@ -46,11 +46,11 @@
                       type="button"
                       class="btn btn-primary"
                       style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
+                      onclick="summarize()"
                       data-test="create-button"
                       onsubmit="return false;"
                     >
-                      Create
+                      Summarize
                     </button>
                     <button
                       type="button"
@@ -59,17 +59,6 @@
                       id="downloadExcel"
                     >
                       Download
-                    </button>
-                    <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-secondary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-                      data-test="edit-button"
-                      onsubmit="return false;"
-                    >
-                      Edit
                     </button>
                   </div>
                 </div>
@@ -317,6 +306,25 @@
             grid.setActiveCell(0, 0);
             console.log("SlickGrid initialized.");
         };
+        
+        function summarize(){
+            addSlickGridSomeStyling();
+            $.ajax({
+                  type: "post",
+                  url: '/BIZINS001M0ExecuteList',
+                  async: true,
+                  dataType: "text", //서버에서 어떤 타입을 받을 것인가
+                  contentType: "application/json; charset=utf-8", //서버로 어떤 타입을 보낼 것인가
+                  data: JSON.stringify(),
+                  success: function (response) {
+                    alert("Successfully Updated");
+                    console.log("summarize 테스트js");
+                  },
+                  error: function (error) {
+                    console.error("Error updating data:", error);
+                  },
+                });
+        }
         
         // Download Excel functionality
         document.getElementById('downloadExcel').addEventListener('click', function() {

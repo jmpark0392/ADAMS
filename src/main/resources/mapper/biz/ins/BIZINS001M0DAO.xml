@@ -33,8 +33,44 @@
                 )
          </if>
     </select>
-    <delete id="deleteList_bf" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P1DTO">
-		DELETE FROM TB_BAT_MNG_LST
-		WHERE STD_YYMM  = #{stdYymm}
+    <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.ins.dto.BIZINS001M0P1DTO">
+		DELETE FROM TB_INSU_PL_TTL_LST
+		WHERE STD_YYMM  = '202406'
 	</delete>
+	<insert id="insertList" parameterType="com.rds.adams.web.biz.ins.dto.BIZINS001M0P1DTO">
+		INSERT INTO TB_INSU_PL_TTL_LST
+		SELECT 
+		       STD_YYMM
+		     , 'O'                                                AS INSC_DV_CD 
+		     , 'GMM'                                              AS VALU_METD_CD
+		     , 'BEL'                                              AS INSU_PL_CHNG_DV_CD
+		     , PORTPOLIO 
+		     , 4500 BAS_AMT
+		     , 5500 OCI_AMT
+		     , SUM(ACQ_EXP_PREM_RLTED) + SUM(ACQ_EXP_PREM_NRLTED) AS NEW_CONT_AMT
+		     , 6500 INT_EFFT_AMT 
+		     , SUM(PREM_GENERAL) + SUM(PREM_OTHER)                AS ESTM_PRM
+		     , SUM(EXP_GENERAL) + SUM(EXP_TAX) + SUM(EXP_ASSET_POL_LOAN)
+		     + SUM(EXP_ASSET_REAL_EST) + SUM(EXP_ASSET_OTHER)     AS ESTM_FEE
+		     , 8500 ESTM_NEW_CONT_CCLS_AMT
+		     , SUM(INV_CMPNT_SURNDR) + SUM(INV_CMPNT_MAT_BNFT)
+		     + SUM(INV_CMPNT_OTHER)                               AS ESTM_FEE_RFND_AMT
+		     , SUM(CLAIM_ACCIDENT_DEATH) + SUM(CLAIM_ACCIDENT_DIAGNOSIS_SURGERY)
+		     + SUM(CLAIM_ACCIDENT_HOPSITALIZATION) + SUM(CLAIM_ACCIDENT_OTHER)
+		     + SUM(CLAIM_DISEASE_DEATH) + SUM(CLAIM_DISEASE_DIAGNOSIS_SURGERY)
+		     + SUM(CLAIM_DISEASE_HOPSITALIZATION) + SUM(CLAIM_DISEASE_OTHER)
+		     + SUM(CLAIM_MEDICAL) + SUM(CLAIM_DISABILITY)
+		     + SUM(CLAIM_INDEMNITY) + SUM(CLAIM_OTHER)            AS ESTM_CONT_MTN_AMT
+		     , 9500 ESTM_IVSG_EXP_AMT
+		     , 9600 ATS_ASSM_UPD_AMT
+		     , 9700 EXRT_EFFT_AMT
+		     , 9900 ENTM_AMT
+		     , 'TESTER'                                           AS REG_USRID
+		     , GETDATE()                                          AS  REG_DT
+		     , 'TESTER'                                           AS UPD_USRID
+		     , GETDATE()                                          AS  UPD_DT
+		  FROM TB_R3S_OUTPUT_100_RST_LST 
+		 WHERE STD_YYMM = '202406'
+		 GROUP BY STD_YYMM, PORTPOLIO	
+	</insert>
 </mapper>
