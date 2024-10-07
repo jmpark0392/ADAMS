@@ -35,7 +35,7 @@
 							<label for="inpUsrId">your@email.com</label>
 						</div>
 						<div class="form-floating">
-							<input type="password" class="form-control" id="inpUsrPassword" name="inpUsrPassword" minLength="8" maxLength="20" placeholder="your password" autocomplete="off" required>
+							<input type="password" class="form-control" id="inpUsrPassword" name="inpUsrPassword" minLength="6" maxLength="20" placeholder="your password" autocomplete="off" required>
 							<label for="inpUsrPassword">your password</label>
 						</div>
 						<div class="form-footer">
@@ -68,7 +68,7 @@
 				var vUsrPassword = $("#inpUsrPassword").val();
 
 		    	if ( isNull(vUsrId) == "" ) {
-		            alert("Enter your email.");
+		            alert("Enter your e-mail.");
 		            $("#inpUsrId").focus();
 		    		return;
 		    	}
@@ -82,7 +82,7 @@
 				
 		        // 이메일 형식이 올바르지 않은 경우
 		        if (!validateEmail(vUsrId)) {
-		            alert("Please enter a valid your email address."); // 오류 메시지 표시
+		            alert("Incorrect e-mail address. Please enter it again."); // 오류 메시지 표시
 		            $("#inpUsrId").focus();
 		            // TO-DO : 테스트 ID 사용 안할 시 주석해제
 		            //return;
