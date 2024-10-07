@@ -534,3 +534,20 @@ function gf_Select2Editor(args) {
 function gf_Select2Formatter(row, cell, value, columnDef, dataContext) {
     return columnDef.dataSource[value] || '-';
 }
+
+function currencyFormatter(row, cell, value, columnDef, dataContext) {
+    if (value == null || value === "") {
+        return "";
+    }
+    // 숫자 형식으로 변환
+    var number = parseFloat(value);
+
+    // 금액 형식으로 변환 (예: 1,234,567)
+    var formattedNumber = number.toLocaleString('ko-KR', {
+        style: 'decimal',
+		minimumFractionDigits: 0,
+		maximumFractionDigits: 0
+    });
+
+    return formattedNumber;
+}

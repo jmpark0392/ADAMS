@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-<html
-  lang="ko"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}"
->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
+<<<<<<< Updated upstream
   <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
     <div class="page-wrapper" id="page-wrapper">
       <div class="container" id="container">
@@ -125,6 +121,60 @@
       </div>
     </div>
     <script>
+=======
+	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="container">
+			<h2>Insurance Profit and Loss Total</h2>
+			<div class="ptag-container">
+				<span><a href="#"> Home ></a></span> <span><a href="#"> BEL</a></span>
+				<div class="form-container">
+					<div class="form-box">
+						<form id="filter-form" name="form" method="post" action="/BIZINS001M0SelectList" onsubmit="return false;">
+							<div class="row">
+								<div class="col">
+									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Account Title/Name" />
+									<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
+								</div>
+								<div class="col text-end">
+									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="summarize()" data-test="create-button" onsubmit="return false;">Summarize</button>
+									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">Download</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div style="padding-top: 2em"></div>
+				<div id="divMyGrid">
+					<table align="center" class="table"></table>
+				</div>
+			</div>
+			<div class="popupDataForm">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">Launch modal with form</button>
+				<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+					<div class="modal-dialog modal-small" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">New report</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<!-- Removed repetitive content for clarity -->
+									<!-- Add necessary modal content here -->
+								</div>
+							</div>
+							<div class="modal-footer">
+								<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">Save changes</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+>>>>>>> Stashed changes
         function checkData(data){
             return parentCheckData(data, check_cols);
         }
@@ -170,8 +220,8 @@
         }
         
     </script>
-    <script src="js/utils.js"></script>
-    <script>
+	<script src="js/utils.js"></script>
+	<script>
         $(document).ready(function() {
             console.log("Document is ready.");
             //화면 접속시 바로 조회
@@ -193,22 +243,22 @@
         var xcpt_cols = [unqId, "regUsrid", "regDt"];
         var check_cols = [unqId, ];
         var columns = [
-            {id: "ptfCd",   name: "portfolio", field: "ptfCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "basAmt", name: "basis", field: "basAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "ociAmt",   name: "OCI", field: "ociAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "newContAmt",   name: "new contract", field: "newContAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "intEfftAmt", name: "interest effect", field: "intEfftAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmPrm", name: "expected premium", field: "estmPrm", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmFee",   name: "expected cost & fee", field: "estmFee", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmNewContCclsAmt",   name: "expected acquisition expense", field: "estmNewContCclsAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmFeeRfndAmt",   name: "expected cost refund", field: "estmFeeRfndAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmContMtnAmt",   name: "expected administration expense", field: "estmContMtnAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmIvsgExpAmt",   name: "expected survey fee", field: "estmIvsgExpAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "atsAssmUpdAmt",   name: "assumption change", field: "atsAssmUpdAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "exrtEfftAmt",   name: "fx effect", field: "exrtEfftAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "entmAmt",   name: "end", field: "entmAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "regUsrid", name: "registrant", field: "regUsrid", sortable: true, editor: Slick.Editors.Text},
-            {id: "regDt", name: "registration date", field: "regDt", sortable: true, editor: Slick.Editors.Text}
+            {id: "ptfCd",   name: "portfolio", field: "ptfCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+            {id: "basAmt", name: "basis", field: "basAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "ociAmt",   name: "OCI", field: "ociAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "newContAmt",   name: "new contract", field: "newContAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "intEfftAmt", name: "interest effect", field: "intEfftAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "estmPrm", name: "expected premium", field: "estmPrm", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "estmFee",   name: "expected cost & fee", field: "estmFee", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "estmNewContCclsAmt",   name: "expected acquisition expense", field: "estmNewContCclsAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "estmFeeRfndAmt",   name: "expected cost refund", field: "estmFeeRfndAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "estmContMtnAmt",   name: "expected administration expense", field: "estmContMtnAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "estmIvsgExpAmt",   name: "expected survey fee", field: "estmIvsgExpAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "atsAssmUpdAmt",   name: "assumption change", field: "atsAssmUpdAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "exrtEfftAmt",   name: "fx effect", field: "exrtEfftAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "entmAmt",   name: "end", field: "entmAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+            {id: "regUsrid", name: "registrant", field: "regUsrid", sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+            {id: "regDt", name: "registration date", field: "regDt", sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
         ];
         
         var options = {
@@ -407,5 +457,5 @@
         
 
     </script>
-  </th:block>
+</th:block>
 </html>
