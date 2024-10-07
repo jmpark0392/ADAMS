@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.rds.adams.web.core.utils.EmailUtil;
 import com.rds.adams.web.core.utils.dto.EmailDTO;
-import com.rds.adams.web.opn.usr.dao.OPNUSR002M0DAO;
-import com.rds.adams.web.opn.usr.dto.OPNUSR002M0P0DTO;
-import com.rds.adams.web.opn.usr.dto.OPNUSR002M0R0DTO;
+import com.rds.adams.web.opn.usr.dao.OPNUSR003M0DAO;
+import com.rds.adams.web.opn.usr.dto.OPNUSR003M0P0DTO;
+import com.rds.adams.web.opn.usr.dto.OPNUSR003M0R0DTO;
 
 import egovframework.let.utl.fcc.service.EgovNumberUtil;
 import egovframework.let.utl.fcc.service.EgovStringUtil;
@@ -19,13 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * RDS STANDARD DEVELOP FRAMEWORK
  *
- * @since  : 2024. 9. 26.
+ * @since  : 2024. 10. 07.
  * @author : LEE CHANGGI
  * E-MAIL  : cg.lee@rnadatasystem.com
  * <PRE>
  * 개정이력
  * ----------------------------------------------------------
- * 2024-09-26 : 최초 등록
+ * 2024-10-07 : 최초 등록
  * ----------------------------------------------------------
  * </PRE>
  */
@@ -33,44 +33,42 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OPNUSR002M0Service {
+public class OPNUSR003M0Service {
 
 	@Autowired
-	private OPNUSR002M0DAO oPNUSR002M0DAO;
+	private OPNUSR003M0DAO oPNUSR003M0DAO;
 
 	/**
-	 * 고객사 정보 조회를 처리한다
-	 * @param vo OPNUSR002M0P0DTO
-	 * @return List<OPNUSR002M0R0DTO>
+	 * 사용자 정보 조회를 처리한다
+	 * @param vo OPNUSR003M0P0DTO
+	 * @return List<OPNUSR003M0R0DTO>
 	 * @exception Exception
 	 */
-	public List<OPNUSR002M0R0DTO> selectCsNoList(OPNUSR002M0P0DTO inVo) {
+	public List<OPNUSR003M0R0DTO> selectUsrList(OPNUSR003M0P0DTO inVo) {
 		
-		List<OPNUSR002M0R0DTO>	oPNUSR002M0P0DTOList = oPNUSR002M0DAO.selectCsNoList(inVo);	// 조회 대상 테이블 정보 DTO
+		List<OPNUSR003M0R0DTO>	oPNUSR003M0P0DTOList = oPNUSR003M0DAO.selectUsrList(inVo);	// 조회 대상 테이블 정보 DTO
 		
-		log.debug(" oPNUSR002M0P0DTOList : " + oPNUSR002M0P0DTOList.toString());
+		log.debug(" oPNUSR003M0P0DTOList : " + oPNUSR003M0P0DTOList.toString());
 		
-		return oPNUSR002M0P0DTOList;
+		return oPNUSR003M0P0DTOList;
 		
 	}
 
 	/**
-	 * 고객사 정보 저장을 처리한다
-	 * @param vo OPNUSR002M0R0DTO
+	 * 사용자 변경 또는 신규 정보 저장을 처리한다
+	 * @param vo OPNUSR003M0R0DTO
 	 * @return boolean
 	 * @exception Exception
 	 */
-	public boolean saveCsNo(OPNUSR002M0R0DTO inVo) throws Exception {
+	public boolean saveUsr(OPNUSR003M0R0DTO inVo) throws Exception {
 		
-		String sStatDvCd    = "";
-		String sOldStatDvCd = "";
 		String newpassword  = "";
 		boolean bMail       = false;
 		
-		log.debug(" OPNUSR002M0R0DTO : " + inVo.toString());
+		log.debug(" OPNUSR003M0R0DTO : " + inVo.toString());
 
 		// 2. 관리자 비밀번호 공백 시 임시 비밀번호를 생성한다.(영+영+숫+영+영+숫=6자리)
-		if ( (inVo.getCsNo() == null || "".equals(inVo.getCsNo())) && (inVo.getAdminPassword() == null || "".equals(inVo.getAdminPassword())) ) {
+		if ( inVo.getOldUsrId() == null || "".equals(inVo.getOldUsrId()) ) {
 
 			for (int i = 1; i <= 6; i++) {
 				// 영자
@@ -82,19 +80,11 @@ public class OPNUSR002M0Service {
 				}
 			}
 			
-			inVo.setAdminPassword(newpassword);
+			inVo.setUsrPassword(newpassword);
 			bMail = true;
 		}
 		
-		oPNUSR002M0DAO.updateCsNo(inVo);	// 조회 대상 테이블 정보 DTO
-		
-		sStatDvCd = inVo.getStatDvCd();
-		sOldStatDvCd = inVo.getOldStatDvCd();
-		
-		// 고객사 사용이 확정되어 정상사용인 경우 관리자 사용자를 생성시켜줌.
-		if ( ( "1".equals(sOldStatDvCd) || "2".equals(sOldStatDvCd) ) && "0".equals(sStatDvCd) ) {
-			oPNUSR002M0DAO.insertAdmUsr(inVo);
-		}
+		oPNUSR003M0DAO.updateUsr(inVo);	// 조회 대상 테이블 정보 DTO
 		
 		// 관리자 임시 비밀번호 발송
 		if ( bMail ) {
@@ -102,7 +92,8 @@ public class OPNUSR002M0Service {
 			// 4. 임시 비밀번호를 사용자 이메일로 전송한다.
 			EmailDTO emailDTO = new EmailDTO(); 
 			
-			emailDTO.setRecipientAddress(inVo.getPtbEmail());
+			inVo.setUsrEmail(inVo.getUsrId());
+			emailDTO.setRecipientAddress(inVo.getUsrEmail());
 			//emailDTO.setSubject("ADAMS : 사용자 임시 비밀번호 발송");
 			emailDTO.setSubject("ADAMS: Send User Temporary Password");
 			emailDTO.setBodyPlainText("User Temporary Password : " + newpassword);
@@ -110,7 +101,7 @@ public class OPNUSR002M0Service {
 			EmailUtil.sendEmail(emailDTO);
 		}
 		
-		log.debug(" OPNUSR002M0R0DTO : " + inVo.toString());
+		log.debug(" OPNUSR003M0R0DTO : " + inVo.toString());
 		
 		return true;
 		

@@ -211,7 +211,7 @@ public class AdamsLoginController {
 	    	if ( "Y".equals(sAdamsLoginDTO.getPasswordInitYn()) ) {
 	    		// 비밀번호 초기화 된 경우
 	    		nextPage = "pwChange";
-		        resultMap.put("loginMsg", "Your password has been reset. You will be taken to the reset screen.");
+		        resultMap.put("loginMsg", "You just logged in with a temporary password, so you need to set up a new one.");
 	    	} else if ( "9".equals(sAdamsLoginDTO.getStatDvCd()) ) {
 	    		// 사용자의 상태가 종료인 경우 로그인 페이지로
 	    		nextPage = "login";
