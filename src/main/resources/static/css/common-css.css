@@ -20,7 +20,17 @@ a.nav-link.active {
 }
 .slick-header-columns {
   /* flex-grow: 1 if we want to align sort icons to the right */
-  --alpine-header-name-flex-grow: 1;
+	--alpine-header-name-flex-grow: 1;
+	font-weight: bold;
+	text-align: center;
+}
+
+.slick-column-center {
+	text-align: center;
+}
+
+.slick-column-right {
+	text-align: right;
 }
 
 .slick-cell.copied {
