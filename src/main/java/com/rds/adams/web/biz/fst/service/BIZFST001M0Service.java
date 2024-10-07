@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.rds.adams.web.biz.fst.dao.BIZFST001M0DAO;
 import com.rds.adams.web.biz.fst.dto.BIZFST001M0P0DTO;
+import com.rds.adams.web.biz.fst.dto.BIZFST001M0P1DTO;
 import com.rds.adams.web.biz.fst.dto.BIZFST001M0R0DTO;
 
 @Service
@@ -17,8 +18,13 @@ public class BIZFST001M0Service {
 	
 	public List<BIZFST001M0R0DTO> selectList(BIZFST001M0P0DTO inVo) {
 		
-		return bIZFST001M0DAO.selectList(inVo);
-		
+		return bIZFST001M0DAO.selectList(inVo);	
 	}
 	
+	public void executeList(BIZFST001M0P1DTO inVo) {
+		bIZFST001M0DAO.deleteListBf(inVo);
+		bIZFST001M0DAO.insertList(inVo);
+		
+		return;
+	}
 }

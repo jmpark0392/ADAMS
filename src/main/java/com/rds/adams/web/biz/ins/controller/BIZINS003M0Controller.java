@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rds.adams.web.biz.ins.dto.BIZINS003M0P0DTO;
+import com.rds.adams.web.biz.ins.dto.BIZINS003M0P1DTO;
 import com.rds.adams.web.biz.ins.dto.BIZINS003M0R0DTO;
 import com.rds.adams.web.biz.ins.service.BIZINS003M0Service;
 
@@ -41,5 +42,19 @@ public class BIZINS003M0Controller {
 		
 		return result;
 		
+	}
+	
+	@RequestMapping(value="/BIZINS003M0ExecuteList", method=RequestMethod.POST, consumes="application/json")
+	public void execute(@RequestBody BIZINS003M0P1DTO inVo) {
+		
+		log.info(inVo.toString());
+		try {
+			bIZINS003M0Service.executeList(inVo);
+			log.info("success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("fail");
+		}
+		return;
 	}
 }

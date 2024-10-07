@@ -6,11 +6,11 @@
                     ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS ROW_NUMBER
                   , A.JRNL_NO                               AS JRNL_NO
                   , A.ATIT_CD                               AS ATIT_CD
-				  , B.ATIT_KOR_NM                           AS ATIT_NM
+				  , B.ATIT_ENG_NM                           AS ATIT_NM
                   , A.DR_CR_DV_CD                           AS DR_CR_DV_CD
                   , A.JRNL_AMT                              AS JRNL_AMT
-                  , A.FRST_REG_EMP_NO                       AS REG_USR_ID
-                  , A.FRST_REG_DTM                          AS REG_DT
+                  , A.FRST_REG_EMP_NO                       AS FRST_REG_EMP_NO
+                  , A.FRST_REG_DTM                          AS FRST_REG_DTM
                FROM TB_JNL_RST_LST AS A
               INNER JOIN TB_ATIT_MNG_LST AS B
                  ON A.ATIT_CD = B.ATIT_CD
@@ -21,24 +21,23 @@
 					)
 			</if>
     </select>
-    <delete id="deleteList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
-        DELETE FROM TB_JNL_RUL_MNG_LST
-         WHERE 1=1
-           AND STD_YYMM   = '202406'
+    <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0P1DTO">
+        DELETE FROM TB_JNL_RST_LST
+        WHERE STD_YYMM = '202406'
     </delete>
-    <insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0P0DTO">
+    <insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0P1DTO">
 			INSERT INTO TB_JNL_RST_LST
 			SELECT 
-			       '202406' AS STD_YYMM
+			       '202406'          AS STD_YYMM
 			     , '202406' +'-'+ INSC_DV_CD +'-'+ VALU_METD_CD +'-'+ LVL_1_CD + LVL_2_CD + LVL_3_CD + '-'
-			     + FORMAT ( row_number() over ( PARTITION BY LVL_1_CD ,LVL_2_CD ,LVL_3_CD   order by LVL_1_CD ,LVL_2_CD,LVL_3_CD)  ,'00000')      as JRNL_NO
-			     , AAA.AC_SUBJ_CD
-			     , AAA.DR_CR_DV_CD
-			     , AAA.AMT
-			     , '00002' AS REG_USRID
-			     , GETDATE() AS  REG_DT
-			     , '00002' AS UPD_USRID
-			     , GETDATE() AS  UPD_DT
+			     + FORMAT ( row_number() over ( PARTITION BY LVL_1_CD ,LVL_2_CD ,LVL_3_CD ORDER BY LVL_1_CD, LVL_2_CD, LVL_3_CD), '00000' )      AS JRNL_NO
+			     , AAA.AC_SUBJ_CD    AS ATIT_CD
+			     , AAA.DR_CR_DV_CD   AS DR_CR_DV_CD
+			     , AAA.AMT           AS JRNL_AMT
+			     , '00002'           AS FRST_REG_EMP_NO
+			     , GETDATE()         AS FRST_REG_DTM
+			     , '00002'           AS FNL_UPD_EMP_NO
+			     , GETDATE()         AS FNL_UPD_DTM
 			  FROM (
 			         SELECT 
 			                AA.INSC_DV_CD

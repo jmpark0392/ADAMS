@@ -182,21 +182,10 @@
 			var unqId = "seqNo";
 			var xcpt_cols = ["csNo","oldStatDvCd", "frstRegDtm"];
 			var check_cols = ["compNo", "compNm"];
-			
-			var compNoDvCdList = { 1:"DUNS Number"
-					             , 2:"Corporation Number"
-					             , 3:"Business Registration Number" };
-			var statDvCdList   = { 0:"Normal use"
-					             , 1:"Application for use"
-					             , 2:"Waiting for use"
-					             , 3:"Application for change"
-					             , 8:"Application for suspension of use"
-					             , 9:"Suspension of use" };
-			
 			var columns = [
 							{ id: unqId,		name: "Seq",							field: unqId,							width: 60, 	editor: Slick.Editors.Text, validator: createValidator }
 						, { id: "csNo",		 	name: "customer number",				field: "csNo",		 	sortable: true, width: 0,	editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "compNoDvCd",	name: "type of company identification", field: "compNoDvCd",	sortable: true, width: 120, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: compNoDvCdList }
+						, { id: "compNoDvCd",	name: "type of company identification", field: "compNoDvCd",	sortable: true, width: 120, editor: function (args) { return new ComboBoxEditor(args, [ { key: "DUNS Number", value: "1" }, { key: "Corporation Number", value: "2" }, { key: "Business Registration Number", value: "3" } ]);} }
 						, { id: "compNo",		name: "company identification number",	field: "compNo",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator])}
 						, { id: "compNm",		name: "company name",					field: "compNm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
 						, { id: "repPhNo",		name: "representative phone number",	field: "repPhNo",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
@@ -207,7 +196,7 @@
 						, { id: "postNo",		name: "postal code",					field: "postNo",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
 						, { id: "addrs",		name: "company address 1",				field: "addrs",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
 						, { id: "dtlsAddrs",	name: "company address 2",				field: "dtlsAddrs",		sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "statDvCd",	 	name: "status",						 	field: "statDvCd",	 	sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: statDvCdList }
+						, { id: "statDvCd",	 	name: "status",						 	field: "statDvCd",	 	sortable: true, width: 100, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Normal use", value: "0" }, { key: "Application for use", value: "1" }, { key: "Waiting for use", value: "2" }, { key: "Application for change", value: "3" }, { key: "Application for suspension of use", value: "8" }, { key: "Suspension of use", value: "9" }]);} }
 						, { id: "oldStatDvCd",	name: "status",						 	field: "oldStatDvCd",	sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
 						, { id: "useStrDtm",	name: "use start date/time",			field: "useStrDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
 						, { id: "useEndDtm",	name: "use end date/time",				field: "useEndDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }

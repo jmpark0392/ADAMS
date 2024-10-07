@@ -23,9 +23,8 @@ public class BIZJNL003M0Service {
 	}
 	
 	public void executeList(BIZJNL003M0P1DTO inVo) {
-		bIZJNL003M0DAO.deleteList(inVo);
+		bIZJNL003M0DAO.deleteListBf(inVo);
 		bIZJNL003M0DAO.insertList(inVo);
-	
 		return;
 	}
 }

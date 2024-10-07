@@ -30,6 +30,8 @@ public class BIZJNL003M0P1DTO {
 	private String atitNm;  /* 계정과목명 */
 	private String drCrDvCd;  /* 차대구분 */
 	private String jrnlAmt;  /* 분개금액 */
+	private String frstRegEmpNo;  /* 등록사용자ID */
+	private String frstRegDtm;  /* 등록일 */
 	
 }
 

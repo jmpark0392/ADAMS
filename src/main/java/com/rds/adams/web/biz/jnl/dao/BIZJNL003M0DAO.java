@@ -13,8 +13,9 @@ public interface BIZJNL003M0DAO {
 	
 	public List<BIZJNL003M0R0DTO> selectList(BIZJNL003M0P0DTO inVo);
 
-	public void insertList(BIZJNL003M0P1DTO inVo);
+	public void deleteListBf(BIZJNL003M0P1DTO inVo);
 	
-	public void deleteList(BIZJNL003M0P1DTO inVo);
+	public void insertList(BIZJNL003M0P1DTO inVo);
+
 	
 }

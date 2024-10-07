@@ -13,10 +13,7 @@ public interface BIZINS002M0DAO {
 	
 	public List<BIZINS002M0R0DTO> selectList(BIZINS002M0P0DTO inVo);
 	
+	public void deleteListBf(BIZINS002M0P1DTO inVo);
+	
 	public void insertList(BIZINS002M0P1DTO inVo);
-	
-	public void updateList(BIZINS002M0P1DTO inVo);
-	
-	public void deleteList(BIZINS002M0P1DTO inVo);
-	
 }
