@@ -54,6 +54,7 @@ a.nav-link.active {
   /* width: 1300px; */
   height: 550px;
   width: 100%;
+  overflow-y: scroll;
 }
 /* input::file-selector-button {
   font-weight: 500;
