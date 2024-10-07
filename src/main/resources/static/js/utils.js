@@ -545,8 +545,8 @@ function currencyFormatter(row, cell, value, columnDef, dataContext) {
     // 금액 형식으로 변환 (예: 1,234,567)
     var formattedNumber = number.toLocaleString('ko-KR', {
         style: 'decimal',
-		minimumFractionDigits: 0,
-		maximumFractionDigits: 0
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2
     });
 
     return formattedNumber;
