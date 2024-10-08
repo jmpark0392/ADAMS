@@ -56,7 +56,7 @@
 
 	<logger name="java.sql" level="DEBUG" />
 	<logger name="kr.or.connect" level="DEBUG"/>
-	<logger name="org.springframework" level="INFO"/>
+	<logger name="org.springframework" level="DEBUG"/>
 	
 	<logger name="egovframework" level="DEBUG" />
 	<logger name="org.egovframe" level="DEBUG" />
