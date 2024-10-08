@@ -1,15 +1,15 @@
-package com.rds.adams.web.opn.usr.service;
+package com.rds.adams.web.adm.usr.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rds.adams.web.adm.usr.dao.ADMUSR002M0DAO;
+import com.rds.adams.web.adm.usr.dto.ADMUSR002M0P0DTO;
+import com.rds.adams.web.adm.usr.dto.ADMUSR002M0R0DTO;
 import com.rds.adams.web.core.utils.EmailUtil;
 import com.rds.adams.web.core.utils.dto.EmailDTO;
-import com.rds.adams.web.opn.usr.dao.OPNUSR003M0DAO;
-import com.rds.adams.web.opn.usr.dto.OPNUSR003M0P0DTO;
-import com.rds.adams.web.opn.usr.dto.OPNUSR003M0R0DTO;
 
 import egovframework.let.utl.fcc.service.EgovNumberUtil;
 import egovframework.let.utl.fcc.service.EgovStringUtil;
@@ -33,39 +33,39 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OPNUSR003M0Service {
+public class ADMUSR002M0Service {
 
 	@Autowired
-	private OPNUSR003M0DAO oPNUSR003M0DAO;
+	private ADMUSR002M0DAO aDMUSR002M0DAO;
 
 	/**
 	 * 사용자 정보 조회를 처리한다
-	 * @param vo OPNUSR003M0P0DTO
-	 * @return List<OPNUSR003M0R0DTO>
+	 * @param vo ADMUSR002M0P0DTO
+	 * @return List<ADMUSR002M0R0DTO>
 	 * @exception Exception
 	 */
-	public List<OPNUSR003M0R0DTO> selectUsrList(OPNUSR003M0P0DTO inVo) {
+	public List<ADMUSR002M0R0DTO> selectUsrList(ADMUSR002M0P0DTO inVo) {
 		
-		List<OPNUSR003M0R0DTO>	oPNUSR003M0P0DTOList = oPNUSR003M0DAO.selectUsrList(inVo);	// 조회 대상 테이블 정보 DTO
+		List<ADMUSR002M0R0DTO>	ADMUSR002M0P0DTOList = aDMUSR002M0DAO.selectUsrList(inVo);	// 조회 대상 테이블 정보 DTO
 		
-		log.debug(" oPNUSR003M0P0DTOList : " + oPNUSR003M0P0DTOList.toString());
+		log.debug(" ADMUSR002M0P0DTOList : " + ADMUSR002M0P0DTOList.toString());
 		
-		return oPNUSR003M0P0DTOList;
+		return ADMUSR002M0P0DTOList;
 		
 	}
 
 	/**
 	 * 사용자 변경 또는 신규 정보 저장을 처리한다
-	 * @param vo OPNUSR003M0R0DTO
+	 * @param vo ADMUSR002M0R0DTO
 	 * @return boolean
 	 * @exception Exception
 	 */
-	public boolean saveUsr(OPNUSR003M0R0DTO inVo) throws Exception {
+	public boolean saveUsr(ADMUSR002M0R0DTO inVo) throws Exception {
 		
 		String newpassword  = "";
 		boolean bMail       = false;
 		
-		log.debug(" OPNUSR003M0R0DTO : " + inVo.toString());
+		log.debug(" ADMUSR002M0R0DTO : " + inVo.toString());
 
 		try {
 			// 2. 관리자 비밀번호 공백 시 임시 비밀번호를 생성한다.(영+영+숫+영+영+숫=6자리)
@@ -85,7 +85,7 @@ public class OPNUSR003M0Service {
 				bMail = true;
 			}
 			
-			oPNUSR003M0DAO.updateUsr(inVo);	// 조회 대상 테이블 정보 DTO
+			aDMUSR002M0DAO.updateUsr(inVo);	// 조회 대상 테이블 정보 DTO
 			
 			// 관리자 임시 비밀번호 발송
 			if ( bMail ) {
@@ -102,9 +102,9 @@ public class OPNUSR003M0Service {
 				EmailUtil.sendEmail(emailDTO);
 			}
 			
-			log.debug(" OPNUSR003M0R0DTO : " + inVo.toString());
+			log.debug(" ADMUSR002M0R0DTO : " + inVo.toString());
 		} catch (Exception e) {
-			throw new Exception("OPNUSR003M0Service.saveUsr Error : " + e.getMessage());
+			throw new Exception("ADMUSR002M0Service.saveUsr Error : " + e.getMessage());
 		}
 		
 		return true;
@@ -121,7 +121,7 @@ public class OPNUSR003M0Service {
 		
 		boolean bResult = false;
 		
-		String sResult = oPNUSR003M0DAO.selectUsrCntChk(sCsNo);	// 조회 대상 테이블 정보 DTO
+		String sResult = aDMUSR002M0DAO.selectUsrCntChk(sCsNo);	// 조회 대상 테이블 정보 DTO
 		
 		log.debug(" selectUsrCntChk : " + sResult);
 		
