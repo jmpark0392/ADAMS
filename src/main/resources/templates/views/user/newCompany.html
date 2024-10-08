@@ -395,7 +395,7 @@
 							<div class="col-md-4">
 								<div class="form-floating mb-2">
 									<input type="email" class="form-control" id="managerEmail" name="managerEmail" minLength="8" maxLength="50" placeholder="your@email.com" autocomplete="off" required>
-									<label for="managerEmail">your@email.com</label>
+									<label for="managerEmail">your@email.com (it'll be your ID)</label>
 								</div>
 							</div>
 							<div class="col-md-4">
@@ -454,19 +454,19 @@
     	var vDtlsAddrs    = $("#detailedAddress").val();
     	
     	if ( isNull(vCountryNmEng) == "" ) {
-            alert("Enter Country Name.");
+            alert("Select Country Name.");
             $("#countryName").focus();
     		return;
     	}
     	
     	if ( isNull(vCompNoDvCd) == "" ) {
-            alert("Select Company Number Type.");
+            alert("Select Type of Company Identification.");
             $("#companyDivision").focus();
     		return;
     	}
     	
     	if ( isNull(vCompNo) == "" ) {
-            alert("Enter Company Number");
+            alert("Enter Company Identification Number");
             $("#companyNo").focus();
     		return;
     	}
@@ -490,32 +490,45 @@
     	}
     	
     	if ( isNull(vPtbNm) == "" ) {
-            alert("Enter Manager Name.");
+            alert("Enter Your Name.");
             $("#managerName").focus();
     		return;
     	}
     	
     	if ( isNull(vPtbPhNo) == "" ) {
-            alert("Enter Manager Phone.");
+            alert("Enter Your Phone Number.");
             $("#managerPhone").focus();
     		return;
     	}
     	
     	if ( isNull(vPtbEmail) == "" ) {
-            alert("Enter Manager Email.");
+            alert("Enter Your e-mail.");
             $("#managerEmail").focus();
     		return;
     	}
-    	
+
+        // 이메일 형식이 올바르지 않은 경우
+        if (!validateEmail(vPtbEmail)) {
+            alert("Incorrect e-mail address. Please enter it again."); // 오류 메시지 표시
+            $("#managerEmail").focus();
+            return;
+        }
+
     	if ( isNull(vUsrPassword) == "" ) {
-            alert("Enter Password.");
+            alert("Enter Your Password.");
             $("#usrPassword").focus();
     		return;
     	}
 
+    	if ( isNull(vUsrPasswordAgain) == "" ) {
+            alert("Re-enter Your Password.");
+            $("#usrPasswordAgain").focus();
+    		return;
+    	}
+    	
     	if ( vUsrPassword != vUsrPasswordAgain ) {
-            alert("Incorrect Password.");
-            $("#usrPassword").focus();
+            alert("The two inputs for your password do not match. Please enter it again.");
+            $("#usrPasswordAgain").focus();
     		return;
     	}
     	
@@ -526,23 +539,16 @@
     	}
     	
     	if ( isNull(vAddrs) == "" ) {
-            alert("Enter Basic Address.");
+            alert("Enter Company Address 1.");
             $("#basicAddress").focus();
     		return;
     	}
     	
     	if ( isNull(vDtlsAddrs) == "" ) {
-            alert("Enter Detailed Address.");
+            alert("Enter Company Address 2.");
             $("#detailedAddress").focus();
     		return;
     	}
-    	
-        // 이메일 형식이 올바르지 않은 경우
-        if (!validateEmail(vPtbEmail)) {
-            alert("Please enter a valid email address."); // 오류 메시지 표시
-            $("#managerEmail").focus();
-            return;
-        }
     	
     	const requestData = {
         	  countryNmEng: vCountryNmEng
@@ -570,7 +576,7 @@
             success: function (data) {
 
                 //alert("신청이 완료되었습니다. 관리자가 확인 후 연락을 드립니다.");
-                alert("YYour application has been completed. An administrator will contact you after verification.");
+                alert("Your application has been sent successfully. We will contact you shortly after checking the information.");
 
 				console.log("AJAX request successful. Data received:", data);
 				
