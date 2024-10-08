@@ -34,7 +34,7 @@ public class CSRFInterceptor implements HandlerInterceptor {
 
         String sessionToken = (String) session.getAttribute(CSRF_TOKEN_ATTR_NAME);
         String requestToken = request.getHeader(CSRF_TOKEN_HEADER);
-        if (StringUtils.isNullOrEmpty(requestToken)) {
+        if (StringUtils.isNullOrEmpty(requestToken) || requestToken == "undefined") {
         	requestToken = (String) request.getParameter(CSRF_TOKEN_ATTR_NAME); 
         }
         

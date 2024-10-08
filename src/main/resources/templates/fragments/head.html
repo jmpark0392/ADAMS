@@ -3,6 +3,12 @@
 <th:block th:fragment="headFragment">
 	<head>
 		<meta charset="UTF-8">
+		
+		<!-- CSRF Token -->
+		<meta name="_csrf_token" th:content="${csrfToken}">
+		<meta name="_csrf_parameter" th:content="${csrfParameterName}">
+		<meta name="_csrf_header" th:content="${csrfHeaderName}">
+		
 		<title th:text="${menuNm}"></title>
 		
 		<link rel="stylesheet" href="css/jquery-ui-1.13.3/jquery-ui.css" type="text/css" />
