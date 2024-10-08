@@ -250,41 +250,44 @@
         var xcpt_cols = [unqId, "regUsrid", "regDt"];
         var check_cols = [unqId];
         var columns = [
-            {id: "inscDvCd",   name: "contract div", field: "inscDvCd", sortable: true, editor: function(args){
+            {id: "inscDvCd",   name: "Contract Div", field: "inscDvCd", width: 100, sortable: true, editor: function(args){
 					return new ComboBoxEditor(args, [
 						{ key: 'O', value: '원수'},
 						{ key: 'C', value: '수재'},
 						{ key: 'R', value: '출재'}
 					]);
-				}},
-			{id: "valuMetdCd",   name: "valuation", field: "valuMetdCd", sortable: true, editor: function(args){
+				}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
+            },
+			{id: "valuMetdCd",   name: "Valuation", field: "valuMetdCd", width: 80, sortable: true, editor: function(args){
 					return new ComboBoxEditor(args, [
 						{ key: 'GMM', value: 'GMM'},
 						{ key: 'PAA', value: 'PAA'}
 					]);
-				}},
-			{id: "lvl1Cd",   name: "level1", field: "lvl1Cd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-			{id: "lvl2Cd",   name: "level2", field: "lvl2Cd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-			{id: "lvl3Cd",   name: "level3", field: "lvl3Cd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "drAcSubjCd",   name: "dr code", field: "drAcSubjCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "drAcSubjNm",   name: "dr name", field: "drAcSubjNm", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "crAcSubjCd",   name: "cr code", field: "crAcSubjCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "crAcSubjNm",   name: "cr name", field: "crAcSubjNm", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "etcDesc", name: "note", field: "etcDesc", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "useYn", name: "use", field: "useYn", sortable: true, editor: function(args) {
+				}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
+            },
+			{id: "lvl1Cd",   name: "Level1", field: "lvl1Cd", width: 70, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "lvl2Cd",   name: "Level2", field: "lvl2Cd", width: 70, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "lvl3Cd",   name: "Level3", field: "lvl3Cd", width: 70, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+            {id: "drAcSubjCd",   name: "Dr Code", field: "drAcSubjCd", width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+            {id: "drAcSubjNm",   name: "Dr Name", field: "drAcSubjNm", width: 400, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+            {id: "crAcSubjCd",   name: "Cr Code", field: "crAcSubjCd", width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+            {id: "crAcSubjNm",   name: "Cr Name", field: "crAcSubjNm", width: 400, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+            {id: "etcDesc", name: "Note", field: "etcDesc", width: 400, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+            {id: "useYn", name: "Use YN", field: "useYn", width: 60, sortable: true, editor: function(args) {
                     return new ComboBoxEditor(args, [
                         { key: 'Y', value: 'Y' },
                         { key: 'N', value: 'N' }
                     ]);
-                }},
-            {id: "regUsrid", name: "registrant", field: "regUsrid", sortable: true, editor: Slick.Editors.Text},
-            {id: "regDt", name: "registration date", field: "regDt", sortable: true, editor: Slick.Editors.Text}
+                }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
+            },
+            {id: "regUsrid", name: "Registrant", field: "regUsrid", width: 100, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+            {id: "regDt", name: "Registration Date", field: "regDt", width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
         ];
         
         var options = {
             enableCellNavigation: true,
             enableColumnReorder: false,
-            forceFitColumns: true,
+            forceFitColumns: false,
             multiColumnSort: true,
             numberedMultiColumnSort: true,
             tristateMultiColumnSort: true,

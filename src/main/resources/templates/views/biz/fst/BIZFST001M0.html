@@ -195,65 +195,93 @@
         var columns = [
           {
             id: "atitCd",
-            name: "account title",
+            name: "Account Title",
             field: "atitCd",
+            width: 80,
             sortable: true,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
           },
           {
             id: "atitNm",
-            name: "account name",
+            name: "Account Name",
             field: "atitNm",
             sortable: true,
+            width: 400,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            headerCssClass: "slick-header-columns"
           },
           {
             id: "basAmt",
-            name: "basis of term",
+            name: "Basis of Term",
             field: "basAmt",
+            width: 80,
             sortable: true,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            formatter: currencyFormatter, 
+            headerCssClass: "slick-header-columns", 
+            cssClass: "slick-column-right"
           },
           {
             id: "drAmt",
-            name: "dr",
+            name: "Dr",
             field: "drAmt",
+            width: 100,
             sortable: true,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            formatter: currencyFormatter, 
+            headerCssClass: "slick-header-columns", 
+            cssClass: "slick-column-right"
           },
           {
             id: "crAmt",
-            name: "cr",
+            name: "Cr",
             field: "crAmt",
+            width: 100,
             sortable: true,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            formatter: currencyFormatter, 
+            headerCssClass: "slick-header-columns", 
+            cssClass: "slick-column-right"
           },
           {
             id: "entmAmt",
-            name: "end of term",
+            name: "End of Term",
             field: "entmAmt",
+            width: 100,
             sortable: true,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            headerCssClass: "slick-header-columns",
+            formatter: currencyFormatter, 
+            headerCssClass: "slick-header-columns", 
+            cssClass: "slick-column-right"
           },
           {
             id: "regUsrid",
-            name: "registrant",
+            name: "Registrant",
             field: "regUsrid",
+            width: 100,
             sortable: true,
             editor: Slick.Editors.Text,
+            headerCssClass: "slick-header-columns", 
+            cssClass: "slick-column-center"
+            
           },
           {
             id: "regDt",
-            name: "registration date",
+            name: "Registration Date",
             field: "regDt",
+            width: 120,
             sortable: true,
             editor: Slick.Editors.Text,
+            headerCssClass: "slick-header-columns", 
+            cssClass: "slick-column-center"
           },
         ];
 

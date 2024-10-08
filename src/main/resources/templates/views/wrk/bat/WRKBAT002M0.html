@@ -159,6 +159,7 @@
           id: unqId,
           name: "Program ID",
           field: unqId,
+          width: 80,
           sortable: true,
           editor: Slick.Editors.Text,
           validator: (value, args) =>
@@ -166,19 +167,24 @@
               createValidator,
               noWhitespaceValidator,
             ]),
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
         },
         {
           id: "batProgNm",
           name: "Program Name",
           field: "batProgNm",
+          width: 400,
           sortable: true,
           editor: Slick.Editors.Text,
           validator: createValidator,
+          headerCssClass: "slick-header-columns",
         },
         {
           id: "upProgId",
           name: "Group Name",
           field: "upProgId",
+          width: 100,
           sortable: true,
           editor: Slick.Editors.Text,
           validator: (value, args) =>
@@ -186,11 +192,14 @@
               createValidator,
               noWhitespaceValidator,
             ]),
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
         },
         {
           id: "exePrd",
           name: "Cycle",
           field: "exePrd",
+          width: 80,
           sortable: true,
           editor: function (args) {
             return new ComboBoxEditor(args, [
@@ -199,11 +208,14 @@
               { key: "M", value: "M" },
             ]);
           },
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
         },
         {
           id: "mainEmpNo",
           name: "Main User",
           field: "mainEmpNo",
+          width: 100,
           sortable: true,
           editor: Slick.Editors.Text,
           validator: (value, args) =>
@@ -211,11 +223,14 @@
               createValidator,
               noWhitespaceValidator,
             ]),
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
         },
         {
           id: "subEmpNo",
           name: "Sub User",
           field: "subEmpNo",
+          width: 100,
           sortable: true,
           editor: Slick.Editors.Text,
           validator: (value, args) =>
@@ -223,21 +238,29 @@
               createValidator,
               noWhitespaceValidator,
             ]),
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
         },
         {
           id: "regUsrid",
           name: "Registrant",
           field: "regUsrid",
+          width: 100,
           sortable: true,
           editor: Slick.Editors.Text,
-        },
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
+         },
         {
           id: "regDt",
           name: "Registration Date",
           field: "regDt",
+          width: 120,
           sortable: true,
           editor: Slick.Editors.Text,
-        },
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
+         },
       ];
 
       var options = {
