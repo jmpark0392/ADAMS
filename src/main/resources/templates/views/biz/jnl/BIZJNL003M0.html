@@ -195,43 +195,56 @@
         var columns = [
           {
             id: "jrnlNo",
-            name: "jrnl no.",
+            name: "Jrnl No.",
             field: "jrnlNo",
             sortable: true,
+            width: 230,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
+            
           },
           {
             id: "atitCd",
-            name: "account title",
+            name: "Account Title",
             field: "atitCd",
+            width: 100,
             sortable: true,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
           },
           {
             id: "atitNm",
-            name: "account title name",
+            name: "Account Title Name",
             field: "atitNm",
+            width: 400,
             sortable: true,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            headerCssClass: "slick-header-columns"
           },
           {
             id: "drCrDvCd",
-            name: "dr/cr",
+            name: "Dr/Cr",
             field: "drCrDvCd",
+            width: 60,
             sortable: true,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
           },
           {
             id: "jrnlAmt",
-            name: "jrnl amt",
+            name: "Jrnl Amt",
             field: "jrnlAmt",
+            width: 120,
             sortable: true,
             editor: Slick.Editors.Text,
             validator: createValidator,
+            formatter: currencyFormatter, 
+            headerCssClass: "slick-header-columns", 
+            cssClass: "slick-column-right" 
           },
           {
             id: "frstRegEmpNo",
@@ -239,7 +252,9 @@
             field: "frstRegEmpNo",
             sortable: true,
             editor: Slick.Editors.Text,
-            width: 60,
+            width: 100,
+            headerCssClass: "slick-header-columns",
+            cssClass: "slick-column-center"
           },
           {
             id: "frstRegDtm",
@@ -247,7 +262,9 @@
             field: "frstRegDtm",
             sortable: true,
             editor: Slick.Editors.Text,
-            width: 80,
+            width: 120,
+            headerCssClass: "slick-header-columns",
+            cssClass: "slick-column-center"
           }
         ];
   

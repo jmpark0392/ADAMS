@@ -120,24 +120,24 @@
         var unqId = "rowNumber";
         var xcpt_cols = [unqId, "regUsrid", "regDt"];
         var check_cols = [unqId, ];
-        var columns = [
-            {id: "ptfCd",   name: "portfolio", field: "ptfCd", width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
-            {id: "basAmt", name: "basis", field: "basAmt", width: 130, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "ociAmt",   name: "OCI", field: "ociAmt", width: 130, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "newContAmt",   name: "new contract", field: "newContAmt", width: 130, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "intEfftAmt", name: "interest effect", field: "intEfftAmt", width: 130, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "estmPrm", name: "expected premium", field: "estmPrm", width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "estmFee",   name: "expected cost & fee", field: "estmFee", width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "estmNewContCclsAmt",   name: "expected acquisition expense", field: "estmNewContCclsAmt", width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "estmFeeRfndAmt",   name: "expected cost refund", field: "estmFeeRfndAmt", width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "estmContMtnAmt",   name: "expected administration expense", field: "estmContMtnAmt", width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "estmIvsgExpAmt",   name: "expected survey fee", field: "estmIvsgExpAmt", width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "atsAssmUpdAmt",   name: "assumption change", field: "atsAssmUpdAmt", width: 130, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "exrtEfftAmt",   name: "fx effect", field: "exrtEfftAmt", width: 130, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "entmAmt",   name: "end", field: "entmAmt", width: 130, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-            {id: "regUsrid", name: "registrant", field: "regUsrid", width: 100, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-            {id: "regDt", name: "registration date", field: "regDt", width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
-        ];
+		var columns = [
+				{id: "ptfCd",				name: "Portfolio",							field: "ptfCd",					width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns"},
+				{id: "basAmt",				name: "Basis",								field: "basAmt",				width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "ociAmt",				name: "OCI",								field: "ociAmt",				width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "newContAmt",			name: "New Contract",						field: "newContAmt",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "intEfftAmt",			name: "Interest Effect", 					field: "intEfftAmt",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmPrm",				name: "Expected Premium", 					field: "estmPrm",				width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmFee",   			name: "Expected Cost & Fee", 				field: "estmFee",				width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmNewContCclsAmt",	name: "Expected Acquisition Expense",		field: "estmNewContCclsAmt",	width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmFeeRfndAmt",		name: "Expected Cost Refund",				field: "estmFeeRfndAmt",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmContMtnAmt",		name: "Expected Administration Expense",	field: "estmContMtnAmt",		width: 220,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmIvsgExpAmt",		name: "Expected Survey Fee",				field: "estmIvsgExpAmt",		width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "atsAssmUpdAmt",		name: "Assumption Change",					field: "atsAssmUpdAmt",			width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "exrtEfftAmt",			name: "Fx Effect",							field: "exrtEfftAmt",			width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "entmAmt",				name: "End",								field: "entmAmt",				width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "regUsrid",			name: "Registrant",							field: "regUsrid",				width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+				{id: "regDt",				name: "Registration Date",					field: "regDt",					width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
+		];
         
         var options = {
             enableCellNavigation: true,

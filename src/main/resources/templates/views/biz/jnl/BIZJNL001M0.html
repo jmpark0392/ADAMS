@@ -249,40 +249,45 @@
       var columns = [
         {
           id: "atitCd",
-          name: "account title",
+          name: "Account Title",
           field: "atitCd",
+          width: 100,
           sortable: true,
           editor: Slick.Editors.Text,
-          validator: createValidator,
+          validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "atitKorNm",
-          name: "account name(kor)",
+          name: "Account Name(Kor)",
           field: "atitKorNm",
+          width: 240,
           sortable: true,
           editor: Slick.Editors.Text,
-          validator: createValidator,
+          validator: createValidator, headerCssClass: "slick-header-columns"
         },
         {
           id: "atitEngNm",
-          name: "account name(eng)",
+          name: "Account Name(Eng)",
           field: "atitEngNm",
+          width: 240,
           sortable: true,
           editor: Slick.Editors.Text,
-          validator: createValidator,
+          validator: createValidator, headerCssClass: "slick-header-columns"
         },
         {
           id: "hgrkAtitCd",
-          name: "high rank title",
+          name: "High Rank Title",
           field: "hgrkAtitCd",
+          width: 120,
           sortable: true,
           editor: Slick.Editors.Text,
-          validator: createValidator,
+          validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "acLvlCd",
-          name: "account rank",
+          name: "Account Rank",
           field: "acLvlCd",
+          width: 100,
           sortable: true,
           editor: function (args) {
             return new ComboBoxEditor(args, [
@@ -297,10 +302,11 @@
               { key: "9", value: "9" },
             ]);
           },
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "bkgAcYn",
-          name: "booking",
+          name: "Booking",
           field: "bkgAcYn",
           sortable: true,
           editor: function (args) {
@@ -309,11 +315,13 @@
               { key: "N", value: "N" },
             ]);
           },
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "fsDvCd",
-          name: "financial div",
+          name: "Financial Div",
           field: "fsDvCd",
+          width: 100,
           sortable: true,
           editor: function (args) {
             return new ComboBoxEditor(args, [
@@ -321,11 +329,13 @@
               { key: "PL", value: "PL" },
             ]);
           },
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "acDvCd",
-          name: "acocunt div",
+          name: "Acocunt Div",
           field: "acDvCd",
+          width: 100,
           sortable: true,
           editor: function (args) {
             return new ComboBoxEditor(args, [
@@ -337,11 +347,13 @@
               { key: "9", value: "난외" },
             ]);
           },
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "acKindCd",
-          name: "account kind",
+          name: "Account Kind",
           field: "acKindCd",
+          width: 100,
           sortable: true,
           editor: function (args) {
             return new ComboBoxEditor(args, [
@@ -354,10 +366,11 @@
               { key: "007", value: "이익잉여금" },
             ]);
           },
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "srtOrd",
-          name: "order",
+          name: "Order",
           field: "srtOrd",
           sortable: true,
           editor: Slick.Editors.Text,
@@ -366,34 +379,40 @@
               createValidator,
               noWhitespaceValidator,
             ]),
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "etcDesc",
-          name: "etc",
+          name: "Etc",
           field: "etcDesc",
           sortable: true,
           editor: Slick.Editors.Text,
           validator: createValidator,
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "appStDt",
-          name: "apply start date",
+          name: "Apply Start Date",
           field: "appStDt",
+          width: 120,
           sortable: true,
           editor: Slick.Editors.Text,
           validator: createValidator,
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "appEdDt",
-          name: "apply end date",
+          name: "Apply End Date",
           field: "appEdDt",
+          width: 120,
           sortable: true,
           editor: Slick.Editors.Text,
           validator: createValidator,
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "useYn",
-          name: "use",
+          name: "Use YN",
           field: "useYn",
           sortable: true,
           editor: function (args) {
@@ -402,27 +421,32 @@
               { key: "N", value: "N" },
             ]);
           },
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "regUsrid",
-          name: "registrant",
+          name: "Registrant",
           field: "regUsrid",
+          width: 100,
           sortable: true,
           editor: Slick.Editors.Text,
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
         {
           id: "regDt",
-          name: "registration date",
+          name: "Registration Date",
           field: "regDt",
+          width: 120,
           sortable: true,
           editor: Slick.Editors.Text,
+          headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
         },
       ];
 
       var options = {
         enableCellNavigation: true,
         enableColumnReorder: false,
-        forceFitColumns: true,
+        forceFitColumns: false,
         multiColumnSort: true,
         numberedMultiColumnSort: true,
         tristateMultiColumnSort: true,
