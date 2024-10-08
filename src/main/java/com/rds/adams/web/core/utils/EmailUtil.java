@@ -47,6 +47,7 @@ public class EmailUtil {
         try {
         	
             SyncPoller<EmailSendResult, EmailSendResult> poller = client.beginSend(message, null);
+            /*
             PollResponse<EmailSendResult> pollResponse = null;
 
             Duration timeElapsed = Duration.ofSeconds(0);
@@ -64,13 +65,15 @@ public class EmailUtil {
                  if (timeElapsed.compareTo(POLLER_WAIT_TIME.multipliedBy(18)) >= 0) {
                      throw new RuntimeException("Polling timed out.");
                  }
+                 
              }
-
+             
              if (poller.getFinalResult().getStatus() == EmailSendStatus.SUCCEEDED) {
             	 log.debug("Successfully sent the email (operation id: %s)", poller.getFinalResult().getId());
              } else {
                  throw new RuntimeException(poller.getFinalResult().getError().getMessage());
              }
+             */
         } catch (Exception exception) {
             throw exception;
         }
