@@ -23,7 +23,7 @@ import lombok.ToString;
 @Setter
 public class WRKBAT001M0R0DTO {
 	
-	//private int itmNm;  /* 항목 */
+	private int rowNumber;
 	private String batProgId; /* 배치프로그램ID */
 	private String batProgNm; /* 배치프로그램명 */
 	private String upProgId; /* 상위프로그램ID */

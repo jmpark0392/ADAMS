@@ -5,7 +5,8 @@
 <mapper namespace="com.rds.adams.web.wrk.bat.dao.WRKBAT001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P0DTO" resultType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0R0DTO">
 		SELECT
-		       BAT_PROG_ID
+		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
+		     , BAT_PROG_ID
 		     , BAT_PROG_NM
 		     , UP_PROG_ID
 		     , LWST_PROG_YN

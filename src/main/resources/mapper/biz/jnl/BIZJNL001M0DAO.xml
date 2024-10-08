@@ -5,7 +5,8 @@
 <mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0R0DTO">
 		SELECT
-		       ATIT_CD
+		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
+             , ATIT_CD
 		     , ATIT_KOR_NM
 		     , ATIT_ENG_NM
 		     , HGRK_ATIT_CD
