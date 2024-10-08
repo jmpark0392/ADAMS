@@ -12,7 +12,7 @@
 		<script src="js/common.js"></script>
     	<script src="js/utils.js"></script>
 		<style>
-			@import url('https://rsms.me/inter/inter.css');
+			@import url('css/inter.css');
 			:root {
 			--tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
 			}
@@ -33,7 +33,7 @@
 				</div>
 
 			    <form class="card card-md" id="companyInfoForm" name="companyInfoForm" method="post" action="/auth/adamsNewCs" autocomplete="off" onsubmit="return false;">
-
+			    	<input type="hidden" th:name="${csrfParameterName}" th:value="${csrfToken}" />
 					<div class="card-body">
 						<h2 class="card-title text-center mb-4">Sign up for a new contract</h2>
 						<p class="text-secondary text-center mb-6">Once you fill out the form below and submit it, we will contact you shortly after checking the information.</p>

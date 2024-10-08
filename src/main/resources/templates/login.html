@@ -12,7 +12,7 @@
 		<script src="js/common.js"></script>
     	<script src="js/utils.js"></script>
 		<style>
-			@import url('https://rsms.me/inter/inter.css');
+			@import url('css/inter.css');
 			:root {
 			--tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
 			}
@@ -30,6 +30,7 @@
 						<span style="font-size: 1em;">Please login to your account.</span>
 					</div>
 					<form id="loginForm" name="loginForm" method="post" action="/auth/adamsLogin" autocomplete="off" onsubmit="return false;">
+						<input type="hidden" th:name="${csrfParameterName}" th:value="${csrfToken}" />
 						<div class="form-floating mb-2">
 							<input type="email" class="form-control" id="inpUsrId" name="inpUsrId" minLength="8" maxLength="50" placeholder="your@email.com" autocomplete="off" required>
 							<label for="inpUsrId">your@email.com</label>
@@ -61,6 +62,7 @@
 		</div>
 		<form id="form" name="form" method="post" action="/menuLink">
 			<input type="hidden" id="pageName" name="pageName" />
+			<input type="hidden" th:name="${csrfParameterName}" th:value="${csrfToken}" />
 		</form>
 		<script>
 			function login() {
@@ -79,7 +81,6 @@
 		    		return;
 		    	}
 				
-				
 		        // 이메일 형식이 올바르지 않은 경우
 		        if (!validateEmail(vUsrId)) {
 		            alert("Incorrect e-mail address. Please enter it again."); // 오류 메시지 표시
@@ -88,6 +89,9 @@
 		            //return;
 		        }
 				
+		     	// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
 				
 				$.ajax({
 					type: "post",
@@ -99,6 +103,9 @@
 						usrId: vUsrId,
 						usrPassword: vUsrPassword
 					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
 					success: function (data) {
 						console.log("AJAX request successful. Data received:", data);
 						var sMsg = data.loginMsg;
