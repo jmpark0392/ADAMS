@@ -15,26 +15,25 @@
 					<span>[[${navigator}]]</span>
 					<div class="form-container">
 						<div class="form-box">
-							<form id="filter-form" name="form" method="post" action="/OPNUSR002M0SelectList" onsubmit="return false;">
+							<form id="filter-form" name="form" method="post" action="/OPNUSR003M0SelectList" onsubmit="return false;">
 								<div class="row">
 									<div class="col">
-										<!-- 회사번호구분코드 -->
-										<label for="lblCompNoDvCd">Company Number Type : </label>
-										<select id="selCompNoDvCd" style="padding: 3px">
-											<option selected="selected" value="">- select -</option>
-											<option value="1">DUNS Number</option>
-											<option value="2">Corporation Number</option>
-											<option value="3">Business Registration Number</option>
-										</select>
 										<!-- 회사번호/명 -->
 										<label for=lblCompNoNm>Company Number/Name : </label>
 										<input id="inpCompNoNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
-										<!-- 담당자명 -->
-										<label for="lblPtbNm">Manager Name : </label>
-										<input id="inpPtbNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
-										<!-- 국가명 -->
-										<label for="lblCountryNm">Country Name : </label>
-										<input id="inpCountryNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
+										<!-- 사용자ID/명 -->
+										<label for="lblUsrIdNm">User ID/Name : </label>
+										<input id="inpUsrIdNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
+										<!-- 사용자구분코드 -->
+										<label for="lblUsrDvCd">User Type : </label>
+										<select id="selUsrDvCd" style="padding: 3px">
+											<option selected="selected" value="">- select -</option>
+										</select>
+										<!-- 상태구분코드 -->
+										<label for="lblStatDvCd">Status : </label>
+										<select id="selStatDvCd" style="padding: 3px">
+											<option selected="selected" value="">- select -</option>
+										</select>
 										<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">
 											Search
 										</button>
@@ -97,7 +96,7 @@
 				var option = {
 							   id          : "SelectList"
 						     , type        : "post"
-							 , url         : "/OPNUSR002M0SelectList"
+							 , url         : "/OPNUSR003M0SelectList"
 							 , async       : false
 							 , dataType    : "json"
 							 , contentType : "application/json; charset=utf-8"
@@ -111,7 +110,7 @@
 				var option = {
 						   id          : "insertList"
 					     , type        : "post"
-						 , url         : "/OPNUSR002M0UpdateList"
+						 , url         : "/OPNUSR003M0UpdateList"
 						 , async       : false
 						 , dataType    : "text"
 						 , contentType : "application/json; charset=utf-8"
@@ -126,7 +125,7 @@
 				var option = {
 						   id          : "updateList"
 					     , type        : "post"
-						 , url         : "/OPNUSR002M0UpdateList"
+						 , url         : "/OPNUSR003M0UpdateList"
 						 , async       : true
 						 , dataType    : "text"
 						 , contentType : "application/json; charset=utf-8"
@@ -138,6 +137,13 @@
 			
 		</script>
 		<script>
+
+		    // 페이지 로드 시 옵션을 초기화
+		    window.onload = function() {
+		        populateUsrDvCdOptions();
+		        populateStatDvCdOptions();
+		    };
+		    
 			$(document).ready(function () {
 				console.log("Document is ready.");
 				//화면 접속시 바로 조회
@@ -180,41 +186,30 @@
 			var dataView;
 			var data;
 			var unqId = "seqNo";
-			var xcpt_cols = ["csNo","oldStatDvCd", "frstRegDtm"];
-			var check_cols = ["compNo", "compNm"];
+			var xcpt_cols = ["seqNo","usrEmail","oldStatDvCd"];
+			var check_cols = ["usrId"];
 			
-			var compNoDvCdList = { 1:"DUNS Number"
-					             , 2:"Corporation Number"
-					             , 3:"Business Registration Number" };
-			var statDvCdList   = { 0:"Normal use"
-					             , 1:"Application for use"
-					             , 2:"Waiting for use"
-					             , 3:"Application for change"
-					             , 8:"Application for suspension of use"
-					             , 9:"Suspension of use" };
+			var usrDvCdList  = { 1:"System Operator"
+					           , 2:"Administrator"
+					           , 3:"User" };
+			var statDvCdList = { 0:"Normal use"
+					           , 4:"Request Password Reset"
+					           , 9:"Suspension of use" };
 			
 			var columns = [
-							{ id: unqId,		name: "Seq",							field: unqId,							width: 60, 	editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "csNo",		 	name: "customer number",				field: "csNo",		 	sortable: true, width: 0,	editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "compNoDvCd",	name: "type of company identification", field: "compNoDvCd",	sortable: true, width: 120, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: compNoDvCdList }
-						, { id: "compNo",		name: "company identification number",	field: "compNo",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator])}
-						, { id: "compNm",		name: "company name",					field: "compNm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "repPhNo",		name: "representative phone number",	field: "repPhNo",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "reperNm",		name: "representative person name",	 	field: "reperNm",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "ptbNm",		name: "manager name",					field: "ptbNm",			sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "ptbPhNo",		name: "manager phone number",			field: "ptbPhNo",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "ptbEmail",	 	name: "manager email",					field: "ptbEmail",	 	sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "postNo",		name: "postal code",					field: "postNo",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "addrs",		name: "company address 1",				field: "addrs",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "dtlsAddrs",	name: "company address 2",				field: "dtlsAddrs",		sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "statDvCd",	 	name: "status",						 	field: "statDvCd",	 	sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: statDvCdList }
-						, { id: "oldStatDvCd",	name: "status",						 	field: "oldStatDvCd",	sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "useStrDtm",	name: "use start date/time",			field: "useStrDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "useEndDtm",	name: "use end date/time",				field: "useEndDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "countryCd",	name: "country code",					field: "countryCd",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "countryNmKor", name: "country Name(Korea)",			field: "countryNmKor", 	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "countryNmEng", name: "country Name(English)",			field: "countryNmEng", 	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "frstRegDtm",	name: "first registration date/time",	field: "frstRegDtm",	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
+							{ id: unqId,			name: "Seq",					field: unqId,								width: 60, 	editor: Slick.Editors.Text, validator: createValidator }
+						, { id: "csNo",		 		name: "customer number",		field: "csNo",		 		sortable: true, width: 60,	editor: Slick.Editors.Text, validator: createValidator }
+						, { id: "compNm",			name: "company name",			field: "compNm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
+						, { id: "usrDvCd",			name: "user identifier code",	field: "usrDvCd",			sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: usrDvCdList }
+						, { id: "usrId",			name: "user email",	 			field: "usrId",				sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
+						, { id: "usrNm",			name: "user name",	 			field: "usrNm",				sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
+						, { id: "usrEmail",			name: "user email",				field: "usrEmail",			sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
+						, { id: "usrPhNo",			name: "user phone number",		field: "usrPhNo",			sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
+						, { id: "statDvCd",	 		name: "status",					field: "statDvCd",	 		sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: statDvCdList }
+						, { id: "oldStatDvCd",		name: "status",					field: "oldStatDvCd",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
+						, { id: "useStrDtm",		name: "use start date",			field: "useStrDtm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
+						, { id: "useEndDtm",		name: "use end date",			field: "useEndDtm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
+						, { id: "passwordUpdDtm",	name: "password update date",	field: "passwordUpdDtm",	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
 						];
 	
 			var options = {
@@ -276,10 +271,10 @@
 				console.log("Initializing SlickGrid...");
 				getCsList(
 							(input = JSON.stringify({ 
-														compNoDvCd: $("#selCompNoDvCd").val()
-														, compNoNm:	$("#inpCompNoNm").val()
-														, countryNm:	$("#inpPtbNm").val()
-														, ptbNm:		$("#inpCountryNm").val()
+														compNoNm:	$("#inpCompNoNm").val()
+														, usrIdNm: $("#inpUsrIdNm").val()
+														, usrDvCd:	$("#selUsrDvCd").val()
+														, statDvCd:		$("#selStatDvCd").val()
 							}))
 						);
 			}
@@ -420,8 +415,8 @@
 			// Download Excel functionality
 			document.getElementById("downloadExcel").addEventListener("click", function () {
 				const currDate    = getCurrentDateTime();
-				const fileName    = "Company_List_" + currDate; // 원하는 파일 이름으로 변경 가능
-				const sheetName   = "Company"; // 시트 이름
+				const fileName    = "User_List_" + currDate; // 원하는 파일 이름으로 변경 가능
+				const sheetName   = "User"; // 시트 이름
 				const gridColumns = columns; // SlickGrid의 컬럼 배열
 				const gridData    = dataView.getItems(); // SlickGrid의 데이터 배열
 				exportToExcel(fileName, sheetName, gridColumns, gridData);
@@ -430,20 +425,23 @@
 			// 신규버튼 누르면 동작하는 함수
 			function openDetails(modalType) {
 			    
-				const hiddenColumns = ["seqNo","csNo","oldStatDvCd", "frstRegDtm"]; // 예: 'csNo' 컬럼 숨기기
+				let hiddenColumns;
 				
-				let selCompNoDvCd = [
-					  { column: "compNoDvCd", value: "1", text: "DUNS Number" }
-					, { column: "compNoDvCd", value: "2", text: "Corporation Number" }
-					, { column: "compNoDvCd", value: "3", text: "Business Registration Number" }
+				if (modalType === "create") {
+					hiddenColumns = ["seqNo","compNm","usrEmail","oldStatDvCd","passwordUpdDtm"];
+				} else {
+					hiddenColumns = ["seqNo","csNo","compNm","usrEmail","oldStatDvCd","passwordUpdDtm"];  // 예: 'csNo' 컬럼 숨기기
+				}
+				
+				let selUsrDvCd = [
+					  { column: "usrDvCd", value: "1", text: "System Operator" }
+					, { column: "usrDvCd", value: "2", text: "Administrator" }
+					, { column: "usrDvCd", value: "3", text: "User" }
 				];
 				
 				let selStatDvCd = [
 					  { column: "statDvCd", value: "0", text: "Normal use" }
-					, { column: "statDvCd", value: "1", text: "Application for use" }
-					, { column: "statDvCd", value: "2", text: "Waiting for use" }
-					, { column: "statDvCd", value: "3", text: "Application for change" }
-					, { column: "statDvCd", value: "8", text: "Application for suspension of use" }
+					, { column: "statDvCd", value: "4", text: "Request Password Reset" }
 					, { column: "statDvCd", value: "9", text: "Suspension of use" }
 				];
 				
@@ -532,6 +530,7 @@
 						const dateInput = document.createElement('input');
 						dateInput.type = "date";
 						dateInput.className = "form-control";
+						dateInput.dataset.editorid = column.id;
 						dateInput.id = "datepicker-icon";
 						dateInput.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // Pre-fill if in edit mode
 
@@ -562,7 +561,7 @@
 
 						// we add the date input to	to the form group element
 						formGroupElem.appendChild(dateInputContainer);
-					} else if(column.id === "compNoDvCd" || column.id === "statDvCd"){
+					} else if(column.id === "usrDvCd" || column.id === "statDvCd"){
 						const selectInput = document.createElement('select');
 						selectInput.className = "form-select";
 						selectInput.dataset.editorid = column.id;
@@ -577,8 +576,8 @@
 						
 						// we define the select options based on the column id or index
 						let optionsData = [];
-						if( column.id === "compNoDvCd" ){
-							optionsData = selCompNoDvCd;
+						if( column.id === "usrDvCd" ){
+							optionsData = selUsrDvCd;
 						} else if (column.id === "statDvCd"){
 							optionsData = selStatDvCd;
 						}
@@ -613,6 +612,9 @@
 					} else {
 						const inputElem = document.createElement('input');
 						inputElem.className = "form-control";
+						if(modalType === "edit" && ( column.id === "usrId" ) ){
+							inputElem.readOnly = true;
+						}
 						inputElem.dataset.editorid = column.id;
 						inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 						formGroupElem.appendChild(inputElem);
@@ -750,15 +752,17 @@
 						}
 					});
 					
+					if (modalType === "edit") {
 					// 숨겨진 컬럼의 데이터도 수집
-			        hiddenColumns.forEach(hiddenColId => {
-			            formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
-			        });
+				        hiddenColumns.forEach(hiddenColId => {
+				            formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
+				        });
+					}
 					
 					if (modalType === "create") {
 						// Add new item to grid data
 						if (checkData(formData)) {
-							formData[unqId] = grid.getDataLength() + 1;
+							//formData[unqId] = grid.getDataLength() + 1;
 							//dataView.insertItem(grid.getDataLength(), formData);
 							insertCs(JSON.stringify(formData));
 
@@ -808,6 +812,49 @@
 					}
 				}); 
 			}
+			
+		    function populateUsrDvCdOptions() {
+		        var usrDvCdSelect = document.getElementById("selUsrDvCd");
+		        usrDvCdSelect.innerHTML = ""; // 기존 옵션 초기화
+
+		        // 기본 옵션 추가
+		        var defaultOption = document.createElement("option");
+		        defaultOption.value = "";
+		        defaultOption.text = "- select -";
+		        usrDvCdSelect.appendChild(defaultOption);
+
+		        // usrDvCdList에 있는 값을 select 옵션으로 추가
+		        for (var key in usrDvCdList) {
+		            if (usrDvCdList.hasOwnProperty(key)) {
+		                var option = document.createElement("option");
+		                option.value = key;
+		                option.text = usrDvCdList[key];
+		                usrDvCdSelect.appendChild(option);
+		            }
+		        }
+		    }
+
+		    // 상태 구분 코드 리스트를 select 요소에 추가
+		    function populateStatDvCdOptions() {
+		        var statDvCdSelect = document.getElementById("selStatDvCd");
+		        statDvCdSelect.innerHTML = ""; // 기존 옵션 초기화
+
+		        // 기본 옵션 추가
+		        var defaultOption = document.createElement("option");
+		        defaultOption.value = "";
+		        defaultOption.text = "- select -";
+		        statDvCdSelect.appendChild(defaultOption);
+
+		        // statDvCdList에 있는 값을 select 옵션으로 추가
+		        for (var key in statDvCdList) {
+		            if (statDvCdList.hasOwnProperty(key)) {
+		                var option = document.createElement("option");
+		                option.value = key;
+		                option.text = statDvCdList[key];
+		                statDvCdSelect.appendChild(option);
+		            }
+		        }
+		    }
 	
 		</script>
 	</th:block>

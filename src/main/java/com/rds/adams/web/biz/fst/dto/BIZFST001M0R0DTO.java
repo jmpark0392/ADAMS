@@ -32,8 +32,8 @@ public class BIZFST001M0R0DTO {
 	private int drAmt;  /* 차변금액 */
 	private int crAmt;  /* 대변금액 */
 	private int entmAmt;  /* 기말금액 */
-	private String regUsrid;  /* 등록사용자ID */
-	private String regDt;  /* 등록일 */
+	private String FRST_REG_EMP_NO;  /* 등록사용자ID */
+	private String FRST_REG_DTM;  /* 등록일 */
 	
 }
 

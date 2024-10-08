@@ -224,8 +224,8 @@
         gf_Transaction(option, fn_callback);
       }
     </script>
-    <script src="js/utils.js"></script>
-    <script>
+	<script src="js/utils.js"></script>
+	<script>
       $(document).ready(function () {
         console.log("Document is ready.");
         //화면 접속시 바로 조회
@@ -280,6 +280,8 @@
           editor: Slick.Editors.Text,
           validator: createValidator,
           width: 10,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center"
         },
         {
           id: "fileNm",
@@ -293,6 +295,7 @@
               noWhitespaceValidator,
             ]),
           width: 170,
+          headerCssClass: "slick-header-columns"
         },
         {
           id: "dbId",
@@ -302,6 +305,7 @@
           editor: Slick.Editors.Text,
           validator: createValidator,
           width: 60,
+          headerCssClass: "slick-header-columns"
         },
         {
           id: "tblId",
@@ -315,6 +319,7 @@
               noWhitespaceValidator,
             ]),
           width: 120,
+          headerCssClass: "slick-header-columns"
         },
         {
           id: "fileDsc",
@@ -324,6 +329,7 @@
           editor: Slick.Editors.Text,
           validator: createValidator,
           width: 120,
+          headerCssClass: "slick-header-columns"
         },
         {
           id: "fileDelYn",
@@ -337,6 +343,8 @@
             ]);
           },
           width: 60,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center"
         },
         {
           id: "uiSelYn",
@@ -350,6 +358,8 @@
             ]);
           },
           width: 60,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center"
         },
         {
           id: "useYn",
@@ -363,6 +373,8 @@
             ]);
           },
           width: 50,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center"
         },
         {
           id: "vrfUseYn",
@@ -376,6 +388,8 @@
             ]);
           },
           width: 70,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center"
         },
         {
           id: "frstRegEmpNo",
@@ -384,6 +398,8 @@
           sortable: true,
           editor: Slick.Editors.Text,
           width: 60,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center"
         },
         {
           id: "frstRegDtm",
@@ -392,6 +408,8 @@
           sortable: true,
           editor: Slick.Editors.Text,
           width: 80,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center"
         },
       ];
 
@@ -875,5 +893,5 @@
         }
       }
     </script>
-  </th:block>
+</th:block>
 </html>

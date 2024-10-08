@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rds.adams.web.biz.adt.dto.BIZADT001M0P0DTO;
+import com.rds.adams.web.biz.adt.dto.BIZADT001M0P1DTO;
 import com.rds.adams.web.biz.adt.dto.BIZADT001M0R0DTO;
 import com.rds.adams.web.biz.adt.service.BIZADT001M0Service;
+import com.rds.adams.web.biz.jnl.dto.BIZJNL003M0P1DTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +42,19 @@ public class BIZADTM001Controller {
 		}
 		
 		return result;
+	}
+	
+	@RequestMapping(value="/BIZADT001M0ExecuteList", method=RequestMethod.POST, consumes="application/json")
+	public void execute(@RequestBody BIZADT001M0P1DTO inVo) {
 		
+		log.info(inVo.toString());
+		try {
+			bIZADT001M0Service.executeList(inVo);
+			log.info("success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("fail");
+		}
+		return;
 	}
 }

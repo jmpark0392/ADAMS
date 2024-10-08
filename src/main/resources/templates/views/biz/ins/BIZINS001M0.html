@@ -1,141 +1,105 @@
 <!DOCTYPE html>
-<html
-  lang="ko"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}"
->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
-  <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-    <div class="page-wrapper" id="page-wrapper">
-      <div class="container" id="container">
-        <h2>Insurance Profit and Loss Total</h2>
-        <div class="ptag-container">
-          <span><a href="#"> Home ></a></span>
-          <span><a href="#"> BEL</a></span>
-          <div class="form-container">
-            <div class="form-box">
-              <form
-                id="filter-form"
-                name="form"
-                method="post"
-                action="/BIZINS001M0SelectList"
-                onsubmit="return false;"
-              >
-                <div class="row">
-                  <div class="col">
-                    <input
-                      id="inpSearchTxt"
-                      name="inpSearchTxt"
-                      type="text"
-                      class="form-input-temp"
-                      placeholder="Account Title/Name"
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="main()"
-                    >
-                      Search
-                    </button>
-                  </div>
-                  <div class="col text-end">
-                    <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="summarize()"
-                      data-test="create-button"
-                      onsubmit="return false;"
-                    >
-                      Summarize
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-lime"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      id="downloadExcel"
-                    >
-                      Download
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div style="padding-top: 2em"></div>
-          <div id="divMyGrid">
-            <table align="center" class="table"></table>
-          </div>
-        </div>
-        <div class="popupDataForm">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            style="display: none"
-          >
-            Launch modal with form
-          </button>
-          <div
-            class="modal fade"
-            id="exampleModal"
-            tabindex="-1"
-            style="display: none"
-          >
-            <div class="modal-dialog modal-small" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">New report</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <!-- Removed repetitive content for clarity -->
-                    <!-- Add necessary modal content here -->
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <a
-                    href="#"
-                    class="btn btn-link link-secondary"
-                    data-bs-dismiss="modal"
-                    >Cancel</a
-                  >
-                  <a
-                    href="#"
-                    class="btn btn-primary ms-auto"
-                    data-bs-dismiss="modal"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    >Save changes</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
+	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="container">
+			<h2>[[${menuNm}]]</h2>
+			<div class="ptag-container">
+				<span>[[${navigator}]]</span>
+				<div class="form-container">
+					<div class="form-box">
+						<form id="filter-form" name="form" method="post" action="/BIZINS001M0SelectList" onsubmit="return false;">
+							<div class="row">
+								<div class="col">
+									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Account Title/Name" />
+									<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
+								</div>
+								<div class="col text-end">
+									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="getSummarize()" data-test="create-button" onsubmit="return false;">Summarize</button>
+									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">Download</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div style="padding-top: 2em"></div>
+				<div id="divMyGrid">
+					<table align="center" class="table"></table>
+				</div>
+			</div>
+			<div class="popupDataForm">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">Launch modal with form</button>
+				<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+					<div class="modal-dialog modal-small" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">New report</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<!-- Removed repetitive content for clarity -->
+									<!-- Add necessary modal content here -->
+								</div>
+							</div>
+							<div class="modal-footer">
+								<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">Save changes</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
         function checkData(data){
             return parentCheckData(data, check_cols);
         }
         
-        function getFile(input){
-            return parentGetFile(input, '/BIZINS001M0SelectList');
+        function getList(input) {
+            console.log("getList input : " + input);
+            var option = {
+                           id          : "SelectList"
+                         , type        : "post"
+                         , url         : "/BIZINS001M0SelectList"
+                         , async       : false
+                         , dataType    : "json"
+                         , contentType : "application/json; charset=utf-8"
+                         , data        : input
+                         };
+            
+            gf_Transaction(option, fn_callback);
+        }
+        
+        // settle 함수에 보낼 데이터를 가져오는 함수
+        function getSummarize(){
+            addSlickGridSomeStyling();
+            var input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() });
+            //console.log("getsummarize input : " + input);
+        
+            summarize(input);
+        }
+        
+        function summarize(input) {
+            
+            //console.log("summarize input : " + input);
+            var option = {
+                           id          : "ExecuteList"
+                         , type        : "post"
+                         , url         : "/BIZINS001M0ExecuteList"
+                         , async       : false
+                         , dataType    : "text"
+                         , contentType : "application/json; charset=utf-8"
+                         , data        : input
+                         };
+            
+            gf_Transaction(option, fn_callback);
         }
         
     </script>
-    <script src="js/utils.js"></script>
-    <script>
+	<script src="js/utils.js"></script>
+	<script>
         $(document).ready(function() {
             console.log("Document is ready.");
             //화면 접속시 바로 조회
@@ -156,29 +120,29 @@
         var unqId = "rowNumber";
         var xcpt_cols = [unqId, "regUsrid", "regDt"];
         var check_cols = [unqId, ];
-        var columns = [
-            {id: "ptfCd",   name: "portfolio", field: "ptfCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "basAmt", name: "basis", field: "basAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "ociAmt",   name: "OCI", field: "ociAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "newContAmt",   name: "new contract", field: "newContAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "intEfftAmt", name: "interest effect", field: "intEfftAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmPrm", name: "expected premium", field: "estmPrm", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmFee",   name: "expected cost & fee", field: "estmFee", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmNewContCclsAmt",   name: "expected acquisition expense", field: "estmNewContCclsAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmFeeRfndAmt",   name: "expected cost refund", field: "estmFeeRfndAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmContMtnAmt",   name: "expected administration expense", field: "estmContMtnAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "estmIvsgExpAmt",   name: "expected survey fee", field: "estmIvsgExpAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "atsAssmUpdAmt",   name: "assumption change", field: "atsAssmUpdAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "exrtEfftAmt",   name: "fx effect", field: "exrtEfftAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "entmAmt",   name: "end", field: "entmAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "regUsrid", name: "registrant", field: "regUsrid", sortable: true, editor: Slick.Editors.Text},
-            {id: "regDt", name: "registration date", field: "regDt", sortable: true, editor: Slick.Editors.Text}
-        ];
+		var columns = [
+				{id: "ptfCd",				name: "Portfolio",							field: "ptfCd",					width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns"},
+				{id: "basAmt",				name: "Basis",								field: "basAmt",				width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "ociAmt",				name: "OCI",								field: "ociAmt",				width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "newContAmt",			name: "New Contract",						field: "newContAmt",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "intEfftAmt",			name: "Interest Effect", 					field: "intEfftAmt",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmPrm",				name: "Expected Premium", 					field: "estmPrm",				width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmFee",   			name: "Expected Cost & Fee", 				field: "estmFee",				width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmNewContCclsAmt",	name: "Expected Acquisition Expense",		field: "estmNewContCclsAmt",	width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmFeeRfndAmt",		name: "Expected Cost Refund",				field: "estmFeeRfndAmt",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmContMtnAmt",		name: "Expected Administration Expense",	field: "estmContMtnAmt",		width: 220,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "estmIvsgExpAmt",		name: "Expected Survey Fee",				field: "estmIvsgExpAmt",		width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "atsAssmUpdAmt",		name: "Assumption Change",					field: "atsAssmUpdAmt",			width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "exrtEfftAmt",			name: "Fx Effect",							field: "exrtEfftAmt",			width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "entmAmt",				name: "End",								field: "entmAmt",				width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+				{id: "regUsrid",			name: "Registrant",							field: "regUsrid",				width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+				{id: "regDt",				name: "Registration Date",					field: "regDt",					width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
+		];
         
         var options = {
             enableCellNavigation: true,
             enableColumnReorder: false,
-            forceFitColumns: true,
+            forceFitColumns: false,
             multiColumnSort: true,
             numberedMultiColumnSort: true,
             tristateMultiColumnSort: true,
@@ -206,126 +170,159 @@
                 }
             }
         };
-        
-        function main(){
-            // 그리드 초기화 및 데이터 로드
-            console.log("Initializing SlickGrid...");
-            data = getFile(input=JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
-            
-            dataView = new Slick.Data.DataView();
-            grid = new Slick.Grid("#divMyGrid", dataView, columns, options);
-            
-            // Make the grid respond to DataView change events.
-            dataView.onRowCountChanged.subscribe(function (e, args) {
-              grid.updateRowCount();
-              grid.render();
-            });
-            
-            dataView.onRowsChanged.subscribe(function (e, args) {
-              grid.invalidate();
-              grid.render();
-            });
-            
-            // setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
-            dataView.setItems(data, unqId);
-            
-            // when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
-            grid.onBeforeSort.subscribe(function (e, args) {
-              return true;
-            });
-            
-            // 정렬
-            grid.onSort.subscribe(function (e, args) {
-                
-                var cols = args.sortCols;
-        
-                data.sort(function (dataRow1, dataRow2) {
-                    for (var i = 0, l = cols.length; i < l; i++) {
-                        var field = cols[i].sortCol.field;
-                        var sign = cols[i].sortAsc ? 1 : -1;
-                        var value1 = dataRow1[field], value2 = dataRow2[field];
-                        var result = (value1 == value2 ? 0 : (value1 > value2 ? 1 : -1)) * sign;
-                        if (result != 0) {
-                            return result;
-                        }
-                    }
-                    return 0;
-                });
-                
-                grid.render();
-            });
-            
-            grid.setSelectionModel(new Slick.CellSelectionModel());
-            grid.registerPlugin(new Slick.AutoTooltips());
-            
-            // set keyboard focus on the grid
-            //grid.getCanvasNode().focus();
-            grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
-            
-            grid.onAddNewRow.subscribe(function (e, args) {
-              var newItem = args.item;
-              var column = args.column;
-              dataView.beginUpdate();
-              dataView.setItems(data);
-              dataView.endUpdate();
-              grid.updateRowCount();
-              grid.render();
-            });
-            
-            grid.onBeforeEditCell.subscribe(function (e, args) {
-              console.log("onBeforeEditCell");
-            })
-            
-            grid.onCellChange.subscribe(function (e, args) {
-              dataView.beginUpdate();
-              dataView.setItems(data);
-              dataView.endUpdate();
-              grid.updateRowCount();
-              grid.render();
-            });
-            
-            grid.onValidationError.subscribe(function (e, args) {
-              // handle validation errors originating from the CompositeEditor
-              if (args.validationResults) {
-                let errorMsg = args.validationResults.msg || '';
-                if (args.editor && (args.editor instanceof Slick.CompositeEditor)) {
-                  if (args.validationResults.errors) {
-                    errorMsg += '\n';
-                    args.validationResults.errors.forEach(function (error, errorIndex) {
-                      const columnName = error.editor.args.column.id;
-                      errorMsg += `${columnName.toUpperCase()}: ${error.msg}`;
-                    });
-                  }
-                  console.log(errorMsg);
+
+        function addSlickGridSomeStyling() {
+            const style = document.createElement("style");
+            style.innerHTML = `
+                .slick-header-columns {
+                    font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+                    font-size: 13px;
                 }
-              } else {
-                alert(errorMessages);
-              }
-            });
-            
-            grid.setActiveCell(0, 0);
-            console.log("SlickGrid initialized.");
+                .slick-cell {
+                    font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+                    font-size: 13px;
+                }
+                `;
+            document.head.appendChild(style);
         };
         
-        function summarize(){
+        function main() {
             addSlickGridSomeStyling();
-            $.ajax({
-                  type: "post",
-                  url: '/BIZINS001M0ExecuteList',
-                  async: true,
-                  dataType: "text", //서버에서 어떤 타입을 받을 것인가
-                  contentType: "application/json; charset=utf-8", //서버로 어떤 타입을 보낼 것인가
-                  data: JSON.stringify(),
-                  success: function (response) {
-                    alert("Successfully Updated");
-                    console.log("summarize 테스트js");
-                  },
-                  error: function (error) {
-                    console.error("Error updating data:", error);
-                  },
-                });
+            // 그리드 초기화 및 데이터 로드
+            console.log("Initializing SlickGrid...");
+            getList(
+                        (input = JSON.stringify({ 
+                                                  searchTxt: $("#inpSearchTxt").val()
+                        }))
+                   );
         }
-        
+
+        /**
+         * Transaction callback 함수
+         **/
+        function fn_callback(result){
+           console.log("fn_callback : " + result.id);
+             if( result.resultCd == "S" ){
+                    
+                 switch (result.id){
+                     case "SelectList" :
+                         
+                         fn_setGrid(result.data);
+                         
+                     break;
+                     case "ExecuteList" :
+                         console.log("executeList case");
+                         main();
+                     break;
+                 }      
+             } else if( result.resultCd == "E") {
+                 
+            } else {
+                 console.log("fn_callback result : ", result);
+              }
+         }
+
+	       function fn_setGrid(data){
+	            
+	            dataView = new Slick.Data.DataView( { idField: unqId });
+	            grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
+	            
+	            // Make the grid respond to DataView change events.
+	            dataView.onRowCountChanged.subscribe(function (e, args) {
+	                grid.updateRowCount();
+	                grid.render();
+	            });
+	            
+	            dataView.onRowsChanged.subscribe(function (e, args) {
+	                grid.invalidate();
+	                grid.render();
+	        });
+                    
+	        // setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
+	        dataView.setItems(data, unqId);
+	        
+	        // when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
+	        grid.onBeforeSort.subscribe(function (e, args) {
+	            return true;
+	        });                   
+	      
+	
+	       // 정렬
+	       grid.onSort.subscribe(function (e, args) {
+	         var cols = args.sortCols;
+	
+	         data.sort(function (dataRow1, dataRow2) {
+	           for (var i = 0, l = cols.length; i < l; i++) {
+	                var field  = cols[i].sortCol.field;
+	                var sign   = cols[i].sortAsc ? 1 : -1;
+	                var value1 = dataRow1[field],
+	                    value2 = dataRow2[field];
+	                var result =
+	               (value1 == value2 ? 0 : value1 > value2 ? 1 : -1) * sign;
+	             if (result != 0) {
+	               return result;
+	             }
+	           }
+	          return 0;
+	         });
+	
+	        grid.render();
+	      });
+	
+	      grid.setSelectionModel(new Slick.CellSelectionModel());
+	      grid.registerPlugin(new Slick.AutoTooltips());
+	
+	      // set keyboard focus on the grid
+	      //grid.getCanvasNode().focus();
+	      grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
+	
+	      grid.onAddNewRow.subscribe(function (e, args) {
+	          var newItem = args.item;
+	          var column = args.column;
+	          dataView.beginUpdate();
+	          dataView.setItems(data);
+	          dataView.endUpdate();
+	          grid.updateRowCount();
+	          grid.render();
+	      });
+	
+	      grid.onBeforeEditCell.subscribe(function (e, args) {
+	        console.log("onBeforeEditCell");
+	      });
+	
+	        grid.onCellChange.subscribe(function (e, args) {
+	            dataView.beginUpdate();
+	            dataView.setItems(data);
+	            dataView.endUpdate();
+	            grid.updateRowCount();
+	            grid.render();
+	        });
+	
+	      grid.onValidationError.subscribe(function (e, args) {
+	        // handle validation errors originating from the CompositeEditor
+	        if (args.validationResults) {
+	          let errorMsg = args.validationResults.msg || "";
+	          if (args.editor && args.editor instanceof Slick.CompositeEditor) {
+	            if (args.validationResults.errors) {
+	              errorMsg += "\n";
+	              args.validationResults.errors.forEach(function (
+	                error,
+	                errorIndex
+	              ) {
+	                const columnName = error.editor.args.column.id;
+	                errorMsg += `${columnName.toUpperCase()}: ${error.msg}`;
+	              });
+	            }
+	            console.log(errorMsg);
+	          }
+	        } else {
+	          alert(errorMessages);
+	        }
+	      });
+	
+	      grid.setActiveCell(0, 0);
+	      console.log("SlickGrid initialized.");
+	      }     
         // Download Excel functionality
         document.getElementById('downloadExcel').addEventListener('click', function() {
             const currDate = getCurrentDateTime();
@@ -336,335 +333,7 @@
             exportToExcel(fileName, sheetName, gridColumns, gridData);
         });
         
-        // 신규버튼 누르면 동작하는 함수
-        function openDetails(modalType) {
-            grid.render();
-            
-            let originalData = null; // 수정 직전의 데이터를 저장할 변수
-            
-            if (grid.getEditorLock().isActive() && !grid.getEditorLock().commitCurrentEdit()) {
-              return;
-            }
-            
-            //신규버튼을 누르면 가장 아래 셀을 선택 후 신규만 입력하도록 ActiveCell을 설정
-            if (modalType === "create"){
-                this.grid.setActiveCell(grid.getDataLength(), 0);
-            }
-            
-            var activeCell = this.grid.getActiveCell();
-            var activeRow = activeCell && activeCell.row || 0;
-            
-            if (!options.enableCellNavigation) {
-              throw new Error('Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
-            } else if (!activeCell && modalType === "edit") {
-              throw new Error('No records selected for edit operation');
-            } else {
-              var dataContext = grid.getDataItem(activeRow);
-              var isWithMassUpdate = (modalType === "mass-update" || modalType === "mass-selection");
-              lastActiveRowNumber = activeRow;
-              
-              // 수정 직전의 데이터 저장
-              if (modalType === "edit") {
-                originalData = JSON.parse(JSON.stringify(dataContext));
-                console.log("originalData: ", originalData);
-              }
-              
-              // focus on a first cell with an Editor (unless current cell already has an Editor then do nothing)
-              // also when it's a "Create" modal, we'll scroll to the end of the grid
-              var rowIndex = modalType === "create" ? data.length : activeRow;
-              focusOnFirstCellWithEditor(columns, rowIndex, isWithMassUpdate);
-        
-              if (modalType === "edit" && !dataContext) {
-                alert("Current row is not editable");
-                return;
-              } else if (modalType === "mass-selection") {
-                var selectedRowsIndexes = grid.getSelectedRows();
-                if (selectedRowsIndexes.length < 1) {
-                  alert("You must select some rows before trying to apply new value(s)");
-                  return;
-                }
-              }
-          
-              var modalColumns;
-              
-              //업데이트 대상제외 컬럼 필터링
-              var selColumns = []
-              for (let index = 0; index < columns.length; index++) {
-                 const element = columns[index];
-                 if (xcpt_cols.includes(element['id'])) {
-                     continue;
-                     } 
-                 else {
-                     selColumns.push(element);
-                     }
-                 }
-        
-              if (isWithMassUpdate) {
-                // when using Mass Update, we only care about the columns that have the "massUpdate: true", we disregard anything else
-                modalColumns = selColumns.filter(function (col) { return col && col.massUpdate && col.editor });
-              } else {
-                modalColumns = selColumns.filter(function (col) { return col && col.editor });
-              }
-        
-              let headerTitle = "";
-              switch (modalType) {
-                case "create":
-                  headerTitle = "계정과목관리 추가";
-                  break;
-                case "edit":
-                  headerTitle = `계정과목관리 수정`;
-                  break;
-                case "mass-update":
-                  headerTitle = "Mass Update (all rows)";
-                  break;
-                case "mass-selection":
-                  headerTitle = "Update on Current Selection";
-                  break;
-              }
-        
-              const modalElm = document.createElement('div');
-              modalElm.className = 'modal slick-composite-editor-modal';
-        
-              const modalHeaderElm = document.createElement('div');
-              modalHeaderElm.className = 'modal-header';
-              modalHeaderElm.innerHTML = `<h5>${headerTitle}</h5>
-                <button type="button" class="close" data-action="close" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>`;
-              modalElm.appendChild(modalHeaderElm);
-          
-              const modalBodyElm = document.createElement('div');
-              modalBodyElm.className = 'modal-body';
-          
-              for (const column of modalColumns) {
-                if (column.editor) {
-                  const detailLabelElm = document.createElement('div');
-                  detailLabelElm.className = `item-details-label editor-${column.id}`;
-                  detailLabelElm.textContent = column.name;
-          
-                  const detailContainerElm = document.createElement('div');
-                  detailContainerElm.className = 'item-details-editor-container';
-                  detailContainerElm.dataset.editorid=column.id;
-                  detailContainerElm.style.height = column.id === 'desc' ? 'inherit' : '20px';
-          
-                  const detailValidationElm = document.createElement('div');
-                  detailValidationElm.className = `item-details-validation editor-${column.id}`;
-          
-                  modalBodyElm.appendChild(detailLabelElm);
-                  modalBodyElm.appendChild(detailContainerElm);
-                  modalBodyElm.appendChild(detailValidationElm);
-                }
-              }
-              
-              modalElm.appendChild(modalBodyElm);
-        
-              let saveActionType = (modalType === "create" || modalType === "edit") ? "save" : modalType;
-              let saveButtonText = (modalType === "create" || modalType === "edit")
-                ? "Save"
-                : (modalType === "mass-update")
-                  ? "Apply Mass Update"
-                  : "Apply Update to Current Selection";
-              
-              const modalFooterElm = document.createElement('div');
-              modalFooterElm.className = 'modal-footer';
-          
-              const saveBtnElm = document.createElement('button');
-              saveBtnElm.className = 'slick-btn slick-btn-primary';
-              saveBtnElm.dataset.action = saveActionType;
-              saveBtnElm.textContent = saveButtonText;
-              
-              // Delete 버튼 추가
-              const deleteBtnElm = document.createElement('button');
-              deleteBtnElm.className = 'slick-btn slick-btn-default';
-              deleteBtnElm.dataset.action = 'delete';
-              deleteBtnElm.textContent = 'Delete';
-              deleteBtnElm.type = 'submit'; // button type 설정
-          
-              const cancelBtnElm = document.createElement('button');
-              cancelBtnElm.className = 'slick-btn slick-btn-default';
-              cancelBtnElm.dataset.action = 'cancel';
-              cancelBtnElm.textContent = 'Cancel';
-              
-              modalFooterElm.appendChild(saveBtnElm);
-              if(modalType === "edit"){
-                modalFooterElm.appendChild(deleteBtnElm);
-              }
-              modalFooterElm.appendChild(cancelBtnElm);
-              modalElm.appendChild(modalFooterElm);
-              
-              document.body.appendChild(modalElm);
-              
-              modalElm.addEventListener('focusout', function (e) {
-                validateCompositeEditors(e.target);
-              });
-              
-              modalElm.addEventListener('keydown', (function (e) {
-                if (e.which == Slick.keyCode.ESCAPE) {
-                  grid.getEditController().cancelCurrentEdit();
-                  grid.setActiveRow(lastActiveRowNumber, suppressScrollIntoView=true);
-                  e.stopPropagation();
-                  e.preventDefault();
-                } else if (e.which === Slick.keyCode.TAB) {
-                  validateCompositeEditors(e.target);
-                }
-              }));
-              
-              //modal을 마우스로 드래그가능하도록 설정
-              $('.modal').draggable();
-              
-              grid.onClick.subscribe(function(e, args) {
-                  renewOptions(false);
-              });
-              
-              if (modalElm.querySelector("[data-action=save]")) {
-                modalElm.querySelector("[data-action=save]").addEventListener('click', function (e, args) {
-                  const formData = {};
-                  modalColumns.forEach(column => {
-                    const container = modalBodyElm.querySelector(`[data-editorid="${column.id}"]`);
-                    if (container) {
-                      const input = container.querySelector('input, select');
-                      if (input) {
-                        formData[column.id] = removeSpaces(input.value); // 띄어쓰기 삭제로직추가
-                      }
-                    }
-                  });
-        
-                  if(modalType === "create"){
-                    //데이터 추가
-                    //DB Insert 요청
-                    if(checkData(formData)){
-                        insertFile(formData);
-                        //formData[unqId] = grid.getDataLength() + 1;
-                        dataView.insertItem(unqId, formData);
-                    } else {
-                        alert('No new data to save');
-                    }
-                  } else if(modalType === "edit"){
-                      //업데이트
-                      var isChanged = false;
-                      
-                      //기존데이터 확인
-                      const orgData = originalData;
-                      
-                      // 변경된 데이터가 있는지 확인
-                      for (var key in formData) {
-                          if (formData[key] !== orgData[key]) {
-                              isChanged = true;
-                              break;
-                          }
-                      }
-                      
-                      // 변경된 데이터가 있는 경우에만 업데이트 요청
-                      if (checkData(formData) && isChanged) {
-                          //DB Update 요청
-                          const _formData = {...formData}
-                          _formData[unqId] = orgData[unqId]
-                          updateFile(_formData);
-                      } else if (!checkData(formData) && isChanged) {
-                          alert("Please check data.")
-                      } else if (checkData(formData) && !isChanged){
-                          alert("No changes detected, update request not sent.");
-                      } else {
-                          alert("No changes detected and Need to check data.");
-                      }
-                  }
-                  grid.getEditController().commitCurrentEdit();
-                  grid.render();
-                  renewOptions(false);
-                });
-              }
-              
-              if (modalElm.querySelector("[data-action=delete]")) {
-                modalElm.querySelector("[data-action=delete]").addEventListener('click', function (e, args) {
-                  const formData = {};
-                  modalColumns.forEach(column => {
-                    const container = modalBodyElm.querySelector(`[data-editorid="${column.id}"]`);
-                    if (container) {
-                      const input = container.querySelector('input, select');
-                      if (input && column.id === unqId) {
-                        formData[column.id] = removeSpaces(input.value); // 띄어쓰기 삭제로직추가
-                      }
-                    }
-                  });
-                  //formData[unqId] = selectedValue;
-                  // DB Delete 요청
-                  if(formData){
-                    deleteFile(formData);
-                    data = data.filter(function(item) {
-                        return item[unqId] !== formData[unqId];
-                    });
-                    dataView.setItems(data, unqId);
-                    grid.getEditController().commitCurrentEdit();
-                    grid.render();
-                  }
-                  renewOptions(false);
-                });
-              }
-              
-              // Apply a Mass Update change (apply changes to all items in the dataset)
-              if (modalElm.querySelector("[data-action=mass-update]")) {
-                modalElm.querySelector("[data-action=mass-update]").addEventListener('click', function () {
-                  var validationResults = validateCompositeEditors();
-                  var isFormValid = validationResults.valid;
-          
-                  if (isFormValid && lastCompositeEditor && lastCompositeEditor.formValues) {
-                    // from the "lastCompositeEditor" object that we kept as reference, it contains all the changes inside the "formValues" property
-                    // we can loop through these changes and apply them on the selected row indexes
-                    for (const itemProp in lastCompositeEditor.formValues) {
-                      if (lastCompositeEditor.formValues.hasOwnProperty(itemProp)) {
-                        data.forEach(function (item) {
-                          if (item.hasOwnProperty(itemProp) && lastCompositeEditor.formValues.hasOwnProperty(itemProp)) {
-                            item[itemProp] = lastCompositeEditor.formValues[itemProp];
-                          }
-                        });
-                      }
-                    }
-        
-                    // change the entire dataset with our updated dataset
-                    grid.setData(data, true);
-                    grid.invalidate();
-          
-                    // once we're done doing the mass update, we can cancel the current editor since we don't want to add any new row
-                    // that will also destroy/close the modal window
-                    grid.getEditController().cancelCurrentEdit();
-                    grid.setActiveCell(0, 0, false);
-                  }
-                });
-              }
-        
-              const closeBtns = modalElm.querySelectorAll("[data-action=cancel],[data-action=close]");
-              closeBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                  // 원래 데이터로 복원
-                  if (originalData) {
-                    dataView.updateItem(originalData[unqId], originalData);
-                  }
-                  renewOptions(false);
-                  grid.getEditController().cancelCurrentEdit();
-                  grid.invalidate();
-                })
-              });
-        
-              var containers = modalColumns.map(function (c) {
-                return modalElm.querySelector(`[data-editorid=${c.id}]`);
-              });
-          
-              var compositeEditor = new Slick.CompositeEditor(
-                modalColumns,
-                containers,
-                {
-                  destroy: function () {
-                    modalElm.remove();
-                  },
-                  modalType: modalType,
-                  // validationMsgPrefix: '* '
-                }
-              );
-              console.log("grid Active Column: ", grid.columns[grid.activeCell]);
-              console.log(grid.isCellPotentiallyEditable(grid.activeRow, grid.activeCell));
-              grid.editActiveCell(compositeEditor);
-            }
-        }
+
     </script>
-  </th:block>
+</th:block>
 </html>

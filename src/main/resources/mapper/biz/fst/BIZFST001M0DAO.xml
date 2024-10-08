@@ -85,4 +85,33 @@
 		                )
          </if>
     </select>
+    <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST001M0P1DTO">
+        DELETE FROM TB_FS_LST
+        WHERE STD_YYMM = '202406'
+    </delete>
+    <insert id="insertList" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST001M0P1DTO">
+		INSERT INTO TB_FS_LST 
+		SELECT 
+		       STD_YYMM                                                        AS STD_YYMM
+		     , A.ATIT_CD                                                       AS ATIT_CD
+		     , B.FS_DV_CD                                                      AS FS_DV_CD
+		     , 0                                                               AS BAS_AMT
+		     , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' THEN JRNL_AMT ELSE 0 END )  AS DR_AMT
+		     , SUM( CASE WHEN A.DR_CR_DV_CD = 'CR' THEN JRNL_AMT ELSE 0 END )  AS CR_AMT
+		     , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT 
+		                 WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT * - 1 
+		                 WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT * - 1 
+		                 WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT 
+		                 ELSE JRNL_AMT  END 
+		           )                                                           AS ENTM_AMT
+		     , 'TESTER'                                                        AS FNL_UPD_EMP_NO
+		     , GETDATE()                                                       AS FNL_UPD_DTM
+		     , 'TESTER'                                                        AS FRST_REG_EMP_NO
+		     , GETDATE()                                                       AS FRST_REG_DTM
+		  FROM TB_JNL_RST_LST A
+		  LEFT OUTER JOIN TB_ATIT_MNG_LST B
+		    ON A.ATIT_CD = B.ATIT_CD 
+		 WHERE STD_YYMM  = '202406'
+		 GROUP BY STD_YYMM, A.ATIT_CD, B.FS_DV_CD     
+    </insert>
 </mapper>

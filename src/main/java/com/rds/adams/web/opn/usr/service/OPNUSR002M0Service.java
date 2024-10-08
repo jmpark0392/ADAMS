@@ -39,7 +39,7 @@ public class OPNUSR002M0Service {
 	private OPNUSR002M0DAO oPNUSR002M0DAO;
 
 	/**
-	 * 일반 로그인을 처리한다
+	 * 고객사 정보 조회를 처리한다
 	 * @param vo OPNUSR002M0P0DTO
 	 * @return List<OPNUSR002M0R0DTO>
 	 * @exception Exception
@@ -55,7 +55,7 @@ public class OPNUSR002M0Service {
 	}
 
 	/**
-	 * 일반 로그인을 처리한다
+	 * 고객사 정보 저장을 처리한다
 	 * @param vo OPNUSR002M0R0DTO
 	 * @return boolean
 	 * @exception Exception

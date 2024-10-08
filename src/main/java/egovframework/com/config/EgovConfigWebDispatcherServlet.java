@@ -23,6 +23,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import egovframework.com.cmm.interceptor.AuthenticInterceptor;
 import egovframework.com.cmm.interceptor.AuthorizInterceptor;
 import egovframework.com.cmm.interceptor.BusinessInterceptor;
+import egovframework.com.cmm.interceptor.CSRFInterceptor;
 
 /**
  * @ClassName : EgovConfigWebDispatcherServlet.java
@@ -57,6 +58,9 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 	
 	@Autowired
 	BusinessInterceptor businessInterceptor;
+	
+	@Autowired
+	CSRFInterceptor csrfInterceptor;
 
 	//final static String RESOLVER_DEFAULT_ERROR_VIEW = "cmm/error/egovError";
 
@@ -75,22 +79,29 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		
+		List<String> commonExcludePathList = new ArrayList<String>();
+		List<String> resourceExcludePathList = new ArrayList<String>();
 		List<String> excludePathList = new ArrayList<String>();
-
+		
 		// 에러화면
-		excludePathList.add("/error/*");
+		commonExcludePathList.add("/error/*");
 		
 		// 인증 예외대상
-		excludePathList.add("/");
-		excludePathList.add("/login");
-		excludePathList.add("/auth/**");
-		excludePathList.add("/logout");
-
+		commonExcludePathList.add("/");
+		commonExcludePathList.add("/login");
+		commonExcludePathList.add("/auth/**");
+		commonExcludePathList.add("/logout");
+		commonExcludePathList.add("/TokenRefresh");
+		
 		// 웹자원
-		excludePathList.add("/css/**");
-		excludePathList.add("/images/**");
-		excludePathList.add("/js/**");
-		excludePathList.add("/*.ico");
+		resourceExcludePathList.add("/css/**");
+		resourceExcludePathList.add("/images/**");
+		resourceExcludePathList.add("/js/**");
+		resourceExcludePathList.add("/*.ico");
+		resourceExcludePathList.add("/avatars/**");
+		
+		excludePathList.addAll(commonExcludePathList);
+		excludePathList.addAll(resourceExcludePathList);
 		
 		registry.addInterceptor(authenticInterceptor)
 			.addPathPatterns("/**/*", "/*")
@@ -101,6 +112,9 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 		registry.addInterceptor(businessInterceptor)
 			.addPathPatterns("/menuLink")
 			.excludePathPatterns(excludePathList);
+		registry.addInterceptor(csrfInterceptor)
+			.addPathPatterns("/**/*", "/*")
+			.excludePathPatterns(resourceExcludePathList);
 		
 	}
 
@@ -163,6 +177,7 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
 	    registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/");
 	    registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
+	    registry.addResourceHandler("/avatars/**").addResourceLocations("classpath:/static/avatars/");
 	    registry.addResourceHandler("/layout/**").addResourceLocations("classpath:/templates/layout/");
 	    registry.addResourceHandler("/views/**").addResourceLocations("classpath:/templates/views/");
 	    //registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/egovframework/templates/");

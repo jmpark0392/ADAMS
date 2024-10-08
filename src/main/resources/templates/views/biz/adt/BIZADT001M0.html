@@ -42,17 +42,17 @@
                     </button>
                   </div>
                   <div class="col text-end">
-                    <!-- <button
+                    <button
                       form="new-form"
                       type="button"
                       class="btn btn-primary"
                       style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
+                      onclick="reconcile()"
                       data-test="create-button"
                       onsubmit="return false;"
                     >
-                      Create
-                    </button> -->
+                      Reconcile
+                    </button>
                     <button
                       type="button"
                       class="btn btn-lime"
@@ -60,17 +60,6 @@
                       id="downloadExcel"
                     >
                       Download
-                    </button>
-                    <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-secondary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-                      data-test="edit-button"
-                      onsubmit="return false;"
-                    >
-                      Edit
                     </button>
                   </div>
                 </div>
@@ -169,15 +158,15 @@
         var xcpt_cols = [unqId, "regUsrid", "regDt"];
         var check_cols = [unqId, "atitCd"];
         var columns = [
-            {id: "atitCd",   name: "account title", field: "atitCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "atitNm", name: "account title name", field: "atitNm", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "insuPlItmCd",   name: "insurance code", field: "insuPlItmCd", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "insuPlItmNm",   name: "insurance name", field: "insuPlItmNm", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "acntAmt", name: "amt", field: "acntAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "insuPlItmAmt", name: "recon amt", field: "insuPlItmAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "diffAmt",   name: "diff", field: "diffAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator},
-            {id: "regUsrid", name: "registrant", field: "regUsrid", sortable: true, editor: Slick.Editors.Text},
-            {id: "regDt", name: "registration date", field: "regDt", sortable: true, editor: Slick.Editors.Text}
+            {id: "atitCd",   name: "Account Title", field: "atitCd", width: 80, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+            {id: "atitNm", name: "Account Title Name", field: "atitNm", width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+            {id: "insuPlItmCd",   name: "Insurance Code", field: "insuPlItmCd", width: 80, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+            {id: "insuPlItmNm",   name: "Insurance Name", field: "insuPlItmNm", width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+            {id: "acntAmt", name: "Amt", field: "acntAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
+            {id: "insuPlItmAmt", name: "Recon Amt", field: "insuPlItmAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
+            {id: "diffAmt",   name: "Diff", field: "diffAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
+            {id: "regUsrid", name: "Registrant", field: "regUsrid", width: 100, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+            {id: "regDt", name: "Registration Date", field: "regDt", width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
         ];
         
         var options = {
@@ -311,6 +300,25 @@
             grid.setActiveCell(0, 0);
             console.log("SlickGrid initialized.");
         };
+        
+        function reconcile(){
+            addSlickGridSomeStyling();
+            $.ajax({
+                  type: "post",
+                  url: '/BIZADT001M0ExecuteList',
+                  async: true,
+                  dataType: "text", //서버에서 어떤 타입을 받을 것인가
+                  contentType: "application/json; charset=utf-8", //서버로 어떤 타입을 보낼 것인가
+                  data: JSON.stringify(),
+                  success: function (response) {
+                    alert("Successfully Updated");
+                    console.log("reconcile 테스트js");
+                  },
+                  error: function (error) {
+                    console.error("Error updating data:", error);
+                  },
+                });
+        }
         
         // Download Excel functionality
         document.getElementById('downloadExcel').addEventListener('click', function() {

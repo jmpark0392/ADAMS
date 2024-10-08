@@ -3,6 +3,12 @@
 <th:block th:fragment="headFragment">
 	<head>
 		<meta charset="UTF-8">
+		
+		<!-- CSRF Token -->
+		<meta name="_csrf_token" th:content="${csrfToken}">
+		<meta name="_csrf_parameter" th:content="${csrfParameterName}">
+		<meta name="_csrf_header" th:content="${csrfHeaderName}">
+		
 		<title th:text="${menuNm}"></title>
 		
 		<link rel="stylesheet" href="css/jquery-ui-1.13.3/jquery-ui.css" type="text/css" />
@@ -23,7 +29,7 @@
 		<link href="css/file-css.css" rel="stylesheet" />
 		<link href="css/common-css.css" rel="stylesheet" />
 		
-	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" ></script>
+	    <script src="js/libs-tabler/bootstrap/dist/js/bootstrap.bundle.min.js" ></script>
 	    
 		<script src="js/jquery-3.7.1.min.js"></script>
 		<script src="js/jquery-ui.min.js"></script>
@@ -57,27 +63,16 @@
 		<!-- tabler library for making a select box -->
 		<script src="js/slickgrid/lib/select2.js?1692870487" defer></script>
 
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-
 		<!-- litepicker library for making a datepicker -->
-		<script
-			src="js/libs-tabler/nouislider/dist/nouislider.min.js?1692870487"
-			defer
-		></script>
-		<script
-			src="js/libs-tabler/litepicker/dist/litepicker.js?1692870487"
-			defer
-		></script>
-		<script
-			src="js/libs-tabler/tom-select/dist/js/tom-select.base.min.js?1692870487"
-			defer
-		></script>
+		<script src="js/libs-tabler/nouislider/dist/nouislider.min.js?1692870487" defer></script>
+		<script src="js/libs-tabler/litepicker/dist/litepicker.js?1692870487" defer></script>
+		<script src="js/libs-tabler/tom-select/dist/js/tom-select.base.min.js?1692870487" defer></script>
 
 		<!-- chartjs library for making a charts --> 
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="js/chart.js"></script>
 
 		<style>
-			@import url("https://rsms.me/inter/inter.css");
+			@import url("css/inter.css");
 			
 			:root {
 				--tblr-font-sans-serif: "Inter Var", -apple-system, BlinkMacSystemFont,

@@ -10,7 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -80,7 +81,7 @@ public class SecurityConfig {
     }
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
+    	
         return http
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(AUTH_WHITELIST).permitAll()
@@ -91,15 +92,23 @@ public class SecurityConfig {
                     sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // STATELESS vs IF_REQUIRED
                 )
                 .cors().and()
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
+                .csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository()))
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandlingConfigurer ->
                         exceptionHandlingConfigurer
                                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 )
                 .build();
+    }
+    
+    
+    @Bean
+    public CsrfTokenRepository csrfTokenRepository() {
+    	HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-CSRF-Token"); // HTTP 헤더에 CSRF 토큰 이름을 설정
+        repository.setParameterName("CSRF_TOKEN"); 
+        repository.setSessionAttributeName("CSRF_TOKEN");
+        return repository;
     }
 
 }

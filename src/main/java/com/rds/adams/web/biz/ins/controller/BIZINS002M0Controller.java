@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rds.adams.web.biz.ins.dto.BIZINS001M0P0DTO;
-import com.rds.adams.web.biz.ins.dto.BIZINS001M0R0DTO;
 import com.rds.adams.web.biz.ins.dto.BIZINS002M0P0DTO;
+import com.rds.adams.web.biz.ins.dto.BIZINS002M0P1DTO;
 import com.rds.adams.web.biz.ins.dto.BIZINS002M0R0DTO;
-import com.rds.adams.web.biz.ins.service.BIZINS001M0Service;
 import com.rds.adams.web.biz.ins.service.BIZINS002M0Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +39,21 @@ public class BIZINS002M0Controller {
 		for (BIZINS002M0R0DTO bIZINS002M0Service : result) {
 				log.info(bIZINS002M0Service.toString());
 		}
-		
 		return result;
+	}
+	
+	@RequestMapping(value="/BIZINS002M0ExecuteList", method=RequestMethod.POST, consumes="application/json")
+	public void execute(@RequestBody BIZINS002M0P1DTO inVo) {
 		
+		log.info(inVo.toString());
+		
+		try {
+			bIZINS002M0Service.executeList(inVo);
+			log.info("success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("fail");
+		}
+		return;
 	}
 }
