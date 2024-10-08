@@ -1,311 +1,462 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
-	<th:block layout:fragment="content">
-		<div class="page-wrapper" id="page-wrapper">
-			<div class="container" id="'container">
-				<h2>[[${menuNm}]]</h2>
-				<div class="ptag-container">
-					<span>[[${navigator}]]</span>
-					<div class="form-container">
-						<div class="form-box">
-							<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
-								<div class="row">
-									<div class="col">
-										<label for="fileDropdown" class="form-label"> Year / Month:</label>
-										<!-- <input id="inpStdYymm" name="inpStdYymm" required="required" type="text" /> -->
-										<input id="inpStdYymm" name="inpStdYymm" type="text" class="form-control" required="required" style="padding: 3px" />
-									</div>
-									<div class="col">
-										<div class="col">
-											<label for="lblUploadFileList" class="form-label">File upload : </label>
-											<select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select">
-												<option selected="selected" value="">- select -</option>
-											</select>
-										</div>
-									</div>
-									<div class="col"></div>
-									<div class="col"></div>
-								</div>
-								<div class="row mt-3">
-									<div class="col">
-										<form method="post" id="uploadFrm" enctype="multipart/form-data">
-											<input id="btnFileUpload" name="btnFileUpload" type="file" value="파일선택" accept=".xlsx, .xls" style="font-size: 13px" />
-										</form>
-									</div>
-									<div class="col text-end">
-										<button name="btnSearch" type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" onclick="getSearchList()" data-test="create-button">Search</button>
-										<button name="btnExcelDown" type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px;" id="downloadExcel" onclick="getExcelList()" data-test="edit-button">Download</button>
-	
-										<button name="btnSave" type="button" class=" btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px;" onclick="setSaveUploadFile()" data-test="edit-button">Save</button>
-									</div>
-								</div>
-						</div>
-						<div class="row mt-3"></div>
-						</form>
-					</div>
-					<div style="padding-top: 2em">
-						<form name="divData">
-							<p>
-								►&nbsp;<label for="lblGrdTitle">Grid title: </label>
-							</p>
-	
-							<div align="center" >
-								<table id="divGrdMain" style="width: 1284px; height: 720px" border="1" cellpadding="1" cellspacing="1"></table>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<script>
-			$(document).ready( function() 
-			                   {
-			                        console.log("Document is ready.");
-			                        $("input").on("keyup", function(key)
-			                                               {
-			                                                    if (key.keyCode == 13)
-			                                                    {
-			                                                         getSearchList();
-			                                                    }
-			                                               });
-			                        // 파일관리화면의 조회부분 : TODO 공동으로 뺴놓기
-			                        // MyBatis를 통해 데이터를 가져오는 AJAX 요청
-			                        $.ajax({
-			                            type: 'post',
-			                            url: '/WRKFIL003M0SelectFileList',
-			                            async: false,
-			                            dataType: 'json',
-			                            contentType: 'application/json; charset=utf-8',
-			                            data: JSON.stringify({
-			                                           uploadFile : ""
-			                                         , stdYymm    : ""
-			                                        }),
-			                            success: function(response) {
-			                                populateDropdown(response);
-			                            },
-			                            error: function(error) {
-			                                console.error('Error fetching file names:', error);
-			                            }
-			                        });
-			                    
-			                        // DropDown 리스트에 FILE_NM 값을 추가하는 함수
-			                        function populateDropdown(data) {
-			                            var dropdown = $('#cmbUploadFileList');
-			                            data.forEach(function(item) {
-			                                var option = $('<option></option>').attr('value', item.seqNo).text(item.tblId+"("+item.fileNm+")");
-			                                dropdown.append(option);
-			                            });
-			                        }
-			                   });
-			
-			function getExcelList() 
-			{
-			     alert("Excel test");
-			}
-			
-			function getSearchList() 
-			{
-			    console.log("Sending AJAX request...");
-			    
-			    const element = document.getElementById('divGrdMain');
-			    element.innerHTML = '';
-			    
-			    $.ajax({
-			             type       : 'post'
-			           , url        : '/WRKFIL003M0SelectList'
-			           , async      : true
-			           , dataType   : 'json'
-			           , contentType: 'application/json; charset=utf-8'
-			           , data       : JSON.stringify({
-			                                           uploadFile : $("#cmbUploadFileList").val()
-			                                         , stdYymm    : $("#inpStdYymm").val()
-			                                        })
-			        
-			           , success: function(data) 
-			                      {
-			                           console.log("AJAX request successful. Data received:", data);
-			                           
-			                           var grdData = data.data;
-			                           var grdHead = data.grdHead;
-			                           
-			                           if (grdData && grdData.length > 0)
-			                           {
-			                                // 컬럼 생성
-			                                var newRowIds = 0;
-			                                var pluginOptions = {
-			                                                        clipboardCommandHandler  : function(editCommand){ undoRedoBuffer.queueAndExecuteCommand.call(undoRedoBuffer,editCommand); }
-			                                                      , readOnlyMode             : false
-			                                                      , includeHeaderWhenCopying : false
-			                                                      , newRowCreator            : function(count) 
-			                                                                                   {
-			                                                                                        for (var i = 0; i < count; i++) 
-			                                                                                        {
-			                                                                                            var item = { id: "newRow_" + newRowIds++ }
-			                                                                                            grid.getData().addItem(item);
-			                                                                                        }
-			                                                                                    }
-			                                                    };
-			                                
-			                                var columns = [];
-			                                /*
-			                                var keys    = Object.keys(grdData[0]);
-			                                
-			                                for (var i = 0; i < keys.length; i++)
-			                                {
-			                                    columns.push({ id: keys[i], name: keys[i], field: keys[i], sortable: true, editor: Slick.Editors.Text });
-			                                }
-			                                */
-			                                
-			                                for (var i = 0; i < grdHead.length; i++)
-			                                {
-			                                    
-			                                    var sCd = grdHead[i].CD;
-			                                    var sNm = grdHead[i].NM;
-			                                    
-			                                    columns.push({ id: sCd, name: sNm, field: sCd, sortable: true, editor: Slick.Editors.Text });
-			                                }
-			                                
-			                                // 그리드 옵션
-			                                var options = {
-			                                                   enableCellNavigation       : true
-			                                                 , enableColumnReorder        : false
-			                                                 , forceFitColumns            : true
-			                                                 , multiColumnSort            : true
-			                                                 , numberedMultiColumnSort    : true
-			                                                 , tristateMultiColumnSort    : true
-			                                                 , sortColNumberInSeparateSpan: true
-			                                                 , enableAutoSizeColumns      : true
-			                                                 , editable                   : false
-			                                                 , enableAddRow               : true
-			                                                 , asyncEditorLoading         : false
-			                                                 , autoEdit                   : false
-			                                                 , autoEditNewRow             : false
-			                                              };
-			                                
-			                                // 그리드 초기화 및 데이터 로드
-			                                console.log("Initializing SlickGrid...");
-			                                
-			                                var grid = new Slick.Grid("#divGrdMain", grdData, columns, options);
-			                                
-			                                // when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
-			                                grid.onBeforeSort.subscribe(function (e, args) 
-			                                                            {
-			                                                                 return true;
-			                                                            });
-			                                
-			                                // 정렬
-			                                grid.onSort.subscribe(function (e, args) 
-			                                                      {
-			                                                           var cols = args.sortCols;
-			                                                           
-			                                                           grdData.sort(function (dataRow1, dataRow2) 
-			                                                                     {
-			                                                                          for (var i = 0, l = cols.length; i < l; i++) 
-			                                                                          {
-			                                                                               var field  = cols[i].sortCol.field;
-			                                                                               var sign   = cols[i].sortAsc ? 1 : -1;
-			                                                                               var value1 = dataRow1[field], value2 = dataRow2[field];
-			                                                                               var result = (value1 == value2 ? 0 : (value1 > value2 ? 1 : -1)) * sign;
-			                                                                               if (result != 0) 
-			                                                                               {
-			                                                                                    return result;
-			                                                                               }
-			                                                                           }
-			                                                                           return 0;
-			                                                                     });
-			                                                           grid.invalidate();
-			                                                           grid.render();
-			                                                      });
-			                                
-			                                grid.setSelectionModel(new Slick.CellSelectionModel());
-			                                grid.registerPlugin(new Slick.AutoTooltips());
-			                                
-			                                // set keyboard focus on the grid
-			                                //grid.getCanvasNode().focus();
-			                                
-			                                grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
-			                                
-			                                grid.onAddNewRow.subscribe(function (e, args) 
-			                                                           {
-			                                                                var item   = args.item;
-			                                                                var column = args.column;
-			                                                                grid.invalidateRow(grdData.length);
-			                                                                grdData.push(item);
-			                                                                grid.updateRowCount();
-			                                                                grid.render();
-			                                                           });
-			                                
-			                                console.log("SlickGrid initialized.");
-			                           }
-			                           else
-			                           {
-			                                console.log("No data returned from the server.");
-			                           }
-			                      }
-			           , error: function(xhr, status, error) 
-			                    {
-			                        console.error("!!!! ERROR !!!!!", status, error);
-			                    }
-			    });
-			}
-			function setSaveUploadFile() 
-			{
-			    console.log("Sending AJAX request...");
-			    
-			    //let form = $('#uploadFrm')[0];
-			    //let frmData = new FormData(form);
-			    
-			    var formData = new FormData();
-			    var inputFile = $("input[name='btnFileUpload']");
-			    var files = inputFile[0].files;
-			    console.log(files);
-			    
-			    for(var i =0;i<files.length;i++){
-			        
-			        formData.append("uploadFile", files[i]);
-			    }
-			    
-			    formData.append("param", new Blob([JSON.stringify({
-			                                                        uploadFile : $("#cmbUploadFileList").val()
-			                                                      , stdYymm    : $("#inpStdYymm").val()
-			                                                      })], {type: "application/json"}))
-			
-			    $.ajax({
-			        //enctype: 'multipart/form-data',
-			        //contentType: 'multipart/form-data; charset=utf-8',
-			        type: 'POST',
-			        url        : '/WRKFIL003M0SaveUploadFile',
-			        processData: false,   
-			        contentType: false,
-			        cache: false,
-			        //file: files,
-			        data: formData,
-			        success: function(data) {
-			            console.log(data);
-			            
-			            alert('파일업로드 저장 성공');
-			            
-			            var agent = navigator.userAgent.toLowerCase();
-			            //파일초기화
-			            if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) 
-			                 || (agent.indexOf("msie") != -1) ) {
-			                $("#btnFileUpload").replaceWith($("#btnFileUpload").clone(true));
-			            } else {
-			                $("#btnFileUpload").val("");
-			            }
-			            
-			            getSearchList();
-			        },
-			        error: function(e) {
-			            console.log(e);
-			            alert('파일업로드 저장 실패');
-			        }
-			    });
-			    
-			}
-			function clearSlickGridData(){
-			    var grid = new Slick.Grid("#divGrdMain", [{}], [{}], [{}]);
-			}
-		</script>
-	</th:block>
+<html
+  lang="ko"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <th:block layout:fragment="content">
+    <div class="page-wrapper" id="page-wrapper">
+      <div class="container" id="container">
+        <h2>[[${menuNm}]]</h2>
+        <div class="ptag-container">
+          <span>[[${navigator}]]</span>
+          <div class="form-container">
+            <div class="form-box">
+              <form
+                id="divSearch"
+                name="divSearch"
+                method="post"
+                action="/WRKFIL001M0SelectList"
+                onsubmit="return false;"
+              >
+                <div class="row align-items-center">
+                  <!-- Label -->
+                  <!-- <div class="col-auto">
+                    <label class="form-label mb-0"> Month / Year</label>
+                  </div> -->
+                  <!-- Month Select -->
+                  <div class="col-auto">
+                    <label class="form-label"> Month: </label>
+                    <select
+                      name="user[month]"
+                      class="form-select select-month-year p-1"
+                      id="inputMonth"
+                    >
+                      <option selected value="">- Month -</option>
+                      <!-- Month Options -->
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
+                      <option value="4">April</option>
+                      <option value="5">May</option>
+                      <option value="6">June</option>
+                      <option value="7">July</option>
+                      <option value="8">August</option>
+                      <option value="9">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                    </select>
+                  </div>
+                  <!-- Year Select -->
+                  <div class="col-auto">
+                    <label class="form-label"> Year: </label>
+                    <select
+                      name="user[year]"
+                      class="form-select select-month-year p-1"
+                      id="inputYear"
+                    >
+                      <option selected value="">- Year -</option>
+                      <!-- Year Options -->
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                      <option value="2022">2022</option>
+                      <option value="2023">2023</option>
+                      <option value="2024">2024</option>
+                      <option value="2025">2025</option>
+                      <option value="2026">2026</option>
+                    </select>
+                  </div>
+                  <!-- Options Select  -->
+                  <div class="col-auto">
+                    <label class="form-label"> Select a file: </label>
+                    <select
+                      id="cmbUploadFileList"
+                      name="cmbUploadFileList"
+                      required
+                      class="form-select select-options p-1"
+                    >
+                      <option selected value="">- select -</option>
+                      <!-- options here -->
+                    </select>
+                  </div>
+                  <!-- Search Button -->
+                  <div class="col-auto">
+                    <button
+                      type="button"
+                      class="btn btn-primary search-button p-1"
+                      name="btnSearch"
+                      onclick="getSearchList()"
+                      data-test="create-button"
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <div class="row mt-3">
+                <div class="col d-flex align-items-center">
+                  <!-- <form
+                    method="post"
+                    id="uploadFrm"
+                    enctype="multipart/form-data"
+                  >
+                    <input
+                      id="btnFileUpload"
+                      name="btnFileUpload"
+                      type="file"
+                      value="파일선택"
+                      accept=".xlsx, .xls"
+                      style="font-size: 13px"
+                    />
+                  </form> -->
+                  <!-- choose file -->
+                  <form
+                    method="post"
+                    id="uploadFrm"
+                    enctyp="multipart/form-data"
+                  >
+                    <input
+                      type="file"
+                      class="form-control file-attach mb-0"
+                      style="padding: 5px"
+                    />
+                  </form>
+                  <!-- </div> -->
+                </div>
+                <div class="col"></div>
+                <div class="col text-end align-items-center me-2">
+                  <button
+                    name="btnExcelDown"
+                    type="button"
+                    class="btn btn-lime"
+                    style="padding: 4px 10px; color: white; font-size: 13px"
+                    id="downloadExcel"
+                    onclick="getExcelList()"
+                    data-test="edit-button"
+                  >
+                    Download
+                  </button>
+                  <button
+                    name="btnSave"
+                    type="button"
+                    class="btn btn-secondary"
+                    style="padding: 4px 10px; color: white; font-size: 13px"
+                    onclick="setSaveUploadFile()"
+                    data-test="edit-button"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- rest of content -->
+          </div>
+          <div style="padding-top: 1em">
+            <form name="divData">
+              <!-- <p>►&nbsp;<label for="lblGrdTitle">Grid title: </label></p> -->
+
+              <div class="card card-md" align="center">
+                <table
+                  id="divGrdMain"
+                  style="width: 1284px; height: 500px"
+                ></table>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        console.log("Document is ready.");
+        $("input").on("keyup", function (key) {
+          if (key.keyCode == 13) {
+            getSearchList();
+          }
+        });
+        // 파일관리화면의 조회부분 : TODO 공동으로 뺴놓기
+        // MyBatis를 통해 데이터를 가져오는 AJAX 요청
+        $.ajax({
+          type: "post",
+          url: "/WRKFIL003M0SelectFileList",
+          async: false,
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          data: JSON.stringify({
+            uploadFile: "",
+            stdYymm: "",
+          }),
+          success: function (response) {
+            populateDropdown(response);
+          },
+          error: function (error) {
+            console.error("Error fetching file names:", error);
+          },
+        });
+
+        // DropDown 리스트에 FILE_NM 값을 추가하는 함수
+        function populateDropdown(data) {
+          // if the data is empty, return an alert message
+          if (data.length === 0) {
+            alert("No data found");
+            return;
+          }
+
+          var dropdown = $("#cmbUploadFileList");
+          data.forEach(function (item) {
+            var option = $("<option></option>")
+              .attr("value", item.seqNo)
+              .text(item.tblId);
+            dropdown.append(option);
+          });
+        }
+      });
+
+      function getExcelList() {
+        alert("Excel test");
+      }
+
+      function getSearchList() {
+        console.log("Sending AJAX request...");
+
+        const element = document.getElementById("divGrdMain");
+        element.innerHTML = "";
+
+        $("#inputMonth").val() === "" &&
+        $("#inputYear").val() === "" &&
+        $("#cmbUploadFileList").val() === ""
+          ? alert("Please select a month, year and a file !")
+          : $("#inputYear").val() === ""
+          ? alert("Please select a year to continue !")
+          : $("#inputMonth").val() === ""
+          ? alert("Please select a month to continue !")
+          : $("#cmbUploadFileList").val() === ""
+          ? alert("Please select a file to continue !")
+          : "";
+
+        // these will be used to get the month and year from the user
+        const month = document.getElementById("inputMonth").value;
+        const year = document.getElementById("inputYear").value;
+        const stdYymm = year + month.padStart(2, "0");
+
+        console.log("printing out the aded date: ", stdYymm);
+
+        $.ajax({
+          type: "post",
+          url: "/WRKFIL003M0SelectList",
+          async: true,
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          data: JSON.stringify({
+            uploadFile: $("#cmbUploadFileList").val(),
+            // stdYymm: $("#inpStdYymm").val(),
+            stdYymm: stdYymm,
+          }),
+
+          success: function (data) {
+            console.log("AJAX request successful. Data received:", data);
+
+            var grdData = data.data;
+            var grdHead = data.grdHead;
+
+            if (grdData && grdData.length > 0) {
+              // 컬럼 생성
+              var newRowIds = 0;
+              var pluginOptions = {
+                clipboardCommandHandler: function (editCommand) {
+                  undoRedoBuffer.queueAndExecuteCommand.call(
+                    undoRedoBuffer,
+                    editCommand
+                  );
+                },
+                readOnlyMode: false,
+                includeHeaderWhenCopying: false,
+                newRowCreator: function (count) {
+                  for (var i = 0; i < count; i++) {
+                    var item = { id: "newRow_" + newRowIds++ };
+                    grid.getData().addItem(item);
+                  }
+                },
+              };
+
+              var columns = [];
+              /*
+                                   var keys    = Object.keys(grdData[0]);
+
+                                   for (var i = 0; i < keys.length; i++)
+                                   {
+                                       columns.push({ id: keys[i], name: keys[i], field: keys[i], sortable: true, editor: Slick.Editors.Text });
+                                   }
+                                   */
+
+              for (var i = 0; i < grdHead.length; i++) {
+                var sCd = grdHead[i].CD;
+                var sNm = grdHead[i].NM;
+
+                columns.push({
+                  id: sCd,
+                  name: sNm,
+                  field: sCd,
+                  sortable: true,
+                  editor: Slick.Editors.Text,
+                });
+              }
+
+              // 그리드 옵션
+              var options = {
+                enableCellNavigation: true,
+                enableColumnReorder: false,
+                forceFitColumns: true,
+                multiColumnSort: true,
+                numberedMultiColumnSort: true,
+                tristateMultiColumnSort: true,
+                sortColNumberInSeparateSpan: true,
+                enableAutoSizeColumns: true,
+                editable: false,
+                enableAddRow: true,
+                asyncEditorLoading: false,
+                autoEdit: false,
+                autoEditNewRow: false,
+              };
+
+              // 그리드 초기화 및 데이터 로드
+              console.log("Initializing SlickGrid...");
+
+              var grid = new Slick.Grid(
+                "#divGrdMain",
+                grdData,
+                columns,
+                options
+              );
+
+              // when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
+              grid.onBeforeSort.subscribe(function (e, args) {
+                return true;
+              });
+
+              // 정렬
+              grid.onSort.subscribe(function (e, args) {
+                var cols = args.sortCols;
+
+                grdData.sort(function (dataRow1, dataRow2) {
+                  for (var i = 0, l = cols.length; i < l; i++) {
+                    var field = cols[i].sortCol.field;
+                    var sign = cols[i].sortAsc ? 1 : -1;
+                    var value1 = dataRow1[field],
+                      value2 = dataRow2[field];
+                    var result =
+                      (value1 == value2 ? 0 : value1 > value2 ? 1 : -1) * sign;
+                    if (result != 0) {
+                      return result;
+                    }
+                  }
+                  return 0;
+                });
+                grid.invalidate();
+                grid.render();
+              });
+
+              grid.setSelectionModel(new Slick.CellSelectionModel());
+              grid.registerPlugin(new Slick.AutoTooltips());
+
+              // set keyboard focus on the grid
+              //grid.getCanvasNode().focus();
+
+              grid.registerPlugin(
+                new Slick.CellExternalCopyManager(pluginOptions)
+              );
+
+              grid.onAddNewRow.subscribe(function (e, args) {
+                var item = args.item;
+                var column = args.column;
+                grid.invalidateRow(grdData.length);
+                grdData.push(item);
+                grid.updateRowCount();
+                grid.render();
+              });
+
+              console.log("SlickGrid initialized.");
+            } else {
+              alert("No data is found, please select another date");
+              console.log("No data returned from the server.");
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error("!!!! ERROR !!!!!", status, error);
+          },
+        });
+      }
+
+      // i have to change this method to be able to send the file to the server
+      // and firgure out why it is not wotking
+      function setSaveUploadFile() {
+        console.log("Sending AJAX request...");
+
+        //let form = $('#uploadFrm')[0];
+        //let frmData = new FormData(form);
+
+        var formData = new FormData();
+        var inputFile = $("input[name='btnFileUpload']");
+        var files = inputFile[0].files;
+        console.log(files);
+
+        for (var i = 0; i < files.length; i++) {
+          formData.append("uploadFile", files[i]);
+        }
+
+        formData.append(
+          "param",
+          new Blob(
+            [
+              JSON.stringify({
+                uploadFile: $("#cmbUploadFileList").val(),
+                stdYymm: $("#inpStdYymm").val(),
+              }),
+            ],
+            { type: "application/json" }
+          )
+        );
+
+        $.ajax({
+          //enctype: 'multipart/form-data',
+          //contentType: 'multipart/form-data; charset=utf-8',
+          type: "POST",
+          url: "/WRKFIL003M0SaveUploadFile",
+          processData: false,
+          contentType: false,
+          cache: false,
+          //file: files,
+          data: formData,
+          success: function (data) {
+            console.log(data);
+
+            alert("파일업로드 저장 성공");
+
+            var agent = navigator.userAgent.toLowerCase();
+            //파일초기화
+            if (
+              (navigator.appName == "Netscape" &&
+                navigator.userAgent.search("Trident") != -1) ||
+              agent.indexOf("msie") != -1
+            ) {
+              $("#btnFileUpload").replaceWith($("#btnFileUpload").clone(true));
+            } else {
+              $("#btnFileUpload").val("");
+            }
+
+            getSearchList();
+          },
+          error: function (e) {
+            console.log(e);
+            alert("파일업로드 저장 실패");
+          },
+        });
+      }
+      function clearSlickGridData() {
+        var grid = new Slick.Grid("#divGrdMain", [{}], [{}], [{}]);
+      }
+    </script>
+  </th:block>
 </html>

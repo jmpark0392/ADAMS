@@ -23,23 +23,34 @@
                 onsubmit="return false;"
               >
                 <div class="row">
-                  <div class="col">
-                    <input
+                  <div class="col-auto">
+                    <div class="input-group">
+                      <!-- <input
                       id="inpSearchTxt"
                       name="inpSearchTxt"
                       type="text"
                       class="form-input-temp"
                       placeholder="File Name/Table ID"
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="main()"
-                    >
-                      Search
-                    </button>
+                    /> -->
+                      <input
+                        id="inpSearchTxt"
+                        name="inpSearchTxt"
+                        type="text"
+                        class="form-control search-button-file"
+                        placeholder="File Name/Table ID"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        style="padding: 4px 10px; color: white; font-size: 13px"
+                        onclick="main()"
+                      >
+                        Search
+                      </button>
+                    </div>
                   </div>
+                </div>
+                <div class="row mt-2">
                   <div class="col text-end">
                     <button
                       form="new-form"
@@ -77,17 +88,11 @@
             </div>
           </div>
           <div style="padding-top: 2em"></div>
-          <!-- <div id="divMyGrid">
-            <table align="center" class="table"></table>
-          </div> -->
-          <div id="divMyGrid">
+          <div class="card card-md" id="divMyGrid">
             <table
-              align="center"
               class="table"
-              style="width: 1284px; height: 720px"
-              border="1"
-              cellpadding="1"
-              cellspacing="1"
+              align="center"
+              style="width: 1284px; height: 500px"
             ></table>
           </div>
         </div>
@@ -125,26 +130,31 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <a
-                    href="#"
-                    class="btn btn-link link-secondary"
-                    data-bs-dismiss="modal"
-                    >Cancel</a
-                  >
-                  <!-- <a
-                    href="#"
-                    class="btn btn-danger"
-                    data-bs-dismiss="modal"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    >Delete</a
-                  > -->
-                  <a
-                    href="#"
-                    class="btn btn-primary ms-auto"
-                    data-bs-dismiss="modal"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    >Save changes</a
-                  >
+                  <div class="col flex-start">
+                    <a
+                      href="#"
+                      class="btn btn-link link-secondary"
+                      data-bs-dismiss="modal"
+                      >Cancel</a
+                    >
+                  </div>
+                  <div class="col-auto me-0 p-1"></div>
+                  <div class="col-auto m-0">
+                    <!-- <a
+                      href="#"
+                      class="btn btn-danger"
+                      data-bs-dismiss="modal"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      >Delete</a
+                    > -->
+                    <a
+                      href="#"
+                      class="btn btn-primary ms-auto"
+                      data-bs-dismiss="modal"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      >Save changes</a
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -156,21 +166,62 @@
       function checkData(data) {
         return parentCheckData(data, check_cols);
       }
+      function getCsList(input) {
+        console.log("getCsList input : " + input);
+        var option = {
+          id: "SelectList",
+          type: "post",
+          url: "/WRKFIL001M0SelectList",
+          async: false,
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          data: input,
+        };
 
-      function getFile(input) {
-        return parentGetFile(input, "/WRKFIL001M0SelectList");
+        gf_Transaction(option, fn_callback);
       }
 
-      function insertFile(addedRow) {
-        parentInsertFile(addedRow, "/WRKFIL001M0InsertList");
+      function insertCs(addedRow) {
+        var option = {
+          id: "insertList",
+          type: "post",
+          url: "/WRKFIL001M0InsertList",
+          async: false,
+          dataType: "text",
+          contentType: "application/json; charset=utf-8",
+          data: addedRow,
+        };
+
+        gf_Transaction(option, fn_callback);
       }
 
-      function updateFile(updatedRow) {
-        parentUpdateFile(updatedRow, "/WRKFIL001M0UpdateList");
+      function fn_updateCs(input) {
+        console.log("updateCs input : " + input);
+        var option = {
+          id: "updateList",
+          type: "post",
+          url: "/WRKFIL001M0UpdateList",
+          async: true,
+          dataType: "text",
+          contentType: "application/json; charset=utf-8",
+          data: input,
+        };
+
+        gf_Transaction(option, fn_callback);
       }
 
-      function deleteFile(todeleteRow) {
-        parentDeleteFile(todeleteRow, "/WRKFIL001M0DeleteList");
+      function fn_deleteCs(input) {
+        console.log("deleteCs input : " + input);
+        var option = {
+          id: "deleteList",
+          type: "post",
+          url: "/WRKFIL001M0DeleteList",
+          async: true,
+          dataType: "text",
+          contentType: "application/json; charset=utf-8",
+          data: input,
+        };
+        gf_Transaction(option, fn_callback);
       }
     </script>
     <script src="js/utils.js"></script>
@@ -385,16 +436,16 @@
       function addSlickGridSomeStyling() {
         const style = document.createElement("style");
         style.innerHTML = `
-            .slick-header-columns {
-              font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-              font-size: 13px;
-              font-weight: bold;
-            }
-            .slick-cell {
-              font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-              font-size: 13px;
-            }
-          `;
+             .slick-header-columns {
+               font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+               font-size: 13px;
+               font-weight: bold;
+             }
+             .slick-cell {
+               font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+               font-size: 13px;
+             }
+           `;
         document.head.appendChild(style);
       }
 
@@ -402,10 +453,39 @@
         addSlickGridSomeStyling();
         // 그리드 초기화 및 데이터 로드
         console.log("Initializing SlickGrid...");
-        data = getFile(
-          (input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
+        //  data = getFile(
+        //    (input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
+        getCsList(
+          (input = JSON.stringify({
+            searchTxt: $("#inpSearchTxt").val(),
+          }))
         );
+      }
 
+      function fn_callback(result) {
+        //console.log("fn_callback : " + result.id);
+        if (result.resultCd == "S") {
+          switch (result.id) {
+            case "SelectList":
+              fn_setGrid(result.data);
+
+              break;
+            case "insertList":
+              main();
+
+              break;
+            case "updateList":
+              main();
+
+              break;
+          }
+        } else if (result.resultCd == "E") {
+        } else {
+          console.log("fn_callback result : ", result);
+        }
+      }
+
+      function fn_setGrid(data) {
         dataView = new Slick.Data.DataView();
         grid = new Slick.Grid("#divMyGrid", dataView, columns, options);
 
@@ -517,35 +597,12 @@
           exportToExcel(fileName, sheetName, gridColumns, gridData);
         });
 
-      //   function addCustomModalStyling() {
-      //   const style = document.createElement("style");
-      //   style.innerHTML = `
-      //   `;
-      //   document.head.appendChild(style);
-      // }
-
       // 신규버튼 누르면 동작하는 함수
       function openDetails(modalType) {
         let options6 = [
           { value: "Y", text: "Y", column: " " },
           { value: "N", text: "N", column: " " },
         ];
-
-        /* 동일한 형태의 콤보 키-값
-    	let options7 = [
-    		{ value: "1", text: "Y", column: "uiSelYn"},
-    		{ value: "2", text: "N", column: "uiSelYn"}    		
-    	];
-    	
-    	let options8 = [
-    		{ value: "1", text: "Y", column: "useYn"},
-    		{ value: "2", text: "N", column: "useYn"}    		
-    	];
-    	
-    	let options9 = [
-    		{ value: "1", text: "Y", column: "vrfUseYn"},
-    		{ value: "2", text: "N", column: "vrfUseYn"}    		
-    	]; */
 
         grid.render();
 
@@ -563,17 +620,32 @@
         }
 
         var activeCell = grid.getActiveCell();
+        console.log("activeCell:", activeCell);
+
+        // get the active cell index
+        let activeCellIndex = activeCell.cell;
+
+        let column = grid.getColumns()[activeCellIndex];
+
+        // setting the active row to the first row if the active row is undefined
         var activeRow = (activeCell && activeCell.row) || 0;
+        const dataContext = grid.getDataItem(activeRow);
+
+        // alert for the edit popup if the user doesn't select the column value in the grid
+        if ((modalType === "edit" && !dataContext) || !activeCell || !column) {
+          alert("Please select a cell to edit the data.");
+          return;
+        }
 
         if (!options.enableCellNavigation) {
           throw new Error(
             'Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.'
           );
-        } else if (!activeCell && modalType === "edit") {
-          throw new Error("No records selected for edit operation");
+        } else {
+          console.log("enableCellNavigation is set to true.");
         }
+        // renewOptions(false);
 
-        const dataContext = grid.getDataItem(activeRow);
         const modalElement = new bootstrap.Modal(
           document.getElementById("exampleModal")
         );
@@ -590,6 +662,19 @@
             // modalTitleElem.className = "mb-3";
           } else if (modalType === "edit") {
             modalTitleElem.textContent = "EDIT";
+            const delBtn = document.createElement("a");
+            delBtn.href = "#";
+            delBtn.className = "btn btn-danger delete";
+            delBtn.dataset.dismiss = "modal";
+            delBtn.style.padding = "4px 10px";
+            delBtn.style.color = "white";
+            delBtn.style.fontSize = "13px";
+            delBtn.textContent = "Delete";
+            modalTitleElem.appendChild(delBtn);
+            // getelemtn by class name
+            const divColAuto = document.getElementsByClassName("col-auto me-0");
+
+            divColAuto[0].appendChild(delBtn);
             originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
           }
         } else {
@@ -656,6 +741,11 @@
               selectInput.appendChild(optionElem);
             });
 
+            // i have to write methid to trigger alert if the user tries to opnee the edit popup without selecting the column value in the grid\
+            // if (modalType === "edit" || dataContext[column.field] === "") {
+            //   alert("Please select the column to change its value");
+            // }
+
             if (modalType === "edit") {
               selectInput.value = dataContext[column.field] || "";
             }
@@ -688,26 +778,16 @@
 
         modalElement.show();
 
-        // for (const column of modalColumns) {
-        //     const detailLabelElm = document.createElement("label");
-        //     detailLabelElm.className = "form-label";
-        //     detailLabelElm.textContent = column.name;
-
-        //     const detailContainerElm = document.createElement("div");
-        //     detailContainerElm.className = "mb-3";
-
-        //     const inputElm = document.createElement("input");
-        //     inputElm.className = "form-control";
-        //     inputElm.dataset.editorid = column.id;
-        //     inputElm.value = modalType === "edit" ? dataContext[column.field] : ""; // Pre-fill in edit mode
-
-        //     detailContainerElm.appendChild(detailLabelElm);
-        //     detailContainerElm.appendChild(inputElm);
-        //     modalBodyElem.appendChild(detailContainerElm);
-        // }
-
-        // // Show the modal
-        // modalElement.show();
+        // delete button logic for the edit popup that will delte the seleted row
+        const deleteBtn = document.querySelector(".modal-footer .btn-danger");
+        deleteBtn.addEventListener("click", function () {
+          if (confirm("Do you want to delete?") == true) {
+            // delete the selected row
+            dataView.deleteItem(dataContext[unqId]);
+            fn_deleteCs(JSON.stringify(dataContext));
+            location.reload(true);
+          }
+        });
 
         // Save button logic
         const saveBtn = document.querySelector(".modal-footer .btn-primary");
@@ -739,11 +819,12 @@
             if (checkData(formData)) {
               console.log(formData);
               formData[unqId] = grid.getDataLength() + 1;
-              dataView.insertItem(grid.getDataLength(), formData);
+              // dataView.insertItem(grid.getDataLength(), formData);
 
               if (confirm("Do you want to register?") == true) {
                 console.log("등록테스트");
-                insertFile(formData);
+                // insertFile(formData);
+                insertCs(JSON.stringify(formData));
                 location.reload(true);
               }
               //main();
@@ -764,10 +845,11 @@
 
             if (isChanged) {
               formData[unqId] = originalData[unqId];
-              dataView.updateItem(originalData[unqId], formData);
+              // dataView.updateItem(originalData[unqId], formData);
 
               if (confirm("Do you want to modify?") == true) {
-                updateFile(formData);
+                // updateFile(formData);
+                fn_updateCs(JSON.stringify(formData));
               }
               location.reload(true);
             } else {
@@ -791,26 +873,6 @@
           }
           modalElement.hide(); // we hide the modal
         }
-
-        // closeBtn.addEventListener("click", function () {
-        //     if (modalType === "edit" && originalData) {
-        //         dataView.updateItem(originalData[unqId], originalData); // Revert changes if canceled
-        //     }
-        // });
-
-        // Delete button logic
-        /*
-        const delBtn = document.querySelector(".modal-footer .btn-danger");
-        delBtn.removeEventListener("click", saveHandler);
-        delBtn.addEventListener("click", saveHandler);
-        
-        function deleteHandler(){
-        	if (modalType == "edit") {
-        	 saveBtn.appendChild(delBtn);
-        	}
-        	saveBtn.appendChild(delBtn);
-        }
-        */
       }
     </script>
   </th:block>

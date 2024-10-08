@@ -3,56 +3,25 @@
 <th:block layout:fragment="content">
   <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 	<div class="page-wrapper" id="page-wrapper">
-		<div class="container" id="'container">
+		<div class="container" id="container">
 			<h2>[[${menuNm}]]</h2>
 			<div class="ptag-container">
 				<span>[[${navigator}]]</span>
 				<div class="form-container">
 					<div class="form-box">
 						<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
-							<div class="row">
-								<div class="col">
-									<div class="col">
+							<div class="row align-items-center">
+								<div class="col-auto">
 										<label for="lblUploadFileList" class="form-label">File Title : </label>
-										<select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select">
+										<select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select select-options p-1">
 											<option selected="selected" value="">- select -</option>
 										</select>
-									</div>
 								</div>
-								<div class="col">
-									<label class="form-label">From</label>
-									<div class="input-icon mb-2">
-										<input class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" /> 
-                    <span class="input-icon-addon"> <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
-                          <path d="M16 3v4" />
-                          <path d="M8 3v4" />
-                          <path d="M4 11h16" />
-                          <path d="M11 15h1" />
-                          <path d="M12 15v3" /></svg>
-										</span>
-									</div>
-								</div>
-								<div class="col">
-									<label class="form-label"> Until </label>
+								<div class="col-auto">
+									<label class="form-label">Load Date: </label>
 									<div class="input-icon">
-										<input class="form-control" placeholder="Select a date" id="datepicker-icon-prepend" value="2020-06-20" /> <span class="input-icon-addon"> <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                      <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
-                                      <path d="M16 3v4" />
-                                      <path d="M8 3v4" />
-                                      <path d="M4 11h16" />
-                                      <path d="M11 15h1" />
-                                      <path d="M12 15v3" />
-                                    </svg>
-										</span>
-									</div>
-								</div>
-								<div class="col">
-									<label class="form-label">Year/Month: </label>
-									<div class="input-icon mb-2">
-										<input type="month" class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" /> <span class="input-icon-addon"> <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										<input class="form-control select-date p-1" placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" /> 
+                    <span class="input-icon-addon ">  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
                           <path d="M16 3v4" />
@@ -63,10 +32,31 @@
 										</span>
 									</div>
 								</div>
-								<div class="col">
-									<label class="form-label">Year/Month: </label>
-									<div class="input-icon mb-2">
-										<input type="month" class="form-control " placeholder="Select a date" id="datepicker-icon" value="2020-06-25" style="padding: 3px" /> <span class="input-icon-addon"> <!-- Download SVG icon from http://tabler-icons.io/i/calendar --> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <div class="col-auto mt-4">
+                  <div class="">
+                    ~
+                  </div>
+                </div>
+								<div class="col-auto">
+									<label class="form-label">&nbsp; </label>
+									<div class="input-icon">
+										<input class="form-control  select-date p-1" placeholder="Select a date" id="datepicker-icon-prepend" value="2020-06-20" /> <span class="input-icon-addon"> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+                          <path d="M16 3v4" />
+                          <path d="M8 3v4" />
+                          <path d="M4 11h16" />
+                          <path d="M11 15h1" />
+                          <path d="M12 15v3" />
+                        </svg>
+										</span>
+									</div>
+								</div>
+               
+                <!-- <div class="col-auto">
+									<label class="form-label">Standard Year/Month:  </label>
+									<div class="input-icon">
+										<input type="month" class="form-control  select-date p-1 " placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" /> <span class="input-icon-addon">  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
                           <path d="M16 3v4" />
@@ -77,66 +67,118 @@
 										</span>
 									</div>
 								</div>
-							</div>
-							<div class="row mt-3">
-								<!-- <div class="col">
-                                    <form method="post" id="uploadFrm" enctype="multipart/form-data">
-                                        <input 
-                                            id="btnFileUpload" 
-                                            name="btnFileUpload" 
-                                            type="file" 
-                                            value="파일선택" 
-                                            accept=".xlsx, .xls"
-                                            style="
-                                                font-size: 13px"
-                                        />
-                                    </form>
-                                </div> -->
-								<div class="col text-end">
-									<button name="btnSearch" type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" onclick="getSearchList()" data-test="create-button">Search</button>
-									<!-- <button
-                                      name="btnExcelDown"
-                                      type="button"
-                                      class="btn btn-lime"
-                                      style="
-                                        padding: 4px 10px; 
-                                        color: white; 
-                                        font-size: 13px;" 
-                                      id="downloadExcel"
-                                      onclick="getExcelList()"
-                                      data-test="edit-button"
-                                    >
-                                      Download
-                                    </button>
-                                    
-                                    <button
-                                      name="btnSave"
-                                      type="button" 
-                                      class=" btn btn-secondary" 
-                                      style="
-                                        padding: 4px 10px; 
-                                        color: white; 
-                                        font-size: 13px;" 
-                                      onclick="setSaveUploadFile()"
-                                      data-test="edit-button"
-                                    >
-                                      Save
-                                    </button> -->
-								</div>
+								<div class="col-auto">
+									<label class="form-label"> &nbsp;</label>
+									<div class="input-icon">
+										<input type="month" class="form-control select-date p-1 " placeholder="Select a date" id="datepicker-icon" value="2020-06-25" style="padding: 3px" /> <span class="input-icon-addon"> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+                          <path d="M16 3v4" />
+                          <path d="M8 3v4" />
+                          <path d="M4 11h16" />
+                          <path d="M11 15h1" />
+                          <path d="M12 15v3" /></svg>
+										</span>
+									</div>
+								</div> -->
+                 <!-- Month Select -->
+                 <div class="col-auto">
+                  <label class="form-label">Standard Year/Month: </label>
+                  <input
+                    id="inpStartStdYm"
+                    type="text"
+                    name="input-mask"
+                    class="form-control select-month-year p-1"
+                    data-mask="00/0000"
+                    data-mask-visible="true"
+                    placeholder="00/0000"
+                    autocomplete="off"
+                  />
+                  <!-- <label class="form-label">Standard Year/Month: </label>
+                  <select
+                    name="user[month]"
+                    class="form-select select-month-year p-1"
+                    id="inputMonth"
+                  >
+                    <option selected value="">- Month -</option>
+                   
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select> -->
+                </div>
+                <div class="col-auto">
+                  <div class="input-icon mt-4">
+                    ~
+                  </div>
+                </div>
+                <!-- Year Select -->
+                <div class="col-auto">
+                  <label class="form-label">&nbsp; </label>
+                  <input
+                    id="inpEndStdYm"
+                    type="text"
+                    name="input-mask"
+                    class="form-control select-month-year p-1"
+                    data-mask="00/0000"
+                    data-mask-visible="true"
+                    placeholder="00/0000"
+                    autocomplete="off"
+                  />
+                  <!-- <label class="form-label"> &nbsp; </label> -->
+                  <!-- <select
+                    name="user[year]"
+                    class="form-select select-month-year p-1"
+                    id="inputYear"
+                  >
+                    <option selected value="">- Year -</option>
+                    
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                  </select> -->
+                </div>
+                <div class="col"> 
+                  <button
+                    name="btnSearch" 
+                    type="button" 
+                    class="btn btn-primary search-button p-1"
+                    onclick="getSearchList()"
+                    data-test="create-button"
+                  >
+                    Search
+                  </button>
+                </div>
+                <div class="row mt-3"></div>
 							</div>
 					</div>
 					<div class="row mt-3"></div>
 					</form>
 				</div>
-				<div style="padding-top: 2em">
-					<form name="divData">
-						<p>
-							►&nbsp;<label for="lblGrdTitle">Grid Content</label>
-						</p>
-						<div align="center" >
-							<table id="divGrdMain" style="width: 1284px; height: 720px" border="1" cellpadding="1" cellspacing="1"></table>
-            </div>
-					</form>
+				<div style="padding-top: 2em">  
+          <!-- <p>
+          ►&nbsp;<label for="lblGrdTitle">Grid Content</label>
+        </p> -->
+          <div class="card card-md">
+            <form name="divData">
+              <div align="center" >
+                <table id="divGrdMain" style="width: 1284px; height: 500px" ></table>
+              </div>
+            </form>
+          </div>
 				</div>
 			</div>
 		</div>
@@ -175,7 +217,7 @@
           data.forEach(function (item) {
             var option = $("<option></option>")
               .attr("value", item.seqNo)
-              .text(item.tblId + "(" + item.fileNm + ")");
+              .text(item.tblId );
             dropdown.append(option);
           });
         }
@@ -183,6 +225,17 @@
 
       function getSearchList() {
         console.log("Sending AJAX request...");
+
+        // mwthod that flips the date format
+        const flipDate = (input) => {
+          let date = input.split("/");
+          return date[1] + date[0];
+        }
+
+        // saving the flipped date
+        const inputStartStdYm = flipDate($("#inpStartStdYm").val());
+        const inputEndStdYm = flipDate($("#inpEndStdYm").val());
+
 
         $.ajax({
           type: "post",
@@ -192,10 +245,10 @@
           contentType: "application/json; charset=utf-8",
           data: JSON.stringify({
             uploadFile: $("#cmbUploadFileList").val(),
-            startLoadDate: $("#inpStartLoadDate").val(),
-            endLoadDate: $("#inpEndLoadDate").val(),
-            startStdYymm: $("#inpStartStdYm").val(),
-            endStdYymm: $("#inpEndStdYm").val(),
+            startLoadDate: $("#datepicker-icon").val(),
+            endLoadDate: $("#datepicker-icon-prepend").val(),
+            startStdYymm: inputStartStdYm,
+            endStdYymm: inputEndStdYm,
           }),
 
           success: function (data) {
@@ -374,6 +427,9 @@
 
               console.log("SlickGrid initialized.");
             } else {
+              alert(
+                "No data is found, please select another date."
+              );
               console.log("No data returned from the server.");
             }
           },

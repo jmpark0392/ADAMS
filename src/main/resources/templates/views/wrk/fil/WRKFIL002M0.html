@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
-	<div class="page">
+	<!-- <div class="page"> -->
 		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 		
 		<div class="page-wrapper" id="page-wrapper">
@@ -14,9 +14,9 @@
 						<div class="form-box">
 							<form id="filter-form" name="form" method="post" action="/WRKFIL002M0SelectList" onsubmit="return false;">
 								<div class="row">
-									<div class="col">
-										<label for="fileDropdown">Select a file:</label>
-										<select id="fileDropdown" style="padding: 3px">
+									<div class="col-auto">
+										<label  class="form-label" for="fileDropdown"> Select a file:</label>
+										<select class="form-select" id="fileDropdown" style="padding: 3px">
 											<option value="">- options -</option>
 										</select>
 									</div>
@@ -37,9 +37,16 @@
 						</form>
 					</div>
 				</div>
-				<div style="padding-top: 2em"></div>
-				<div id="divMyGrid">
-					<table align="center" class="table"></table>
+				<div class="card card-md">
+					<div align="center" id="divMyGrid">
+						<table 
+							class="table"
+							align="center"
+							style="width: 1284px; height: 500px"
+						>
+						</table>
+					</div>
+				</div>
 				</div>
 				<div>
 					<div class="popupDataForm">
@@ -95,8 +102,14 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"> Cancel </a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px;"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg> Save changes
-										</a>
+										<div class="col flex-start">
+											<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"> Cancel </a> 
+										</div>
+										<div class="col-auto me-0 p-1"></div>
+										<div class="col-auto m-0">
+											<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px;"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg> Save changes
+											</a>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -104,32 +117,69 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	</div>
-	</div>
-	<script>
-	        function checkData(data) {
-	          return parentCheckData(data, check_cols);
-	        }
-	
-	        function getFile(input) {
-	          return parentGetFile(input, "/WRKFIL002M1SelectList");
-	        }
-	
-	        function insertFile(addedRow) {
-	          parentInsertFile(addedRow, "/WRKFIL002M0InsertList");
-	        }
-	
-	        function updateFile(updatedRow) {
-	          parentUpdateFile(updatedRow, "/WRKFIL002M0UpdateList");
-	        }
-	
-	        function deleteFile(todeleteRow) {
-	          parentDeleteFile(todeleteRow, "/WRKFIL002M0DeleteList");
-	        }
+		<script>
+			function checkData(data) {
+				return parentCheckData(data, check_cols);
+			}
+			function getCsList(input) {
+				console.log("getCsList input : " + input);
+				var option = {
+				id: "SelectList",
+				type: "post",
+				url: "/WRKFIL002M1SelectList",
+				async: false,
+				dataType: "json",
+				contentType: "application/json; charset=utf-8",
+				data: input,
+				};
+
+				gf_Transaction(option, fn_callback);
+			}
+
+			function insertCs(addedRow) {
+				var option = {
+				id: "insertList",
+				type: "post",
+				url: "/WRKFIL002M0InsertList",
+				async: false,
+				dataType: "json",
+				contentType: "application/json; charset=utf-8",
+				data: addedRow,
+				};
+
+				gf_Transaction(option, fn_callback);
+			}
+
+			function fn_updateCs(input) {
+				console.log("updateCs input : " + input);
+				var option = {
+				id: "updateList",
+				type: "post",
+				url: "/WRKFIL002M0UpdateList",
+				async: true,
+				dataType: "text",
+				contentType: "application/json; charset=utf-8",
+				data: input,
+				};
+
+				gf_Transaction(option, fn_callback);
+			}
+
+			function fn_deleteCs(input) {
+				console.log("deleteCs input : " + input);
+				var option = {
+				id: "deleteList",
+				type: "post",
+				url: "/WRKFIL002M0DeleteList",
+				async: true,
+				dataType: "text",
+				contentType: "application/json; charset=utf-8",
+				data: input,
+				};
+				gf_Transaction(option, fn_callback);
+			}
 	    </script>
-	<script>
+		<script>
 	        var selectedValue = "";
 	
 	        $(document).ready(function () {
@@ -209,7 +259,7 @@
 	        var xcpt_cols = ["tblId", "regUsrid", "regDt"];
 	        var check_cols = [unqId];
 	        var columns = [
-	          //{id: "tblId",    name: "테이블ID", field: "tblId", sortable: true, editor: Slick.Editors.Text},
+	          {id: "tblId",    name: "테이블ID", field: "tblId", sortable: true, editor: Slick.Editors.Text},
 	          {
 	            id: "itmNm",
 	            name: "Column Name",
@@ -300,7 +350,7 @@
 	          },
 	          {
 	            id: "selBasYn",
-	            name: "Load Standard",
+	            name: "Load Standard (Y/N)",
 	            field: "selBasYn",
 	            sortable: true,
 	            editor: Slick.Editors.Text,
@@ -348,8 +398,42 @@
 	          // 그리드 초기화 및 데이터 로드
 	          console.log("Initializing SlickGrid...");
 	          console.log("선택된 value: ", selectedValue);
-	          data = getFile((input = JSON.stringify({ tblIdTxt: selectedValue })));
+			  getCsList(
+				(input = JSON.stringify({
+					tblIdTxt: selectedValue
+				}))
+			  );
+			}
+	        //   data = getFile((input = JSON.stringify({ tblIdTxt: selectedValue })));
+
+			function fn_callback(result) {
+				//console.log("fn_callback : " + result.id);
+				if (result.resultCd == "S") {
+				switch (result.id) {
+					case "SelectList":
+					fn_setGrid(result.data);
+
+					break;
+					case "insertList":
+					main();
+
+					break;
+					case "updateList":
+					main();
+
+					break;
+				}
+				} else if (result.resultCd == "E") {
+				} else {
+				console.log("fn_callback result : ", result);
+				}
+			}
 	
+			function fn_setGrid(data) {
+
+			 // inserting the selected value into the table id column
+			  insertTableIdValue(data, selectedValue);
+
 	          dataView = new Slick.Data.DataView({ idField: unqId });
 	          grid = new Slick.Grid("#divMyGrid", dataView, columns, options);
 	
@@ -366,7 +450,6 @@
 	
 	          // setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
 	          dataView.setItems(data, unqId);
-	
 	          // when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
 	          grid.onBeforeSort.subscribe(function (e, args) {
 	            return true;
@@ -448,6 +531,12 @@
 	          grid.setActiveCell(0, 0);
 	          console.log("SlickGrid initialized.");
 	        }
+
+			function insertTableIdValue(data, selectedValue){
+				data.forEach(row => {
+					row.tblId = selectedValue; // we update the tblId value to the selected value option
+				})
+			}
 	
 	        // Download Excel functionality
 	        document
@@ -495,28 +584,28 @@
 	          }
 	          var activeCell = grid.getActiveCell();
 	          var activeRow = (activeCell && activeCell.row) || 0;
+			  const dataContext = grid.getDataItem(activeRow);
+
+			  // get the active cell index
+			  let activeCellIndex = activeCell.cell;
+
+			  let column = grid.getColumns()[activeCellIndex];
+			  
+			  if((modalType === "edit" && !dataContext) || !column || !activeCell){
+				  alert("Please select a cell to edit.");
+				  return;
+			  }
 	
 	          if (!options.enableCellNavigation) {
 	            throw new Error(
 	              'Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.'
 	            );
 	          } else if (!activeCell && modalType === "edit") {
-	            throw new Error("No records selected for edit operation");
-	          }
+	            alert("Please select the column to change its value");
+				return ;
+	          }	
 	          renewOptions(false);
-	            // var dataContext = grid.getDataItem(activeRow);
-	            // var isWithMassUpdate =
-	            //   modalType === "mass-update" || modalType === "mass-selection";
-	            // lastActiveRowNumber = activeRow;
-	
-	            // // 수정 직전의 데이터 저장
-	            // if (modalType === "edit") {
-	            //   try {
-	            //     originalData = JSON.parse(JSON.stringify(dataContext));
-	            //   } catch {}
-	            
-	
-	            const dataContext = grid.getDataItem(activeRow);
+	          
 	            const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
 	            const modalTitleElem = document.querySelector(".modal-title");
 	            const modalBodyElem = document.querySelector(".modal-body");
@@ -525,13 +614,34 @@
 	            modalBodyElem.innerHTML = ""; // Clear previous content
 	
 	            if(modalTitleElem){
-	              if(modalType ==="create"){
-	                modalTitleElem.textContent = "NEW";
-	              } else if(modalType === "edit"){
-	                modalTitleElem.textContent = "EDIT";
-	                originalData = JSON.parse(JSON.stringify(dataContext));
-	              }
-	            }
+					if (modalType === "create") {
+					modalTitleElem.textContent = "NEW";
+					// modalTitleElem.className = "mb-3";
+					} else if (modalType === "edit") {
+						modalTitleElem.textContent = "EDIT";
+						// here we are adding a delete button to the modal popup in the edit mode
+						const delBtn = document.createElement("a");
+						delBtn.href = "#";
+						delBtn.className = "btn btn-danger";
+						delBtn.dataset.dismiss = "modal";
+						delBtn.style.padding = "4px 10px";
+						delBtn.style.color = "white";
+						delBtn.style.fontSize = "13px";
+						delBtn.textContent = "Delete";
+						modalTitleElem.appendChild(delBtn);
+						// getelemtn by class name
+						const divColAuto = document.getElementsByClassName("col-auto me-0");
+
+						divColAuto[0].appendChild(delBtn);
+						originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
+					} else {
+						console.error("error while loading the modal title: ");
+					}
+				} else {
+					console.error("error while loading the modal title: ");
+				}
+				renewOptions(false);
+
 	            // Dynamically create form elements based on the columns that have editors
 	            const modalColumns = columns.filter(col => col.editor);
 	
@@ -543,132 +653,42 @@
 					
 				}
 
-	
 	            modalColumns.forEach((column, index) => {
+					// we create new row after 6 columns
+					if (index % columnsPerShow === 0) {
+						currentRow = document.createElement("div");
+						currentRow.className = "row";
+						modalBodyElem.appendChild(currentRow);
+					}
 
-	              // we create new row after 6 columms, 
-	              if(index % columnsPerShow === 0){
-	                currentRow = document.createElement("div")
-	                currentRow.className = "row";
-	                modalBodyElem.appendChild(currentRow);
-	              }
-	
-	              const colElem = document.createElement("div");
-	              colElem.className = "col-lg-6";
-	
-	              const formGroupElem = document.createElement("div");
-	              formGroupElem.className = "mb-3";
-	
-	              const detailLabelitem = document.createElement("div");
-	              detailLabelitem.className = "form-label";
-	              detailLabelitem.textContent = column.name;
-	
-	              const inputElem = document.createElement('input');
-	              inputElem.className = "form-control";
-	              inputElem.dataset.editorid = column.id;
-	              inputElem.value = modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+					const colElem = document.createElement("div");
+					colElem.className = "col-lg-6";
 
-				  formGroupElem.appendChild(detailLabelitem);
+					const formGroupElem = document.createElement("div");
+					formGroupElem.className = "mb-3";
 
-				  if(column.id === "dataTpCd" || column.id === "vlvlCd"|| column.id === "selBasYn" || column.id === "itmDsc"){
-					if(column.id === "itmDsc"){
-						// this is the date input field
-						const dateInputContainer = document.createElement('div');
-						dateInputContainer.className = "input-icon mb-2";
-						const dateInput = document.createElement('input');
-						dateInput.type = "date";
-						dateInput.className = "form-control";
-						dateInput.id = "datepicker-icon";
-						dateInput.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // Pre-fill if in edit mode
+					const detailLabelitem = document.createElement("div");
+					detailLabelitem.className = "form-label";
+					detailLabelitem.textContent = column.name;
 
-						const dateInputAddon = document.createElement('span');
-						dateInputAddon.className = "input-icon-addon";
-						const svgElement = document.createElement('svg');
-						svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-						svgElement.setAttribute("class", "icon");
-						svgElement.setAttribute("width", "24");
-						svgElement.setAttribute("height", "24");
-						svgElement.setAttribute("viewBox", "0 0 24 24");
-						svgElement.setAttribute("stroke-width", "2");
-						svgElement.setAttribute("stroke", "currentColor");
-						svgElement.setAttribute("fill", "none");
-						svgElement.setAttribute("stroke-linecap", "round");
-						svgElement.setAttribute("stroke-linejoin", "round");
-
-						const pathElement1 = document.createElement('path');
-						pathElement1.setAttribute("stroke", "none");
-						pathElement1.setAttribute("d", "M0 0h24v24H0z");
-						pathElement1.setAttribute("fill", "none");
-
-						svgElement.appendChild(pathElement1);
-
-						dateInputContainer.appendChild(dateInput);
-						dateInputContainer.appendChild(dateInputAddon);
-						dateInputAddon.appendChild(svgElement);
-
-						// we add the date input to  to the form group element
-						formGroupElem.appendChild(dateInputContainer);
-					} else {
-						const selectInput = document.createElement('select');
-						selectInput.className = "form-select";
-						selectInput.dataset.editorid = column.id;
-
-						// console.log("selectInput in the console:", selectInput);
-
-						// we add a default option for the select dropdown
-						const defaultOption = document.createElement('option');
-						defaultOption.value = "";
-						defaultOption.textContent = "- options -";
-						selectInput.appendChild(defaultOption);
-
-						
-						// we define the select options based on the column id or index
-						let optionsData = [];
-						if(column.id === "dataTpCd" || column.id === "vlvlCd"){
-							optionsData = options6;
-						} else if (column.id === "selBasYn"){
-							optionsData = options8;
-						}
-						// we define which optins to use based on the column index
-						// const optionsData = (index == 6) && (index === 7) ? options6 : options8;
-
-						console.log("optionsData in the console:", optionsData);
-
-						// i have to develop a function that will fetch the options from the db later
-
-						// populate the select box with options hard-coded  variable arrray of objects
-						optionsData.forEach(option => {
-							const optionElemen = document.createElement('option');
-							optionElemen.value = option.value;
-							optionElemen.textContent = option.text;
-							selectInput.appendChild(optionElemen);
-						});
-
-						// we pre-fill the select box in the edit box;
-						if(modalType === "edit"){
-							selectInput.value = dataContext[column.field] || "";
-						}
-
-						// we append the select box to the form group element
-						formGroupElem.appendChild(selectInput);
-				
-						// const selectOption = document.createElement('option');
-						// selectOption.value = "";
-		
-						// selectInput.appendChild(selectOption);
-						// formGroupElem.appendChild(selectInput);
-					}	
-				} else {
 					const inputElem = document.createElement('input');
 					inputElem.className = "form-control";
 					inputElem.dataset.editorid = column.id;
-					inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+					inputElem.value = modalType === "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode
+
+					formGroupElem.appendChild(detailLabelitem);
+
+					if(column.id === "tblId"){
+						inputElem.value = selectedValue;
+						inputElem.disabled = true;
+					}
+
 					formGroupElem.appendChild(inputElem);
-				  }
-				 
-	              colElem.appendChild(formGroupElem);
-	              currentRow.appendChild(colElem);
-	            })
+
+					colElem.appendChild(formGroupElem);
+					currentRow.appendChild(colElem);
+				});
+								
 	
 	            if(modalColumns.length % columnsPerShow !== 0){
 	              const remainingCols = columnsPerShow - (modalColumns.length % columnsPerShow);
@@ -678,25 +698,18 @@
 	            }
 	
 	            modalElement.show();
+
+				// delete button logic for the edit popup that will delte the seleted row
+				const deleteBtn = document.querySelector(".modal-footer .btn-danger");
+				deleteBtn.addEventListener("click", function () {
+					if (confirm("Do you want to delete?") == true) {
+						// delete the selected row
+						dataView.deleteItem(dataContext[unqId]);
+						fn_deleteCs(JSON.stringify(dataContext));
+						location.reload(true);
+					}
+        		});
 	
-	
-	            // focus on a first cell with an Editor (unless current cell already has an Editor then do nothing)
-	            // also when it's a "Create" modal, we'll scroll to the end of the grid
-	            var rowIndex = modalType === "create" ? data.length : activeRow;
-	            focusOnFirstCellWithEditor(columns, rowIndex, isWithMassUpdate);
-	
-	            if (modalType === "edit" && !dataContext) {
-	              alert("Current row is not editable");
-	              return;
-	            } else if (modalType === "mass-selection") {
-	              var selectedRowsIndexes = grid.getSelectedRows();
-	              if (selectedRowsIndexes.length < 1) {
-	                alert(
-	                  "You must select some rows before trying to apply new value(s)"
-	                );
-	                return;
-	              }
-	            }
 	            renewOptions(false);
 	
 	
@@ -711,16 +724,16 @@
 	              }
 	            }
 	
-	            if (isWithMassUpdate) {
-	              // when using Mass Update, we only care about the columns that have the "massUpdate: true", we disregard anything else
-	              modalColumns = selColumns.filter(function (col) {
-	                return col && col.massUpdate && col.editor;
-	              });
-	            } else {
-	              modalColumns = selColumns.filter(function (col) {
-	                return col && col.editor;
-	              });
-	            }
+	            // if (isWithMassUpdate) {
+	            //   // when using Mass Update, we only care about the columns that have the "massUpdate: true", we disregard anything else
+	            //   modalColumns = selColumns.filter(function (col) {
+	            //     return col && col.massUpdate && col.editor;
+	            //   });
+	            // } else {
+	            //   modalColumns = selColumns.filter(function (col) {
+	            //     return col && col.editor;
+	            //   });
+	            // }
 	
 	            let headerTitle = "";
 	            switch (modalType) {
@@ -805,19 +818,23 @@
 	              renewOptions(false);
 	            });
 	
-	            // Save button logic
-	          const saveBtn = document.querySelector(".modal-footer .btn-primary");
-	          saveBtn.removeEventListener("click", saveHandler);
-	          saveBtn.addEventListener("click", saveHandler);
+	          // Save button logic
+		      // this will only be trggered when the save button is clicked
+	          //   const saveBtn = document.querySelector(".modal-footer .btn-primary");
+		      //   saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
+
+			  const saveBtn = document.querySelector(".modal-footer .btn-primary");
+			  saveBtn.textContent = modalType === "create" ? "Create" : "Save changes"
+
+			    // this will only be triggered when the save button is clicked
+				//   saveBtn.removeEventListener("click", saveHandler);
+				//   saveBtn.addEventListener("click", saveHandler);
 
 			    //modal을 마우스로 드래그가능하도록 설정
 				$(".modal").draggable();
 	
-	          // saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
-	          function saveHandler(){
-	            
+				saveBtn.onclick = function saveHandler(){	            
 	              const formData = {};
-	
 	              // Collect form data
 	              modalColumns.forEach(column => {
 	                  const input = modalBodyElem.querySelector(`[data-editorid="${column.id}"]`);
@@ -830,12 +847,19 @@
 	                  // Add new item to grid data
 	                  if (checkData(formData)) {
 	                      formData[unqId] = grid.getDataLength() + 1;
-	                      dataView.insertItem(grid.getDataLength(), formData);
-	                  } else {
-	                      alert("Please fill out all required fields.");
-	                      return;
-	                  }
-	              } else if (modalType === "edit") {
+	                    //   dataView.insertItem(grid.getDataLength(), formData);
+							if(confirm("Do you want to save?")== true ){
+								insertCs(JSON.stringify(formData));
+								console.log("formData that is being sent : " + JSON.stringify(formData));
+								// location.reload(true);
+								// dataView.insertItem(grid.getDataLength(), formData);
+							} 
+							else {            
+								alert("Please fill out all required fields.");
+								return;
+							}
+						}
+				 } else if (modalType === "edit") {
 	                  // Update existing item in grid data
 	                  let isChanged = false;
 	                  for (let key in formData) {
@@ -846,12 +870,16 @@
 	                  }
 	
 	                  if (isChanged) {
-	                      formData[unqId] = originalData[unqId];
-	                      dataView.updateItem(originalData[unqId], formData);
-	                  } else {
-	                      alert("No changes detected.");
-	                      return;
-	                  }
+	                    	formData[unqId] = originalData[unqId];	
+							if (confirm("Do you want to modify?") == true) {
+								// updateFile(formData);
+								fn_updateCs(JSON.stringify(formData));
+							}
+								location.reload(true);
+							} else {
+								alert("No changes detected.");
+								return;
+						}
 	              }
 	              grid.render();
 	              modalElement.hide(); // Hide the modal after saving\ 
@@ -874,8 +902,7 @@
 	                  dataView.updateItem(originalData[unqId], originalData); // Revert changes if canceled
 	              }
 	          }); 
-	        }
-    
+			}
 	    </script>
 </th:block>
 </html>

@@ -74,4 +74,9 @@
                FNL_UPD_DTM = CONVERT(CHAR(10), getdate(), 23)
          WHERE SEQ_NO = #{seqNo}
     </update>
+    <delete id="deleteList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL001M0P1DTO" >
+        DELETE FROM TB_UPL_FILE_LST
+        WHERE 1=1
+            AND SEQ_NO  =  #{seqNo}
+    </delete>
 </mapper>
