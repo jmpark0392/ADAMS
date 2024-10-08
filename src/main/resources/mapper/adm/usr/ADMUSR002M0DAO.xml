@@ -6,9 +6,8 @@
     <select id="selectUsrList" parameterType="com.rds.adams.web.adm.usr.dto.ADMUSR002M0P0DTO" resultType="com.rds.adams.web.adm.usr.dto.ADMUSR002M0R0DTO">
         /* web.opn.usr.dao.ADMUSR002M0DAO.selectUsrList */
         SELECT 
-               ROW_NUMBER() OVER(ORDER BY A.CS_NO)         AS seqNo
-             , A.CS_NO                                     AS csNo                /* 고객사번호 */
-             , B.COMP_NM                                   AS compNm              /* 회사명 */
+               ROW_NUMBER() OVER(ORDER BY A.USR_DV_CD
+                                        , A.USR_ID)        AS seqNo
              , A.USR_DV_CD                                 AS usrDvCd             /* 사용자구분코드 */
              , A.USR_ID                                    AS usrId               /* 사용자아이디 */
              , A.USR_ID                                    AS oldUsrId            /* 사용자아이디 */
@@ -20,24 +19,17 @@
              , CONVERT(CHAR(10), A.USE_STR_DTM     , 23)   AS useStrDtm           /* 사용시작일시 */
              , CONVERT(CHAR(10), A.USE_END_DTM     , 23)   AS useEndDtm           /* 사용종료일시 */
              , CONVERT(CHAR(10), A.PASSWORD_UPD_DTM, 23)   AS passwordUpdDtm      /* 비밀번호변경일시 */
-          FROM [RDSDB].[dbo].[TB_USR_MNG_LST]            A  /* 사용자관리 */
-          LEFT OUTER JOIN [RDSDB].[dbo].[TB_CS_MNG_LST]  B  /* 고객사관리 */
-                       ON A.CS_NO = B.CS_NO
+          FROM [RDSDB].[dbo].[TB_USR_MNG_LST]  A  /* 사용자관리 */
          WHERE 1=1
-        <if test='compNoNm != "" and compNoNm != null'>
-           AND ( B.COMP_NO  LIKE '%' + #{compNoNm} + '%' OR B.COMP_NM LIKE '%' + #{compNoNm} + '%' )
-        </if>
+           AND A.CS_NO      = #{csNo}
+           AND A.USR_DV_CD  IN ('3','2')
         <if test='usrIdNm != "" and usrIdNm != null'>
            AND ( A.USR_ID   LIKE '%' + #{usrIdNm} + '%' OR A.USR_NM LIKE '%' + #{usrIdNm} + '%' )
-        </if>
-        <if test='usrDvCd != "" and usrDvCd != null'>
-           AND A.USR_DV_CD  = #{usrDvCd}
         </if>
         <if test='statDvCd != "" and statDvCd != null'>
            AND A.STAT_DV_CD = #{statDvCd}
         </if>
-         ORDER BY A.CS_NO
-                , A.USR_DV_CD
+         ORDER BY A.USR_DV_CD
                 , A.USR_ID
     </select>
     

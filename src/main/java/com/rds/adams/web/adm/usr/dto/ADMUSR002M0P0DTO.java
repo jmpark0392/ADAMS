@@ -25,14 +25,11 @@ import lombok.ToString;
 public class ADMUSR002M0P0DTO {
 
 	
-    @Schema(description = "회사번호명")
-    private String compNoNm;
+    @Schema(description = "고객사번호")
+    private String csNo;
 
     @Schema(description = "사용자아이디명")
     private String usrIdNm;
-
-    @Schema(description = "사용자구분코드")
-    private String usrDvCd;
 
     @Schema(description = "상태구분코드")
     private String statDvCd;

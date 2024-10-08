@@ -15,20 +15,12 @@
 					<span>[[${navigator}]]</span>
 					<div class="form-container">
 						<div class="form-box">
-							<form id="filter-form" name="form" method="post" action="/OPNUSR003M0SelectList" onsubmit="return false;">
+							<form id="filter-form" name="form" method="post" action="/ADMUSR002M0SelectList" onsubmit="return false;">
 								<div class="row">
 									<div class="col">
-										<!-- 회사번호/명 -->
-										<label for=lblCompNoNm>Company Number/Name : </label>
-										<input id="inpCompNoNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
 										<!-- 사용자ID/명 -->
 										<label for="lblUsrIdNm">User ID/Name : </label>
 										<input id="inpUsrIdNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
-										<!-- 사용자구분코드 -->
-										<label for="lblUsrDvCd">User Type : </label>
-										<select id="selUsrDvCd" style="padding: 3px">
-											<option selected="selected" value="">- select -</option>
-										</select>
 										<!-- 상태구분코드 -->
 										<label for="lblStatDvCd">Status : </label>
 										<select id="selStatDvCd" style="padding: 3px">
@@ -96,7 +88,7 @@
 				var option = {
 							   id          : "SelectList"
 						     , type        : "post"
-							 , url         : "/OPNUSR003M0SelectList"
+							 , url         : "/ADMUSR002M0SelectList"
 							 , async       : false
 							 , dataType    : "json"
 							 , contentType : "application/json; charset=utf-8"
@@ -110,7 +102,7 @@
 				var option = {
 						   id          : "insertList"
 					     , type        : "post"
-						 , url         : "/OPNUSR003M0UpdateList"
+						 , url         : "/ADMUSR002M0UpdateList"
 						 , async       : false
 						 , dataType    : "text"
 						 , contentType : "application/json; charset=utf-8"
@@ -125,7 +117,7 @@
 				var option = {
 						   id          : "updateList"
 					     , type        : "post"
-						 , url         : "/OPNUSR003M0UpdateList"
+						 , url         : "/ADMUSR002M0UpdateList"
 						 , async       : true
 						 , dataType    : "text"
 						 , contentType : "application/json; charset=utf-8"
@@ -140,7 +132,6 @@
 
 		    // 페이지 로드 시 옵션을 초기화
 		    window.onload = function() {
-		        populateUsrDvCdOptions();
 		        populateStatDvCdOptions();
 		    };
 		    
@@ -189,8 +180,7 @@
 			var xcpt_cols = ["seqNo","oldUsrId","usrEmail","oldStatDvCd"];
 			var check_cols = ["usrId"];
 			
-			var usrDvCdList  = { 1:"System Operator"
-					           , 2:"Administrator"
+			var usrDvCdList  = { 2:"Administrator"
 					           , 3:"User" };
 			var statDvCdList = { 0:"Normal use"
 					           , 4:"Request Password Reset"
@@ -198,8 +188,6 @@
 			
 			var columns = [
 							{ id: unqId,			name: "Seq",					field: unqId,								width: 60, 	editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "csNo",		 		name: "customer number",		field: "csNo",		 		sortable: true, width: 60,	editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "compNm",			name: "company name",			field: "compNm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
 						, { id: "usrDvCd",			name: "user identifier code",	field: "usrDvCd",			sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: usrDvCdList }
 						, { id: "usrId",			name: "user email",	 			field: "usrId",				sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
 						, { id: "oldUsrId",			name: "user email",	 			field: "oldUsrId",			sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
@@ -272,10 +260,8 @@
 				console.log("Initializing SlickGrid...");
 				getCsList(
 							(input = JSON.stringify({ 
-														compNoNm:	$("#inpCompNoNm").val()
-														, usrIdNm: $("#inpUsrIdNm").val()
-														, usrDvCd:	$("#selUsrDvCd").val()
-														, statDvCd:		$("#selStatDvCd").val()
+														  usrIdNm : $("#inpUsrIdNm").val()
+														, statDvCd:	$("#selStatDvCd").val()
 							}))
 						);
 			}
@@ -328,7 +314,7 @@
 					grid.invalidate();
 					grid.render();
 				});
-	
+				
 				// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
 				dataView.setItems(data, unqId);
 	
@@ -427,17 +413,10 @@
 			// 신규버튼 누르면 동작하는 함수
 			function openDetails(modalType) {
 			    
-				let hiddenColumns;
-				
-				if (modalType === "create") {
-					hiddenColumns = ["seqNo","compNm","oldUsrId","usrEmail","oldStatDvCd","passwordUpdDtm"];
-				} else {
-					hiddenColumns = ["seqNo","csNo","compNm","oldUsrId","usrEmail","oldStatDvCd","passwordUpdDtm"];  // 예: 'csNo' 컬럼 숨기기
-				}
+				let hiddenColumns = ["seqNo","oldUsrId","usrEmail","oldStatDvCd","passwordUpdDtm"];
 				
 				let selUsrDvCd = [
-					  { column: "usrDvCd", value: "1", text: "System Operator" }
-					, { column: "usrDvCd", value: "2", text: "Administrator" }
+					  { column: "usrDvCd", value: "2", text: "Administrator" }
 					, { column: "usrDvCd", value: "3", text: "User" }
 				];
 				
@@ -460,9 +439,25 @@
 				if (modalType === "create") {
 					grid.setActiveCell(grid.getDataLength(), 0);
 				}
-				var activeCell = grid.getActiveCell();
-				var activeRow  = (activeCell && activeCell.row) || 0;
-	
+
+		        var activeCell = grid.getActiveCell();
+		        console.log("activeCell:", activeCell);
+
+		        // get the active cell index
+		        let activeCellIndex = activeCell.cell;
+
+		        let column = grid.getColumns()[activeCellIndex];
+
+		        // setting the active row to the first row if the active row is undefined
+		        var activeRow = (activeCell && activeCell.row) || 0;
+		        const dataContext = grid.getDataItem(activeRow);
+		        
+		        // alert for the edit popup if the user doesn't select the column value in the grid
+		        if ((modalType === "edit" && !dataContext) || !activeCell || !column) {
+		          alert("Please select a cell to edit the data.");
+		          return;
+		        }
+		        
 				if (!options.enableCellNavigation) {
 					throw new Error( 'Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
 				} else if (!activeCell && modalType === "edit") {
@@ -474,7 +469,6 @@
 				var isWithMassUpdate = modalType === "mass-update" || modalType === "mass-selection";
 				// lastActiveRowNumber = activeRow;
 	
-				const dataContext    = grid.getDataItem(activeRow);
 				const modalElement   = new bootstrap.Modal(document.getElementById("exampleModal"));
 				const modalTitleElem = document.querySelector(".modal-title");
 				const modalBodyElem  = document.querySelector(".modal-body");
@@ -818,26 +812,6 @@
 				}); 
 			}
 			
-		    function populateUsrDvCdOptions() {
-		        var usrDvCdSelect = document.getElementById("selUsrDvCd");
-		        usrDvCdSelect.innerHTML = ""; // 기존 옵션 초기화
-
-		        // 기본 옵션 추가
-		        var defaultOption = document.createElement("option");
-		        defaultOption.value = "";
-		        defaultOption.text = "- select -";
-		        usrDvCdSelect.appendChild(defaultOption);
-
-		        // usrDvCdList에 있는 값을 select 옵션으로 추가
-		        for (var key in usrDvCdList) {
-		            if (usrDvCdList.hasOwnProperty(key)) {
-		                var option = document.createElement("option");
-		                option.value = key;
-		                option.text = usrDvCdList[key];
-		                usrDvCdSelect.appendChild(option);
-		            }
-		        }
-		    }
 
 		    // 상태 구분 코드 리스트를 select 요소에 추가
 		    function populateStatDvCdOptions() {
