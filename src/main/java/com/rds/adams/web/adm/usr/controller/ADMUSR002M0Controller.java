@@ -45,9 +45,12 @@ public class ADMUSR002M0Controller {
 	 * @return
 	 */
 	@RequestMapping(value="/ADMUSR002M0SelectList", method=RequestMethod.POST, consumes="application/json")
-	public List<ADMUSR002M0R0DTO> selectUsrList(@RequestBody ADMUSR002M0P0DTO inVo) {
+	public List<ADMUSR002M0R0DTO> selectUsrList(@RequestBody ADMUSR002M0P0DTO inVo, HttpServletRequest request) {
 		
 		log.info(inVo.toString());
+
+    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+    	inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		List<ADMUSR002M0R0DTO> result = aDMUSR002M0Service.selectUsrList(inVo);
 		
@@ -72,6 +75,7 @@ public class ADMUSR002M0Controller {
 
     	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
     	inVo.setUpdId(sAdamsLoginDTO.getUsrId());
+    	inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		bResult = aDMUSR002M0Service.saveUsr(inVo);
 		

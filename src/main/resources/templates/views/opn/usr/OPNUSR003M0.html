@@ -41,7 +41,7 @@
 									<div class="col text-end">
 										<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px"
 											onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-											data-test="create-button" onsubmit="return false;">Create</button>
+											data-test="create-button" onsubmit="return false;" hidden="true">Create</button>
 										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px"id="downloadExcel">
 											Download
 										</button>
@@ -328,7 +328,7 @@
 					grid.invalidate();
 					grid.render();
 				});
-	
+				
 				// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
 				dataView.setItems(data, unqId);
 	
@@ -460,9 +460,25 @@
 				if (modalType === "create") {
 					grid.setActiveCell(grid.getDataLength(), 0);
 				}
-				var activeCell = grid.getActiveCell();
-				var activeRow  = (activeCell && activeCell.row) || 0;
-	
+
+		        var activeCell = grid.getActiveCell();
+		        console.log("activeCell:", activeCell);
+
+		        // get the active cell index
+		        let activeCellIndex = activeCell.cell;
+
+		        let column = grid.getColumns()[activeCellIndex];
+
+		        // setting the active row to the first row if the active row is undefined
+		        var activeRow = (activeCell && activeCell.row) || 0;
+		        const dataContext = grid.getDataItem(activeRow);
+		        
+		        // alert for the edit popup if the user doesn't select the column value in the grid
+		        if ((modalType === "edit" && !dataContext) || !activeCell || !column) {
+		          alert("Please select a cell to edit the data.");
+		          return;
+		        }
+		        
 				if (!options.enableCellNavigation) {
 					throw new Error( 'Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
 				} else if (!activeCell && modalType === "edit") {
@@ -474,7 +490,6 @@
 				var isWithMassUpdate = modalType === "mass-update" || modalType === "mass-selection";
 				// lastActiveRowNumber = activeRow;
 	
-				const dataContext    = grid.getDataItem(activeRow);
 				const modalElement   = new bootstrap.Modal(document.getElementById("exampleModal"));
 				const modalTitleElem = document.querySelector(".modal-title");
 				const modalBodyElem  = document.querySelector(".modal-body");

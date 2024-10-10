@@ -36,9 +36,6 @@ public class ADMUSR002M0R0DTO {
     @Schema(description = "고객사번호")
     private String csNo;
 
-    @Schema(description = "회사명")
-    private String compNm;
-
     @Schema(description = "사용자구분코드")
     private String usrDvCd;
 
