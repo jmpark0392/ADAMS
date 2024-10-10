@@ -33,9 +33,10 @@
 
 								</div>
 						</div>
-						<div class="row mt-3"></div>
+						
 						</form>
 					</div>
+					<div style="padding-bottom: 25px;"></div>
 				</div>
 				<div class="card card-md">
 					<div align="center" id="divMyGrid">
@@ -117,6 +118,7 @@
 					</div>
 				</div>
 			</div>
+			
 		<script>
 			function checkData(data) {
 				return parentCheckData(data, check_cols);
@@ -651,11 +653,14 @@
 						} else {
 							console.error("divColAuto is not found.");
 						}
+						const deleteButton = document.querySelector(
+							".modal-footer .btn-danger"
+						);
 
-						if (existingDeleteButton) {
+						if (deleteButton) {
 						// we remove the existing click event listener
-							existingDeleteButton.onclick = null;
-							existingDeleteButton.onclick = function () {
+							// existingDeleteButton.onclick = null;
+							deleteButton.onclick = function () {
 								if (confirm("Do you want to delete?") == true) {
 								// delete the selected row
 								dataView.deleteItem(dataContext[unqId]);
@@ -925,5 +930,5 @@
 	          }); 
 			}
 	    </script>
-</th:block>
+	</th:block>
 </html>

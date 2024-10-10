@@ -25,13 +25,6 @@
                 <div class="row">
                   <div class="col-auto">
                     <div class="input-group">
-                      <!-- <input
-                      id="inpSearchTxt"
-                      name="inpSearchTxt"
-                      type="text"
-                      class="form-input-temp"
-                      placeholder="File Name/Table ID"
-                    /> -->
                       <input
                         id="inpSearchTxt"
                         name="inpSearchTxt"
@@ -712,10 +705,13 @@
               console.error("divColAuto is not found.");
             }
 
-            if (existingDeleteButton) {
+            const deleteButton = document.querySelector(
+              ".modal-footer .btn-danger"
+            );
+            if (deleteButton) {
               // we remove the existing click event listener
-              existingDeleteButton.onclick = null;
-              existingDeleteButton.onclick = function () {
+              // existingDeleteButton.onclick = null;
+              deleteButton.onclick = function () {
                 if (confirm("Do you want to delete?") == true) {
                   // delete the selected row
                   dataView.deleteItem(dataContext[unqId]);
@@ -724,8 +720,6 @@
                 }
               };
             }
-
-            // divColAuto[0].appendChild(delBtn);
             originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
           } else {
             console.error("Invalid modal type.");
@@ -793,11 +787,6 @@
               optionElem.textContent = option.text;
               selectInput.appendChild(optionElem);
             });
-
-            // i have to write methid to trigger alert if the user tries to opnee the edit popup without selecting the column value in the grid\
-            // if (modalType === "edit" || dataContext[column.field] === "") {
-            //   alert("Please select the column to change its value");
-            // }
 
             if (modalType === "edit") {
               selectInput.value = dataContext[column.field] || "";
