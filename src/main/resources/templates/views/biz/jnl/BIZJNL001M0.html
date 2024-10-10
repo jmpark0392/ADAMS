@@ -453,7 +453,7 @@
         sortColNumberInSeparateSpan: true,
         enableAutoSizeColumns: true,
         editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
-        enableAddRow: true,
+        enableAddRow: false,
         asyncEditorLoading: false,
         autoEdit: false,
         autoEditNewRow: false
@@ -638,7 +638,7 @@
               }
             });
 
-            grid.setActiveCell(0, 0);
+            //grid.setActiveCell(0, 0);
             console.log("SlickGrid initialized.");
        }
 
@@ -705,10 +705,7 @@
 
         let originalData = null;
 
-        if (
-          grid.getEditorLock().isActive() &&
-          !grid.getEditorLock().commitCurrentEdit()
-        ) {
+        if (grid.getEditorLock().isActive() && !grid.getEditorLock().commitCurrentEdit()) {
           return;
         }
 
@@ -899,28 +896,33 @@
               return;
             }
           } else if (modalType === "edit") {
-            // Update existing item in grid data
-            let isChanged = false;
-            for (let key in formData) {
-              if (formData[key] !== originalData[key]) {
-                isChanged = true;
-                break;
-              }
-            }
+			if(activeCell = null){
+				alert("row없ㅇㅁ");
+			} else {
+				// Update existing item in grid data
+	            let isChanged = false;
+	            for (let key in formData) {
+	              if (formData[key] !== originalData[key]) {
+	                isChanged = true;
+	                break;
+	              }
+	            }
 
-            if (isChanged) {
-              formData[unqId] = originalData[unqId];
-              //dataView.updateItem(originalData[unqId], formData);
-              if(confirm("Do you want to modify?") == true){
-              updateList(JSON.stringify(formData));
-              }
-            } else {
-              alert("No changes detected.");
-              return;
-            }
-          }
-          grid.render();
-          modalElement.hide(); // Hide the modal after saving\
+	            if (isChanged) {
+	              formData[unqId] = originalData[unqId];
+	              //dataView.updateItem(originalData[unqId], formData);
+	              if(confirm("Do you want to modify?") == true){
+	              updateList(JSON.stringify(formData));
+	              }
+	            } else {
+	              alert("No changes detected.");
+	              return;
+	            }
+	          }
+	          grid.render();
+	          modalElement.hide(); // Hide the modal after saving\
+			}
+			
         }
 
         // Close button logic

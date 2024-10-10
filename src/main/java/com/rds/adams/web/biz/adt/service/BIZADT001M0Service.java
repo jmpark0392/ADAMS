@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.rds.adams.web.biz.adt.dao.BIZADT001M0DAO;
 import com.rds.adams.web.biz.adt.dto.BIZADT001M0P0DTO;
-import com.rds.adams.web.biz.adt.dto.BIZADT001M0P1DTO;
 import com.rds.adams.web.biz.adt.dto.BIZADT001M0R0DTO;
+import com.rds.adams.web.core.utils.dto.ExecuteDTO;
 
 @Service
 public class BIZADT001M0Service {
@@ -21,7 +21,7 @@ public class BIZADT001M0Service {
 		return bIZADT001M0DAO.selectList(inVo);
 	}
 	
-	public void executeList(BIZADT001M0P1DTO inVo) {
+	public void executeList(ExecuteDTO inVo) {
 		bIZADT001M0DAO.deleteList(inVo);
 		bIZADT001M0DAO.insertList(inVo);
 	}

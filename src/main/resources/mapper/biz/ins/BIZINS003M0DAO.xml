@@ -83,7 +83,7 @@
 		     , GETDATE()                AS REG_DT
 		     , '00002'                  AS UPD_USRID
 		     , GETDATE()                AS UPD_DT
-		  FROM TB_R3S_OUTPUT_100_RST_LST 
+		  FROM TB_R3S_OUTPUT_CSM_RST_LST 
 		  WHERE STD_YYMM = '202406'
 		  GROUP BY STD_YYMM, PORTPOLIO   
     </insert>    

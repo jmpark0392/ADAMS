@@ -40,8 +40,6 @@ public class BIZINS001M0P1DTO {
 	private int estmIvsgExpAmt;  /* 예상손해조사금액 */
 	private int atsAssmUpdAmt;  /* 계리적가정변경금액 */
 	private int exrtEfftAmt;  /* 환율효과금액 */
-	private int entmAmt;  /* 기말금액 */
-
-	
+	private int entmAmt;  /* 기말금액 */	
 }
 
