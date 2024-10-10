@@ -7,6 +7,9 @@
     <!-- 로그인 처리를 위한 resultMap -->
     <resultMap id="login" type="com.rds.adams.web.common.login.dto.AdamsLoginDTO">
         <result property="csNo" column="csNo"/>
+        <result property="compNoDvCd" column="compNoDvCd"/>
+        <result property="compNo" column="compNo"/>
+        <result property="compNm" column="compNm"/>
         <result property="usrDvCd" column="usrDvCd"/>
         <result property="usrId" column="usrId"/>
         <result property="usrNm" column="usrNm"/>
@@ -21,6 +24,7 @@
         <result property="passwordUpdDtm" column="passwordUpdDtm"/>
         <result property="passwordInitYn" column="passwordInitYn"/>
         <result property="srvcCd" column="srvcCd"/>
+        <result property="srvcNm" column="srvcNm"/>
     </resultMap>
     
     <!-- 메뉴 처리를 위한 resultMap -->
@@ -56,6 +60,9 @@
     <select id="actionLogin" resultMap="login">
         SELECT
                A.CS_NO             AS csNo
+             , B.COMP_NO_DV_CD     AS compNoDvCd     /* 회사번호구분코드 */
+             , B.COMP_NO           AS compNo         /* 회사번호 */
+             , B.COMP_NM           AS compNm         /* 회사명 */
              , A.USR_DV_CD         AS usrDvCd
              , A.USR_ID            AS usrId
              , A.USR_NM            AS usrNm
@@ -70,10 +77,15 @@
              , A.USE_END_DTM       AS useEndDtm
              , A.PASSWORD_UPD_DTM  AS passwordUpdDtm
              , A.PASSWORD_INIT_YN  AS passwordInitYn
-             , B.SRVC_CD           AS srvcCd
+             , C.SRVC_CD           AS srvcCd
+             , D.SRVC_NM           AS srvcNm
           FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
-          LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] B
+          LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_MNG_LST] B
                        ON A.CS_NO = B.CS_NO
+          LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] C
+                       ON A.CS_NO = C.CS_NO
+          LEFT OUTER JOIN RDSDB.[dbo].[TB_SVRC_INF] D
+                       ON C.SRVC_CD = D.SRVC_CD
          WHERE 1=1
            AND A.USR_ID = #{usrId}
            AND 1        = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)

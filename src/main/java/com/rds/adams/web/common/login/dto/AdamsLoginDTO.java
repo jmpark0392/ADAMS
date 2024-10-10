@@ -34,6 +34,15 @@ public class AdamsLoginDTO implements Serializable{
     @Schema(description = "고객사번호")
     private String csNo;
 
+    @Schema(description = "회사번호구분코드")
+    private String compNoDvCd;
+
+    @Schema(description = "회사번호")
+    private String compNo;
+
+    @Schema(description = "회사명")
+    private String compNm;
+
     @Schema(description = "사용자구분코드")
     private String usrDvCd;
 
@@ -76,6 +85,9 @@ public class AdamsLoginDTO implements Serializable{
 
     @Schema(description = "서비스코드")
     private String srvcCd;
+
+    @Schema(description = "서비스명")
+    private String srvcNm;
 
     @Schema(description = "접속IP")
     private String accIp;
