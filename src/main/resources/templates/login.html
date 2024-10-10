@@ -96,9 +96,7 @@
 		     	// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
 		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
 		        var csrfHeader = "X-CSRF-Token";
-		        
-		        console.log("csrfToken:"+ csrfToken);
-				
+		        				
 				$.ajax({
 					type: "post",
 					url: "/auth/adamsLogin",
