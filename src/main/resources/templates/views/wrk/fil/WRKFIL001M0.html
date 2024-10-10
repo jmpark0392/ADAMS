@@ -224,8 +224,8 @@
         gf_Transaction(option, fn_callback);
       }
     </script>
-	<script src="js/utils.js"></script>
-	<script>
+    <script src="js/utils.js"></script>
+    <script>
       $(document).ready(function () {
         console.log("Document is ready.");
         //화면 접속시 바로 조회
@@ -281,7 +281,7 @@
           validator: createValidator,
           width: 10,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
+          cssClass: "slick-column-center",
         },
         {
           id: "fileNm",
@@ -295,7 +295,7 @@
               noWhitespaceValidator,
             ]),
           width: 170,
-          headerCssClass: "slick-header-columns"
+          headerCssClass: "slick-header-columns",
         },
         {
           id: "dbId",
@@ -305,7 +305,7 @@
           editor: Slick.Editors.Text,
           validator: createValidator,
           width: 60,
-          headerCssClass: "slick-header-columns"
+          headerCssClass: "slick-header-columns",
         },
         {
           id: "tblId",
@@ -319,7 +319,7 @@
               noWhitespaceValidator,
             ]),
           width: 120,
-          headerCssClass: "slick-header-columns"
+          headerCssClass: "slick-header-columns",
         },
         {
           id: "fileDsc",
@@ -329,7 +329,7 @@
           editor: Slick.Editors.Text,
           validator: createValidator,
           width: 120,
-          headerCssClass: "slick-header-columns"
+          headerCssClass: "slick-header-columns",
         },
         {
           id: "fileDelYn",
@@ -344,7 +344,7 @@
           },
           width: 60,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
+          cssClass: "slick-column-center",
         },
         {
           id: "uiSelYn",
@@ -359,7 +359,7 @@
           },
           width: 60,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
+          cssClass: "slick-column-center",
         },
         {
           id: "useYn",
@@ -374,7 +374,7 @@
           },
           width: 50,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
+          cssClass: "slick-column-center",
         },
         {
           id: "vrfUseYn",
@@ -389,7 +389,7 @@
           },
           width: 70,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
+          cssClass: "slick-column-center",
         },
         {
           id: "frstRegEmpNo",
@@ -399,7 +399,7 @@
           editor: Slick.Editors.Text,
           width: 60,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
+          cssClass: "slick-column-center",
         },
         {
           id: "frstRegDtm",
@@ -409,7 +409,7 @@
           editor: Slick.Editors.Text,
           width: 80,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
+          cssClass: "slick-column-center",
         },
       ];
 
@@ -677,9 +677,23 @@
         if (modalTitleElem) {
           if (modalType === "create") {
             modalTitleElem.textContent = "NEW";
+            const existingDeleteButton = document.querySelector(
+              ".modal-footer .btn-danger"
+            );
+            if (existingDeleteButton) {
+              existingDeleteButton.remove();
+            }
             // modalTitleElem.className = "mb-3";
           } else if (modalType === "edit") {
             modalTitleElem.textContent = "EDIT";
+
+            const existingDeleteButton = document.querySelector(
+              ".modal-footer .btn-danger"
+            );
+            if (existingDeleteButton) {
+              existingDeleteButton.remove();
+            }
+
             const delBtn = document.createElement("a");
             delBtn.href = "#";
             delBtn.className = "btn btn-danger delete";
@@ -692,8 +706,29 @@
             // getelemtn by class name
             const divColAuto = document.getElementsByClassName("col-auto me-0");
 
-            divColAuto[0].appendChild(delBtn);
+            if (divColAuto.length > 0) {
+              divColAuto[0].appendChild(delBtn);
+            } else {
+              console.error("divColAuto is not found.");
+            }
+
+            if (existingDeleteButton) {
+              // we remove the existing click event listener
+              existingDeleteButton.onclick = null;
+              existingDeleteButton.onclick = function () {
+                if (confirm("Do you want to delete?") == true) {
+                  // delete the selected row
+                  dataView.deleteItem(dataContext[unqId]);
+                  fn_deleteCs(JSON.stringify(dataContext));
+                  location.reload(true);
+                }
+              };
+            }
+
+            // divColAuto[0].appendChild(delBtn);
             originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
+          } else {
+            console.error("Invalid modal type.");
           }
         } else {
           console.error("error while loading the modal title: ");
@@ -796,17 +831,6 @@
 
         modalElement.show();
 
-        // delete button logic for the edit popup that will delte the seleted row
-        const deleteBtn = document.querySelector(".modal-footer .btn-danger");
-        deleteBtn.addEventListener("click", function () {
-          if (confirm("Do you want to delete?") == true) {
-            // delete the selected row
-            dataView.deleteItem(dataContext[unqId]);
-            fn_deleteCs(JSON.stringify(dataContext));
-            location.reload(true);
-          }
-        });
-
         // Save button logic
         const saveBtn = document.querySelector(".modal-footer .btn-primary");
         saveBtn.removeEventListener("click", saveHandler);
@@ -893,5 +917,5 @@
         }
       }
     </script>
-</th:block>
+  </th:block>
 </html>

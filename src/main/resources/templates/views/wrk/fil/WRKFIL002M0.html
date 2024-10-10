@@ -616,9 +616,23 @@
 	            if(modalTitleElem){
 					if (modalType === "create") {
 					modalTitleElem.textContent = "NEW";
+					const existingDeleteButton = document.querySelector(
+						".modal-footer .btn-danger"
+					);
+					if (existingDeleteButton) {
+						existingDeleteButton.remove();
+					}
 					// modalTitleElem.className = "mb-3";
 					} else if (modalType === "edit") {
 						modalTitleElem.textContent = "EDIT";
+
+						const existingDeleteButton = document.querySelector(
+							".modal-footer .btn-danger"
+						);
+						if (existingDeleteButton) {
+							existingDeleteButton.remove();
+						}
+
 						// here we are adding a delete button to the modal popup in the edit mode
 						const delBtn = document.createElement("a");
 						delBtn.href = "#";
@@ -632,7 +646,24 @@
 						// getelemtn by class name
 						const divColAuto = document.getElementsByClassName("col-auto me-0");
 
-						divColAuto[0].appendChild(delBtn);
+						if (divColAuto.length > 0) {
+							divColAuto[0].appendChild(delBtn);
+						} else {
+							console.error("divColAuto is not found.");
+						}
+
+						if (existingDeleteButton) {
+						// we remove the existing click event listener
+							existingDeleteButton.onclick = null;
+							existingDeleteButton.onclick = function () {
+								if (confirm("Do you want to delete?") == true) {
+								// delete the selected row
+								dataView.deleteItem(dataContext[unqId]);
+								fn_deleteCs(JSON.stringify(dataContext));
+								location.reload(true);
+								}
+							};
+						}
 						originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
 					} else {
 						console.error("error while loading the modal title: ");
@@ -640,6 +671,7 @@
 				} else {
 					console.error("error while loading the modal title: ");
 				}
+				
 				renewOptions(false);
 
 	            // Dynamically create form elements based on the columns that have editors
@@ -698,17 +730,6 @@
 	            }
 	
 	            modalElement.show();
-
-				// delete button logic for the edit popup that will delte the seleted row
-				const deleteBtn = document.querySelector(".modal-footer .btn-danger");
-				deleteBtn.addEventListener("click", function () {
-					if (confirm("Do you want to delete?") == true) {
-						// delete the selected row
-						dataView.deleteItem(dataContext[unqId]);
-						fn_deleteCs(JSON.stringify(dataContext));
-						location.reload(true);
-					}
-        		});
 	
 	            renewOptions(false);
 	
