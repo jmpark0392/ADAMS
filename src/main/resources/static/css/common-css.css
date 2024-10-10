@@ -20,17 +20,17 @@ a.nav-link.active {
 }
 .slick-header-columns {
   /* flex-grow: 1 if we want to align sort icons to the right */
-	--alpine-header-name-flex-grow: 1;
-	font-weight: bold;
-	text-align: center;
+  --alpine-header-name-flex-grow: 1;
+  font-weight: bold;
+  text-align: center;
 }
 
 .slick-column-center {
-	text-align: center;
+  text-align: center;
 }
 
 .slick-column-right {
-	text-align: right;
+  text-align: right;
 }
 
 .slick-cell.copied {
@@ -53,6 +53,14 @@ a.nav-link.active {
   /* margin-top: 20px; */
   /* width: 1300px; */
   height: 500px;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+#divMyGridBackup {
+  background: white;
+  outline: 0;
+  /* height: 200px; */
   width: 100%;
   overflow-y: scroll;
 }

@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rds.adams.web.common.AdamsConstant;
-import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL001M0P0DTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL001M0P1DTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL001M0R0DTO;

@@ -822,11 +822,10 @@
 
         // Save button logic
         const saveBtn = document.querySelector(".modal-footer .btn-primary");
-        saveBtn.removeEventListener("click", saveHandler);
-        saveBtn.addEventListener("click", saveHandler);
+        saveBtn.textContent =
+          modalType === "create" ? "Create" : "Save changes";
 
-        // saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
-        function saveHandler() {
+        saveBtn.onclick = function saveHandler() {
           console.log("save테스트");
           const formData = {};
 
@@ -891,7 +890,7 @@
 
           grid.render();
           modalElement.hide(); // Hide the modal after saving\
-        }
+        };
 
         // Close button logic
         const closeBtn = document.querySelector(".modal-footer .btn-link");

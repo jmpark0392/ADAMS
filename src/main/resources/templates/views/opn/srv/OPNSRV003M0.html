@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html
+  lang="ko"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <th:block layout:fragment="content">
+    <div class="page">
+      <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+      <div class="page-wrapper" id="page-wrapper">
+        <!-- Main Container -->
+        <div class="container" id="container">
+          <h2>[[${menuNm}]]</h2>
+          <div class="ptag-container">
+            <!-- <span><a href="#"> Home ></a></span> -->
+            <span>[[${navigator}]]</span>
+          </div>
+          <!-- Form Container -->
+          <div class="form-container">
+            <div class="form-box">
+              <form
+                id="filter-form"
+                name="form"
+                method="post"
+                action="/WRKFIL001M0SelectList"
+                onsubmit="return false;"
+              >
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <label class="form-label">Month: </label>
+                    <select
+                      name="user[month]"
+                      class="form-select select-month-year p-1"
+                    >
+                      <option value="">Month</option>
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
+                      <option value="4">April</option>
+                      <option value="5">May</option>
+                      <option value="6">June</option>
+                      <option value="7">July</option>
+                      <option value="8">August</option>
+                      <option selected="selected" value="9">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                    </select>
+                  </div>
+                  <!-- <div class="col-3"></div> -->
+                  <div class="col-auto">
+                    <label class="form-label">Year: </label>
+                    <select
+                      name="user[year]"
+                      class="form-select select-month-year p-1"
+                    >
+                      <option value="">Year</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                      <option value="2022">2022</option>
+                      <option value="2023">2023</option>
+                      <option selected="selected" value="2024">2024</option>
+                      <option value="2025">2025</option>
+                      <option value="2026">2026</option>
+                    </select>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-label">Company Code / Name: </label>
+                    <!-- <div class="input-group"> -->
+                    <input
+                      id="inpSearchTxt"
+                      name="inpSearchTxt"
+                      type="text"
+                      class="form-control select-month-year p-1"
+                      placeholder="File Name/Table ID"
+                    />
+                    <!-- </div> -->
+                  </div>
+                  <div class="col-auto">
+                    <button
+                      type="button"
+                      class="btn btn-primary search-button p-1"
+                      id="searchButton"
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+                <div class="col text-end align-items-center me-2">
+                  <button
+                    type="button"
+                    class="btn btn-lime"
+                    style="padding: 4px 10px; color: white; font-size: 13px"
+                    id="downloadExcel"
+                  >
+                    Download
+                  </button>
+                  <!-- <button
+                    name="btnExcelDown"
+                    type="button"
+                    class="btn btn-lime"
+                    style="padding: 4px 10px; color: white; font-size: 13px"
+                    id="downloadExcel"
+                    onclick="getExcelList()"
+                    data-test="edit-button"
+                  >
+                    Download
+                  </button> -->
+                  <!-- <button
+                    name="btnSave"
+                    type="button"
+                    class="btn btn-secondary"
+                    style="padding: 4px 10px; color: white; font-size: 13px"
+                    onclick="setSaveUploadFile()"
+                    data-test="edit-button"
+                  >
+                    Save
+                  </button> -->
+                </div>
+                <!-- Extra space for folowing the form box-->
+                <!-- <div style="padding-bottom: 1px"></div> -->
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Page content -->
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-12 mb-3">
+                <div
+                  class="card card-md d-flex flex-column h-100"
+                  id="divMyGridBackup"
+                >
+                  <div class="card-body text-center flex-grow-1">
+                    <table
+                      class="table"
+                      align="center"
+                      style="height: 120px"
+                    ></table>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 mb-3">
+                <div class="card card-md">
+                  <div class="container my-5">
+                    <canvas id="mixedChart" width="300" height="150"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          let initlaizedChart;
+          //  we have to wait for the DOM to load
+          document.addEventListener("DOMContentLoaded", function () {
+            var grid;
+            var dataView;
+            var data;
+            var unqId = "seqNo";
+            var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
+            var check_cols = [unqId, "fileNm", "tblId"];
+            var columns = [
+              {
+                id: unqId,
+                name: "Seq",
+                field: unqId,
+                editor: Slick.Editors.Text,
+                validator: createValidator,
+                width: 10,
+                headerCssClass: "slick-header-columns",
+                cssClass: "slick-column-center",
+              },
+              {
+                id: "fileNm",
+                name: "File Name",
+                field: "fileNm",
+                sortable: true,
+                editor: Slick.Editors.Text,
+                validator: (value, args) =>
+                  complexValidator(value, args, [
+                    createValidator,
+                    noWhitespaceValidator,
+                  ]),
+                width: 170,
+                headerCssClass: "slick-header-columns",
+              },
+              {
+                id: "dbId",
+                name: "Database ID",
+                field: "dbId",
+                sortable: true,
+                editor: Slick.Editors.Text,
+                validator: createValidator,
+                width: 60,
+                headerCssClass: "slick-header-columns",
+              },
+              {
+                id: "tblId",
+                name: "Table ID",
+                field: "tblId",
+                sortable: true,
+                editor: Slick.Editors.Text,
+                validator: (value, args) =>
+                  complexValidator(value, args, [
+                    createValidator,
+                    noWhitespaceValidator,
+                  ]),
+                width: 120,
+                headerCssClass: "slick-header-columns",
+              },
+              {
+                id: "fileDsc",
+                name: "File Info",
+                field: "fileDsc",
+                sortable: true,
+                editor: Slick.Editors.Text,
+                validator: createValidator,
+                width: 120,
+                headerCssClass: "slick-header-columns",
+              },
+              {
+                id: "fileDelYn",
+                name: "File Del YN",
+                field: "fileDelYn",
+                sortable: true,
+                editor: function (args) {
+                  return new ComboBoxEditor(args, [
+                    { key: "Y", value: "Y" },
+                    { key: "N", value: "N" },
+                  ]);
+                },
+                width: 60,
+                headerCssClass: "slick-header-columns",
+                cssClass: "slick-column-center",
+              },
+              {
+                id: "uiSelYn",
+                name: "UI view YN",
+                field: "uiSelYn",
+                sortable: true,
+                editor: function (args) {
+                  return new ComboBoxEditor(args, [
+                    { key: "Y", value: "Y" },
+                    { key: "N", value: "N" },
+                  ]);
+                },
+                width: 60,
+                headerCssClass: "slick-header-columns",
+                cssClass: "slick-column-center",
+              },
+              {
+                id: "useYn",
+                name: "Use YN",
+                field: "useYn",
+                sortable: true,
+                editor: function (args) {
+                  return new ComboBoxEditor(args, [
+                    { key: "Y", value: "Y" },
+                    { key: "N", value: "N" },
+                  ]);
+                },
+                width: 50,
+                headerCssClass: "slick-header-columns",
+                cssClass: "slick-column-center",
+              },
+              {
+                id: "vrfUseYn",
+                name: "Validation YN",
+                field: "vrfUseYn",
+                sortable: true,
+                editor: function (args) {
+                  return new ComboBoxEditor(args, [
+                    { key: "Y", value: "Y" },
+                    { key: "N", value: "N" },
+                  ]);
+                },
+                width: 70,
+                headerCssClass: "slick-header-columns",
+                cssClass: "slick-column-center",
+              },
+              {
+                id: "frstRegEmpNo",
+                name: "Registrant ID",
+                field: "frstRegEmpNo",
+                sortable: true,
+                editor: Slick.Editors.Text,
+                width: 60,
+                headerCssClass: "slick-header-columns",
+                cssClass: "slick-column-center",
+              },
+              {
+                id: "frstRegDtm",
+                name: "Registration Date",
+                field: "frstRegDtm",
+                sortable: true,
+                editor: Slick.Editors.Text,
+                width: 80,
+                headerCssClass: "slick-header-columns",
+                cssClass: "slick-column-center",
+              },
+            ];
+
+            var options = {
+              enableCellNavigation: true,
+              enableColumnReorder: false,
+              forceFitColumns: true,
+              multiColumnSort: true,
+              numberedMultiColumnSort: true,
+              tristateMultiColumnSort: true,
+              sortColNumberInSeparateSpan: true,
+              enableAutoSizeColumns: true,
+              editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
+              enableAddRow: true,
+              asyncEditorLoading: false,
+              autoEdit: false,
+              autoEditNewRow: false,
+              //enableAutoResize: true
+            };
+
+            var newRowIds = 0;
+
+            var pluginOptions = {
+              clipboardCommandHandler: function (editCommand) {
+                undoRedoBuffer.queueAndExecuteCommand.call(
+                  undoRedoBuffer,
+                  editCommand
+                );
+              },
+              readOnlyMode: false,
+              includeHeaderWhenCopying: false,
+              newRowCreator: function (count) {
+                for (var i = 0; i < count; i++) {
+                  var item = {
+                    id: "newRow_" + newRowIds++,
+                  };
+                  grid.getData().addItem(item);
+                }
+              },
+            };
+
+            function addSlickGridSomeStyling() {
+              const style = document.createElement("style");
+              style.innerHTML = `
+             .slick-header-columns {
+               font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+               font-size: 13px;
+               font-weight: bold;
+             }
+             .slick-cell {
+               font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+               font-size: 13px;
+             }
+           `;
+              document.head.appendChild(style);
+            }
+
+            function main() {
+              addSlickGridSomeStyling();
+              // 그리드 초기화 및 데이터 로드
+              console.log("Initializing SlickGrid...");
+              //  data = getFile(
+              //    (input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
+              getCsList(
+                (input = JSON.stringify({
+                  searchTxt: $("#inpSearchTxt").val(),
+                }))
+              );
+            }
+
+            function fn_callback(result) {
+              //console.log("fn_callback : " + result.id);
+              if (result.resultCd == "S") {
+                switch (result.id) {
+                  case "SelectList":
+                    fn_setGrid(result.data);
+
+                    break;
+                  case "insertList":
+                    main();
+
+                    break;
+                  case "updateList":
+                    main();
+
+                    break;
+                }
+              } else if (result.resultCd == "E") {
+              } else {
+                console.log("fn_callback result : ", result);
+              }
+            }
+            function fn_setGrid(data) {
+              dataView = new Slick.Data.DataView();
+              grid = new Slick.Grid(
+                "#divMyGridBackup",
+                dataView,
+                columns,
+                options
+              );
+
+              // Make the grid respond to DataView change events.
+              dataView.onRowCountChanged.subscribe(function (e, args) {
+                grid.updateRowCount();
+                grid.render();
+              });
+
+              dataView.onRowsChanged.subscribe(function (e, args) {
+                grid.invalidate();
+                grid.render();
+              });
+
+              // setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
+              dataView.setItems(data, unqId);
+
+              // when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
+              grid.onBeforeSort.subscribe(function (e, args) {
+                return true;
+              });
+
+              // 정렬
+              grid.onSort.subscribe(function (e, args) {
+                var cols = args.sortCols;
+
+                data.sort(function (dataRow1, dataRow2) {
+                  for (var i = 0, l = cols.length; i < l; i++) {
+                    var field = cols[i].sortCol.field;
+                    var sign = cols[i].sortAsc ? 1 : -1;
+                    var value1 = dataRow1[field],
+                      value2 = dataRow2[field];
+                    var result =
+                      (value1 == value2 ? 0 : value1 > value2 ? 1 : -1) * sign;
+                    if (result != 0) {
+                      return result;
+                    }
+                  }
+                  return 0;
+                });
+
+                grid.render();
+              });
+
+              grid.setSelectionModel(new Slick.CellSelectionModel());
+              grid.registerPlugin(new Slick.AutoTooltips());
+
+              // set keyboard focus on the grid
+              //grid.getCanvasNode().focus();
+              grid.registerPlugin(
+                new Slick.CellExternalCopyManager(pluginOptions)
+              );
+
+              grid.onAddNewRow.subscribe(function (e, args) {
+                var newItem = args.item;
+                var column = args.column;
+                dataView.beginUpdate();
+                dataView.setItems(data);
+                dataView.endUpdate();
+                grid.updateRowCount();
+                grid.render();
+              });
+
+              grid.onBeforeEditCell.subscribe(function (e, args) {
+                console.log("onBeforeEditCell");
+              });
+
+              grid.onCellChange.subscribe(function (e, args) {
+                dataView.beginUpdate();
+                dataView.setItems(data);
+                dataView.endUpdate();
+                grid.updateRowCount();
+                grid.render();
+              });
+
+              grid.onValidationError.subscribe(function (e, args) {
+                // handle validation errors originating from the CompositeEditor
+                if (args.validationResults) {
+                  let errorMsg = args.validationResults.msg || "";
+                  if (
+                    args.editor &&
+                    args.editor instanceof Slick.CompositeEditor
+                  ) {
+                    if (args.validationResults.errors) {
+                      errorMsg += "\n";
+                      args.validationResults.errors.forEach(function (
+                        error,
+                        errorIndex
+                      ) {
+                        const columnName = error.editor.args.column.id;
+                        errorMsg += `${columnName.toUpperCase()}: ${error.msg}`;
+                      });
+                    }
+                    console.log(errorMsg);
+                  }
+                } else {
+                  alert(errorMessages);
+                }
+              });
+
+              grid.setActiveCell(0, 0);
+              console.log("SlickGrid initialized.");
+            }
+
+            // making a chart using chrt.js library will start here
+            const ctx = document.getElementById("mixedChart").getContext("2d");
+
+            // const mixedChart = new Chart(ctx, config);
+            initlaizedChart = new Chart(ctx, {
+              data: {
+                labels: [],
+                datasets: [],
+              },
+              options: {
+                responsive: true,
+                interaction: {
+                  mode: "index",
+                  intersect: false,
+                },
+                stacked: false,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Usage and Price Comparison",
+                    font: {
+                      size: 18,
+                      textAlign: "flex-start",
+                    },
+                  },
+                  tooltip: {
+                    enabled: true,
+                    mode: "index",
+                    intersect: false,
+                  },
+                  legend: {
+                    position: "top",
+                  },
+                },
+                scales: {
+                  // Primary y-axis for Sales (Bar Charts)
+                  y: {
+                    type: "linear",
+                    display: true,
+                    position: "left",
+                    title: {
+                      display: true,
+                      text: "Usage Option (Units)",
+                      font: {
+                        size: 14,
+                      },
+                      // align: "start", // we align the title to the start of the axis
+                    },
+                    ticks: {
+                      beginAtZero: true,
+                      min: 0,
+                      max: 150,
+                    },
+                  },
+                  // Secondary y-axis for Prices (Line Charts)
+                  y1: {
+                    type: "linear",
+                    display: true,
+                    position: "right",
+                    grid: {
+                      drawOnChartArea: false, // Only want the grid lines for one axis
+                    },
+                    title: {
+                      display: true,
+                      text: "Price ($)",
+                      font: {
+                        size: 14,
+                      },
+                    },
+                    ticks: {
+                      beginAtZero: false,
+                    },
+                  },
+                },
+              },
+            });
+
+            // Function to update the chart with new data
+            function updateChart(data) {
+              // Extract the month label from the ymd data;
+              const labels = data.map((item) => item.ymd);
+
+              // column chart data
+              const bsrvcVal = data.map((item) => item.bsrvcVal || 0);
+              const psrvcVal = data.map((item) => item.psrvcVal || 0);
+
+              // line chart data
+              const totalCost = data.map((item) => item.srvcCostSum || null);
+
+              // Method to filter total cost from the first date of the month until today
+              const filterTotalCostUntilToday = (data) => {
+                const today = new Date();
+                const firstDateOfMonth = new Date(
+                  today.getFullYear(),
+                  today.getMonth(),
+                  1
+                );
+
+                return data
+                  .filter((item) => {
+                    const itemDate = new Date(item.ymd);
+                    return itemDate >= firstDateOfMonth && itemDate <= today;
+                  })
+                  .map((item) => item.srvcCost);
+              };
+
+              const filteredTotalCost = filterTotalCostUntilToday(data);
+
+              const expectedCost = data.map(
+                (item) => item.srvcCostExpSum || null
+              );
+
+              // Update the chart data
+              initlaizedChart.data.labels = labels;
+              initlaizedChart.data.datasets = [
+                {
+                  type: "bar",
+                  label: "Basic Service",
+                  data: bsrvcVal,
+                  backgroundColor: "rgba(255, 99, 132, 0.2)",
+                  borderColor: "rgba(255, 99, 132, 1)",
+                  yAxisID: "y",
+                  orderWidth: 1,
+                  barThickness: "flex",
+                  maxBarThickness: 50,
+                },
+                {
+                  type: "bar",
+                  label: "Premium Service",
+                  data: psrvcVal,
+                  backgroundColor: "rgba(54, 162, 235, 0.2)",
+                  borderColor: "rgba(54, 162, 235, 1)",
+                  yAxisID: "y",
+                  orderWidth: 1,
+                  barThickness: "flex",
+                  maxBarThickness: 50,
+                },
+                {
+                  type: "line",
+                  label: "Total Cost",
+                  data: totalCost,
+                  fill: false,
+                  borderColor: "rgba(75, 192, 192, 1)",
+                  yAxisID: "y1",
+                  orderWidth: 2,
+                  spanGaps: true,
+                },
+                {
+                  type: "line",
+                  label: "Expected Cost",
+                  data: expectedCost,
+                  fill: false,
+                  borderColor: "rgba(255, 206, 86, 1)",
+                  yAxisID: "y1",
+                  orderWidth: 2,
+                  spanGaps: true,
+                },
+              ];
+
+              // Update the chart
+              initlaizedChart.update();
+            }
+            // search function to make a fetch call to the server
+            function searchFunction() {
+              // Get the selected month and year values
+              var month = $('select[name="user[month]"]').val();
+              var year = $('select[name="user[year]"]').val();
+
+              // Validate that both month and year are selected
+              if (!month || !year) {
+                alert("Please select both month and year.");
+                return;
+              }
+
+              // Pad the month with a leading zero if necessary
+              if (month.length === 1) {
+                month = "0" + month;
+              }
+
+              // Send an AJAX GET request to the endpoint
+              $.ajax({
+                type: "GET",
+                url: "/ADMSRV002M0GetUserDataAndCost",
+                data: {
+                  month: month,
+                  year: year,
+                },
+                dataType: "json",
+                success: function (data) {
+                  console.log("Data received:", data);
+                  // we handle the data here
+                  // update the chart wwth the data
+                  updateChart(data);
+                  // if (data && data.length > 0) {
+                  //   let totalCostUsage = data[0].maxSrvcCostSum;
+                  //   // let totalCostUsage = data[0].reduce(
+                  //   //   (acc, item) => acc + item.srvcCostSum
+                  //   // );
+                  //   // map((item) => item.maxSrvcCostSum);
+                  //   let estimatedCostUsage = data[0].maxSrvcCostExpSum;
+                  //   // let estimatedUsage = data[0].reduce(
+                  //   //   (acc, item) => acc + item.maxSrvcCostExpSum
+                  //   // );
+                  //   // .map((item) => item.maxSrvcCostExpSum);
+                  //   console.log("totalCostUsage", totalCostUsage);
+                  //   console.log("estimatedUsage", estimatedUsage);
+                  //   // Display the currently selected option data
+                  //   if (estimatedUsage > 0 || totalCostUsage > 0) {
+                  //     $("#estimatedUsage")
+                  //       .text(
+                  //         "+ " + estimatedCostUsage.toLocaleString() + " (KRW)"
+                  //       )
+                  //       .css("font-weight", "bold");
+                  //     $("#totalUsage")
+                  //       .text("+ " + totalCostUsage.toLocaleString() + " (KRW)")
+                  //       .css("font-weight", "bold");
+                  //   } else {
+                  //     // No positive values found
+                  //     $("#estimatedUsage").text("0 (KRW)");
+                  //     $("#estimatedUsage").css("font-weight", "bold");
+                  //     $("#totalUsage").text("0 (KRW)");
+                  //     $("#totalUsage").css("font-weight", "bold");
+                  //   }
+                  // } else if (data && data.length === 0) {
+                  //   // No subscription info found
+                  //   $("#estimatedUsage").text("0 (KRW)");
+                  //   $("#estimatedUsage").css("font-weight", "bold");
+                  //   $("#totalUsage").text("0 (KRW)");
+                  //   $("#totalUsage").css("font-weight", "bold");
+                  // }
+                },
+                error: function (xhr, status, error) {
+                  console.error("Error fetching data:", status, error);
+                },
+              });
+            }
+
+            // seafch button event listener
+            const searchButton = document.getElementById("searchButton");
+            searchButton.addEventListener("click", searchFunction);
+
+            // write me a fetch method to get the subscription list
+            function fetchSubscriptionList() {
+              $.ajax({
+                type: "GET",
+                url: "/selectSubscriptionList",
+                async: true,
+                dataType: "json",
+                success: function (data) {
+                  // $("#userNumber").text(data[0].optDtlsCd + " users");
+                  // $("#userNumber").css("font-weight", "bold");
+                  // console.log("Subscription list fetched successfully:", data);
+                  // // update the ui based on the user subscription
+                  // if (data[0].srvcCd === "01") {
+                  //   $("#serviceChange").text("Basic Service");
+                  // } else {
+                  //   $("#serviceChange").text("Premium Service");
+                  // }
+                },
+                error: function (xhr, status, error) {
+                  console.error(
+                    "Error fetching subscription list:",
+                    status,
+                    error
+                  );
+                },
+              });
+            }
+
+            // Function to fetch and display the user's current subscription info
+            function getUserSubscriptionInfo() {
+              $.ajax({
+                type: "GET",
+                url: "/getUserSubscriptionInfo",
+                async: true,
+                dataType: "json",
+                success: function (data) {
+                  console.log("User subscription info:", data);
+                  // update the ui based on the user subscription
+                  if (data && data.length > 0) {
+                    var subscription = data[0]; // Assuming we hvae only one subscrition
+                    // Display the currently selected option data
+                    if (subscription.optDtlsCd) {
+                      $("#selectedOption").text(
+                        "+ " + subscription.optDtlsCd + " Users"
+                      );
+                      // we make the text bold
+                      $("#selectedOption").css("font-weight", "bold");
+                    }
+                  } else {
+                    // No subscription info found
+                    $("#basicSubscriptionButton")
+                      .text("Use")
+                      .prop("disabled", false);
+                    $("#premiumSubscriptionButton")
+                      .text("Use")
+                      .prop("disabled", false);
+                  }
+                },
+                error: function (xhr, status, error) {
+                  console.error(
+                    "Error fetching user subscription info:",
+                    status,
+                    error
+                  );
+                },
+              });
+            }
+
+            $(document).ready(function () {
+              fetchSubscriptionList();
+              // we fetch the user subcrioption info
+              getUserSubscriptionInfo();
+              searchFunction();
+            });
+          });
+
+          // Download Excel functionality
+          document
+            .getElementById("downloadExcel")
+            .addEventListener("click", function () {
+              const currDate = getCurrentDateTime();
+              const fileName = "WRKFIL001_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
+              const sheetName = "파일관리"; // 시트 이름
+              const gridColumns = columns; // SlickGrid의 컬럼 배열
+              const gridData = dataView.getItems(); // SlickGrid의 데이터 배열
+              exportToExcel(fileName, sheetName, gridColumns, gridData);
+            });
+        </script>
+      </div>
+    </div>
+    <script src="js/utils.js"></script>
+  </th:block>
+</html>
