@@ -456,6 +456,8 @@
     	var vPostNo       = $("#postalCode").val();
     	var vAddrs        = $("#basicAddress").val();
     	var vDtlsAddrs    = $("#detailedAddress").val();
+    	var csrfToken     = $("meta[name='_csrf_token']").attr("content");
+    	var csrfHeader    = $("meta[name='_csrf_header']").attr("content");
     	
     	if ( isNull(vCountryNmEng) == "" ) {
             alert("Select Country Name.");
@@ -569,7 +571,7 @@
             , addrs       : vAddrs
             , dtlsAddrs   : vDtlsAddrs
         };
-
+    	
         $.ajax({
             type: "post",
             url: "/auth/adamsNewCs",
@@ -577,6 +579,10 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(requestData),
+            beforeSend: function (xhr) {
+	            // 헤더에 CSRF 토큰을 포함
+	            xhr.setRequestHeader(csrfHeader, csrfToken);
+	        },
             success: function (data) {
 
                 //alert("신청이 완료되었습니다. 관리자가 확인 후 연락을 드립니다.");
