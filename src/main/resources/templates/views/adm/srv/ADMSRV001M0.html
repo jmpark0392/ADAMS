@@ -362,6 +362,8 @@
                 var value =
                   option.optCd +
                   "|" +
+                  option.optDtlsCd + 
+                  "|" +
                   option.optDtlsNm +
                   "|" +
                   option.optDtlsDesc;
@@ -373,6 +375,7 @@
                     "</option>"
                 );
               });
+              console.log("Options added to select element: ", data);
             } else {
               $optionSelect.append(
                 '<option value="">No options available</option>'
@@ -386,6 +389,24 @@
             );
           },
         });
+      }
+      
+      // write me function that will retreive the selcted option value's correspodning  optDtlsCd and send it to other cetch call request param value
+      function getSelectedOptionValue() {
+        var selectedValue = $("#optionSelect").val();
+        if (selectedValue === "") {
+          alert("Please select an option to add.");
+          return;
+        }
+
+        // Split the selected value to get optCd and optDtlsCd
+        var codes = selectedValue.split("|");
+        var optCd = codes[0];
+        console.log("Console logging the selectedValue: ", selectedValue);
+        
+        console.log("Console logging the optionCode code: ", codes[0]);
+        var optDtlsCd = codes[1];
+        console.log("Console logging the optioDeatils code: ", codes[1]);
       }
 
       // Call fetchOptions when the page loads
@@ -486,6 +507,8 @@
         // Split the selected value to get optCd and optDtlsCd
         var codes = selectedValue.split("|");
         var optCd = codes[0];
+        console.log("Console logging the selectedValue: ", codes);
+        
         console.log("Console logging the optionCode code: ", codes[0]);
         var optDtlsCd = codes[1];
         console.log("Console logging the optioDeatils code: ", codes[1]);

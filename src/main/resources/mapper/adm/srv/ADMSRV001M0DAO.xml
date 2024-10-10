@@ -66,20 +66,26 @@
             VALUES (B.CS_NO, B.SRVC_CD, B.FNL_UPD_EMP_NO, B.FNL_UPD_DTM, B.FRST_REG_EMP_NO, B.FRST_REG_DTM);
     </update>
     <update id="mergeOptionDetails" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO">
+    <![CDATA[
+        DECLARE @optionAddChangeDate DATE = GETDATE();
+
         MERGE INTO TB_CS_SRVC_OPT_INF AS A
         USING (
             VALUES (
                 #{csNo},
                 #{optCd}, 
-                #{optDtlsCd}
+                #{optDtlsCd},
+                @optionAddChangeDate
             )
-        ) AS B (CS_NO, OPT_CD, OPT_DTLS_CD)
+        ) AS B (CS_NO, OPT_CD, OPT_DTLS_CD, FNL_UPD_DTM)
         ON (A.CS_NO = B.CS_NO)
         WHEN MATCHED THEN
             UPDATE SET
                 A.OPT_CD = B.OPT_CD,
-                A.OPT_DTLS_CD = B.OPT_DTLS_CD;
-            COMMIT;
+                A.OPT_DTLS_CD = B.OPT_DTLS_CD,
+                A.FNL_UPD_DTM = B.FNL_UPD_DTM;
+        COMMIT;
+    ]]>
     </update>
     <update id="updateCustomerServiceHistory" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO">
     <![CDATA[
