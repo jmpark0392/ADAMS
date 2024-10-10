@@ -167,24 +167,31 @@
           return date[1] + date[0];
         }
 
+        // method that clears the input field
         function clearInputField(inputValue) {
           let value  = inputValue.value;
           let cleanedValue = value.replace(/[_\/\s]/g, '');
           if(cleanedValue === "") {
             inputValue.value = "";
-          } else if (inputValue.value !== "") {
-            // if the user enters a value,flip the date format to YYYYMM and reutrn the value
-            flipDate(inputValue.value);
-          }
+          } 
         }
 
-        let clearedinptStartYm =  clearInputField(document.getElementById('inpStartStdYm'));
-        let clearedinptEndYm =  clearInputField(document.getElementById('inpEndStdYm'));
+        let clearedinptStartYm , clearedinptEndYm;
+        let inputStartStdYm = document.getElementById('inpStartStdYm')
+        let inputEndStdYm = document.getElementById('inpEndStdYm')
 
+        // we check based on whether the input value is inserted or not 
+        if(inputStartStdYm !== "" && inputEndStdYm !== "") {
+          clearedinptStartYm =  clearInputField(inputStartStdYm);
+          clearedinptEndYm =  clearInputField(inputEndStdYm); 
+          console.log("inputStartStdYm inside the loop", clearedinptStartYm);
+        } else {  
+          clearedinptStartYm = flipDate(inputStartStdYm.value);
+          clearedinptEndYm = flipDate(inputEndStdYm.value);
+          console.log("inputStartStdYminside the else ", clearedinptStartYm);
+        }
 
-        console.log("inputStartStdYm after sending outside the loop", inputStartStdYm);
-        console.log("inputEndStdYm after sending", inputEndStdYm);
-
+        // here we are removing the - from the date and joining the date after split
         const inputStartLoadDate = $("#datepicker-icon").val().split("-").join("");
         const inputEndLoadDate = $("#datepicker-icon-prepend").val().split("-").join("");
 
