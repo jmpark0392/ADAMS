@@ -35,8 +35,11 @@
                     <div class="mb-3">
                       <label class="form-label">Year / Month</label>
                       <div class="row">
-                        <div class="col-5">
-                          <select name="user[month]" class="form-select p-2">
+                        <div class="col-auto">
+                          <select
+                            name="user[month]"
+                            class="form-select select-month-year p-1"
+                          >
                             <option selected="selected" value="">Month</option>
                             <option value="1">January</option>
                             <option value="2">February</option>
@@ -46,17 +49,18 @@
                             <option value="6">June</option>
                             <option value="7">July</option>
                             <option value="8">August</option>
-                            <option selected="selected" value="9">
-                              September
-                            </option>
+                            <option value="9">September</option>
                             <option value="10">October</option>
                             <option value="11">November</option>
                             <option value="12">December</option>
                           </select>
                         </div>
                         <!-- <div class="col-3"></div> -->
-                        <div class="col-4">
-                          <select name="user[year]" class="form-select p-2">
+                        <div class="col-auto">
+                          <select
+                            name="user[year]"
+                            class="form-select select-month-year p-1"
+                          >
                             <option value="">Year</option>
                             <option value="2020">2020</option>
                             <option value="2021">2021</option>
@@ -69,34 +73,12 @@
                             <option value="2026">2026</option>
                           </select>
                         </div>
-                        <div class="col-1">
+                        <div class="col-auto">
                           <button
                             type="button"
-                            class="btn btn-primary"
+                            class="btn btn-primary .search-button-file p-1"
                             id="searchButton"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="icon"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              stroke-width="2"
-                              stroke="currentColor"
-                              fill="none"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            >
-                              <path
-                                stroke="none"
-                                d="M0 0h24v24H0z"
-                                fill="none"
-                              />
-                              <path
-                                d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"
-                              />
-                              <path d="M21 21l-6 -6" />
-                            </svg>
                             Search
                           </button>
                         </div>
@@ -108,24 +90,6 @@
             </div>
           </div>
         </div>
-        <!-- Page content -->
-        <!-- <input
-          id="inpSearchTxt"
-          name="inpSearchTxt"
-          type="text"
-          class="form-input-temp"
-          placeholder="Input Name"
-        />
-        <button
-          type="button"
-          class="btn btn-primary"
-          style="padding: 4px 10px; color: white; font-size: 13px"
-          onclick="main()"
-        >
-          Search
-        </button> -->
-        <!-- Page content -->
-
         <!-- Page content -->
         <div class="page-body">
           <div class="container-xl">
@@ -145,60 +109,14 @@
                         <!-- <strong>5</strong> Users -->
                       </li>
                       <li>
-                        <!-- Download SVG icon from http://tabler-icons.io/i/x -->
-                        <!-- <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          class="icon icon-tabler icons-tabler-outline icon-tabler-user-check"
-                        >
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                          <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
-                          <path d="M15 19l2 2l4 -4" />
-                        </svg> -->
                         <div class="mt-2 flex-container">
                           <span class="mb-2">User:&nbsp;</span>
                           <span id="userNumber"> </span>
                         </div>
                         <!-- - Basic User: 5 -->
                       </li>
-                      <li>
-                        <!-- Download SVG icon from http://tabler-icons.io/i/x -->
-                        <!-- <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          class="icon icon-tabler icons-tabler-filled icon-tabler-category"
-                        >
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path
-                            d="M10 3h-6a1 1 0 0 0 -1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1 -1v-6a1 1 0 0 0 -1 -1z"
-                          />
-                          <path
-                            d="M20 3h-6a1 1 0 0 0 -1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1 -1v-6a1 1 0 0 0 -1 -1z"
-                          />
-                          <path
-                            d="M10 13h-6a1 1 0 0 0 -1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1 -1v-6a1 1 0 0 0 -1 -1z"
-                          />
-                          <path
-                            d="M17 13a4 4 0 1 1 -3.995 4.2l-.005 -.2l.005 -.2a4 4 0 0 1 3.995 -3.8z"
-                          />
-                        </svg> -->
-                        <!-- - Basic Menu -->
-                      </li>
+                      <li></li>
                     </ul>
-                    <!-- <div class="text-center mt-4">
-                    <a href="#" class="btn w-100">Choose plan</a>
-                  </div> -->
                   </div>
                 </div>
               </div>
@@ -269,23 +187,6 @@
                           <span id="selectedOption"> </span>
                         </div>
                       </div>
-                      <!-- <div class="d-flex align-items-center">
-                        <select id="optionSelect" class="form-select  me-2 p-2">
-                          <option value="2021-01">Add User:</option>
-                        </select>
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                          onclick="searchFunction();"
-                        >
-                          Save
-                        </button>
-                      </div> -->
-                      <!-- </form> -->
-                      <!-- <div class="mt-2 flex-container">
-                      <span>Currently selected option:&nbsp;</span>
-                      <span id="selectedOption"> None</span>
-                    </div> -->
                     </ul>
                   </div>
                 </div>
@@ -493,8 +394,8 @@
                 dataType: "json",
                 success: function (data) {
                   console.log("Data received:", data);
-                  // Handle the data as needed
-                  // For example, update the chart with new data
+                  // we handle the data here
+                  // update the chart wwth the data
                   updateChart(data);
                   if (data && data.length > 0) {
                     let totalCostUsage = data[0].maxSrvcCostSum;
@@ -506,7 +407,6 @@
                     // let estimatedUsage = data[0].reduce(
                     //   (acc, item) => acc + item.maxSrvcCostExpSum
                     // );
-
                     // .map((item) => item.maxSrvcCostExpSum);
                     console.log("totalCostUsage", totalCostUsage);
                     console.log("estimatedUsage", estimatedUsage);
@@ -529,7 +429,6 @@
                     }
                   } else if (data && data.length === 0) {
                     // No subscription info found
-                    // No data found
                     $("#estimatedUsage").text("0 (KRW)");
                     $("#estimatedUsage").css("font-weight", "bold");
                     $("#totalUsage").text("0 (KRW)");
@@ -545,22 +444,6 @@
             // seafch button event listener
             const searchButton = document.getElementById("searchButton");
             searchButton.addEventListener("click", searchFunction);
-
-            // Function to update the summary cards
-
-            // // Get the context of the canvas element we want to select
-            // const ctx = document.getElementById("mixedChart").getContext("2d");
-
-            // @GetMapping("/selectSubscriptionList")
-            // public ResponseEntity<List<ADMSRV001M0R0DTO>> selectSubscriptionList(@RequestBody ADMSRV001M0P0DTO inVo) {
-            //     try {
-            //         List<ADMSRV001M0R0DTO> subscriptionList = admSrv001M0Service.selectSubscriptionList(inVo);
-            //         return ResponseEntity.ok(subscriptionList);
-            //     } catch (Exception e) {
-            //         e.printStackTrace();
-            //         return ResponseEntity.status(500).build();
-            //     }
-            // }
 
             // write me a fetch method to get the subscription list
             function fetchSubscriptionList() {
@@ -636,9 +519,6 @@
               getUserSubscriptionInfo();
               searchFunction();
             });
-
-            // Create and render the chart
-            // const mixedChart = new Chart(ctx, config);
           });
         </script>
       </div>
