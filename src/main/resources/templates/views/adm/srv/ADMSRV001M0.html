@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
   <!-- <div class="page"> -->
   <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
@@ -16,207 +15,166 @@
           <div class="container-xl">
             <div class="row row-cards">
               <!-- Basic Plan Card -->
-              <div class="col-sm-6 col-lg-3">
-                <div class="card card-md">
+              <div class="col-sm-12 col-lg-4">
+				<a class="card card-link card-link-pop h-100">
+                  <div class="card-header">
+                    <div class="w-100 text-center">
+                      <span class="fs-2">Basic Service</span>
+                    </div>
+                  </div>                
                   <div class="card-body text-center">
-                    <div class="text-uppercase text-secondary font-weight-medium">
-                      Basic
-                    </div>
-                    <div class="display-5 fw-bold my-3">120만원</div>
-                    <ul class="list-unstyled lh-lg">
-                      <li><strong>5</strong> Users</li>
-                      <li>
-                        <!-- Check Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24"
-                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                          stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M5 12l5 5l10 -10" />
-                        </svg>
-                        Sharing Tools
-                      </li>
-                      <li>
-                        <!-- X Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-danger" width="24" height="24"
-                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                          stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M18 6l-12 12" />
-                          <path d="M6 6l12 12" />
-                        </svg>
-                        Design Tools
-                      </li>
-                      <li>
-                        <!-- X Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-danger" width="24" height="24"
-                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                          stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M18 6l-12 12" />
-                          <path d="M6 6l12 12" />
-                        </svg>
-                        Private Messages
-                      </li>
-                      <li>
-                        <!-- X Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-danger" width="24" height="24"
-                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                          stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M18 6l-12 12" />
-                          <path d="M6 6l12 12" />
-                        </svg>
-                        Twitter API
-                      </li>
-                    </ul>
-                    <div class="text-center mt-4">
-                      <button class="btn btn-primary w-100" id="basicSubscriptionButton"
-                        onclick="useBasicSubscription()">Register</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="card card-md">
-                  <div class="card-body text-center">
-                    <div class="text-uppercase text-secondary font-weight-medium">
-                      Premium
-                    </div>
-                    <div class="display-5 fw-bold my-3">230만원</div>
-                    <ul class="list-unstyled lh-lg">
-                      <li><strong>20</strong> Users</li>
-                      <li>
-                        <!-- Check Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24"
-                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                          stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M5 12l5 5l10 -10" />
-                        </svg>
-                        Sharing Tools
-                      </li>
-                      <li>
-                        <!-- Check Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24"
-                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                          stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M5 12l5 5l10 -10" />
-                        </svg>
-                        Design Tools
-                      </li>
-                      <li>
-                        <!-- X Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-danger" width="24" height="24"
-                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                          stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M18 6l-12 12" />
-                          <path d="M6 6l12 12" />
-                        </svg>
-                        Private Messages
-                      </li>
-                      <li>
-                        <!-- X Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-danger" width="24" height="24"
-                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                          stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M18 6l-12 12" />
-                          <path d="M6 6l12 12" />
-                        </svg>
-                        Twitter API
-                      </li>
-                    </ul>
-                    <div class="text-center mt-4">
-                      <button class="btn btn-primary w-100" id="premiumSubscriptionButton"
-                        onclick="usePremiumSubscription()">Register</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="card card-md">
-                  <div class="card-body text-center">
-                    <div class="text-uppercase text-secondary font-weight-medium">
-                      Option Panel:
-                    </div>
-                    <form id="optionForm">
-                      <div class="mb-3">
-                        <h3 class="flex-container"><label for="optionSelect">Add User: </label></h3>
-                        <select id="optionSelect" class="form-select">
-                          <option value="">Loading options ...</option>
-                        </select>
-                      </div>
+                     <span class="fs-1 fw-bold">$ 3,999</span>&nbsp;&nbsp;&nbsp;<span>per month</span>
+                     <br><br>
+                    <span class="fs-2">5 Users</span>
+                    <br><br>
                       <ul class="list-unstyled lh-lg">
-                        <li><strong>As many you want</strong> (Users)</li>
-                        <li>
-                          <!-- Check Icon -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24"
-                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M5 12l5 5l10 -10" />
-                          </svg>
-                          Sharing Tools
-                        </li>
-                        <li>
-                          <!-- Check Icon -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24"
-                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M5 12l5 5l10 -10" />
-                          </svg>
-                          Design Tools
-                        </li>
-                        <li>
-                          <!-- Check Icon -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24"
-                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M5 12l5 5l10 -10" />
-                          </svg>
-                          Private Messages
-                        </li>
-                        <li>
-
-                        </li>
-                      </ul>
-                      <div class="mt-2 flex-container">
-                        <span>Currently selected option:&nbsp;</span>
-                        <span id="selectedOption"> None</span>
-                      </div>
-
-                      <button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">
-                        Add
-                      </button>
-                    </form>
+                      <li>
+                        <!-- Check Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        Custom Table Creation
+                      </li>
+                      <li>
+                        <!-- Check Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        File to DB Migration
+                      </li>
+                      <li>
+                        <!-- Check Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        Batch Job Running
+                      </li>
+                      <li>
+                        <!-- Check Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        Liabilities Calculation
+                      </li>
+                      <li>
+                        <!-- Check Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        User Management
+                      </li>
+                      <li>
+                        <!-- Check Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        Cost & Usage Monitoring
+                      </li>
+                    </ul>
                   </div>
-                </div>
-                </form>
-              </div>
-              <!-- <div class="col-10">
-                    <div class="card card-md">
-                      <div class="card-body">
-                        <div class="row align-items-center">
-                          <div class="col">
-                            <h2 class="h3">
-                              Enterprise-ready. Reach out for a custom quote.
-                            </h2>
-                            <p class="m-0 text-secondary">
-                              Tabler is designed to work great for large
-                              enterprises. Take a look at our feature comparison.
-                            </p>
-                          </div>
-                          <div class="col-auto">
-                            <a href="mailto:example@gmail.com" class="btn">Book a demo </a>
-                          </div>
-                        </div>
-                      </div>
+                    <div class="card-footer">
+                      <button class="btn btn-primary w-100" id="basicSubscriptionButton" onclick="useBasicSubscription()"></button>
                     </div>
-                  </div> -->
+                  </a>
+              </div>
+              <div class="col-sm-12 col-lg-4">
+				<a class="card card-link card-link-pop h-100">
+                  <div class="card-header">
+                    <div class="w-100 text-center">
+                      <span class="fs-2">Premium Service</span>
+                    </div>
+                  </div>                
+                  <div class="card-body text-center">
+                    <span class="fs-1 fw-bold">$ 7,999</span>&nbsp;&nbsp;&nbsp;<span>per month</span>
+                    <br><br>
+                    <span class="fs-2">10 Users</span>
+                    <br><br>
+                     <ul class="list-unstyled lh-lg">
+                      <li>
+                        Basic Service
+                      </li>
+                      <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-copy-plus">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path stroke="none" d="M0 0h24v24H0z" />
+                          <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+                          <path d="M4.012 16.737a2 2 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+                          <path d="M11 14h6" />
+                          <path d="M14 11v6" />
+                        </svg>
+                      </li>
+                      <li>
+                        <!-- Check Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        Account Journaling
+                      </li>
+                      <li>
+                        <!-- Check Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        Balance Sheet Creation
+                      </li>
+                      <li>
+                        <!-- Check Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        Profit and Loss Creation
+                      </li>
+                      <li>
+                        <!-- Check Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        Audit Trailing
+                      </li>
+                    </ul>
+                  </div>
+                    <div class="card-footer">
+                      <button class="btn btn-primary w-100" id="premiumSubscriptionButton" onclick="usePremiumSubscription()"></button>
+                    </div>
+                  </a>
+              </div>
+              <div class="col-sm-12 col-lg-4">
+				<a class="card card-link card-link-pop h-100">
+                  <div class="card-header">
+                    <div class="w-100 text-center">
+                      <span class="fs-2">Additional Options</span>
+                    </div>
+                  </div>                
+                  <div class="card-body text-center">
+                  <form id="optionForm">
+                    <div class="text-center mt-2 mb-5">
+                      <span class="fs-3">If you would like to add some users, please select the option below.</span>
+                    </div>
+                    <div>
+                      <select id="optionSelect" class="form-select">
+                        <option value="">select the number of users</option>
+                      </select>
+                    </div>
+                    <div class="text-center mt-5">
+                      <span class="fs-3">It will be charged by the number of days as many as you used the option.</span>
+                    </div>
+                  </div>
+                    <div class="card-footer">
+                      <button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">Add</button>
+                    </div>
+                  </form>
+                  </a>
+              </div>
             </div>
           </div>
         </div>
@@ -238,7 +196,7 @@
           $optionSelect.empty();
           if (data.length > 0) {
             $optionSelect.append(
-              '<option value="">Select an option</option>'
+              '<option value="">select the number of users</option>'
             );
             $.each(data, function (index, option) {
               // Combine optCd and optDtlsCd as the value
@@ -321,7 +279,7 @@
               .text("Current Plan")
               .prop("disabled", true);
             $("#premiumSubscriptionButton")
-              .text("Register")
+              .text("Upgrade Now!")
               .prop("disabled", false);
           } else {
             alert("Failed to activate the Basic Subscription service.");
@@ -362,7 +320,7 @@
               .text("Current Plan")
               .prop("disabled", true);
             $("#basicSubscriptionButton")
-              .text("Register")
+              .text("Really?")
               .prop("disabled", false);
           } else {
             alert("Failed to activate the Premium Subscription service.");
@@ -443,21 +401,21 @@
                 .text("Current Plan")
                 .prop("disabled", true);
               $("#premiumSubscriptionButton")
-                .text("Use")
+                .text("Upgrade Now!")
                 .prop("disabled", false);
             } else if (subscription.srvcCd === "02") {
               $("#premiumSubscriptionButton")
                 .text("Current Plan")
                 .prop("disabled", true);
               $("#basicSubscriptionButton")
-                .text("Use")
+                .text("Really?")
                 .prop("disabled", false);
             } else {
               $("#basicSubscriptionButton")
-                .text("Use")
+                .text("Good!")
                 .prop("disabled", false);
               $("#premiumSubscriptionButton")
-                .text("Use")
+                .text("Very Good!")
                 .prop("disabled", false);
             }
 
@@ -467,9 +425,9 @@
             }
           } else {
             // No subscription info found
-            $("#basicSubscriptionButton").text("Use").prop("disabled", false);
+            $("#basicSubscriptionButton").text("Good!").prop("disabled", false);
             $("#premiumSubscriptionButton")
-              .text("Use")
+              .text("Very Good!")
               .prop("disabled", false);
           }
         },
