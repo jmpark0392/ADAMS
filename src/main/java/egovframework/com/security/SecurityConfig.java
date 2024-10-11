@@ -83,6 +83,8 @@ public class SecurityConfig {
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     	
         return http
+        		.headers().frameOptions().sameOrigin()
+        		.and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(AUTH_WHITELIST).permitAll()
                         .antMatchers(HttpMethod.GET, AUTH_GET_WHITELIST).permitAll()
