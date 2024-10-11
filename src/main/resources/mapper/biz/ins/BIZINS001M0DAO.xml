@@ -37,8 +37,8 @@
     <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.ins.dto.BIZINS001M0P1DTO">
 		DELETE FROM TB_INSU_PL_TTL_LST 
 		 WHERE 1=1
-		  AND STD_YYMM           = '202406'
-		  AND INSU_PL_CHNG_DV_CD = 'BEL'
+		   AND STD_YYMM           = #{stdYymm}
+		   AND INSU_PL_CHNG_DV_CD = 'BEL'
 	</delete>
 	<insert id="insertList" parameterType="com.rds.adams.web.biz.ins.dto.BIZINS001M0P1DTO">
 		INSERT INTO TB_INSU_PL_TTL_LST
@@ -86,7 +86,7 @@
 		     , '00002'                   AS UPD_USRID
 		     , GETDATE()                 AS  UPD_DT
 		  FROM TB_R3S_OUTPUT_BEL_RST_LST 
-		 WHERE STD_YYMM = '202406'
+		 WHERE STD_YYMM = #{stdYymm}
 		 GROUP BY STD_YYMM, PORTPOLIO
 	</insert>
 </mapper>

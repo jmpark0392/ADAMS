@@ -1,5 +1,7 @@
 package com.rds.adams.web.wrk.bat.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,5 +25,6 @@ import lombok.ToString;
 @Setter
 public class WRKBAT002M0P0DTO {
 	private String searchTxt;
+	private String[] exePrdList;
 }
 

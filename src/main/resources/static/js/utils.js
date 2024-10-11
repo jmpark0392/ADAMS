@@ -551,3 +551,32 @@ function currencyFormatter(row, cell, value, columnDef, dataContext) {
 
     return formattedNumber;
 }
+
+function getCycleFromYymm(stdYymm){
+	const Month = stdYymm.slice(-2);
+	const quartlyList = ['03', '06', '09', '12'];
+	const yearMonth = '12';
+	const halfMonth = '06';
+	var cycleList = ['Monthly',];
+	
+	if(Month.length == 2){
+		if(quartlyList.includes(Month)){
+		  cycleList.push("Quarterly");
+		}
+		
+		if(yearMonth == Month){
+		  cycleList.push("Yearly");
+		}
+		
+		if(halfMonth == Month){
+		  cycleList.push("Halfly");
+		}
+		return cycleList;
+	}
+	else {
+		console.log("Month is invalid.");
+	}
+}
+
+
+

@@ -21,8 +21,14 @@
          <if test='searchTxt != ""'>
            AND (
                 	BAT_PROG_ID LIKE '%' + #{searchTxt} + '%'
-                OR BAT_PROG_NM LIKE '%' + #{searchTxt} + '%'
+                OR	BAT_PROG_NM LIKE '%' + #{searchTxt} + '%'
                 )
+         </if>
+         <if test='exePrdList != null and exePrdList.length != 0'>
+           AND EXE_PRD IN
+           <foreach collection="exePrdList" item="exePrd" separator="," open="(" close=")">
+                  #{exePrd}
+           </foreach>
          </if>
     </select>
 </mapper>
