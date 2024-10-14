@@ -35,15 +35,15 @@ public class OPNSRV003M0R0DTO {
     private int basicCnt;
 
     @Schema(description = "premium_cnt")
-    private int prmCnt;
+    private int premiumCnt;
 
     @Schema(description = "user average")
-    private int usrAvg;
+    private int userAvg;
 
     @Schema(description = "servuice_cost_sum")
     private int srvcCostSum;
 
     @Schema(description = "service_cost_exepcted_sum")
-    private int srvcCostExptdSum;
+    private int srvcCostExpSum;
  
 }
