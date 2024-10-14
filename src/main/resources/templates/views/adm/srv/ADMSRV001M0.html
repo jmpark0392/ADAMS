@@ -272,7 +272,7 @@
         success: function (data) {
           console.log("Response data:", data);
           if (data.status === "success") {
-            alert("Basic Subscription activated successfully.");
+            confirm("Basic Plan will be applied immediately. Shall we proceed?");
             console.log("Basic Subscription activation successful:", data);
             // will update the ui accordingly
             $("#basicSubscriptionButton")
@@ -281,6 +281,7 @@
             $("#premiumSubscriptionButton")
               .text("Upgrade Now!")
               .prop("disabled", false);
+            alert("Your company is currently subscribing to Basic Plan.");
           } else {
             alert("Failed to activate the Basic Subscription service.");
           }
@@ -313,7 +314,7 @@
         success: function (data) {
           console.log("Response data:", data);
           if (data.status === "success") {
-            alert("Premium Subscription activated successfully.");
+            confirm("Premium Plan will be applied immediately. Shall we proceed?");
             console.log("Premium Subscription activation successful:", data);
             // will update the ui to show the ui accordingly
             $("#premiumSubscriptionButton")
@@ -322,6 +323,7 @@
             $("#basicSubscriptionButton")
               .text("Really?")
               .prop("disabled", false);
+            alert("Your company is currently subscribing to Premium Plan.");
           } else {
             alert("Failed to activate the Premium Subscription service.");
           }
@@ -367,12 +369,13 @@
         success: function (data) {
           console.log("Response data:", data);
           if (data.status === "success") {
-            alert("Option added successfully.");
+            confirm("The selected option will be applied immediately. Shall we proceed?");
             console.log("Option addition successful:", data);
             // Update the selected option display
             $("#selectedOption").text(
               $("#optionSelect option:selected").text()
             );
+            alert("You can add users from now on.");
           } else {
             alert("Failed to add option.");
           }
