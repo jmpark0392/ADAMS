@@ -276,11 +276,17 @@
             console.log("Basic Subscription activation successful:", data);
             // will update the ui accordingly
             $("#basicSubscriptionButton")
+              .removeClass("btn btn-primary w-100")
+              .addClass("btn btn-success w-100")
               .text("Current Plan")
-              .prop("disabled", true);
+              .removeAttr("onclick");
+              //.prop("disabled", true);
             $("#premiumSubscriptionButton")
+              .removeClass("btn btn-success w-100")
+              .addClass("btn btn-primary w-100")
               .text("Upgrade Now!")
-              .prop("disabled", false);
+              .attr("onclick","usePremiumSubscription()");
+              //.prop("disabled", false);
             alert("Your company is currently subscribing to Basic Plan.");
           } else {
             alert("Failed to activate the Basic Subscription service.");
@@ -318,11 +324,17 @@
             console.log("Premium Subscription activation successful:", data);
             // will update the ui to show the ui accordingly
             $("#premiumSubscriptionButton")
+              .removeClass("btn btn-primary w-100")
+              .addClass("btn btn-success w-100")
               .text("Current Plan")
-              .prop("disabled", true);
+              .removeAttr("onclick");
+              //.prop("disabled", true);
             $("#basicSubscriptionButton")
+              .removeClass("btn btn-success w-100")
+              .addClass("btn btn-primary w-100")
               .text("Really?")
-              .prop("disabled", false);
+              .attr("onclick","useBasicSubscription()");
+              //.prop("disabled", false);
             alert("Your company is currently subscribing to Premium Plan.");
           } else {
             alert("Failed to activate the Premium Subscription service.");
@@ -401,24 +413,30 @@
             var subscription = data[0]; // Assuming we hvae only one subscrition
             if (subscription.srvcCd === "01") {
               $("#basicSubscriptionButton")
+                .removeClass("btn btn-primary w-100")
+                .addClass("btn btn-success w-100")
                 .text("Current Plan")
-                .prop("disabled", true);
+                .removeAttr("onclick");
+                //.prop("disabled", true);
               $("#premiumSubscriptionButton")
                 .text("Upgrade Now!")
-                .prop("disabled", false);
+                //.prop("disabled", false);
             } else if (subscription.srvcCd === "02") {
               $("#premiumSubscriptionButton")
+                .removeClass("btn btn-primary w-100")
+                .addClass("btn btn-success w-100")
                 .text("Current Plan")
-                .prop("disabled", true);
+                .removeAttr("onclick");
+                //.prop("disabled", true);
               $("#basicSubscriptionButton")
                 .text("Really?")
-                .prop("disabled", false);
+                //.prop("disabled", false);
             } else {
               $("#basicSubscriptionButton")
-                .text("Good!")
+                .text("Good Plan!")
                 .prop("disabled", false);
               $("#premiumSubscriptionButton")
-                .text("Very Good!")
+                .text("Better Plan!")
                 .prop("disabled", false);
             }
 
@@ -428,10 +446,8 @@
             }
           } else {
             // No subscription info found
-            $("#basicSubscriptionButton").text("Good!").prop("disabled", false);
-            $("#premiumSubscriptionButton")
-              .text("Very Good!")
-              .prop("disabled", false);
+            $("#basicSubscriptionButton").text("Good Plan!").prop("disabled", false);
+            $("#premiumSubscriptionButton").text("Better Plan!").prop("disabled", false);
           }
         },
         error: function (xhr, status, error) {
