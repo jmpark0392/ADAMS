@@ -82,7 +82,7 @@
     </insert>
     <update id="updateList" parameterType="com.rds.adams.web.opn.usr.dto.OPNUSR001M0P1DTO">
         UPDATE [RDSDB].[dbo].[TB_MENU_MNG_LST]
-               SET MENU_NM_KOR = #{menuNmKor}
+           SET MENU_NM_KOR     = #{menuNmKor}
              , MENU_NM_ENG     = #{menuNmEng}
              , UPPR_MENU_ID    = #{upprMenuId}
              , MENU_SRT_ORD    = #{menuSrtOrd}
@@ -98,4 +98,9 @@
              , FNL_UPD_DTM     = GETDATE()
          WHERE MENU_ID = #{menuId}
     </update>
+    <delete id="deleteList" parameterType="com.rds.adams.web.opn.usr.dto.OPNUSR001M0P1DTO" >
+        DELETE FROM [RDSDB].[dbo].[TB_MENU_MNG_LST]
+         WHERE 1=1
+           AND MENU_ID = #{menuId}
+    </delete>
 </mapper>

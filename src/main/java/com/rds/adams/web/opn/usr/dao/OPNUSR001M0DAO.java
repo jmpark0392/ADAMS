@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P0DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P1DTO;
+import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P2DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0R0DTO;
 
 /**
@@ -46,5 +47,12 @@ public interface OPNUSR001M0DAO {
 	 * @exception Exception
 	 */
 	public void updateList(OPNUSR001M0P1DTO inVo);
+	
+	/**
+	 * 메뉴를 삭제한다
+	 * @param vo OPNUSR001M0P1DTO
+	 * @exception Exception
+	 */
+	public void deleteList(OPNUSR001M0P1DTO inVo);
 
 }

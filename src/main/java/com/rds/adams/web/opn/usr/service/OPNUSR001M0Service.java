@@ -76,7 +76,14 @@ public class OPNUSR001M0Service {
 		OPNUSR001M0DAO.updateList(inVo);
 	}
 	
-	/*
+	/**
+	 * 메뉴를 삭제한다.
+	 * @param vo OPNUSR001M0R0DTO
+	 * @return boolean
+	 * @exception Exception
 	 */
+	public void deleteList(OPNUSR001M0P1DTO inVo) {
+		OPNUSR001M0DAO.deleteList(inVo);
+	}
 
 }

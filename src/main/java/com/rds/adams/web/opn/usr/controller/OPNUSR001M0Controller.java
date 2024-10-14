@@ -16,6 +16,7 @@ import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.core.utils.dto.ExecuteDTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P0DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P1DTO;
+import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P2DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0R0DTO;
 import com.rds.adams.web.opn.usr.service.OPNUSR001M0Service;
 
@@ -104,18 +105,13 @@ public class OPNUSR001M0Controller {
 		return;
 		
 	}
-	/* 필요시 삭제 method도 추가
+
 	@RequestMapping(value="/OPNUSR001M0DeleteList", method=RequestMethod.POST, consumes="application/json")
-	public void deleteList(@RequestBody OPNUSR001M0P1DTO inVo, HttpServletRequest request) throws Exception {
-		
-		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
-		
-		inVo.setUsrId(usrEmail.split("@")[0]);
+	public void deleteList(@RequestBody OPNUSR001M0P1DTO inVo) throws Exception {
 		
 		log.info(inVo.toString());
 		try {
-			OPNUSR001M0Service.updateList(inVo);
+			OPNUSR001M0Service.deleteList(inVo);
 			log.info("success");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,5 +121,5 @@ public class OPNUSR001M0Controller {
 		return;
 		
 	}
-	*/
+	
 }
