@@ -92,13 +92,13 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 		commonExcludePathList.add("/auth/**");
 		commonExcludePathList.add("/logout");
 		commonExcludePathList.add("/TokenRefresh");
+		commonExcludePathList.add("/error");
 		
 		// 웹자원
 		resourceExcludePathList.add("/css/**");
 		resourceExcludePathList.add("/images/**");
 		resourceExcludePathList.add("/js/**");
 		resourceExcludePathList.add("/*.ico");
-		resourceExcludePathList.add("/avatars/**");
 		
 		excludePathList.addAll(commonExcludePathList);
 		excludePathList.addAll(resourceExcludePathList);
@@ -177,7 +177,6 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
 	    registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/");
 	    registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
-	    registry.addResourceHandler("/avatars/**").addResourceLocations("classpath:/static/avatars/");
 	    registry.addResourceHandler("/layout/**").addResourceLocations("classpath:/templates/layout/");
 	    registry.addResourceHandler("/views/**").addResourceLocations("classpath:/templates/views/");
 	    //registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/egovframework/templates/");
@@ -202,17 +201,17 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 		prop.setProperty("org.springframework.transaction.TransactionException", "egovSampleError");
 		prop.setProperty("org.egovframe.rte.fdl.cmmn.exception.EgovBizException", "egovSampleError");
 		prop.setProperty("org.springframework.security.AccessDeniedException", "egovSampleError");
-		prop.setProperty("java.lang.Throwable", "egovSampleError");
+		prop.setProperty("java.lang.Throwable", "error/error");
 
 		Properties statusCode = new Properties();
-		statusCode.setProperty("egovSampleError", "400");
-		statusCode.setProperty("egovSampleError", "500");
-		statusCode.setProperty("egovSampleError", "404");
-		statusCode.setProperty("egovSampleError", "403");
-		statusCode.setProperty("egovSampleError", "503");
+		statusCode.setProperty("error/error_400", "400");
+		statusCode.setProperty("error/error_500", "500");
+		statusCode.setProperty("error/error_400", "404");
+		statusCode.setProperty("error/error_400", "403");
+		statusCode.setProperty("error/error_500", "503");
 
 		SimpleMappingExceptionResolver smer = new SimpleMappingExceptionResolver();
-		smer.setDefaultErrorView("egovSampleError");
+		smer.setDefaultErrorView("error/error");
 		smer.setExceptionMappings(prop);
 		smer.setStatusCodes(statusCode);
 		resolvers.add(smer);

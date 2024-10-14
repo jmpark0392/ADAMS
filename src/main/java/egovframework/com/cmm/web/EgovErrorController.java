@@ -11,10 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author JeongHyunseung
  *
  */
+@Slf4j
 @Controller
 public class EgovErrorController implements ErrorController {
 
@@ -24,9 +27,12 @@ public class EgovErrorController implements ErrorController {
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		
 		if(status != null) {
+			
 			int statusCode = Integer.valueOf(status.toString()).intValue();
+			log.debug(""+statusCode);
+			
 			if(statusCode == HttpStatus.NOT_FOUND.value()) {
-				return "/error/error_auth";
+				return "/error/error_400";
 			} else if (statusCode == HttpStatus.FORBIDDEN.value()) {
 				return "/error/error_400";
 			} else if(statusCode == HttpStatus.SERVICE_UNAVAILABLE.value()) {
@@ -36,6 +42,7 @@ public class EgovErrorController implements ErrorController {
 			} else {
 				return "/error/error";
 			}
+			
 		}
 		
 		return "/error/error";

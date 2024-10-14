@@ -1,6 +1,5 @@
 package egovframework.com.cmm.interceptor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
 import com.rds.adams.web.common.AdamsConstant;
@@ -81,15 +83,18 @@ public class AuthorizInterceptor extends WebContentInterceptor {
     	// 패턴으로 예외처리 안되는 페이지들은 exceptPageNameList로 리스트를 관리
         if (exceptPageNameList.contains(pageName)) {
         	return true;
-        }
-        else if (StringUtil.isEmpty(menuId)) {
-        	try {
-				response.sendError(404, menuId);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		return false;
+        } else if (StringUtil.isEmpty(menuId)) {
+        	
+        	log.debug("Authorization Fail!!!!!!!!!!!!================== ");
+        	
+        	new SecurityContextLogoutHandler().logout(request, response, null);
+        	
+    		ModelAndView modelAndView = new ModelAndView("/error/error_auth");
+    		modelAndView.addObject("errorTitle", "Access Denied");
+    		modelAndView.addObject("errorMessage", "We're sorry, but you do not have permission to access this page.");
+    		
+    		throw new ModelAndViewDefiningException(modelAndView);
+    		
     	}
     	return true;
 	}

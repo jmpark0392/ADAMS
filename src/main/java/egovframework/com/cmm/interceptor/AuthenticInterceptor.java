@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
@@ -83,11 +84,13 @@ public class AuthenticInterceptor extends WebContentInterceptor {
         	
         	if (loginVO == null || StringUtil.isEmpty(loginVO.getUsrId())) {
         		
-        		log.debug("AuthenticInterceptor Fail!!!!!!!!!!!!================== ");
+        		log.debug("Authentication Fail!!!!!!!!!!!!================== ");
+        		
+        		new SecurityContextLogoutHandler().logout(request, response, null);
             	
         		ModelAndView modelAndView = new ModelAndView("/error/error_auth");
-        		modelAndView.addObject("errorTitle", "Authentication Fail!!");
-        		modelAndView.addObject("errorMessage", "AuthenticInterceptor Fail!!!!!!!!!!!!");
+        		modelAndView.addObject("errorTitle", "Session Expired!");
+        		modelAndView.addObject("errorMessage", "We're sorry, but your session has expired. Please log in again to continue.");
         		
         		throw new ModelAndViewDefiningException(modelAndView);
         		
