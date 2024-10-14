@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
-<<<<<<< Updated upstream
 <th:block layout:fragment="content">
 	<div class="page-wrapper" id="page-wrapper">
 		<div class="container" id="container">
@@ -30,33 +29,6 @@
 										<option value="11">November</option>
 										<option value="12">December</option>
 									</select>
-=======
-	<th:block layout:fragment="content">
-		<div class="page-wrapper" id="page-wrapper">
-			<div class="container" id="'container">
-				<h2>[[${menuNm}]]</h2>
-				<div class="ptag-container">
-					<span>[[${navigator}]]</span>
-					<div class="form-container">
-						<div class="form-box">
-							<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
-								<div class="row">
-									<div class="col">
-										<label for="fileDropdown" class="form-label"> Standard Year / Month :</label>
-										<!-- <input id="inpStdYymm" name="inpStdYymm" required="required" type="text" /> -->
-										<input id="inpStdYymm" name="inpStdYymm" type="text" class="form-control" required="required" style="padding: 3px" />
-									</div>
-									<div class="col">
-										<div class="col">
-											<label for="lblUploadFileList" class="form-label">File upload : </label>
-											<select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select">
-												<option selected="selected" value="">- select -</option>
-											</select>
-										</div>
-									</div>
-									<div class="col"></div>
-									<div class="col"></div>
->>>>>>> Stashed changes
 								</div>
 								<!-- Year Select -->
 								<div class="col-auto">

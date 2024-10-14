@@ -59,15 +59,9 @@
         SELECT 
                ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
              , AA.ATIT_CD
-<<<<<<< Updated upstream
              , CASE WHEN BB.AC_LVL_CD = '4' THEN '----'
                     WHEN BB.AC_LVL_CD = '3' THEN '---'
                     WHEN BB.AC_LVL_CD = '2' THEN '--'
-=======
-             , CASE WHEN BB.AC_LVL_CD = '4' THEN '\t\t'
-                    WHEN BB.AC_LVL_CD = '3' THEN '   '
-                    WHEN BB.AC_LVL_CD = '2' THEN '  '
->>>>>>> Stashed changes
                     ELSE '' END 
              + BB.ATIT_ENG_NM  AS ATIT_NM
              , BAS_AMT
