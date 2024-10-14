@@ -3,7 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.rds.adams.web.opn.srv.dao.OPNSRV003M0DAO">
-    <select id="getChartInfos" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV003M0P0DTO">
+    <select id="getChartInfos" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV003M0P0DTO" resultType="com.rds.adams.web.opn.srv.dto.OPNSRV003M0R0DTO">
     <![CDATA[
         WITH TMP_D AS 
         ( 
