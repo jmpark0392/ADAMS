@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rds.adams.web.biz.ins.dto.BIZINS001M0P0DTO;
+import com.rds.adams.web.biz.ins.dto.BIZINS001M0P1DTO;
 import com.rds.adams.web.biz.ins.dto.BIZINS001M0R0DTO;
 import com.rds.adams.web.biz.ins.service.BIZINS001M0Service;
 import com.rds.adams.web.common.AdamsConstant;
@@ -47,6 +48,7 @@ public class BIZINS001M0Controller {
 	}
 	
 	@RequestMapping(value="/BIZINS001M0ExecuteList", method=RequestMethod.POST, consumes="application/json")
+<<<<<<< Updated upstream
 	public void execute(@RequestBody ExecuteDTO inVo, HttpServletRequest request) {
 		
 		ExecuteDTO executeDTO = new ExecuteDTO();
@@ -54,6 +56,10 @@ public class BIZINS001M0Controller {
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		executeDTO.setUsrId(sAdamsLoginDTO.getUsrId());
 		
+=======
+	public void execute(@RequestBody BIZINS001M0P1DTO inVo) {
+		
+>>>>>>> Stashed changes
 		log.info(inVo.toString());
 		try {
 			bIZINS001M0Service.executeList(inVo);

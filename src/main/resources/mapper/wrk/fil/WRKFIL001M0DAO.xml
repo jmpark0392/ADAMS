@@ -54,9 +54,9 @@
             #{uiSelYn},
             #{useYn},
             #{vrfUseYn},
-            'admin',
+            #{frstRegEmpNo},
             CONVERT(CHAR(10), getdate(), 23),
-            'admin',
+            #{frstRegEmpNo},
             CONVERT(CHAR(10), getdate(), 23)
         )
     </insert>
@@ -70,7 +70,7 @@
                UI_SEL_YN = #{uiSelYn},
                USE_YN = #{useYn},
                VRF_USE_YN = #{vrfUseYn},
-               FNL_UPD_EMP_NO = 'admin',
+               FNL_UPD_EMP_NO = #{frstRegEmpNo},
                FNL_UPD_DTM = CONVERT(CHAR(10), getdate(), 23)
          WHERE SEQ_NO = #{seqNo}
     </update>

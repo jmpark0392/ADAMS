@@ -1,5 +1,6 @@
 package com.rds.adams.web.biz.jnl.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,6 +19,7 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "계정과목관리 조회 조건 DTO")
 @ToString
 @Getter
 @Setter

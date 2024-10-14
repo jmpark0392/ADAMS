@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
+<<<<<<< Updated upstream
 	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 	<div class="page-wrapper" id="page-wrapper">
 		<div class="container" id="container">
@@ -53,6 +54,127 @@
 		</div>
 	</div>
 	<script>
+=======
+  <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+    <div class="page-wrapper" id="page-wrapper">
+      <div class="container" id="container">
+        <h2>Insurance Profit and Loss Total</h2>
+        <div class="ptag-container">
+          <span><a href="#"> Home ></a></span>
+          <span><a href="#"> BEL</a></span>
+          <div class="form-container">
+            <div class="form-box">
+              <form
+                id="filter-form"
+                name="form"
+                method="post"
+                action="/BIZINS001M0SelectList"
+                onsubmit="return false;"
+              >
+                <div class="row">
+                  <div class="col">
+                    <input
+                      id="inpSearchTxt"
+                      name="inpSearchTxt"
+                      type="text"
+                      class="form-input-temp"
+                      placeholder="Account Title/Name"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="main()"
+                    >
+                      Search
+                    </button>
+                  </div>
+                  <div class="col text-end">
+                    <button
+                      form="new-form"
+                      type="button"
+                      class="btn btn-primary"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      onclick="execute()"
+                      data-test="create-button"
+                      onsubmit="return false;"
+                    >
+                      Summarize
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-lime"
+                      style="padding: 4px 10px; color: white; font-size: 13px"
+                      id="downloadExcel"
+                    >
+                      Download
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div style="padding-top: 2em"></div>
+          <div id="divMyGrid">
+            <table align="center" class="table"></table>
+          </div>
+        </div>
+        <div class="popupDataForm">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            style="display: none"
+          >
+            Launch modal with form
+          </button>
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            style="display: none"
+          >
+            <div class="modal-dialog modal-small" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">New report</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <!-- Removed repetitive content for clarity -->
+                    <!-- Add necessary modal content here -->
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <a
+                    href="#"
+                    class="btn btn-link link-secondary"
+                    data-bs-dismiss="modal"
+                    >Cancel</a
+                  >
+                  <a
+                    href="#"
+                    class="btn btn-primary ms-auto"
+                    data-bs-dismiss="modal"
+                    style="padding: 4px 10px; color: white; font-size: 13px"
+                    >Save changes</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+>>>>>>> Stashed changes
         function checkData(data){
             return parentCheckData(data, check_cols);
         }
@@ -186,6 +308,7 @@
             document.head.appendChild(style);
         };
         
+<<<<<<< Updated upstream
         function main() {
             addSlickGridSomeStyling();
             // 그리드 초기화 및 데이터 로드
@@ -323,6 +446,27 @@
 	      grid.setActiveCell(0, 0);
 	      console.log("SlickGrid initialized.");
 	      }     
+=======
+        function execute(){
+            addSlickGridSomeStyling();
+            $.ajax({
+                  type: "post",
+                  url: '/BIZINS001M0ExecuteList',
+                  async: true,
+                  dataType: "text", //서버에서 어떤 타입을 받을 것인가
+                  contentType: "application/json; charset=utf-8", //서버로 어떤 타입을 보낼 것인가
+                  data: JSON.stringify(),
+                  success: function (response) {
+                    alert("Successfully Updated");
+                    console.log("update 테스트js");
+                  },
+                  error: function (error) {
+                    console.error("Error updating data:", error);
+                  },
+                });
+        }
+        
+>>>>>>> Stashed changes
         // Download Excel functionality
         document.getElementById('downloadExcel').addEventListener('click', function() {
             const currDate = getCurrentDateTime();

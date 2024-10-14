@@ -2,6 +2,8 @@ package com.rds.adams.web.biz.jnl.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,8 @@ import com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P0DTO;
 import com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO;
 import com.rds.adams.web.biz.jnl.dto.BIZJNL001M0R0DTO;
 import com.rds.adams.web.biz.jnl.service.BIZJNL001M0Service;
+import com.rds.adams.web.common.AdamsConstant;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,8 +49,15 @@ public class BIZJNL001M0Controller {
 	}
 	
 	@RequestMapping(value="/BIZJNL001M0InsertList", method=RequestMethod.POST, consumes="application/json")
-	public void insert(@RequestBody BIZJNL001M0P1DTO inVo) {
+	public void insert(@RequestBody BIZJNL001M0P1DTO inVo, HttpServletRequest request) {
 		
+		BIZJNL001M0P1DTO bIZJNL001M0P1DTO = new BIZJNL001M0P1DTO();
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		bIZJNL001M0P1DTO.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
+		
+		String email = bIZJNL001M0P1DTO.getFrstRegEmpNo();
+		
+		log.debug("first reg employee number: }", email);
 		log.info(inVo.toString());
 		try {
 			bIZJNL001M0Service.insertList(inVo);

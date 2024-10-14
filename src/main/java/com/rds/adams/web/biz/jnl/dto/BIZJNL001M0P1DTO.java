@@ -1,5 +1,6 @@
 package com.rds.adams.web.biz.jnl.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,26 +19,69 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "계정과목관리 DTO")
 @ToString
 @Getter
 @Setter
 public class BIZJNL001M0P1DTO {
+
 	
+	@Schema(description = "행번호")
 	private int rowNumber;
-	private String atitCd;  /* 계정과목코드 */
-	private String atitKorNm; /* 계정과목한글명 */
-	private String atitEngNm;  /* 계정과목영문명 */
-	private String acLvlCd;  /* 계정레벨코드 */
-	private String hgrkAtitCd;  /* 상위계정과목코드 */
-	private String bkgAcYn;  /* 기표계정여부 */
-	private String fsDvCd;  /* 재무제표구분코드 */
-	private String acDvCd;  /* 계정구분코드 */
-	private String acKindCd;  /* 계정종류코드 */
-	private String appStDt;  /* 적용시작일자 */
-	private String appEdDt;  /* 적용종료일자 */
-	private int srtOrd;  /* 정렬순서 */
-	private String etcDesc;  /* 기타내용 */
-	private String useYn;  /* 사용여부 */
+	
+	@Schema(description = "계정과목코드")
+	private String atitCd;
+	
+	@Schema(description = "계정과목한글명")
+	private String atitKorNm;
+	
+	@Schema(description = "계정과목영문명")
+	private String atitEngNm;
+	
+	@Schema(description = "계정레벨코드")
+	private String acLvlCd;
+	
+	@Schema(description = "상위계정과목코드")
+	private String hgrkAtitCd;
+	
+	@Schema(description = "기표계정여부")
+	private String bkgAcYn;
+	
+	@Schema(description = "재무제표구분코드")
+	private String fsDvCd;
+	
+	@Schema(description = "계정구분코드")
+	private String acDvCd;
+	
+	@Schema(description = "계정종류코드")
+	private String acKindCd;
+	
+	@Schema(description = "적용시작일자")
+	private String appStDt;
+	
+	@Schema(description = "적용종료일자")
+	private String appEdDt;
+	
+	@Schema(description = "정렬순서")
+	private int srtOrd;
+	
+	@Schema(description = "기타내용")
+	private String etcDesc;
+	
+	@Schema(description = "사용여부")
+	private String useYn;
+	
+    @Schema(description = "최종수정사원번호")
+    private String fnlUpdEmpNo;
+
+    @Schema(description = "최종수정일시")
+    private String fnlUpdDtm;
+
+    @Schema(description = "최초등록사원번호")
+    private String frstRegEmpNo;
+
+    @Schema(description = "최초등록일시")
+    private String frstRegDtm;
 	
 }
 

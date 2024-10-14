@@ -1,223 +1,164 @@
-
 <!DOCTYPE html>
 <html
-  lang="ko"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}"
+	lang="ko"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}"
 >
-  <th:block layout:fragment="content">
-    <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-    <div class="page-wrapper" id="page-wrapper">
-      <div class="container" id="container">
-        <h2>Job List</h2>
-        <div class="ptag-container">
-          <span><a href="#"> Home ></a></span>
-          <span><a href="#">Job List</a></span>
-          <div class="form-container">
-            <div class="form-box">
-              <form
-                id="filter-form"
-                name="form"
-                method="post"
-                action="/WRKBAT001M0SelectList"
-                onsubmit="return false;"
-              >
-                <div class="row">
-                  <div class="col">
-                    <input
-                      id="inpSearchTxt"
-                      name="inpSearchTxt"
-                      type="text"
-                      class="form-input-temp"
-                      placeholder="Program ID/Name"
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="main()"
-                    >
-                      Search
-                    </button>
-                  </div>
-                  <div class="col text-end">
-                    <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-                      data-test="create-button"
-                      onsubmit="return false;"
-                    >
-                      Create
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-lime"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      id="downloadExcel"
-                    >
-                      Download
-                    </button>
-                    <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-secondary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-                      data-test="edit-button"
-                      onsubmit="return false;"
-                    >
-                      Edit
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div style="padding-top: 2em"></div>
-          <div id="divMyGrid">
-            <table align="center" class="table"></table>
-          </div>
-        </div>
-        <div class="popupDataForm">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            style="display: none"
-          >
-            Launch modal with form
-          </button>
-          <div
-            class="modal fade"
-            id="exampleModal"
-            tabindex="-1"
-            style="display: none"
-          >
-            <div class="modal-dialog modal-small" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">New report</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <!-- Removed repetitive content for clarity -->
-                    <!-- Add necessary modal content here -->
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <a
-                    href="#"
-                    class="btn btn-link link-secondary"
-                    data-bs-dismiss="modal"
-                    >Cancel</a
-                  >
-                  <a
-                    href="#"
-                    class="btn btn-primary ms-auto"
-                    data-bs-dismiss="modal"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    >Save changes</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
-      function checkData(data) {
-        return parentCheckData(data, check_cols);
-      }
+	<th:block layout:fragment="content">
+		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+		<div class="page-wrapper" id="page-wrapper">
+			<div class="container" id="container">
+				<h2>[[${menuNm}]]</h2>
+				<div class="ptag-container">
+					<span>[[${navigator}]]</span>
+					<div class="form-container">
+						<div class="form-box">
+							<form id="filter-form" name="form" method="post" action="WRKBAT001M0SelectList" onsubmit="return false;">
+								<div class="row">
+									<div class="col-auto">
+										<div class="input-group">
+											<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Program ID/Name"/>
+											<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">
+												Search
+					 						</button>
+										</div>
+									</div>
+								</div>
+								<div class="row mt-2">
+									<div class="col text-end">
+										<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px"
+												onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">
+											Create
+										</button>
+										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">
+											Download
+										</button>
+										<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px"
+												onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">
+											Edit
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+	 				</div>
+					<div style="padding-top: 2em"></div>
+					<div class="card card-md" id="divMyGrid">
+						<table class="table" align="center" style="width: 1284px; height: 500px"></table>
+					</div>
+	 			</div>
+				<div class="popupDataForm">
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">
+						Launch modal with form
+					</button>
+					<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+						<div class="modal-dialog modal-small" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">New report</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="row"></div>
+								</div>
+								<div class="modal-footer">
+									<div class="col flex-start">
+										<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
+									</div>
+									<div class="col-auto me-0 p-1"></div>
+									<div class="col-auto m-0">
+										<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">
+											Save changes
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<script src="js/utils.js"></script>
+	<script>
+		function checkData(data) {
+		return parentCheckData(data, check_cols);
+		}
+		function getList(input) {
+			console.log("getList input : " + input);
+			var option = {
+							id          : "SelectList"
+						, type        : "post"
+						, url         : "/WRKBAT001M0SelectList"
+						, async       : false
+						, dataType    : "json"
+						, contentType : "application/json; charset=utf-8"
+						, data        : input
+			};
 
-      function getList(input) {
-          console.log("getList input : " + input);
-          var option = {
-                         id          : "SelectList"
-                       , type        : "post"
-                       , url         : "/WRKBAT001M0SelectList"
-                       , async       : false
-                       , dataType    : "json"
-                       , contentType : "application/json; charset=utf-8"
-                       , data        : input
-                       };
-          
-          gf_Transaction(option, fn_callback);
-      }
-      
-      function insertList(addedRow) {
-          var option = {
-                     id          : "insertList"
-                   , type        : "post"
-                   , url         : "/WRKBAT001M0InsertList"
-                   , async       : false
-                   , dataType    : "text"
-                   , contentType : "application/json; charset=utf-8"
-                   , data        : addedRow
-                   };
-      
-          gf_Transaction(option, fn_callback);
-      }
-      
-      function updateList(input) {
-          console.log("updateList input : " + input);
-          var option = {
-                     id          : "updateList"
-                   , type        : "post"
-                   , url         : "/WRKBAT001M0UpdateList"
-                   , async       : true
-                   , dataType    : "text"
-                   , contentType : "application/json; charset=utf-8"
-                   , data        : input
-                   };
-      
-          gf_Transaction(option, fn_callback);
-      }
+			gf_Transaction(option, fn_callback);
+		}
 
-      function deleteList(todeleteRow) {
-          console.log("deleteList input : " + input);
-          var option = {
-                     id          : "deleteList"
-                   , type        : "post"
-                   , url         : "/WRKBAT001M0DeleteList"
-                   , async       : true
-                   , dataType    : "text"
-                   , contentType : "application/json; charset=utf-8"
-                   , data        : input
-                   };
-      
-          gf_Transaction(option, fn_callback);
-      }      
+		function insertList(addedRow) {
+			var option = {
+							id          : "insertList"
+						, type        : "post"
+					, url         : "/WRKBAT001M0InsertList"
+					, async       : false
+					, dataType    : "text"
+					, contentType : "application/json; charset=utf-8"
+					, data        : addedRow
+			};
 
-    </script>
-    <script src="js/utils.js"></script>
-    <script>
-      $(document).ready(function () {
-        console.log("Document is ready.");
-        //화면 접속시 바로 조회
-        main();
-        //send버튼 누르면, 조건적용하여 검색
-        $("#send").click(main);
-        //엔터키누르면, 조건적용하여 검색
-        $("input").on("keyup", function (key) {
-          if (key.keyCode == 13) {
-            main();
-          }
-        });
-      });
-      
-   // this method will trigger the popup modal to be draggle by mouse click
+			gf_Transaction(option, fn_callback);
+		}
+
+		function updateList(input) {
+			console.log("updateList input : " + input);
+			var option = {
+							id          : "updateList"
+						, type        : "post"
+						, url         : "/WRKBAT001M0UpdateList"
+						, async       : true
+						, dataType    : "text"
+						, contentType : "application/json; charset=utf-8"
+						, data        : input
+			};
+
+			gf_Transaction(option, fn_callback);
+		}
+
+		function deleteList(input) {
+			console.log("deleteList input : " + input);
+			var option = {
+							id          : "deleteList"
+						, type        : "post"
+						, url         : "/WRKBAT001M0DeleteList"
+						, async       : true
+ 						, dataType    : "text"
+						, contentType : "application/json; charset=utf-8"
+  						, data        : input
+			};
+
+			gf_Transaction(option, fn_callback);
+		}
+	</script>
+	<script>
+		$(document).ready(function () {
+			console.log("Document is ready.");
+			//화면 접속시 바로 조회
+			main();
+			//send버튼 누르면, 조건적용하여 검색
+			$("#send").click(main);
+			//엔터키누르면, 조건적용하여 검색
+			$("input").on("keyup", function (key) {
+				if (key.keyCode == 13) {
+					main();
+				}
+			});
+		});
+
+		// this method will trigger the popup modal to be draggle by mouse click
 		$(document).ready(function (){
 			// we initialize draggable when the modal is shown
 			$('#exampleModal').on('shown.bs.modal', function () {
@@ -243,410 +184,261 @@
 			// $('.btn-primary').trigger('click');
 		})
 
+		var grid;
+		var dataView;
+		var data;
+		var unqId = "rowNumber";
+		var xcpt_cols = [unqId, "regUsrid", "regDt"];
+		var check_cols = [unqId, "batProgNm"];
+		var columns = [
+			{ id: "batProgId",	name: "Program ID",			field: "batProgId",		width: 65,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "batProgNm",	name: "Program Name",		field: "batProgNm",		width: 300,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" },
+			{ id: "upProgId",	name: "Group Name",			field: "upProgId",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "lwstProgYn",	name: "Program",			field: "lwstProgYn",	width: 50,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "exePrd",		name: "Cycle",				field: "exePrd",		width: 60,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "Q", value: "Q" }, { key: "M", value: "M" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "mainEmpNo",	name: "Main User",			field: "mainEmpNo",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "subEmpNo",	name: "Sub User",			field: "subEmpNo",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "etcDesc",	name: "Desc",				field: "etcDesc",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "useYn",		name: "Use YN",				field: "useYn",			width: 50,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" } ]); }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "regUsrid",	name: "Registrant",			field: "regUsrid",		width: 100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "regDt",		name: "Registration Date",	field: "regDt",			width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+		];
 
-      var grid;
-      var dataView;
-      var data;
-      var unqId = "rowNumber";
-      var xcpt_cols = [unqId, "regUsrid", "regDt"];
-      var check_cols = [unqId, "batProgNm"];
-      var columns = [
-        {
-          id: "batProgId",
-          name: "Program ID",
-          field: "batProgId",
-          width: 65,
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: (value, args) =>
-            complexValidator(value, args, [
-              createValidator,
-              noWhitespaceValidator,
-            ]),
-           headerCssClass: "slick-header-columns",
-           cssClass: "slick-column-center",
-        },
-        {
-          id: "batProgNm",
-          name: "Program Name",
-          field: "batProgNm",
-          width: 300,
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-          headerCssClass: "slick-header-columns"
-        },
-        {
-          id: "upProgId",
-          name: "Group Name",
-          field: "upProgId",
-          width: 70,
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: (value, args) =>
-            complexValidator(value, args, [
-              createValidator,
-              noWhitespaceValidator,
-            ]),
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
-        },
-        {
-          id: "lwstProgYn",
-          name: "Program",
-          field: "lwstProgYn",
-          width: 50,
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
-        },
-        {
-          id: "exePrd",
-          name: "Cycle",
-          field: "exePrd",
-          width: 60,
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "Q", value: "Q" },
-              { key: "M", value: "M" },
-            ]);
-          },
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
-        },
-        {
-          id: "mainEmpNo",
-          name: "Main User",
-          field: "mainEmpNo",
-          width: 60,
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: (value, args) =>
-            complexValidator(value, args, [
-              createValidator,
-              noWhitespaceValidator,
-            ]),
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
-        },
-        {
-          id: "subEmpNo",
-          name: "Sub User",
-          field: "subEmpNo",
-          width: 60,
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: (value, args) =>
-            complexValidator(value, args, [
-              createValidator,
-              noWhitespaceValidator,
-            ]),
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
-        },
-        {
-          id: "etcDesc",
-          name: "Desc",
-          field: "etcDesc",
-          width: 60,
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
-        },
-        {
-          id: "useYn",
-          name: "Use YN",
-          field: "useYn",
-          width: 50,
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
-        },
-        {
-          id: "regUsrid",
-          name: "Registrant",
-          field: "regUsrid",
-          width: 100,
-          sortable: true,
-          editor: Slick.Editors.Text,
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
-        },
-        {
-          id: "regDt",
-          name: "Registration Date",
-          field: "regDt",
-          width: 120,
-          sortable: true,
-          editor: Slick.Editors.Text,
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center"
-        },
-      ];
+		var options = {
+			enableCellNavigation: true,
+			enableColumnReorder: false,
+			forceFitColumns: false,
+			multiColumnSort: true,
+			numberedMultiColumnSort: true,
+			tristateMultiColumnSort: true,
+			sortColNumberInSeparateSpan: true,
+			enableAutoSizeColumns: true,
+			editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
+			enableAddRow: true,
+  			asyncEditorLoading: false,
+   			autoEdit: false,
+ 			autoEditNewRow: false
+		};
 
-      var options = {
-        enableCellNavigation: true,
-        enableColumnReorder: false,
-        forceFitColumns: true,
-        multiColumnSort: true,
-        numberedMultiColumnSort: true,
-        tristateMultiColumnSort: true,
-        sortColNumberInSeparateSpan: true,
-        enableAutoSizeColumns: true,
-        editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
-        enableAddRow: true,
-        asyncEditorLoading: false,
-        autoEdit: false,
-        autoEditNewRow: false,
-      };
 
-	      var newRowIds = 0;
+		var newRowIds = 0;
+
+		var pluginOptions = {
+			clipboardCommandHandler: function (editCommand) {
+				undoRedoBuffer.queueAndExecuteCommand.call( undoRedoBuffer, editCommand);
+			},
+			readOnlyMode: false,
+			includeHeaderWhenCopying: false,
+			newRowCreator: function (count) {
+				for (var i = 0; i < count; i++) {
+					var item = { id: "newRow_" + newRowIds++, };
+					grid.getData().addItem(item);
+				}
+			},
+		};
+
+		function addSlickGridSomeStyling() {
+			const style = document.createElement("style");
+			style.innerHTML = `
+				.slick-header-columns {
+					font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+					font-size: 13px;
+				}
+				.slick-cell {
+					font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+					font-size: 13px;
+				}
+				`;
+			document.head.appendChild(style);
+		}
+
+			function main() {
+				addSlickGridSomeStyling();
+				// 그리드 초기화 및 데이터 로드
+				console.log("Initializing SlickGrid...");
+				getList(
+							(input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
+						);
+			}
+
+			/**
+			* Transaction callback 함수
+			**/
+			function fn_callback(result){
+				//console.log("fn_callback : " + result.id);
+				if( result.resultCd == "S" ){
+					switch (result.id){
+						case "SelectList" :
+							fn_setGrid(result.data);
+							break;
+						case "insertList" :
+							alert("Successfully Insert");
+							main();
+							break;
+						case "updateList" :
+							alert("Successfully Updated");
+							main();
+							break;
+						case "deleteList" :
+							alert("Successfully Deleted");
+							main();
+							break;
+					}
+				} else if( result.resultCd == "E") {
+				} else {
+					console.log("fn_callback result : ", result);
+				}
+			}
+
+			function fn_setGrid(data){
+				//dataView = new Slick.Data.DataView( { idField: unqId });
+				dataView = new Slick.Data.DataView();
+				grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
+
+				// Make the grid respond to DataView change events.
+				dataView.onRowCountChanged.subscribe(function (e, args) {
+					grid.updateRowCount();
+					grid.render();
+				});
+
+				dataView.onRowsChanged.subscribe(function (e, args) {
+					grid.invalidate();
+					grid.render();
+				});
+
+				// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
+				dataView.setItems(data, unqId);
+
+				// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
+				grid.onBeforeSort.subscribe(function (e, args) {
+				return true;
+				});                   
+
+				// 정렬
+				grid.onSort.subscribe(function (e, args) {
+				var cols = args.sortCols;
+
+				data.sort(function (dataRow1, dataRow2) {
+					for (var i = 0, l = cols.length; i < l; i++) {
+						var field  = cols[i].sortCol.field;
+						var sign   = cols[i].sortAsc ? 1 : -1;
+						var value1 = dataRow1[field],
+						value2 = dataRow2[field];
+						var result = (value1 == value2 ? 0 : value1 > value2 ? 1 : -1) * sign;
+						if (result != 0) {
+						return result;
+						}
+					}
+				return 0;
+				});
+				grid.render();
+			});
+
+			grid.setSelectionModel(new Slick.CellSelectionModel());
+			grid.registerPlugin(new Slick.AutoTooltips());
+
+			// set keyboard focus on the grid
+			//grid.getCanvasNode().focus();
+			grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
+
+			grid.onAddNewRow.subscribe(function (e, args) {
+				var newItem = args.item;
+				var column = args.column;
+				dataView.beginUpdate();
+				dataView.setItems(data);
+				dataView.endUpdate();
+				grid.updateRowCount();
+				grid.render();
+			});
+
+			grid.onBeforeEditCell.subscribe(function (e, args) {
+				console.log("onBeforeEditCell");
+			});
+
+			grid.onCellChange.subscribe(function (e, args) {
+				dataView.beginUpdate();
+				dataView.setItems(data);
+				dataView.endUpdate();
+				grid.updateRowCount();
+				grid.render();
+			});
+
+			grid.onValidationError.subscribe(function (e, args) {
+				// handle validation errors originating from the CompositeEditor
+				if (args.validationResults) {
+					let errorMsg = args.validationResults.msg || "";
+					if (args.editor && args.editor instanceof Slick.CompositeEditor) {
+						if (args.validationResults.errors) {
+							errorMsg += "\n";
+							args.validationResults.errors.forEach(function (error, errorIndex) {
+								const columnName = error.editor.args.column.id;
+								errorMsg += `${columnName.toUpperCase()}: ${error.msg}`;
+							});
+						}
+						console.log(errorMsg);
+					}
+				} else {
+					alert(errorMessages);
+				}
+			});
+
+			//grid.setActiveCell(0, 0);
+			console.log("SlickGrid initialized.");
+			}
+
+			// Download Excel functionality
+			document.getElementById("downloadExcel").addEventListener("click", function () {
+				const currDate = getCurrentDateTime();
+				const fileName = "WRKBAT001_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
+				const sheetName = "배치관리"; // 시트 이름
+				const gridColumns = columns; // SlickGrid의 컬럼 배열
+				const gridData = dataView.getItems(); // SlickGrid의 데이터 배열
+				exportToExcel(fileName, sheetName, gridColumns, gridData);
+			});
+
+		// 신규버튼 누르면 동작하는 함수
+		function openDetails(modalType) {
+
+			let hiddenColumns;
+			
+			if (modalType === "create") {
+				hiddenColumns = ["regUsrid","regDt"];
+			} else {
+				hiddenColumns = ["batProgId","regUsrid","regDt"];  // 컬럼 숨기기
+			}
+			
+			let options4 = [
+				{ value: "Y", text: "Y", column: " "},
+				{ value: "N", text: "N", column: " "}
+			];
 	
-	      var pluginOptions = {
-	        clipboardCommandHandler: function (editCommand) {
-	          undoRedoBuffer.queueAndExecuteCommand.call(
-	            undoRedoBuffer,
-	            editCommand
-	          );
-	        },
-	        readOnlyMode: false,
-	        includeHeaderWhenCopying: false,
-	        newRowCreator: function (count) {
-	          for (var i = 0; i < count; i++) {
-	            var item = {
-	              id: "newRow_" + newRowIds++,
-	            };
-	            grid.getData().addItem(item);
-	          }
-	        },
-	      };
-
-	      function addSlickGridSomeStyling() {
-	        const style = document.createElement("style");
-	        style.innerHTML = `
-	            .slick-header-columns {
-	              font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-	              font-size: 13px;
-	            }
-	            .slick-cell {
-	              font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-	              font-size: 13px;
-	            }
-	          `;
-	        document.head.appendChild(style);
-	      }
+			let options5 = [
+				{ value: "Yearly", text: "Yearly", column: "exePrd"},
+				{ value: "Halfly", text: "Halfly", column: "exePrd"},
+				{ value: "Quarterly", text: "Quarterly", column: "exePrd"},
+				{ value: "Monthly", text: "Monthly", column: "exePrd"}
+			];
 	
-	      function main() {
-	          addSlickGridSomeStyling();
-	          // 그리드 초기화 및 데이터 로드
-	          console.log("Initializing SlickGrid...");
-	          getList(
-	                      (input = JSON.stringify({ 
-	                                                searchTxt: $("#inpSearchTxt").val()
-	                      }))
-	                 );
-	      }
+			grid.render();
 
-            /**
-             * Transaction callback 함수
-            **/
-            function fn_callback(result){
-                console.log("fn_callback : " + result.id);
-                if( result.resultCd == "S" ){
-                    
-                    switch (result.id){
-                        case "SelectList" :
-                            
-                            fn_setGrid(result.data);
-                            
-                        break;
-                        case "insertList" :
+			let originalData = null;
 
-                            main();
-                        break;
-                        case "updateList" :
+			if (grid.getEditorLock().isActive() && !grid.getEditorLock().commitCurrentEdit()) {
+			return;
+			}
 
-                            main();
-                        break;
-                        case "deleteList" :
+			if (modalType === "create") { 
+				grid.setActiveCell(grid.getDataLength(), 0);
+			}
 
-                            main();
-                        break;
-                    }
-                } else if( result.resultCd == "E") {
-                    
-                } else {
-                    console.log("fn_callback result : ", result);
-                }
-            }
+			var activeCell = grid.getActiveCell();
+			var activeRow = (activeCell && activeCell.row) || 0;
 
-            function fn_setGrid(data){
-                
-                dataView = new Slick.Data.DataView( { idField: unqId });
-                grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
-                
-                // Make the grid respond to DataView change events.
-                dataView.onRowCountChanged.subscribe(function (e, args) {
-                    grid.updateRowCount();
-                    grid.render();
-                });
-                
-                dataView.onRowsChanged.subscribe(function (e, args) {
-                    grid.invalidate();
-                    grid.render();
-            });
-                        
-            // setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
-            dataView.setItems(data, unqId);
-            
-            // when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
-            grid.onBeforeSort.subscribe(function (e, args) {
-                return true;
-            });                   
-          
-            // 정렬
-         grid.onSort.subscribe(function (e, args) {
-            var cols = args.sortCols;
-
-            data.sort(function (dataRow1, dataRow2) {
-               for (var i = 0, l = cols.length; i < l; i++) {
-                    var field  = cols[i].sortCol.field;
-                    var sign   = cols[i].sortAsc ? 1 : -1;
-                    var value1 = dataRow1[field],
-                        value2 = dataRow2[field];
-                    var result =
-                    (value1 == value2 ? 0 : value1 > value2 ? 1 : -1) * sign;
-                  if (result != 0) {
-                    return result;
-                  }
-                }
-                return 0;
-              });
-              grid.render();
-            });
-
-            grid.setSelectionModel(new Slick.CellSelectionModel());
-            grid.registerPlugin(new Slick.AutoTooltips());
-
-            // set keyboard focus on the grid
-            //grid.getCanvasNode().focus();
-            grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
-
-            grid.onAddNewRow.subscribe(function (e, args) {
-              var newItem = args.item;
-              var column = args.column;
-              dataView.beginUpdate();
-              dataView.setItems(data);
-              dataView.endUpdate();
-              grid.updateRowCount();
-              grid.render();
-            });
-
-            grid.onBeforeEditCell.subscribe(function (e, args) {
-              console.log("onBeforeEditCell");
-            });
-
-              grid.onCellChange.subscribe(function (e, args) {
-                  dataView.beginUpdate();
-                  dataView.setItems(data);
-                  dataView.endUpdate();
-                  grid.updateRowCount();
-                  grid.render();
-              });
-
-            grid.onValidationError.subscribe(function (e, args) {
-              // handle validation errors originating from the CompositeEditor
-              if (args.validationResults) {
-                let errorMsg = args.validationResults.msg || "";
-                if (args.editor && args.editor instanceof Slick.CompositeEditor) {
-                  if (args.validationResults.errors) {
-                    errorMsg += "\n";
-                    args.validationResults.errors.forEach(function (
-                      error,
-                      errorIndex
-                    ) {
-                      const columnName = error.editor.args.column.id;
-                      errorMsg += `${columnName.toUpperCase()}: ${error.msg}`;
-                    });
-                  }
-                  console.log(errorMsg);
-                }
-              } else {
-                alert(errorMessages);
-              }
-            });
-
-            grid.setActiveCell(0, 0);
-            console.log("SlickGrid initialized.");
-       }
-
-      // Download Excel functionality
-      document.getElementById("downloadExcel").addEventListener("click", function () {
-          const currDate = getCurrentDateTime();
-          const fileName = "WRKBAT001_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
-          const sheetName = "배치관리"; // 시트 이름
-          const gridColumns = columns; // SlickGrid의 컬럼 배열
-          const gridData = dataView.getItems(); // SlickGrid의 데이터 배열
-          exportToExcel(fileName, sheetName, gridColumns, gridData);
-      });
-
-      // 신규버튼 누르면 동작하는 함수
-      function openDetails(modalType) {
-    	  
-    	let options4 = [
-      	 { value: "Y", text: "Y", column: " "},
-      	 { value: "N", text: "N", column: " "}
-      	];
-    	
-    	let options5 = [
-         { value: "Yearly", text: "Yearly", column: "exePrd"},
-         { value: "Halfly", text: "Halfly", column: "exePrd"},
-         { value: "Quarterly", text: "Quarterly", column: "exePrd"},
-         { value: "Monthly", text: "Monthly", column: "exePrd"}
-        ];
-    	
-    	
-        grid.render();
-
-        let originalData = null;
-
-        if (
-          grid.getEditorLock().isActive() &&
-          !grid.getEditorLock().commitCurrentEdit()
-        ) {
-          return;
-        }
-
-        if (modalType === "create") {
-          grid.setActiveCell(grid.getDataLength(), 0);
-        }
-
-        var activeCell = grid.getActiveCell();
-        var activeRow = (activeCell && activeCell.row) || 0;
-
-        if (!options.enableCellNavigation) {
-          throw new Error(
-            'Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.'
-          );
-        } else if (!activeCell && modalType === "edit") {
-          throw new Error("No records selected for edit operation");
-        }
+			if (!options.enableCellNavigation) {
+				throw new Error('Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
+			} else if (!activeCell && modalType === "edit") {
+				throw new Error("No records selected for edit operation");
+			}
 
         const dataContext = grid.getDataItem(activeRow);
         const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
@@ -670,9 +462,10 @@
           console.error("error while loading the moda title: ");
         }
         renewOptions(false);
+        
 
-        // Dynamically create form elements based on the columns that have editors
-        const modalColumns = columns.filter((col) => col.editor);
+		// Dynamically create form elements based on the columns that have editors
+		const modalColumns = columns.filter(col => col.editor && !hiddenColumns.includes(col.id));
 
         const columnsPerShow = 6;
         let currentRow;
@@ -701,37 +494,37 @@
           inputElem.className = "form-control";
           inputElem.dataset.editorid = column.id;
           inputElem.value =
-            modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+		modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 
-          formGroupElem.appendChild(detailLabelitem);
-          
-          if(column.id === "exePrd" || column.id === "lwstProgYn" || column.id === "useYn"){
-        	  
-        	  const selectInput = document.createElement('select');
-      		  selectInput.className = "form-select";
-      		  selectInput.dataset.editorid = column.id;
-      		
-      		  const defaultOption = document.createElement('option');
-			  defaultOption.value = "";
-			  defaultOption.textContent = "- options -";
-			  selectInput.appendChild(defaultOption);
+		formGroupElem.appendChild(detailLabelitem);
+
+		if(column.id === "exePrd" || column.id === "lwstProgYn" || column.id === "useYn"){
+
+			const selectInput = document.createElement('select');
+			selectInput.className = "form-select";
+			selectInput.dataset.editorid = column.id;
+			
+			const defaultOption = document.createElement('option');
+			defaultOption.value = "";
+			defaultOption.textContent = "- options -";
+			selectInput.appendChild(defaultOption);
 				
-			  let optionsData = [];
-             
-		  if(column.id === "exePrd"){
-			  optionsData = options5;
-		  } else {
+			let optionsData = [];
+
+		if(column.id === "exePrd"){
+			optionsData = options5;
+		} else {
 			  optionsData = options4;
-		  }
-		  
-		  optionsData.forEach(option => {
+		}
+
+			optionsData.forEach(option => {
 				const optionElem = document.createElement('option');
 				optionElem.value = option.value;
 				optionElem.textContent = option.text;
 				selectInput.appendChild(optionElem);
 			});
-        
-        if(modalType === "edit"){
+
+			if(modalType === "edit"){
 				selectInput.value = dataContext[column.field] || "";
 			}
         
@@ -770,67 +563,75 @@
         	console.log("Save");
           const formData = {};
 
-          // Collect form data
-          modalColumns.forEach((column) => {
-              console.log("Save2");
-            const input = modalBodyElem.querySelector(
-              `[data-editorid="${column.id}"]`
-            );
-            if (input) {
-              formData[column.field] = input.value.trim();
-            }
-          });
-          
-          if (modalType === "create") {
-            // Add new item to grid data
-            if (checkData(formData)) {
-              formData[unqId] = grid.getDataLength() + 1;
-              //dataView.insertItem(grid.getDataLength(), formData);
-              if(confirm("Do you want to register?") == true){
+			// Collect form data
+			modalColumns.forEach((column) => {
+				console.log("Save2");
+				const input = modalBodyElem.querySelector(`[data-editorid="${column.id}"]`);
+				if (input) {
+					formData[column.field] = input.value.trim();
+				}
+			});
+			
+			if (modalType === "edit") {
+				hiddenColumns.forEach(hiddenColId => {
+					formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
+				});
+			}
 
-            	  insertList(JSON.stringify(formData));
-              }
-            } else {
-              alert("Please fill out all required fields.");
-              return;
-            }
-          } else if (modalType === "edit") {
-            // Update existing item in grid data
-            let isChanged = false;
-            for (let key in formData) {
-              if (formData[key] !== originalData[key]) {
-                isChanged = true;
-                break;
-              }
-            }
+			if (modalType === "create") {
+				// Add new item to grid data
+				if (checkData(formData)) {
+					formData[unqId] = grid.getDataLength() + 1;
+					//dataView.insertItem(grid.getDataLength(), formData);
+					if(confirm("Do you want to register?") == true){
+						insertList(JSON.stringify(formData));
+					}
+				} else {
+					alert("Please fill out all required fields.");
+				return;
+				}
+			} else if (modalType === "edit") {
+				let isChanged = false;
+				for (let key in formData) {
+					if (formData[key] !== originalData[key]) {
+						isChanged = true;
+						break;
+					}
+				}
 
-            if (isChanged) {
-              formData[unqId] = originalData[unqId];
-              //dataView.updateItem(originalData[unqId], formData);
-              if(confirm("Do you want to modify?") == true){
-              updateList(JSON.stringify(formData));
-              }
-            } else {
-              alert("No changes detected.");
-              return;
-            }
-          }
-          grid.render();
-          modalElement.hide(); // Hide the modal after saving\
-        }
+				if (isChanged) {
+					formData[unqId] = originalData[unqId];
+					//dataView.updateItem(originalData[unqId], formData);
+					if(confirm("Do you want to modify?") == true){
+						updateList(JSON.stringify(formData));
+					}
+				} else {
+					alert("No changes detected.");
+				return;
+				}
+			}
+			grid.render();
+			modalElement.hide(); // Hide the modal after saving\
+		};
 
-        // Close button logic
-        const closeBtn = document.querySelector(".modal-footer .btn-link");
-        closeBtn.removeEventListener("click", closeHandler);
-        closeBtn.addEventListener("click", closeHandler);
+  		// Close button logic
+		const closeBtn = document.querySelector(".modal-footer .btn-link");
+ 		closeBtn.removeEventListener("click", closeHandler);
+		closeBtn.addEventListener("click", closeHandler);
 
-        function closeHandler() {
-          if (modalType === "edit" && originalData) {
-            dataView.updateItem(originalData[unqId], originalData);
-          }
-          modalElement.hide(); // we hide the modal
-        }
-      }
-    </script>
-  </th:block>
+		function closeHandler() {
+			if (modalType === "edit" && originalData) {
+				dataView.updateItem(originalData[unqId], originalData);
+			}
+			modalElement.hide(); // we hide the modal
+		}
+		/*
+		closeBtn.addEventListener("click", function () {
+			if (modalType === "edit" && originalData) {
+				dataView.updateItem(originalData[unqId], originalData); // Revert changes if canceled
+			}
+		}); */
+	}
+		</script>
+	</th:block>
 </html>
