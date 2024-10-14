@@ -21,11 +21,8 @@ public class BIZINS001M0Service {
 		return bIZINS001M0DAO.selectList(inVo);
 	}
 	
-<<<<<<< Updated upstream
 	public void executeList(ExecuteDTO inVo) {
-=======
-	public void executeList(BIZINS001M0P1DTO inVo) {
->>>>>>> Stashed changes
+
 		bIZINS001M0DAO.deleteListBf(inVo);
 		bIZINS001M0DAO.insertList(inVo);
 		
