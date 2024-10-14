@@ -20,31 +20,21 @@
 											<option value="">- options -</option>
 										</select>
 									</div>
-
-									<!-- <button type="button" class=" btn btn-pill" onclick="main()">
-	                          Search
-	                        </button> -->
+									<div class="col text-end">
+										<br/><br/>
+										<button type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">Create</button>
+										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px;" id="downloadExcel" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Download</button>
+										<button type="button" class=" btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
+									</div>
 								</div>
-								<div class="col text-end">
-									<button type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">Create</button>
-									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px;" id="downloadExcel" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Download</button>
-
-									<button type="button" class=" btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
-
-								</div>
+							</form>
 						</div>
-						
-						</form>
 					</div>
 					<div style="padding-bottom: 25px;"></div>
 				</div>
 				<div class="card card-md">
 					<div align="center" id="divMyGrid">
-						<table 
-							class="table"
-							align="center"
-							style="width: 1284px; height: 500px"
-						>
+						<table class="table" align="center" style="width: 1284px; height: 500px">
 						</table>
 					</div>
 				</div>
@@ -261,7 +251,15 @@
 	        var xcpt_cols = ["tblId", "regUsrid", "regDt"];
 	        var check_cols = [unqId];
 	        var columns = [
-	          {id: "tblId",    name: "테이블ID", field: "tblId", sortable: true, editor: Slick.Editors.Text},
+	          {
+	            id: "tblId",
+				name: "테이블ID",
+				field: "tblId",
+				sortable: true,
+				editor: Slick.Editors.Text,
+				headerCssClass: "slick-header-columns",
+				cssClass: "slick-column-left",
+			  },
 	          {
 	            id: "itmNm",
 	            name: "Column Name",
@@ -273,6 +271,8 @@
 	                createValidator,
 	                noWhitespaceValidator,
 	              ]),
+	            headerCssClass: "slick-header-columns",
+	            cssClass: "slick-column-left",
 	          },
 	          {
 	            id: unqId,
@@ -285,6 +285,8 @@
 	                createValidator,
 	                noWhitespaceValidator,
 	              ]),
+	            headerCssClass: "slick-header-columns",
+	            cssClass: "slick-column-left",
 	          },
 	          {
 	            id: "dataTpCd",
@@ -299,6 +301,8 @@
 	                { key: "TIMESTAMP", value: "TIMESTAMP" },
 	              ]);
 	            },
+	            headerCssClass: "slick-header-columns",
+	            cssClass: "slick-column-center",
 	          },
 	          {
 	            id: "pkYn",
@@ -311,6 +315,8 @@
 	                { key: "N", value: "N" },
 	              ]);
 	            },
+	            headerCssClass: "slick-header-columns",
+	            cssClass: "slick-column-center",
 	          },
 	          {
 	            id: "vlvlVrfYn",
@@ -323,6 +329,8 @@
 	                { key: "N", value: "N" },
 	              ]);
 	            },
+	            headerCssClass: "slick-header-columns",
+	            cssClass: "slick-column-center",
 	          },
 	          {
 	            id: "vlvlCd",
@@ -330,6 +338,8 @@
 	            field: "vlvlCd",
 	            sortable: true,
 	            editor: Slick.Editors.Text,
+	            headerCssClass: "slick-header-columns",
+	            cssClass: "slick-column-center",
 	          },
 	          {
 	            id: "ordSeq",
@@ -342,6 +352,8 @@
 	                createValidator,
 	                noWhitespaceValidator,
 	              ]),
+	            headerCssClass: "slick-header-columns",
+	            cssClass: "slick-column-center",
 	          },
 	          {
 	            id: "itmDsc",
@@ -349,6 +361,7 @@
 	            field: "itmDsc",
 	            sortable: true,
 	            editor: Slick.Editors.Text,
+	            headerCssClass: "slick-header-columns",
 	          },
 	          {
 	            id: "selBasYn",
@@ -356,6 +369,8 @@
 	            field: "selBasYn",
 	            sortable: true,
 	            editor: Slick.Editors.Text,
+	            headerCssClass: "slick-header-columns",
+	            cssClass: "slick-column-center",
 	          },
 	        ];
 	
@@ -395,8 +410,25 @@
 	            }
 	          },
 	        };
+	        
+	        function addSlickGridSomeStyling() {
+	            const style = document.createElement("style");
+	            style.innerHTML = `
+	                 .slick-header-columns {
+	                   font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+	                   font-size: 13px;
+	                   font-weight: bold;
+	                 }
+	                 .slick-cell {
+	                   font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+	                   font-size: 13px;
+	                 }
+	               `;
+	            document.head.appendChild(style);
+	          }
 	
 	        function main() {
+	          addSlickGridSomeStyling();
 	          // 그리드 초기화 및 데이터 로드
 	          console.log("Initializing SlickGrid...");
 	          console.log("선택된 value: ", selectedValue);

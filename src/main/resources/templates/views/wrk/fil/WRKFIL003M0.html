@@ -1,103 +1,67 @@
 <!DOCTYPE html>
-<html
-  lang="ko"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}"
->
-  <th:block layout:fragment="content">
-    <div class="page-wrapper" id="page-wrapper">
-      <div class="container" id="container">
-        <h2>[[${menuNm}]]</h2>
-        <div class="ptag-container">
-          <span>[[${navigator}]]</span>
-          <div class="form-container">
-            <div class="form-box">
-              <form
-                id="divSearch"
-                name="divSearch"
-                method="post"
-                action="/WRKFIL001M0SelectList"
-                onsubmit="return false;"
-              >
-                <div class="row align-items-center">
-                  <!-- Label -->
-                  <!-- <div class="col-auto">
-                    <label class="form-label mb-0"> Month / Year</label>
-                  </div> -->
-                  <!-- Month Select -->
-                  <div class="col-auto">
-                    <label class="form-label"> Month: </label>
-                    <select
-                      name="user[month]"
-                      class="form-select select-month-year p-1"
-                      id="inputMonth"
-                    >
-                      <option selected value="">- Month -</option>
-                      <!-- Month Options -->
-                      <option value="1">January</option>
-                      <option value="2">February</option>
-                      <option value="3">March</option>
-                      <option value="4">April</option>
-                      <option value="5">May</option>
-                      <option value="6">June</option>
-                      <option value="7">July</option>
-                      <option value="8">August</option>
-                      <option value="9">September</option>
-                      <option value="10">October</option>
-                      <option value="11">November</option>
-                      <option value="12">December</option>
-                    </select>
-                  </div>
-                  <!-- Year Select -->
-                  <div class="col-auto">
-                    <label class="form-label"> Year: </label>
-                    <select
-                      name="user[year]"
-                      class="form-select select-month-year p-1"
-                      id="inputYear"
-                    >
-                      <option selected value="">- Year -</option>
-                      <!-- Year Options -->
-                      <option value="2020">2020</option>
-                      <option value="2021">2021</option>
-                      <option value="2022">2022</option>
-                      <option value="2023">2023</option>
-                      <option value="2024">2024</option>
-                      <option value="2025">2025</option>
-                      <option value="2026">2026</option>
-                    </select>
-                  </div>
-                  <!-- Options Select  -->
-                  <div class="col-auto">
-                    <label class="form-label"> Select a file: </label>
-                    <select
-                      id="cmbUploadFileList"
-                      name="cmbUploadFileList"
-                      required
-                      class="form-select select-options p-1"
-                    >
-                      <option selected value="">- select -</option>
-                      <!-- options here -->
-                    </select>
-                  </div>
-                  <!-- Search Button -->
-                  <div class="col-auto">
-                    <button
-                      type="button"
-                      class="btn btn-primary search-button p-1"
-                      name="btnSearch"
-                      onclick="getSearchList()"
-                      data-test="create-button"
-                    >
-                      Search
-                    </button>
-                  </div>
-                </div>
-              </form>
-              <div class="row mt-3">
-                <div class="col d-flex align-items-center">
-                  <!-- <form
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<th:block layout:fragment="content">
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="container">
+			<h2>[[${menuNm}]]</h2>
+			<div class="ptag-container">
+				<span>[[${navigator}]]</span>
+				<div class="form-container">
+					<div class="form-box">
+						<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
+							<div class="row align-items-center">
+								<!-- Month Select -->
+								<div class="col-auto">
+									<label class="form-label"> Month: </label>
+									<select name="user[month]" class="form-select select-month-year p-1" id="inputMonth">
+										<option selected value="">- Month -</option>
+										<!-- Month Options -->
+										<option value="1">January</option>
+										<option value="2">February</option>
+										<option value="3">March</option>
+										<option value="4">April</option>
+										<option value="5">May</option>
+										<option value="6">June</option>
+										<option value="7">July</option>
+										<option value="8">August</option>
+										<option value="9">September</option>
+										<option value="10">October</option>
+										<option value="11">November</option>
+										<option value="12">December</option>
+									</select>
+								</div>
+								<!-- Year Select -->
+								<div class="col-auto">
+									<label class="form-label"> Year: </label>
+									<select name="user[year]" class="form-select select-month-year p-1" id="inputYear">
+										<option selected value="">- Year -</option>
+										<!-- Year Options -->
+										<option value="2020">2020</option>
+										<option value="2021">2021</option>
+										<option value="2022">2022</option>
+										<option value="2023">2023</option>
+										<option value="2024">2024</option>
+										<option value="2025">2025</option>
+										<option value="2026">2026</option>
+									</select>
+								</div>
+								<!-- Options Select  -->
+								<div class="col-auto">
+									<label class="form-label"> Select a file: </label>
+									<select id="cmbUploadFileList" name="cmbUploadFileList" required class="form-select select-options p-1">
+										<option selected value="">- select -</option>
+										<!-- options here -->
+									</select>
+								</div>
+								<!-- Search Button -->
+								<div class="col-auto">
+									<button type="button" class="btn btn-primary search-button p-1" name="btnSearch" onclick="getSearchList()" data-test="create-button">Search</button>
+								</div>
+							</div>
+						</form>
+						<div class="row mt-3">
+							<div class="col d-flex align-items-center">
+								<!-- <form
                     method="post"
                     id="uploadFrm"
                     enctype="multipart/form-data"
@@ -111,65 +75,35 @@
                       style="font-size: 13px"
                     />
                   </form> -->
-                  <!-- choose file -->
-                  <form
-                    method="post"
-                    id="uploadFrm"
-                    enctyp="multipart/form-data"
-                  >
-                    <input
-                      type="file"
-                      class="form-control file-attach mb-0"
-                      style="padding: 5px"
-                    />
-                  </form>
-                  <!-- </div> -->
-                </div>
-                <div class="col"></div>
-                <div class="col text-end align-items-center me-2">
-                  <button
-                    name="btnExcelDown"
-                    type="button"
-                    class="btn btn-lime"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    id="downloadExcel"
-                    onclick="getExcelList()"
-                    data-test="edit-button"
-                  >
-                    Download
-                  </button>
-                  <button
-                    name="btnSave"
-                    type="button"
-                    class="btn btn-secondary"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    onclick="setSaveUploadFile()"
-                    data-test="edit-button"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!-- rest of content -->
-          </div>
-          <div style="padding-bottom: 10px"></div>
-          <div style="padding-top: 1em">
-            <form name="divData">
-              <!-- <p>►&nbsp;<label for="lblGrdTitle">Grid title: </label></p> -->
+								<!-- choose file -->
+								<form method="post" id="uploadFrm" enctyp="multipart/form-data">
+									<input type="file" class="form-control file-attach mb-0" style="padding: 5px" />
+								</form>
+								<!-- </div> -->
+							</div>
+							<div class="col"></div>
+							<div class="col text-end align-items-center me-2">
+								<button name="btnExcelDown" type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel" onclick="getExcelList()" data-test="edit-button">Download</button>
+								<button name="btnSave" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="setSaveUploadFile()" data-test="edit-button">Save</button>
+							</div>
+						</div>
+					</div>
+					<!-- rest of content -->
+				</div>
+				<div style="padding-bottom: 10px"></div>
+				<div style="padding-top: 1em">
+					<form name="divData">
+						<!-- <p>►&nbsp;<label for="lblGrdTitle">Grid title: </label></p> -->
 
-              <div class="card card-md" align="center">
-                <table
-                  id="divGrdMain"
-                  style="width: 1284px; height: 500px"
-                ></table>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
+						<div class="card card-md" align="center">
+							<table id="divGrdMain" style="width: 1284px; height: 500px"></table>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
       $(document).ready(function () {
         console.log("Document is ready.");
         $("input").on("keyup", function (key) {
@@ -459,5 +393,5 @@
         var grid = new Slick.Grid("#divGrdMain", [{}], [{}], [{}]);
       }
     </script>
-  </th:block>
+</th:block>
 </html>

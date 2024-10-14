@@ -25,6 +25,10 @@ a.nav-link.active {
   text-align: center;
 }
 
+.slick-column-left {
+  text-align: left;
+}
+
 .slick-column-center {
   text-align: center;
 }
