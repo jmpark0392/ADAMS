@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.opn.usr.dao.OPNUSR001M0DAO">
+    <select id="selectMenuList" parameterType="com.rds.adams.web.opn.usr.dto.OPNUSR001M0P0DTO" resultType="com.rds.adams.web.opn.usr.dto.OPNUSR001M0R0DTO">
+        /* web.opn.usr.dao.OPNUSR001M0DAO.selectMenuList */
+        SELECT
+               MM.MENU_ID
+             , MM.MENU_NM_KOR       
+             , MM.MENU_NM_ENG
+             , MM.UPPR_MENU_ID
+             , MM.MENU_SRT_ORD
+             , MM.MENU_DESC
+             , MM.PGM_NM
+             , MM.PGM_PATH_NM
+             , MM.SRVC_CD
+             , MM.ADMIN_AUTH_YN
+             , MM.SYSOP_AUTH_YN
+             , MM.USE_YN
+             , MM.DEL_YN
+             , MM.FRST_REG_EMP_NO
+             , MM.FRST_REG_DTM
+          FROM [RDSDB].[DBO].[TB_MENU_MNG_LST] MM
+         WHERE 1=1
+         <if test='menuNmKor != "" and menuNmKor != null'>
+           AND MM.MENU_NM_KOR LIKE '%' + #{menuNmKor} + '%'
+         </if>
+         <if test='menuNmEng != "" and menuNmEng != null'>
+           AND MM.MENU_NM_ENG LIKE '%' + #{menuNmEng} + '%'
+         </if>
+         <if test='menuDesc != "" and menuDesc != null'>
+           AND MM.MENU_DESC   LIKE '%' + #{menuDesc} + '%'
+         </if>
+         <if test='pgmNm != "" and pgmNm != null'>
+           AND MM.PGM_NM      LIKE '%' + #{pgmNm} + '%'
+         </if>
+           --AND MM.USE_YN = 'Y'
+           --AND MM.DEL_YN = 'N'
+         ORDER BY MM.MENU_ID
+    </select>
+    <insert id="insertList" parameterType="com.rds.adams.web.opn.usr.dto.OPNUSR001M0P1DTO">
+        INSERT INTO [RDSDB].[dbo].[TB_MENU_MNG_LST]
+            (
+              MENU_ID
+            , MENU_NM_KOR
+            , MENU_NM_ENG
+            , UPPR_MENU_ID
+            , MENU_SRT_ORD
+            , MENU_DESC
+            , PGM_NM
+            , PGM_PATH_NM
+            , SRVC_CD
+            , ADMIN_AUTH_YN
+            , SYSOP_AUTH_YN
+            , USE_YN
+            , DEL_YN
+            , FNL_UPD_EMP_NO
+            , FNL_UPD_DTM
+            , FRST_REG_EMP_NO
+            , FRST_REG_DTM
+            )
+        VALUES (
+                 #{menuId}
+               , #{menuNmKor}
+               , #{menuNmEng}
+               , #{upprMenuId}
+               , #{menuSrtOrd}
+               , #{menuDesc}
+               , #{pgmNm}
+               , #{pgmPathNm}
+               , #{srvcCd}
+               , #{adminAuthYn}
+               , #{sysopAuthYn}
+               , #{useYn}
+               , #{delYn}
+               , #{usrId}
+               , GETDATE()
+               , #{usrId}
+               , GETDATE()
+               )
+    </insert>
+    <update id="updateList" parameterType="com.rds.adams.web.opn.usr.dto.OPNUSR001M0P1DTO">
+        UPDATE [RDSDB].[dbo].[TB_MENU_MNG_LST]
+           SET MENU_NM_KOR     = #{menuNmKor}
+             , MENU_NM_ENG     = #{menuNmEng}
+             , UPPR_MENU_ID    = #{upprMenuId}
+             , MENU_SRT_ORD    = #{menuSrtOrd}
+             , MENU_DESC       = #{menuDesc}
+             , PGM_NM          = #{pgmNm}
+             , PGM_PATH_NM     = #{pgmPathNm}
+             , SRVC_CD         = #{srvcCd}
+             , ADMIN_AUTH_YN   = #{adminAuthYn}
+             , SYSOP_AUTH_YN   = #{sysopAuthYn}
+             , USE_YN          = #{useYn}
+             , DEL_YN          = #{delYn}
+             , FNL_UPD_EMP_NO  = #{usrId}
+             , FNL_UPD_DTM     = GETDATE()
+         WHERE MENU_ID = #{menuId}
+    </update>
+    <delete id="deleteList" parameterType="com.rds.adams.web.opn.usr.dto.OPNUSR001M0P1DTO" >
+        DELETE FROM [RDSDB].[dbo].[TB_MENU_MNG_LST]
+         WHERE 1=1
+           AND MENU_ID = #{menuId}
+    </delete>
+</mapper>

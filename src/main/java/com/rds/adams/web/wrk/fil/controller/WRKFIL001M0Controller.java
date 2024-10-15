@@ -52,9 +52,8 @@ public class WRKFIL001M0Controller {
 	public void insert(@RequestBody WRKFIL001M0P1DTO inVo, HttpServletRequest request) {
 		
 
-		WRKFIL001M0P1DTO wRKFIL001M0P1DTO = new WRKFIL001M0P1DTO();
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		wRKFIL001M0P1DTO.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
+		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
 		
 		log.info(inVo.toString());
 		try {
