@@ -51,13 +51,9 @@ public class BIZJNL001M0Controller {
 	@RequestMapping(value="/BIZJNL001M0InsertList", method=RequestMethod.POST, consumes="application/json")
 	public void insert(@RequestBody BIZJNL001M0P1DTO inVo, HttpServletRequest request) {
 		
-		BIZJNL001M0P1DTO bIZJNL001M0P1DTO = new BIZJNL001M0P1DTO();
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		bIZJNL001M0P1DTO.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
+		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
 		
-		String email = bIZJNL001M0P1DTO.getFrstRegEmpNo();
-		
-		log.debug("first reg employee number: }", email);
 		log.info(inVo.toString());
 		try {
 			bIZJNL001M0Service.insertList(inVo);
@@ -70,7 +66,10 @@ public class BIZJNL001M0Controller {
 	}
 
 	@RequestMapping(value="/BIZJNL001M0UpdateList", method=RequestMethod.POST, consumes="application/json")
-	public void update(@RequestBody BIZJNL001M0P1DTO inVo) {
+	public void update(@RequestBody BIZJNL001M0P1DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
 		
 		log.info(inVo.toString());
 		try {
