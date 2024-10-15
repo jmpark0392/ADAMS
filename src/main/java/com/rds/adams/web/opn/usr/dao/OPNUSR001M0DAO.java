@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P0DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P1DTO;
-import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P2DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0R0DTO;
 
 /**
