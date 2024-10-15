@@ -24,8 +24,6 @@
 					 						</button>
 										</div>
 									</div>
-								</div>
-								<div class="row mt-2">
 									<div class="col text-end">
 										<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px"
 												onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">
@@ -207,7 +205,7 @@
 		var options = {
 			enableCellNavigation: true,
 			enableColumnReorder: false,
-			forceFitColumns: false,
+			forceFitColumns: true,
 			multiColumnSort: true,
 			numberedMultiColumnSort: true,
 			tristateMultiColumnSort: true,
