@@ -29,6 +29,7 @@
 	   WHERE 1=1
 	     AND A.OPT_CD = B.OPT_CD
 		 AND A.OPT_CD = '01'
+		 AND B.USE_YN = 'Y'
     </select>
     <select id="selectOptionInfoByCustomer" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0R0DTO">
         SELECT 
