@@ -581,8 +581,8 @@
               y2: {
                 type: 'linear',
                 display: false,
-                position: 'right', // Also on the right
-                offset: true, // Offset to prevent overlap with y1
+                position: 'right', 
+                offset: true, 
                 title: {
                   display: true,
                   text: 'User Average',
@@ -697,6 +697,26 @@
         }
         // search function to make a fetch call to the server
         function searchFunction() {
+          // inputMonth
+          // inputYear
+          // companyCode
+          if (
+            $("#inputMonth").val() === "" &&
+            $("#inputYear").val() === "" &&
+            $("#companyCode").val() === ""
+          ) {
+            alert("Please select a month, year, and a company code!");
+            return false;
+          } else if ($("#inputYear").val() === "") {
+            alert("Please select a year to continue!");
+            return false;
+          } else if ($("#inputMonth").val() === "") {
+            alert("Please select a month to continue!");
+            return false;
+          } else if ($("#companyCode").val() === "") {
+            alert("Please select a company code to continue!");
+            return false;
+          }
 
           // these will be used to get the month and year from the user
           const month = document.getElementById("inputMonth").value;
@@ -767,12 +787,13 @@
 
         // seafch button event listener
         const searchButton = document.getElementById("searchButton");
+
         searchButton.addEventListener("click", searchFunction);
 
         $(document).ready(function () {
           // we fetch the user subcrioption info
           // getUserSubscriptionInfo();
-          searchFunction();
+          // searchFunction();
         });
       });
 
@@ -788,7 +809,6 @@
           exportToExcel(fileName, sheetName, gridColumns, gridData);
         });
     </script>
-  </div>
   </div>
   <script src="js/utils.js"></script>
 </th:block>
