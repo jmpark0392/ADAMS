@@ -51,8 +51,8 @@ a.nav-link.active {
   transition: 0.5s background;
 }
 .slick-cell {
-  height: 30px; /* 셀 높이 설정 */
-  line-height: 25px; /* 셀 높이와 동일하게 설정 */
+  height: 35px; /* 셀 높이 설정 */
+  line-height: 30px; /* 셀 높이와 동일하게 설정 */
   /* 필요에 따라 아래 속성을 추가 */
   overflow: hidden;
   white-space: nowrap;

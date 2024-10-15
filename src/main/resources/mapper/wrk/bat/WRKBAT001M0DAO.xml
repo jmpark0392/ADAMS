@@ -19,7 +19,9 @@
 			, FRST_REG_DTM
 		 FROM TB_BAT_MNG_LST
 		WHERE 1=1
+		 <if test='csNo != "999"'>
 		  AND CS_NO = #{csNo}
+		 </if>
          <if test='searchTxt != ""'>
            AND (
                 	BAT_PROG_ID LIKE '%' + #{searchTxt} + '%'
