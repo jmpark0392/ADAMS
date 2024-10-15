@@ -99,13 +99,13 @@
 
 		function insertList(addedRow) {
 			var option = {
-							id          : "insertList"
+							id        : "insertList"
 						, type        : "post"
-					, url         : "/BIZJNL002M0InsertList"
-					, async       : false
-					, dataType    : "text"
-					, contentType : "application/json; charset=utf-8"
-					, data        : addedRow
+						, url         : "/BIZJNL002M0InsertList"
+						, async       : false
+						, dataType    : "text"
+						, contentType : "application/json; charset=utf-8"
+						, data        : addedRow
 			};
 
 			gf_Transaction(option, fn_callback);
@@ -114,7 +114,7 @@
 		function updateList(input) {
 			console.log("updateList input : " + input);
 			var option = {
-							id          : "updateList"
+							id        : "updateList"
 						, type        : "post"
 						, url         : "/BIZJNL002M0UpdateList"
 						, async       : true
@@ -129,7 +129,7 @@
 		function deleteList(todeleteRow) {
 			console.log("deleteList input : " + input);
 			var option = {
-							id          : "deleteList"
+							id        : "deleteList"
 						, type        : "post"
 						, url         : "/BIZJNL002M0DeleteList"
 						, async       : true

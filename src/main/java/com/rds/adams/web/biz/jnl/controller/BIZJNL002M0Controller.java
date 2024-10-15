@@ -34,7 +34,10 @@ public class BIZJNL002M0Controller {
 	 * @return
 	 */
 	@RequestMapping(value="/BIZJNL002M0SelectList", method=RequestMethod.POST, consumes="application/json")
-	public List<BIZJNL002M0R0DTO> select(@RequestBody BIZJNL002M0P0DTO inVo) {
+	public List<BIZJNL002M0R0DTO> select(@RequestBody BIZJNL002M0P0DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO adamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(adamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		
@@ -51,8 +54,9 @@ public class BIZJNL002M0Controller {
 	@RequestMapping(value="/BIZJNL002M0InsertList", method=RequestMethod.POST, consumes="application/json")
 	public void insert(@RequestBody BIZJNL002M0P1DTO inVo, HttpServletRequest request) {
 		
-		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
+		AdamsLoginDTO adamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setFrstRegEmpNo(adamsLoginDTO.getUsrId());
+		inVo.setCsNo(adamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		try {
@@ -70,6 +74,7 @@ public class BIZJNL002M0Controller {
 		
 		AdamsLoginDTO adamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setFrstRegEmpNo(adamsLoginDTO.getUsrId());
+		inVo.setCsNo(adamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		try {
@@ -83,7 +88,10 @@ public class BIZJNL002M0Controller {
 	}
 	
 	@RequestMapping(value="/BIZJNL002M0DeleteList", method=RequestMethod.POST, consumes="application/json")
-	public void delete(@RequestBody BIZJNL002M0P1DTO inVo) {
+	public void delete(@RequestBody BIZJNL002M0P1DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO adamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(adamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		try {

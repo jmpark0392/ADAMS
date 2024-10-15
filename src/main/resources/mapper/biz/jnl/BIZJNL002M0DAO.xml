@@ -4,6 +4,7 @@
     <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0R0DTO">
         SELECT
                ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
+             , AA.CS_NO                               AS CS_NO
              , AA.INSC_DV_CD                          AS INSC_DV_CD
              , AA.VALU_METD_CD                        AS VALU_METD_CD
              , AA.LVL_1_CD                            AS LVL_1_CD
@@ -15,11 +16,12 @@
              , BB.ATIT_ENG_NM                         AS CR_AC_SUBJ_NM
              , AA.ETC_DESC                            AS ETC_DESC
              , AA.USE_YN                              AS USE_YN
-             , AA.FRST_REG_EMP_NO                     AS REG_USR_ID
-             , AA.FRST_REG_DTM                        AS REG_DT
+             , AA.FRST_REG_EMP_NO                     AS FRST_REG_EMP_NO
+             , AA.FRST_REG_DTM                        AS FRST_REG_DTM
           FROM (
                  SELECT
-                        A.INSC_DV_CD      AS INSC_DV_CD
+                        A.CS_NO           AS CS_NO
+                      , A.INSC_DV_CD      AS INSC_DV_CD
                       , A.VALU_METD_CD    AS VALU_METD_CD
                       , A.LVL_1_CD        AS LVL_1_CD
                       , A.LVL_2_CD        AS LVL_2_CD
@@ -37,52 +39,52 @@
                  ) AA
          INNER JOIN TB_ATIT_MNG_LST AS BB
             ON AA.CR_AC_SUBJ_CD = BB.ATIT_CD
+         WHERE AA.CS_NO         = #{csNo}
          <if test='searchTxt != ""'>
             AND (
                     DR_AC_SUBJ_CD LIKE '%' + #{searchTxt} + '%'
-                 OR DR_AC_SUBJ_NM LIKE '%' + #{searchTxt} + '%'
+                 OR AA.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
                  OR CR_AC_SUBJ_CD LIKE '%' + #{searchTxt} + '%'
-                 OR CR_AC_SUBJ_NM LIKE '%' + #{searchTxt} + '%'
+                 OR AA.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
                  )
          </if>
     </select>
     <insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
-    <!-- <selectKey>
-        	SELECT MAX(ROW_NUMBER)+1 FROM TB_JNL_RUL_MNG_LST;
-    </selectKey> -->
-        INSERT INTO [dbo].[TB_JNL_RUL_MNG_LST] 
-           (
-              [INSC_DV_CD]
-            , [VALU_METD_CD]
-            , [LVL_1_CD]
-            , [LVL_2_CD]
-            , [LVL_3_CD]
-            , [DR_AC_SUBJ_CD]
-            , [CR_AC_SUBJ_CD]
-            , [ETC_DESC]
-            , [USE_YN]
-            , [FRST_REG_EMP_NO]
-            , [FRST_REG_DTM]
-            , [FNL_UPD_EMP_NO]
-            , [FNL_UPD_DTM]
-            )
-        VALUES (
-                 #{inscDvCd}
-               , #{valuMetdCd}
-               , #{lvl1Cd}
-               , #{lvl2Cd}
-               , #{lvl3Cd}
-               , #{drAcSubjCd}
-               , #{crAcSubjCd}
-               , #{etcDesc}
-               , #{useYn}
-               , #{frstRegEmpNo}
-               , CONVERT(CHAR(10), getdate(), 23)
-               , #{frstRegEmpNo}
-               , CONVERT(CHAR(10), getdate(), 23)
-               )
-    </insert>
-    <update id="updateList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
+		INSERT INTO [dbo].[TB_JNL_RUL_MNG_LST] 
+			(
+			  [CS_NO]
+			, [INSC_DV_CD]
+			, [VALU_METD_CD]
+			, [LVL_1_CD]
+			, [LVL_2_CD]
+			, [LVL_3_CD]
+			, [DR_AC_SUBJ_CD]
+			, [CR_AC_SUBJ_CD]
+			, [ETC_DESC]
+			, [USE_YN]
+			, [FRST_REG_EMP_NO]
+			, [FRST_REG_DTM]
+			, [FNL_UPD_EMP_NO]
+			, [FNL_UPD_DTM]
+			)
+		VALUES (
+				  #{csNo}
+				, #{inscDvCd}
+				, #{valuMetdCd}
+				, #{lvl1Cd}
+				, #{lvl2Cd}
+				, #{lvl3Cd}
+				, #{drAcSubjCd}
+				, #{crAcSubjCd}
+				, #{etcDesc}
+				, #{useYn}
+				, #{frstRegEmpNo}
+				, CONVERT(CHAR(10), getdate(), 23)
+				, #{frstRegEmpNo}
+				, CONVERT(CHAR(10), getdate(), 23)
+				)
+	</insert>
+	<update id="updateList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
         UPDATE TB_JNL_RUL_MNG_LST
            SET
                DR_AC_SUBJ_CD  = #{drAcSubjCd},
@@ -92,6 +94,7 @@
                FNL_UPD_EMP_NO = #{frstRegEmpNo},
                FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
           WHERE 1=1
+            AND CS_NO        = #{csNo}
             AND INSC_DV_CD   = #{inscDvCd}
             AND VALU_METD_CD = #{valuMetdCd}
             AND LVL_1_CD     = #{lvl1Cd}
@@ -101,6 +104,7 @@
     <delete id="deleteList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
         DELETE FROM TB_JNL_RUL_MNG_LST
          WHERE 1=1
+           AND CS_NO        = #{csNo}
            AND INSC_DV_CD   = #{inscDvCd}
            AND VALU_METD_CD = #{valuMetdCd}
            AND LVL_1_CD     = #{lvl1Cd}

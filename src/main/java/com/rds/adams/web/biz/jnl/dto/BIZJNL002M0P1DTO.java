@@ -26,7 +26,10 @@ import lombok.ToString;
 public class BIZJNL002M0P1DTO {
 	
 	@Schema(description = "행번호")
-	private int rowNumber; 
+	private int rowNumber;
+	
+	@Schema(description = "고객사번호")
+	private String csNo;
 	
 	@Schema(description = "보험계약구분코드")
 	private String inscDvCd;
