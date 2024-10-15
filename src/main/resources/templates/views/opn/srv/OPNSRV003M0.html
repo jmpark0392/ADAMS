@@ -581,8 +581,8 @@
               y2: {
                 type: 'linear',
                 display: false,
-                position: 'right', 
-                offset: true, 
+                position: 'right',
+                offset: true,
                 title: {
                   display: true,
                   text: 'User Average',
@@ -695,26 +695,34 @@
           // Update the chart
           initlaizedChart.update();
         }
+
+        function inputValidation(input) {
+          // we remove the non-digit characters 
+          const numbersOnly = input.replace(/\D/g, "");
+
+          // we check if the result stirng is exactly three digits 
+          if (/^\d{3}$/.test(numbersOnly)) {
+            numbersOnly
+            return true;
+          } else {
+            alert("Please enter only 3 digit numbers (company code) ! ")
+            return false;
+          }
+        }
+
         // search function to make a fetch call to the server
         function searchFunction() {
-          // inputMonth
-          // inputYear
-          // companyCode
           if (
             $("#inputMonth").val() === "" &&
-            $("#inputYear").val() === "" &&
-            $("#companyCode").val() === ""
+            $("#inputYear").val() === ""
           ) {
-            alert("Please select a month, year, and a company code!");
+            alert("Please select a month, year !");
             return false;
           } else if ($("#inputYear").val() === "") {
             alert("Please select a year to continue!");
             return false;
           } else if ($("#inputMonth").val() === "") {
             alert("Please select a month to continue!");
-            return false;
-          } else if ($("#companyCode").val() === "") {
-            alert("Please select a company code to continue!");
             return false;
           }
 
@@ -723,6 +731,9 @@
           const year = document.getElementById("inputYear").value;
           const conpanyCode = document.getElementById("companyCode").value || "001";
           const stdYymm = year + month.padStart(2, "0");
+
+          // validaion methoid will be tirggered
+          inputValidation(conpanyCode);
 
           // Send an AJAX GET request to the endpoint
           $.ajax({
