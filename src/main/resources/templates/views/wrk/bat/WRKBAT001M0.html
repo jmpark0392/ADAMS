@@ -189,17 +189,17 @@
 		var xcpt_cols = [unqId, "regUsrid", "regDt"];
 		var check_cols = [unqId, "batProgNm"];
 		var columns = [
-			{ id: "batProgId",	name: "Program ID",			field: "batProgId",		width: 65,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "batProgNm",	name: "Program Name",		field: "batProgNm",		width: 300,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" },
-			{ id: "upProgId",	name: "Group Name",			field: "upProgId",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "lwstProgYn",	name: "Program",			field: "lwstProgYn",	width: 50,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "exePrd",		name: "Cycle",				field: "exePrd",		width: 60,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "Q", value: "Q" }, { key: "M", value: "M" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "mainEmpNo",	name: "Main User",			field: "mainEmpNo",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "subEmpNo",	name: "Sub User",			field: "subEmpNo",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "etcDesc",	name: "Desc",				field: "etcDesc",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "useYn",		name: "Use YN",				field: "useYn",			width: 50,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" } ]); }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "regUsrid",	name: "Registrant",			field: "regUsrid",		width: 100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "regDt",		name: "Registration Date",	field: "regDt",			width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "batProgId",		name: "Program ID",			field: "batProgId",		width: 65,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "batProgNm",		name: "Program Name",		field: "batProgNm",		width: 300,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" },
+			{ id: "upProgId",		name: "Group Name",			field: "upProgId",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "lwstProgYn",		name: "Program",			field: "lwstProgYn",	width: 50,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "exePrd",			name: "Cycle",				field: "exePrd",		width: 60,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "Q", value: "Q" }, { key: "M", value: "M" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "mainEmpNo",		name: "Main User",			field: "mainEmpNo",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "subEmpNo",		name: "Sub User",			field: "subEmpNo",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "etcDesc",		name: "Desc",				field: "etcDesc",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "useYn",			name: "Use YN",				field: "useYn",			width: 50,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" } ]); }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "frstRegDtm",		name: "Registration Date",	field: "frstRegDtm",	width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		];
 
 		var options = {
@@ -213,9 +213,9 @@
 			enableAutoSizeColumns: true,
 			editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
 			enableAddRow: true,
-  			asyncEditorLoading: false,
-   			autoEdit: false,
- 			autoEditNewRow: false
+			asyncEditorLoading: false,
+			autoEdit: false,
+			autoEditNewRow: false
 		};
 
 
@@ -400,9 +400,9 @@
 			let hiddenColumns;
 			
 			if (modalType === "create") {
-				hiddenColumns = ["regUsrid","regDt"];
+				hiddenColumns = ["frstRegEmpNo","frstRegDtm"];
 			} else {
-				hiddenColumns = ["batProgId","regUsrid","regDt"];  // 컬럼 숨기기
+				hiddenColumns = ["batProgId","frstRegEmpNo","frstRegDtm"];  // 컬럼 숨기기
 			}
 			
 			let options4 = [

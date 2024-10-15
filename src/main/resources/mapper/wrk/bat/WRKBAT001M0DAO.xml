@@ -15,8 +15,8 @@
 		     , SUB_EMP_NO
 		     , ETC_DESC
 		     , USE_YN
-		     , FRST_REG_EMP_NO   AS REG_USR_ID
-		     , FRST_REG_DTM      AS REG_DT
+		     , FRST_REG_EMP_NO
+		     , FRST_REG_DTM
 		  FROM TB_BAT_MNG_LST
          WHERE 1=1
          <if test='searchTxt != ""'>
@@ -52,9 +52,9 @@
             , #{subEmpNo}
             , #{etcDesc}
             , #{useYn}
-			, 'admin'
+			, #{frstRegEmpNo}
             , CONVERT(CHAR(10), getdate(), 23)
-            , 'admin'
+            , #{frstRegEmpNo}
             , CONVERT(CHAR(10), getdate(), 23)
         )
     </insert>
@@ -69,7 +69,7 @@
                SUB_EMP_NO = #{subEmpNo},
                ETC_DESC = #{etcDesc},
                USE_YN = #{useYn},
-               FNL_UPD_EMP_NO = 'admin',
+               FNL_UPD_EMP_NO = #{frstRegEmpNo},
                FNL_UPD_DTM = CONVERT(CHAR(10), getdate(), 23)
          WHERE BAT_PROG_ID = #{batProgId}
     </update>

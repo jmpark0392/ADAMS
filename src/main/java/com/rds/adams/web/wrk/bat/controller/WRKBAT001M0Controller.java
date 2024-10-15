@@ -2,12 +2,16 @@ package com.rds.adams.web.wrk.bat.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rds.adams.web.common.AdamsConstant;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P0DTO;
 import com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P1DTO;
 import com.rds.adams.web.wrk.bat.dto.WRKBAT001M0R0DTO;
@@ -45,7 +49,10 @@ public class WRKBAT001M0Controller {
 	}
 	
 	@RequestMapping(value="/WRKBAT001M0InsertList", method=RequestMethod.POST, consumes="application/json")
-	public void insert(@RequestBody WRKBAT001M0P1DTO inVo) {
+	public void insert(@RequestBody WRKBAT001M0P1DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
 		
 		log.info(inVo.toString());
 		try {
@@ -59,7 +66,10 @@ public class WRKBAT001M0Controller {
 	}
 
 	@RequestMapping(value="/WRKBAT001M0UpdateList", method=RequestMethod.POST, consumes="application/json")
-	public void update(@RequestBody WRKBAT001M0P1DTO inVo) {
+	public void update(@RequestBody WRKBAT001M0P1DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
 		
 		log.info(inVo.toString());
 		try {

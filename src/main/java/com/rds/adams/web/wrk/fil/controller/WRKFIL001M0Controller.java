@@ -67,7 +67,10 @@ public class WRKFIL001M0Controller {
 	}
 
 	@RequestMapping(value="/WRKFIL001M0UpdateList", method=RequestMethod.POST, consumes="application/json")
-	public void update(@RequestBody WRKFIL001M0P1DTO inVo) {
+	public void update(@RequestBody WRKFIL001M0P1DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
 		
 		log.info(inVo.toString());
 		try {

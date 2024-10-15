@@ -1,5 +1,6 @@
 package com.rds.adams.web.wrk.bat.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,19 +19,45 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "배치관리 DTO")
 @ToString
 @Getter
 @Setter
 public class WRKBAT001M0P1DTO {
 	
+	@Schema(description = "행번호")
 	private int rowNumber;
-	private String batProgId; /* 배치프로그램ID */
-	private String batProgNm; /* 배치프로그램명 */
-	private String upProgId; /* 상위프로그램ID */
-	private String lwstProgYn;  /* 최하위프로그램여부 */
-    private String exePrd; /* 실행주기 */
-	private String mainEmpNo; /* 주담당자 */
-	private String subEmpNo; /* 부담당자 */
-	private String etcDesc;    /* 비고 */
-	private String useYn; /* 사용여부 */  
+	
+	@Schema(description = "배치프로그램ID")
+	private String batProgId;
+	
+	@Schema(description = "배치프로그램명")
+	private String batProgNm;
+	
+	@Schema(description = "상위프로그램ID")
+	private String upProgId;
+	
+	@Schema(description = "최하위프로그램여부")
+	private String lwstProgYn;
+    
+	@Schema(description = "실행주기")
+	private String exePrd;
+	
+	@Schema(description = "주담당자")
+	private String mainEmpNo;
+	
+	@Schema(description = "부담당자")
+	private String subEmpNo;
+	
+	@Schema(description = "비고")
+	private String etcDesc;
+	
+	@Schema(description = "사용여부")
+	private String useYn;
+	
+	@Schema(description = "등록사용자ID")
+	private String frstRegEmpNo;
+	
+	@Schema(description = "등록일")
+	private String frstRegDtm;
 }
