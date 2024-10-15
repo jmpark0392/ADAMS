@@ -190,19 +190,19 @@
 		var xcpt_cols = [unqId, "regUsrid", "regDt"];
 		var check_cols = [unqId];
 		var columns = [
-			{id: "inscDvCd",	name: "Contract Div",	field: "inscDvCd",		width: 100,	sortable: true, editor: function(args){ return new ComboBoxEditor(args, [{ key: 'O', value: '원수'}, { key: 'C', value: '수재'}, { key: 'R', value: '출재'} ])}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{id: "valuMetdCd",	name: "Valuation",		field: "valuMetdCd",	width: 80,	sortable: true, editor: function(args){ return new ComboBoxEditor(args, [ { key: 'GMM', value: 'GMM'}, { key: 'PAA', value: 'PAA'} ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{id: "lvl1Cd",		name: "Level1",			field: "lvl1Cd",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{id: "lvl2Cd",		name: "Level2",			field: "lvl2Cd",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{id: "lvl3Cd",		name: "Level3",			field: "lvl3Cd",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{id: "drAcSubjCd",	name: "Dr Code",		field: "drAcSubjCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{id: "drAcSubjNm",	name: "Dr Name",		field: "drAcSubjNm",	width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
-			{id: "crAcSubjCd",	name: "Cr Code",		field: "crAcSubjCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{id: "crAcSubjNm",	name: "Cr Name",		field: "crAcSubjNm",	width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
-			{id: "etcDesc",		name: "Note",			field: "etcDesc",		width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
-			{id: "useYn",		name: "Use YN",			field: "useYn",			width: 60,	sortable: true, editor: function(args) { return new ComboBoxEditor(args, [ { key: 'Y', value: 'Y' }, { key: 'N', value: 'N' }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{id: "regUsrid", name: "Registrant",		field: "regUsrid",		width: 100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{id: "regDt", name: "Registration Date",	field: "regDt",			width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
+			{id: "inscDvCd",		name: "Contract Div",		field: "inscDvCd",		width: 100,	sortable: true, editor: function(args){ return new ComboBoxEditor(args, [{ key: 'O', value: '원수'}, { key: 'C', value: '수재'}, { key: 'R', value: '출재'} ])}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{id: "valuMetdCd",		name: "Valuation",			field: "valuMetdCd",	width: 80,	sortable: true, editor: function(args){ return new ComboBoxEditor(args, [ { key: 'GMM', value: 'GMM'}, { key: 'PAA', value: 'PAA'} ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{id: "lvl1Cd",			name: "Level1",				field: "lvl1Cd",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "lvl2Cd",			name: "Level2",				field: "lvl2Cd",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "lvl3Cd",			name: "Level3",				field: "lvl3Cd",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "drAcSubjCd",		name: "Dr Code",			field: "drAcSubjCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "drAcSubjNm",		name: "Dr Name",			field: "drAcSubjNm",	width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+			{id: "crAcSubjCd",		name: "Cr Code",			field: "crAcSubjCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "crAcSubjNm",		name: "Cr Name",			field: "crAcSubjNm",	width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+			{id: "etcDesc",			name: "Note",				field: "etcDesc",		width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+			{id: "useYn",			name: "Use YN",				field: "useYn",			width: 60,	sortable: true, editor: function(args) { return new ComboBoxEditor(args, [ { key: 'Y', value: 'Y' }, { key: 'N', value: 'N' }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "frstRegDtm",		name: "Registration Date",	field: "frstRegDtm",	width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
 		];
 
 		var options = {
@@ -400,213 +400,227 @@
 		// 신규버튼 누르면 동작하는 함수
 		function openDetails(modalType) {
 
-		let options1 = [
-			{ value: "ORGIN", text: "ORGIN", column: "inscDvCd"},
-			{ value: "CEDED", text: "CEDED", column: "inscDvCd"},
-			{ value: "REINS", text: "REINS", column: "inscDvCd"}
-		];
+			let hiddenColumns;
+			
+			if (modalType === "create") {
+				hiddenColumns = ["frstRegEmpNo", "frstRegDtm"];
+			} else {
+				hiddenColumns = ["inscDvCd", "valuMetdCd", "lvl1Cd", "lvl2Cd", "lvl3Cd", "frstRegEmpNo", "frstRegDtm"];  // 컬럼 숨기기
+			}
 
-		let options2 = [
-			{ value: "GMM", text: "GMM", column: "valuMetdCd"},
-			{ value: "PAA", text: "PAA", column: "valuMetdCd"}
-		];
+			let options1 = [
+				{ value: "ORGIN", text: "ORGIN", column: "inscDvCd"},
+				{ value: "CEDED", text: "CEDED", column: "inscDvCd"},
+				{ value: "REINS", text: "REINS", column: "inscDvCd"}
+			];
+
+			let options2 = [
+				{ value: "GMM", text: "GMM", column: "valuMetdCd"},
+				{ value: "PAA", text: "PAA", column: "valuMetdCd"}
+			];
 		
-		let options11 = [
-			{ value: "Y", text: "Y", column: "useYn"},
-			{ value: "N", text: "N", column: "useYn"}
-		];
+			let options11 = [
+				{ value: "Y", text: "Y", column: "useYn"},
+				{ value: "N", text: "N", column: "useYn"}
+			];
 
-		grid.render();
+			grid.render();
 
-		let originalData = null;
+			let originalData = null;
 
-		if (grid.getEditorLock().isActive() && !grid.getEditorLock().commitCurrentEdit()) {
-		return;
-		}
-
-		if (modalType === "create") {
-			grid.setActiveCell(grid.getDataLength(), 0);
-		}
-
-		var activeCell = grid.getActiveCell();
-		var activeRow = (activeCell && activeCell.row) || 0;
-
-		if (!options.enableCellNavigation) {
-			throw new Error('Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
-		} else if (!activeCell && modalType === "edit") {
-			throw new Error("No records selected for edit operation");
-		}
-
-		const dataContext = grid.getDataItem(activeRow);
-		const modalElement = new bootstrap.Modal(
-			document.getElementById("exampleModal")
-		);
-		const modalTitleElem = document.querySelector(".modal-title");
-		const modalBodyElem = document.querySelector(".modal-body");
-		console.log("modalTitleElem:", modalTitleElem);
-
-		modalBodyElem.innerHTML = ""; // Clear previous content
-
-		// Define the modal title based on action
-		if (modalTitleElem) {
-			if (modalType === "create") {
-				modalTitleElem.textContent = "NEW";
-		} else if (modalType === "edit") {
-				modalTitleElem.textContent = "EDIT";
-				originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
-			}
-		} else {
-			console.error("error while loading the moda title: ");
-		}
-		renewOptions(false);
-
-		// Dynamically create form elements based on the columns that have editors
-		const modalColumns = columns.filter((col) => col.editor);
-
-		const columnsPerShow = 6;
-		let currentRow;
-
-		// take the modal body
-		modalColumns.forEach((column, index) => {
-			// we create new row after 6 columms,
-			if (index % columnsPerShow === 0) {
-				currentRow = document.createElement("div");
-				currentRow.className = "row";
-				modalBodyElem.appendChild(currentRow);
-			}
-
-		const colElem = document.createElement("div");
-		colElem.className = "col-lg-6";
-
-		const formGroupElem = document.createElement("div");
-		formGroupElem.className = "mb-3";
-
-		const detailLabelitem = document.createElement("div");
-		detailLabelitem.className = "form-label";
-		detailLabelitem.textContent = column.name;
-
-		const inputElem = document.createElement("input");
-		inputElem.className = "form-control";
-		inputElem.dataset.editorid = column.id;
-		inputElem.value = modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
-
-		formGroupElem.appendChild(detailLabelitem);
-
-
-		if(column.id === "inscDvCd" || column.id === "valuMetdCd" || column.id === "useYn"){
-	
-			const selectInput = document.createElement('select');
-			selectInput.className = "form-select";
-			selectInput.dataset.editorid = column.id;
-	
-			const defaultOption = document.createElement('option');
-			defaultOption.value = "";
-			defaultOption.textContent = "- options -";
-			selectInput.appendChild(defaultOption);
-				
-			
-			let optionsData = [];
-			
-			if(column.id === "inscDvCd"){
-				optionsData = options1;
-			} else if (column.id === "valuMetdCd") {
-				optionsData = options2; 
-			} else {
-				optionsData = options11;   
-			}
-			
-			optionsData.forEach(option => {
-					const optionElem = document.createElement('option');
-					optionElem.value = option.value;
-					optionElem.textContent = option.text;
-					selectInput.appendChild(optionElem);
-				});
-
-			if(modalType === "edit"){
-				selectInput.value = dataContext[column.field] || "";
-			}
-
-			formGroupElem.appendChild(selectInput);
-
-		} else {
-			const inputElem = document.createElement('input');
-			inputElem.className = "form-control";
-			inputElem.dataset.editorid = column.id;
-			inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
-			formGroupElem.appendChild(inputElem);
-		}
-
-			colElem.appendChild(formGroupElem);
-			currentRow.appendChild(colElem);
-		});
-
-		if (modalColumns.length % columnsPerShow !== 0) {
-			const remainingCols =
-			columnsPerShow - (modalColumns.length % columnsPerShow);
-			const spacerCol = document.createElement("div");
-			spacerCol.className = `col-lg-${remainingCols * 2}`; // adjust the spacer column
-			currentRow.appendChild(spacerCol);
-		}
-
-		modalElement.show();
-
-		// Save button logic
-		const saveBtn = document.querySelector(".modal-footer .btn-primary");
-		saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
-    
-		//modal을 마우스로 드래그가능하도록 설정
-		$(".modal").draggable();
-
-		// this will only be triggered when the save button is clicked
-		saveBtn.onclick = function saveHandler() {
-			console.log("saveHandler Test");
-			const formData = {};
-
-			// Collect form data
-			modalColumns.forEach((column) => {
-				console.log("Save2");
-				const input = modalBodyElem.querySelector(`[data-editorid="${column.id}"]`);
-				if (input) {
-					formData[column.field] = input.value.trim();
-				}
-			});
-
-			console.log("befor formData:", formData);
-			if (modalType === "create") {
-				// Add new item to grid data
-				if (checkData(formData)) {
-					formData[unqId] = grid.getDataLength() + 1;
-					//dataView.insertItem(grid.getDataLength(), formData);
-					if(confirm("Do you want to register?") == true){
-						insertList(JSON.stringify(formData));
-					}
-				} else {
-					alert("Please fill out all required fields.");
-				return;
-				}
-			} else if (modalType === "edit") {
-				let isChanged = false;
-				for (let key in formData) {
-					if (formData[key] !== originalData[key]) {
-						isChanged = true;
-						break;
-					}
-				}
-
-			if (isChanged) {
-				formData[unqId] = originalData[unqId];
-				//dataView.updateItem(originalData[unqId], formData);
-				if(confirm("Do you want to modify?") == true){
-					updateList(JSON.stringify(formData));
-				}
-			} else {
-				alert("No changes detected.");
+			if (grid.getEditorLock().isActive() && !grid.getEditorLock().commitCurrentEdit()) {
 			return;
 			}
-		}
-		grid.render();
-		modalElement.hide(); // Hide the modal after saving\
-	};
+
+			if (modalType === "create") {
+				grid.setActiveCell(grid.getDataLength(), 0);
+			}
+
+			var activeCell = grid.getActiveCell();
+			var activeRow = (activeCell && activeCell.row) || 0;
+
+			if (!options.enableCellNavigation) {
+				throw new Error('Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
+			} else if (!activeCell && modalType === "edit") {
+				throw new Error("No records selected for edit operation");
+			}
+
+			const dataContext = grid.getDataItem(activeRow);
+			const modalElement = new bootstrap.Modal(
+				document.getElementById("exampleModal")
+			);
+			const modalTitleElem = document.querySelector(".modal-title");
+			const modalBodyElem = document.querySelector(".modal-body");
+			console.log("modalTitleElem:", modalTitleElem);
+
+			modalBodyElem.innerHTML = ""; // Clear previous content
+
+			// Define the modal title based on action
+			if (modalTitleElem) {
+				if (modalType === "create") {
+					modalTitleElem.textContent = "NEW";
+			} else if (modalType === "edit") {
+					modalTitleElem.textContent = "EDIT";
+					originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
+				}
+			} else {
+				console.error("error while loading the moda title: ");
+			}
+			renewOptions(false);
+	
+			// Dynamically create form elements based on the columns that have editors
+			const modalColumns = columns.filter(col => col.editor && !hiddenColumns.includes(col.id));
+
+			const columnsPerShow = 6;
+			let currentRow;
+
+			// take the modal body
+			modalColumns.forEach((column, index) => {
+				// we create new row after 6 columms,
+				if (index % columnsPerShow === 0) {
+					currentRow = document.createElement("div");
+					currentRow.className = "row";
+					modalBodyElem.appendChild(currentRow);
+				}
+	
+				const colElem = document.createElement("div");
+				colElem.className = "col-lg-6";
+		
+				const formGroupElem = document.createElement("div");
+				formGroupElem.className = "mb-3";
+		
+				const detailLabelitem = document.createElement("div");
+				detailLabelitem.className = "form-label";
+				detailLabelitem.textContent = column.name;
+		
+				const inputElem = document.createElement("input");
+				inputElem.className = "form-control";
+				inputElem.dataset.editorid = column.id;
+				inputElem.value = modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+		
+				formGroupElem.appendChild(detailLabelitem);
+	
+	
+				if(column.id === "inscDvCd" || column.id === "valuMetdCd" || column.id === "useYn"){
+		
+				const selectInput = document.createElement('select');
+				selectInput.className = "form-select";
+				selectInput.dataset.editorid = column.id;
+		
+				const defaultOption = document.createElement('option');
+				defaultOption.value = "";
+				defaultOption.textContent = "- options -";
+				selectInput.appendChild(defaultOption);
+					
+				
+				let optionsData = [];
+				
+				if(column.id === "inscDvCd"){
+					optionsData = options1;
+				} else if (column.id === "valuMetdCd") {
+					optionsData = options2; 
+				} else {
+					optionsData = options11;   
+				}
+				
+				optionsData.forEach(option => {
+						const optionElem = document.createElement('option');
+						optionElem.value = option.value;
+						optionElem.textContent = option.text;
+						selectInput.appendChild(optionElem);
+					});
+	
+				if(modalType === "edit"){
+					selectInput.value = dataContext[column.field] || "";
+				}
+	
+				formGroupElem.appendChild(selectInput);
+	
+				} else {
+					const inputElem = document.createElement('input');
+					inputElem.className = "form-control";
+					inputElem.dataset.editorid = column.id;
+					inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+					formGroupElem.appendChild(inputElem);
+				}
+	
+				colElem.appendChild(formGroupElem);
+				currentRow.appendChild(colElem);
+			});
+
+			if (modalColumns.length % columnsPerShow !== 0) {
+				const remainingCols =
+				columnsPerShow - (modalColumns.length % columnsPerShow);
+				const spacerCol = document.createElement("div");
+				spacerCol.className = `col-lg-${remainingCols * 2}`; // adjust the spacer column
+				currentRow.appendChild(spacerCol);
+			}
+
+			modalElement.show();
+	
+			// Save button logic
+			const saveBtn = document.querySelector(".modal-footer .btn-primary");
+			saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
+    
+			//modal을 마우스로 드래그가능하도록 설정
+			$(".modal").draggable();
+	
+			// this will only be triggered when the save button is clicked
+			saveBtn.onclick = function saveHandler() {
+				console.log("saveHandler Test");
+				const formData = {};
+	
+				// Collect form data
+				modalColumns.forEach((column) => {
+					console.log("Save2");
+					const input = modalBodyElem.querySelector(`[data-editorid="${column.id}"]`);
+					if (input) {
+						formData[column.field] = input.value.trim();
+					}
+				});
+				
+				if (modalType === "edit") {
+					hiddenColumns.forEach(hiddenColId => {
+						formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
+					});
+				}
+
+				console.log("before formData:", formData);
+				if (modalType === "create") {
+					// Add new item to grid data
+					if (checkData(formData)) {
+						formData[unqId] = grid.getDataLength() + 1;
+						//dataView.insertItem(grid.getDataLength(), formData);
+						if(confirm("Do you want to register?") == true){
+							insertList(JSON.stringify(formData));
+						}
+					} else {
+						alert("Please fill out all required fields.");
+					return;
+					}
+				} else if (modalType === "edit") {
+					let isChanged = false;
+					for (let key in formData) {
+						if (formData[key] !== originalData[key]) {
+							isChanged = true;
+							break;
+						}
+					}
+	
+				if (isChanged) {
+					formData[unqId] = originalData[unqId];
+					//dataView.updateItem(originalData[unqId], formData);
+					if(confirm("Do you want to modify?") == true){
+						updateList(JSON.stringify(formData));
+					}
+				} else {
+					alert("No changes detected.");
+				return;
+				}
+			}
+			grid.render();
+			modalElement.hide(); // Hide the modal after saving\
+		};
 
 		// Close button logic
 		const closeBtn = document.querySelector(".modal-footer .btn-link");

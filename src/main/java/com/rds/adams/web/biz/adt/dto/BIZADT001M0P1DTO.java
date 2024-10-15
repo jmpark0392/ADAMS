@@ -1,5 +1,6 @@
 package com.rds.adams.web.biz.adt.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,20 +19,41 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "계정대사 DTO")
 @ToString
 @Getter
 @Setter
 public class BIZADT001M0P1DTO {
 	
-	private String stdYymm;  /* 기준년월 */
-	private String seqNo;  /* 일련번호 */
-	private String atitCd;  /* 계정과목코드 */
-	private String atitNm;  /* 계정과목명 */
-	private String insuPlItmCd;  /* 보험손익항목코드 */
-	private int acntAmt;  /* 계정금액 */
-	private int insuPlItmAmt;  /* 보험손익항목금액 */
-	private int diffAmt;  /* 차이금액 */
-
+	@Schema(description = "기준년월")
+	private String stdYymm;
+	
+	@Schema(description = "일련번호")
+	private String seqNo;
+	
+	@Schema(description = "계정과목코드")
+	private String atitCd;
+	
+	@Schema(description = "계정과목명")
+	private String atitNm;
+	
+	@Schema(description = "보험손익항목코드")
+	private String insuPlItmCd;
+	
+	@Schema(description = "계정금액")
+	private int acntAmt;
+	
+	@Schema(description = "보험손익항목금액")
+	private int insuPlItmAmt;
+	
+	@Schema(description = "차이금액")
+	private int diffAmt;
+	
+	@Schema(description = "최초등록사원번호")
+	private String frstRegEmpNo;
+	
+	@Schema(description = "최초등록일시")
+	private String frstRegDtm;
 	
 }
 

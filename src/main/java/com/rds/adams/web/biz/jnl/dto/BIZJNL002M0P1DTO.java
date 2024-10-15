@@ -1,5 +1,6 @@
 package com.rds.adams.web.biz.jnl.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,23 +19,52 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "분개룰관리 DTO")
 @ToString
 @Getter
 @Setter
 public class BIZJNL002M0P1DTO {
 	
-	private int rowNumber;
-	private String inscDvCd;  /* 보험계약구분코드 */
-	private String valuMetdCd; /* 평가방법코드 */
-	private String lvl1Cd;  /* 레벨1 */
-	private String lvl2Cd;  /* 레벨2 */
-	private String lvl3Cd;  /* 레벨3 */
-	private String drAcSubjCd;  /* 차변계정코드 */
-	private String drAcSubjNm;  /* 차변계정명 */
-	private String crAcSubjCd;  /* 대변계정코드 */
-	private String crAcSubjNm;  /* 대변계정명 */
-	private String etcDesc;  /* 기타내용 */
-	private String useYn;  /* 사용여부 */
+	@Schema(description = "행번호")
+	private int rowNumber; 
 	
+	@Schema(description = "보험계약구분코드")
+	private String inscDvCd;
+	
+	@Schema(description = "평가방법코드")
+	private String valuMetdCd;
+	
+	@Schema(description = "레벨1")
+	private String lvl1Cd;
+	
+	@Schema(description = "레벨2")
+	private String lvl2Cd;
+	
+	@Schema(description = "레벨3")
+	private String lvl3Cd;
+	
+	@Schema(description = "차변계정코드")
+	private String drAcSubjCd;
+	
+	@Schema(description = "차변계정명")
+	private String drAcSubjNm;
+	
+	@Schema(description = "대변계정코드")
+	private String crAcSubjCd;
+	
+	@Schema(description = "대변계정명")
+	private String crAcSubjNm;
+	
+	@Schema(description = "기타내용")
+	private String etcDesc;
+	
+	@Schema(description = "사용여부")
+	private String useYn;
+	
+	@Schema(description = "최초등록사원번호")
+	private String frstRegEmpNo;
+	
+	@Schema(description = "최초등록일시")
+	private String frstRegDtm;
 }
 

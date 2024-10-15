@@ -2,6 +2,8 @@ package com.rds.adams.web.biz.jnl.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,8 @@ import com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P0DTO;
 import com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO;
 import com.rds.adams.web.biz.jnl.dto.BIZJNL002M0R0DTO;
 import com.rds.adams.web.biz.jnl.service.BIZJNL002M0Service;
+import com.rds.adams.web.common.AdamsConstant;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,7 +49,10 @@ public class BIZJNL002M0Controller {
 	}
 	
 	@RequestMapping(value="/BIZJNL002M0InsertList", method=RequestMethod.POST, consumes="application/json")
-	public void insert(@RequestBody BIZJNL002M0P1DTO inVo) {
+	public void insert(@RequestBody BIZJNL002M0P1DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
 		
 		log.info(inVo.toString());
 		try {
@@ -59,7 +66,10 @@ public class BIZJNL002M0Controller {
 	}
 
 	@RequestMapping(value="/BIZJNL002M0UpdateList", method=RequestMethod.POST, consumes="application/json")
-	public void update(@RequestBody BIZJNL002M0P1DTO inVo) {
+	public void update(@RequestBody BIZJNL002M0P1DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO adamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setFrstRegEmpNo(adamsLoginDTO.getUsrId());
 		
 		log.info(inVo.toString());
 		try {

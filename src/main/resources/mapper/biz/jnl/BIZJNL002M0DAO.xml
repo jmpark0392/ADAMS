@@ -76,9 +76,9 @@
                , #{crAcSubjCd}
                , #{etcDesc}
                , #{useYn}
-               , 'admin'
+               , #{frstRegEmpNo}
                , CONVERT(CHAR(10), getdate(), 23)
-               , 'admin'
+               , #{frstRegEmpNo}
                , CONVERT(CHAR(10), getdate(), 23)
                )
     </insert>
@@ -89,7 +89,7 @@
                CR_AC_SUBJ_CD  = #{crAcSubjCd},
                ETC_DESC       = #{etcDesc},
                USE_YN         = #{useYn},
-               FNL_UPD_EMP_NO = 'admin',
+               FNL_UPD_EMP_NO = #{frstRegEmpNo},
                FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
           WHERE 1=1
             AND INSC_DV_CD   = #{inscDvCd}
