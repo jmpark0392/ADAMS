@@ -24,13 +24,19 @@
 			</div>
 			<!-- 작은 화면에서 아이콘 우측 정렬을 위한 공간 확보용 -->
 			<div class="collapse navbar-collapse" id="navbar-menu">
-				<span class="link-light">Welcome! You must be</span>&nbsp;&nbsp;
-				<span class="link-light"><b>[[${loginDTO.usrNm}]]</b></span>&nbsp;&nbsp;
+				<span class="link-light">Welcome!</span>&nbsp;&nbsp;
+				<span class="link-light">You must be</span>&nbsp;&nbsp;
+				<span class="link-yellow"><b>[[${loginDTO.usrNm}]]</b></span>&nbsp;&nbsp;
 				<span class="link-light">works at</span>&nbsp;&nbsp;
-				<span class="link-light"><b>[[${loginDTO.compNm}]]</b></span>
-				<span class="link-light">, currently subscribing to</span>&nbsp;&nbsp;
-				<span class="link-light"><b>[[${loginDTO.srvcNm}]]</b></span>
-				<span class="link-light">.</span>
+				<span class="link-yellow"><b>[[${loginDTO.compNm}]]</b></span>
+				<th:block th:if="${loginDTO.compNo != '1234567890'}">
+					<span class="link-light">, currently subscribing to</span>&nbsp;&nbsp;
+					<span class="link-yellow"><b>[[${loginDTO.srvcNm}]]</b></span>
+					<span class="link-light">.</span>
+				</th:block>
+				<th:block th:if="${loginDTO.compNo == '1234567890'}">
+					&nbsp;<span class="link-light">as a System Administrator.</span>
+				</th:block>
 			</div>
 		</div>
 	</header>
