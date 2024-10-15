@@ -29,8 +29,8 @@ public class OPNSRV003M0P0DTO {
     @Schema(description = "년월일")
     private String ymd;
 
-    // @Schema(description = "고객사번호")
-    // private String csCode;
+    @Schema(description = "고객사번호")
+    private String csNo;
 
     // @Schema(description = "서비스코드")
     // private String srvcCd;
