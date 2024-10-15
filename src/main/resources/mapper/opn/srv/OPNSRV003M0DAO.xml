@@ -4,7 +4,7 @@
 
 <mapper namespace="com.rds.adams.web.opn.srv.dao.OPNSRV003M0DAO">
     <select id="getChartInfos" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV003M0P0DTO" resultType="com.rds.adams.web.opn.srv.dto.OPNSRV003M0R0DTO">
-    <![CDATA[
+    <![CDATA[ 
         WITH TMP_D AS 
         ( 
         SELECT 
@@ -21,7 +21,11 @@
                 ) Z
             INNER JOIN [dbo].[TB_CS_MNG_LST] Y ON 1=1
             WHERE 1=1
-                AND Y.CS_NO = #{csNo}
+    ]]>
+    <if test='csNo != null and csNo != "" '>
+        AND ( Y.CS_NO     LIKE '%' + #{csNo} + '%' OR Y.COMP_NM LIKE '%' + #{csNo} + '%' )
+    </if>
+    <![CDATA[
         )
         ,   TMP_BASE_CS_SRVC AS 
         (
@@ -195,6 +199,6 @@
         WHERE 1=1
         GROUP BY A.YMD
         ORDER BY A.YMD
-    ]]>
+        ]]>
     </select>
 </mapper>

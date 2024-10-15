@@ -34,7 +34,10 @@ public class BIZJNL001M0Controller {
 	 * @return
 	 */
 	@RequestMapping(value="/BIZJNL001M0SelectList", method=RequestMethod.POST, consumes="application/json")
-	public List<BIZJNL001M0R0DTO> select(@RequestBody BIZJNL001M0P0DTO inVo) {
+	public List<BIZJNL001M0R0DTO> select(@RequestBody BIZJNL001M0P0DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		
@@ -53,6 +56,7 @@ public class BIZJNL001M0Controller {
 		
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		try {
@@ -70,6 +74,7 @@ public class BIZJNL001M0Controller {
 		
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		try {
@@ -83,7 +88,10 @@ public class BIZJNL001M0Controller {
 	}
 	
 	@RequestMapping(value="/BIZJNL001M0DeleteList", method=RequestMethod.POST, consumes="application/json")
-	public void delete(@RequestBody BIZJNL001M0P1DTO inVo) {
+	public void delete(@RequestBody BIZJNL001M0P1DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		try {

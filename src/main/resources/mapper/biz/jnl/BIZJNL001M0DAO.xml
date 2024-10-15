@@ -17,13 +17,14 @@
 		     , AC_KIND_CD
 		     , APP_ST_DT
 		     , APP_ED_DT
-		     , SRT_ORD
+		     , ORD_SEQ
 		     , ETC_DESC
 		     , USE_YN
 		     , FRST_REG_EMP_NO
 		     , FRST_REG_DTM
 		  FROM TB_ATIT_MNG_LST
          WHERE 1=1
+           AND CS_NO = #{csNo}
          <if test='searchTxt != ""'>
            AND (
                 	ATIT_CD LIKE '%' + #{searchTxt} + '%'
@@ -34,7 +35,8 @@
     </select>
     <insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO">
         INSERT INTO [dbo].[TB_ATIT_MNG_LST] (
-              [ATIT_CD]
+			  [CS_NO]
+			, [ATIT_CD]
 			, [ATIT_KOR_NM]
 			, [ATIT_ENG_NM]
 			, [HGRK_ATIT_CD]
@@ -45,7 +47,7 @@
 			, [AC_KIND_CD]
 			, [APP_ST_DT]
 			, [APP_ED_DT]
-			, [SRT_ORD]
+			, [ORD_SEQ]
 			, [ETC_DESC]
 			, [USE_YN]
 			, [FRST_REG_EMP_NO]
@@ -54,7 +56,8 @@
 			, [FNL_UPD_DTM]
         )
         VALUES (
-              #{atitCd}
+			  #{csNo}
+			, #{atitCd}
             , #{atitKorNm}
             , #{atitEngNm}
             , #{hgrkAtitCd}
@@ -65,7 +68,7 @@
             , #{acKindCd}
             , #{appStDt}
             , #{appEdDt}
-            , #{srtOrd}
+            , #{ordSeq}
             , #{etcDesc}
             , #{useYn}
 			, #{frstRegEmpNo}
@@ -87,15 +90,19 @@
 			   AC_KIND_CD = #{acKindCd},
 			   APP_ST_DT = #{appStDt},
 			   APP_ED_DT = #{appEdDt},
-			   SRT_ORD = #{srtOrd},
+			   ORD_SEQ = #{ordSeq},
 			   ETC_DESC = #{etcDesc},
                USE_YN = #{useYn},
                FNL_UPD_EMP_NO = #{frstRegEmpNo},
                FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
-         WHERE ATIT_CD = #{atitCd}
+         WHERE 1=1
+           AND ATIT_CD = #{atitCd}
+           AND CS_NO   = #{csNo}
   </update>
     <delete id="deleteList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO">
 		DELETE FROM TB_ATIT_MNG_LST
-		WHERE ATIT_CD = #{atitCd}
+		WHERE 1=1
+		  AND ATIT_CD = #{atitCd}
+		  AND CS_NO   = #{csNo}
 	</delete>
 </mapper>

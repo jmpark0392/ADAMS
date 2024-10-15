@@ -28,6 +28,9 @@ public class WRKBAT001M0R0DTO {
 	@Schema(description = "행번호")
 	private int rowNumber;
 	
+	@Schema(description = "고객사번호")
+	private String csNo;
+	
 	@Schema(description = "배치프로그램ID")
 	private String batProgId;
 	

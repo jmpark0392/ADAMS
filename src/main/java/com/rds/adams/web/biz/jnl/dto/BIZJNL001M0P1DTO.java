@@ -25,6 +25,8 @@ import lombok.ToString;
 @Setter
 public class BIZJNL001M0P1DTO {
 
+	@Schema(description = "고객사번호")
+	private String csNo;
 	
 	@Schema(description = "행번호")
 	private int rowNumber;
@@ -63,7 +65,7 @@ public class BIZJNL001M0P1DTO {
 	private String appEdDt;
 	
 	@Schema(description = "정렬순서")
-	private int srtOrd;
+	private int ordSeq;
 	
 	@Schema(description = "기타내용")
 	private String etcDesc;

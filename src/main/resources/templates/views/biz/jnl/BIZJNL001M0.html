@@ -201,7 +201,7 @@
 			{ id: "fsDvCd",			name: "Financial Div",		field: "fsDvCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "BS", value: "BS" }, { key: "PL", value: "PL" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "acDvCd",			name: "Acocunt Div",		field: "acDvCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "1", value: "자산" }, { key: "2", value: "부채" }, { key: "3", value: "자본" }, { key: "4", value: "수익" }, { key: "5", value: "비용" }, { key: "9", value: "난외" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "acKindCd",		name: "Account Kind",		field: "acKindCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "001", value: "자산집계" }, { key: "002", value: "부채집계" }, { key: "003", value: "자본집계" }, { key: "004", value: "수익집계" }, { key: "005", value: "비용집계" }, { key: "006", value: "당기순이익" }, { key: "007", value: "이익잉여금" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{ id: "srtOrd",			name: "Order",				field: "srtOrd",					sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{ id: "ordSeq",			name: "Order",				field: "ordSeq",					sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "etcDesc",		name: "Etc",				field: "etcDesc",					sortable: true, editor: Slick.Editors.Text, validator: createValidator,  headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "appStDt",		name: "Apply Start Date",	field: "appStDt",		width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "appEdDt",		name: "Apply End Date",		field: "appEdDt",		width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
@@ -406,9 +406,9 @@
 			let hiddenColumns;
 			
 			if (modalType === "create") {
-				hiddenColumns = ["regUsrid","regDt"];
+				hiddenColumns = ["frstRegEmpNo","frstRegDtm"];
 			} else {
-				hiddenColumns = ["atitCd","regUsrid","regDt"];  // 컬럼 숨기기
+				hiddenColumns = ["atitCd","frstRegEmpNo","frstRegDtm"];  // 컬럼 숨기기
 			}
 
 			let options5 = [

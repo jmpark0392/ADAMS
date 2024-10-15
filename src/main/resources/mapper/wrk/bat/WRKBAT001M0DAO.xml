@@ -5,20 +5,21 @@
 <mapper namespace="com.rds.adams.web.wrk.bat.dao.WRKBAT001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P0DTO" resultType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0R0DTO">
 		SELECT
-		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-		     , BAT_PROG_ID
-		     , BAT_PROG_NM
-		     , UP_PROG_ID
-		     , LWST_PROG_YN
-		     , EXE_PRD
-		     , MAIN_EMP_NO
-		     , SUB_EMP_NO
-		     , ETC_DESC
-		     , USE_YN
-		     , FRST_REG_EMP_NO
-		     , FRST_REG_DTM
-		  FROM TB_BAT_MNG_LST
-         WHERE 1=1
+				ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
+			, BAT_PROG_ID
+			, BAT_PROG_NM
+			, UP_PROG_ID
+			, LWST_PROG_YN
+			, EXE_PRD
+			, MAIN_EMP_NO
+			, SUB_EMP_NO
+			, ETC_DESC
+			, USE_YN
+			, FRST_REG_EMP_NO
+			, FRST_REG_DTM
+		 FROM TB_BAT_MNG_LST
+		WHERE 1=1
+		  AND CS_NO = #{csNo}
          <if test='searchTxt != ""'>
            AND (
                 	BAT_PROG_ID LIKE '%' + #{searchTxt} + '%'
@@ -28,22 +29,24 @@
     </select>
     <insert id="insertList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P1DTO">
         INSERT INTO [dbo].[TB_BAT_MNG_LST] (
-             [BAT_PROG_ID]
-		   , [BAT_PROG_NM]
-		   , [UP_PROG_ID]
-		   , [LWST_PROG_YN]
-		   , [EXE_PRD]
-		   , [MAIN_EMP_NO]
-		   , [SUB_EMP_NO]
-		   , [ETC_DESC]
-		   , [USE_YN]
-		   , [FRST_REG_EMP_NO]
-		   , [FRST_REG_DTM]
-		   , [FNL_UPD_EMP_NO]
-           , [FNL_UPD_DTM]
-        )
-        VALUES (
-              #{batProgId}
+			  [CS_NO]
+			, [BAT_PROG_ID]
+			, [BAT_PROG_NM]
+			, [UP_PROG_ID]
+			, [LWST_PROG_YN]
+			, [EXE_PRD]
+			, [MAIN_EMP_NO]
+			, [SUB_EMP_NO]
+			, [ETC_DESC]
+			, [USE_YN]
+			, [FRST_REG_EMP_NO]
+			, [FRST_REG_DTM]
+			, [FNL_UPD_EMP_NO]
+ 			, [FNL_UPD_DTM]
+		)
+		VALUES (
+			  #{csNo}
+            , #{batProgId}
             , #{batProgNm}
             , #{upProgId}
             , #{lwstProgYn}
@@ -57,24 +60,28 @@
             , #{frstRegEmpNo}
             , CONVERT(CHAR(10), getdate(), 23)
         )
-    </insert>
-    <update id="updateList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P1DTO">
-        UPDATE TB_BAT_MNG_LST
-           SET 
-               BAT_PROG_NM = #{batProgNm},
-               UP_PROG_ID = #{upProgId},
-               LWST_PROG_YN = #{lwstProgYn},
-               EXE_PRD = #{exePrd},
-               MAIN_EMP_NO = #{mainEmpNo},
-               SUB_EMP_NO = #{subEmpNo},
-               ETC_DESC = #{etcDesc},
-               USE_YN = #{useYn},
-               FNL_UPD_EMP_NO = #{frstRegEmpNo},
-               FNL_UPD_DTM = CONVERT(CHAR(10), getdate(), 23)
-         WHERE BAT_PROG_ID = #{batProgId}
-    </update>
-    <delete id="deleteList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P1DTO">
+	</insert>
+	<update id="updateList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P1DTO">
+		UPDATE TB_BAT_MNG_LST
+			SET 
+				BAT_PROG_NM    = #{batProgNm},
+				UP_PROG_ID     = #{upProgId},
+				LWST_PROG_YN   = #{lwstProgYn},
+				EXE_PRD        = #{exePrd},
+				MAIN_EMP_NO    = #{mainEmpNo},
+				SUB_EMP_NO     = #{subEmpNo},
+				ETC_DESC       = #{etcDesc},
+				USE_YN         = #{useYn},
+				FNL_UPD_EMP_NO = #{frstRegEmpNo},
+				FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
+			WHERE 1=1
+			  AND BAT_PROG_ID = #{batProgId}
+			  AND CS_NO		  = #{csNo}
+	</update>
+	<delete id="deleteList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P1DTO">
 		DELETE FROM TB_BAT_MNG_LST
-		WHERE BAT_PROG_ID = #{batProgId}
+		 WHERE 1=1
+		   AND BAT_PROG_ID = #{batProgId}
+		   AND CS_NO	   = #{csNo}
 	</delete>
 </mapper>
