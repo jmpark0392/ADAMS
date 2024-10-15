@@ -5,15 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rds.adams.web.core.utils.EmailUtil;
-import com.rds.adams.web.core.utils.dto.EmailDTO;
 import com.rds.adams.web.opn.usr.dao.OPNUSR001M0DAO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P0DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P1DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0R0DTO;
 
-import egovframework.let.utl.fcc.service.EgovNumberUtil;
-import egovframework.let.utl.fcc.service.EgovStringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

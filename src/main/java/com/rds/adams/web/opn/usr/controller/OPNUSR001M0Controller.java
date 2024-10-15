@@ -1,6 +1,5 @@
 package com.rds.adams.web.opn.usr.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
-import com.rds.adams.web.core.utils.dto.ExecuteDTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P0DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P1DTO;
-import com.rds.adams.web.opn.usr.dto.OPNUSR001M0P2DTO;
 import com.rds.adams.web.opn.usr.dto.OPNUSR001M0R0DTO;
 import com.rds.adams.web.opn.usr.service.OPNUSR001M0Service;
 
