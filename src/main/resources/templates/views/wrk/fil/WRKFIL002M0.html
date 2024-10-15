@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
@@ -20,21 +21,31 @@
 											<option value="">- options -</option>
 										</select>
 									</div>
-									<div class="col text-end">
-										<br/><br/>
-										<button type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">Create</button>
-										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px;" id="downloadExcel" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Download</button>
-										<button type="button" class=" btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
-									</div>
+
+									<!-- <button type="button" class=" btn btn-pill" onclick="main()">
+	                          Search
+	                        </button> -->
 								</div>
-							</form>
+								<div class="col text-end">
+									<button type="button" class=" btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">Create</button>
+									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px;" id="downloadExcel" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Download</button>
+
+									<button type="button" class=" btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px;" form="new-form" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
+
+								</div>
 						</div>
+						
+						</form>
 					</div>
 					<div style="padding-bottom: 25px;"></div>
 				</div>
 				<div class="card card-md">
 					<div align="center" id="divMyGrid">
-						<table class="table" align="center" style="width: 1284px; height: 500px">
+						<table 
+							class="table"
+							align="center"
+							style="width: 1284px; height: 500px"
+						>
 						</table>
 					</div>
 				</div>
@@ -244,219 +255,84 @@
 				// $('.btn-primary').trigger('click');
 			})
 	
-	        var grid;
-	        var dataView;
-	        var data;
-	        var unqId = "itmId";
-	        var xcpt_cols = ["tblId", "regUsrid", "regDt"];
-	        var check_cols = [unqId];
-	        var columns = [
-	          {
-	            id: "tblId",
-				name: "테이블ID",
-				field: "tblId",
-				sortable: true,
-				editor: Slick.Editors.Text,
-				headerCssClass: "slick-header-columns",
-				cssClass: "slick-column-left",
-			  },
-	          {
-	            id: "itmNm",
-	            name: "Column Name",
-	            field: "itmNm",
-	            sortable: true,
-	            editor: Slick.Editors.Text,
-	            validator: (value, args) =>
-	              complexValidator(value, args, [
-	                createValidator,
-	                noWhitespaceValidator,
-	              ]),
-	            headerCssClass: "slick-header-columns",
-	            cssClass: "slick-column-left",
-	          },
-	          {
-	            id: unqId,
-	            name: "Column ID",
-	            field: unqId,
-	            sortable: true,
-	            editor: Slick.Editors.Text,
-	            validator: (value, args) =>
-	              complexValidator(value, args, [
-	                createValidator,
-	                noWhitespaceValidator,
-	              ]),
-	            headerCssClass: "slick-header-columns",
-	            cssClass: "slick-column-left",
-	          },
-	          {
-	            id: "dataTpCd",
-	            name: "Data Type",
-	            field: "dataTpCd",
-	            sortable: true,
-	            editor: function (args) {
-	              return new ComboBoxEditor(args, [
-	                { key: "VARCHAR", value: "VARCHAR" },
-	                { key: "NUMBER", value: "NUMBER" },
-	                { key: "DATE", value: "DATE" },
-	                { key: "TIMESTAMP", value: "TIMESTAMP" },
-	              ]);
-	            },
-	            headerCssClass: "slick-header-columns",
-	            cssClass: "slick-column-center",
-	          },
-	          {
-	            id: "pkYn",
-	            name: "Primary Key",
-	            field: "pkYn",
-	            sortable: true,
-	            editor: function (args) {
-	              return new ComboBoxEditor(args, [
-	                { key: "Y", value: "Y" },
-	                { key: "N", value: "N" },
-	              ]);
-	            },
-	            headerCssClass: "slick-header-columns",
-	            cssClass: "slick-column-center",
-	          },
-	          {
-	            id: "vlvlVrfYn",
-	            name: "Validation Use",
-	            field: "vlvlVrfYn",
-	            sortable: true,
-	            editor: function (args) {
-	              return new ComboBoxEditor(args, [
-	                { key: "Y", value: "Y" },
-	                { key: "N", value: "N" },
-	              ]);
-	            },
-	            headerCssClass: "slick-header-columns",
-	            cssClass: "slick-column-center",
-	          },
-	          {
-	            id: "vlvlCd",
-	            name: "Validation Code",
-	            field: "vlvlCd",
-	            sortable: true,
-	            editor: Slick.Editors.Text,
-	            headerCssClass: "slick-header-columns",
-	            cssClass: "slick-column-center",
-	          },
-	          {
-	            id: "ordSeq",
-	            name: "Sort",
-	            field: "ordSeq",
-	            sortable: true,
-	            editor: Slick.Editors.Text,
-	            validator: (value, args) =>
-	              complexValidator(value, args, [
-	                createValidator,
-	                noWhitespaceValidator,
-	              ]),
-	            headerCssClass: "slick-header-columns",
-	            cssClass: "slick-column-center",
-	          },
-	          {
-	            id: "itmDsc",
-	            name: "Desc",
-	            field: "itmDsc",
-	            sortable: true,
-	            editor: Slick.Editors.Text,
-	            headerCssClass: "slick-header-columns",
-	          },
-	          {
-	            id: "selBasYn",
-	            name: "Load Standard (Y/N)",
-	            field: "selBasYn",
-	            sortable: true,
-	            editor: Slick.Editors.Text,
-	            headerCssClass: "slick-header-columns",
-	            cssClass: "slick-column-center",
-	          },
-	        ];
+			var grid;
+			var dataView;
+			var data;
+			var unqId = "itmId";
+			var xcpt_cols = ["tblId", "regUsrid", "regDt"];
+			var check_cols = [unqId];
+			var columns = [
+				{id: "tblId",			name: "테이블ID",					field: "tblId",		width: 150, sortable: true, editor: Slick.Editors.Text},
+				{ id: "itmNm",		name: "Column Name",				field: "itmNm",		width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) =>  complexValidator(value, args, [ createValidator, noWhitespaceValidator ])},
+				{ id: unqId,			name: "Column ID",				field: unqId,		width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ])},
+				{ id: "dataTpCd",		name: "Data Type",				field: "dataTpCd",	width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "VARCHAR", value: "VARCHAR" }, { key: "NUMBER", value: "NUMBER" }, { key: "DATE", value: "DATE" }, { key: "TIMESTAMP", value: "TIMESTAMP" } ]);}},
+				{ id: "pkYn",			name: "Primary Key",			field: "pkYn",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" } ]);}},
+				{ id: "vlvlVrfYn",	name: "Validation Use",				field: "vlvlVrfYn",	width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" } ]);}},
+				{ id: "vlvlCd",		name: "Validation Code",			field: "vlvlCd",	width: 100, sortable: true, editor: Slick.Editors.Text },
+				{ id: "ordSeq",		name: "Sort",						field: "ordSeq",	width: 40, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ])},
+				{ id: "itmDsc",		name: "Desc",						field: "itmDsc",	width: 150, sortable: true, editor: Slick.Editors.Text },
+				{ id: "selBasYn",		name: "Load Standard (Y/N)",	field: "selBasYn",	width: 120, sortable: true, editor: Slick.Editors.Text }];
 	
-	        var options = {
-	          enableCellNavigation: true,
-	          enableColumnReorder: false,
-	          forceFitColumns: true,
-	          multiColumnSort: true,
-	          numberedMultiColumnSort: true,
-	          tristateMultiColumnSort: true,
-	          sortColNumberInSeparateSpan: true,
-	          enableAutoSizeColumns: true,
-	          editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
-	          enableAddRow: true,
-	          asyncEditorLoading: false,
-	          autoEdit: false,
-	          autoEditNewRow: false,
-	        };
+			var options = {
+				enableCellNavigation: true,
+				enableColumnReorder: false,
+				forceFitColumns: true,
+				multiColumnSort: true,
+				numberedMultiColumnSort: true,
+				tristateMultiColumnSort: true,
+				sortColNumberInSeparateSpan: true,
+				enableAutoSizeColumns: true,
+				editable: false, // grid도 편집가능.. grid 편집 기능 제거 필요..
+				enableAddRow: true,
+				asyncEditorLoading: false,
+				autoEdit: false,
+				autoEditNewRow: false,
+			};
 	
-	        var newRowIds = 0;
+			var newRowIds = 0;
 	
-	        var pluginOptions = {
-	          clipboardCommandHandler: function (editCommand) {
-	            undoRedoBuffer.queueAndExecuteCommand.call(
-	              undoRedoBuffer,
-	              editCommand
-	            );
-	          },
-	          readOnlyMode: false,
-	          includeHeaderWhenCopying: false,
-	          newRowCreator: function (count) {
-	            for (var i = 0; i < count; i++) {
-	              var item = {
-	                id: "newRow_" + newRowIds++,
-	              };
-	              grid.getData().addItem(item);
-	            }
-	          },
-	        };
-	        
-	        function addSlickGridSomeStyling() {
-	            const style = document.createElement("style");
-	            style.innerHTML = `
-	                 .slick-header-columns {
-	                   font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-	                   font-size: 13px;
-	                   font-weight: bold;
-	                 }
-	                 .slick-cell {
-	                   font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-	                   font-size: 13px;
-	                 }
-	               `;
-	            document.head.appendChild(style);
-	          }
+			var pluginOptions = {
+				clipboardCommandHandler: function (editCommand) {
+					undoRedoBuffer.queueAndExecuteCommand.call(undoRedoBuffer, editCommand);
+				},
+				readOnlyMode: false,
+				includeHeaderWhenCopying: false,
+				newRowCreator: function (count) {
+					for (var i = 0; i < count; i++) {
+						var item = {
+							id: "newRow_" + newRowIds++,
+						};
+						grid.getData().addItem(item);
+					}
+				},
+			};
 	
-	        function main() {
-	          addSlickGridSomeStyling();
-	          // 그리드 초기화 및 데이터 로드
-	          console.log("Initializing SlickGrid...");
-	          console.log("선택된 value: ", selectedValue);
-			  getCsList(
-				(input = JSON.stringify({
-					tblIdTxt: selectedValue
-				}))
-			  );
+			function main() {
+				// 그리드 초기화 및 데이터 로드
+				console.log("Initializing SlickGrid...");
+				console.log("선택된 value: ", selectedValue);
+				getCsList(( input = JSON.stringify({ tblIdTxt: selectedValue }))
+				);
 			}
-	        //   data = getFile((input = JSON.stringify({ tblIdTxt: selectedValue })));
+			//data = getFile((input = JSON.stringify({ tblIdTxt: selectedValue })));
 
 			function fn_callback(result) {
 				//console.log("fn_callback : " + result.id);
 				if (result.resultCd == "S") {
-				switch (result.id) {
-					case "SelectList":
-					fn_setGrid(result.data);
-
-					break;
-					case "insertList":
-					main();
-
-					break;
-					case "updateList":
-					main();
-
-					break;
-				}
+					switch (result.id) {
+						case "SelectList":
+						fn_setGrid(result.data);
+	
+						break;
+						case "insertList":
+						main();
+	
+						break;
+						case "updateList":
+						main();
+	
+						break;
+					}
 				} else if (result.resultCd == "E") {
 				} else {
 				console.log("fn_callback result : ", result);
@@ -573,9 +449,7 @@
 			}
 	
 	        // Download Excel functionality
-	        document
-	          .getElementById("downloadExcel")
-	          .addEventListener("click", function () {
+	        document.getElementById("downloadExcel").addEventListener("click", function () {
 	            const currDate = getCurrentDateTime();
 	            const fileName = "WRKFIL002M1_CM_" + currDate; // 원하는 파일 이름으로 변경 가능
 	            const sheetName = "컬럼관리"; // 시트 이름
@@ -589,6 +463,7 @@
 	        // 신규버튼 누르면 동작하는 함수
 	        function openDetails(modalType) {
 
+				let hiddenColumns;
 				let options6 = [
 					{ value: "1", text: "Option 1", column: "dataTpCd" },
 					{ value: "2", text: "Option 2", column: "dataTpCd" },
