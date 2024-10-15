@@ -23,7 +23,7 @@
              A.OPT_CD                   -- Option Code
            , B.OPT_DTLS_CD              -- Optional Details Code
            , B.OPT_DTLS_NM              -- Options Details Name
-		   , B.OPT_DTLS_NM + ' | $ ' + FORMAT(A.OPT_UPRC * B.OPT_DTLS_VLU, '#,###') + ' / M' AS OPT_DTLS_DESC
+		   , B.OPT_DTLS_NM + ' | $ ' + FORMAT(A.OPT_UPRC * B.OPT_DTLS_VLU, '#,###') + ' per month' AS OPT_DTLS_DESC
         FROM TB_OPT_INF      A
 		   , TB_OPT_DTLS_INF B
 	   WHERE 1=1
