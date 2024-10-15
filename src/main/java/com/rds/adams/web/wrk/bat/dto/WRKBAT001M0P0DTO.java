@@ -1,5 +1,6 @@
 package com.rds.adams.web.wrk.bat.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,6 +23,11 @@ import lombok.ToString;
 @Getter
 @Setter
 public class WRKBAT001M0P0DTO {
+	
+	@Schema(description = "검색텍스트")
 	private String searchTxt;
+	
+	@Schema(description = "고객사번호")
+	private String csNo;
 }
 
