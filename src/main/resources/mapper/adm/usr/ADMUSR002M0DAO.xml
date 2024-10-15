@@ -109,28 +109,28 @@
         /* web.opn.usr.dao.ADMUSR002M0DAO.selectUsrCntChk */
         WITH TMP_CS_CNT AS
              (
-        SELECT 
-               ISNULL(B.BASICS_USR_CNT, 0) + ISNULL(CAST( C.OPT_DTLS_VLU AS numeric(5, 0) ), 0) AS MAX_CNT
-          FROM [RDSDB].[dbo].[TB_CS_SRVC_OPT_INF]    A
-         INNER JOIN [RDSDB].[dbo].[TB_SVRC_INF]      B
-                 ON A.SRVC_CD = B.SRVC_CD
-         INNER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF]  C
-                 ON A.OPT_CD      = C.OPT_CD
-                AND A.OPT_DTLS_CD = C.OPT_DTLS_CD
-         WHERE 1=1
-           AND A.CS_NO = #{sCsNo}
+               SELECT 
+                      ISNULL(B.BASICS_USR_CNT, 0) + ISNULL(CAST( C.OPT_DTLS_VLU AS numeric(5, 0) ), 0) AS MAX_CNT
+                 FROM [RDSDB].[dbo].[TB_CS_SRVC_OPT_INF]    A
+                INNER JOIN [RDSDB].[dbo].[TB_SVRC_INF]      B
+                        ON A.SRVC_CD = B.SRVC_CD
+                INNER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF]  C
+                        ON A.OPT_CD      = C.OPT_CD
+                       AND A.OPT_DTLS_CD = C.OPT_DTLS_CD
+                WHERE 1=1
+                  AND A.CS_NO = #{sCsNo}
              )
         ,    TMP_USE_CNT AS
              (
-        SELECT 
-               COUNT(1) AS USE_CNT
-          FROM [RDSDB].[dbo].[TB_USR_MNG_LST]    A
-         WHERE 1=1
-           AND A.CS_NO     = #{sCsNo}
-           AND A.USR_DV_CD IN ('3', '2')
+               SELECT 
+                      COUNT(1) AS USE_CNT
+                 FROM [RDSDB].[dbo].[TB_USR_MNG_LST]    A
+                WHERE 1=1
+                  AND A.CS_NO     = #{sCsNo}
+                  AND A.USR_DV_CD IN ('3', '2')
              )
         SELECT 
-               CASE WHEN ISNULL((SELECT MAX_CNT FROM TMP_CS_CNT), 0) >= ISNULL((SELECT USE_CNT FROM TMP_USE_CNT), 0) THEN 'Y'
+               CASE WHEN ISNULL((SELECT MAX_CNT FROM TMP_CS_CNT), 0) >= ISNULL((SELECT USE_CNT + 1 FROM TMP_USE_CNT), 0) THEN 'Y'
                     ELSE 'N'
                END AS sResult
     </select>

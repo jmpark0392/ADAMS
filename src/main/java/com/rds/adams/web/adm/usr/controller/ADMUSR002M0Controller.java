@@ -76,16 +76,21 @@ public class ADMUSR002M0Controller {
     	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
     	inVo.setUpdId(sAdamsLoginDTO.getUsrId());
     	inVo.setCsNo(sAdamsLoginDTO.getCsNo());
-		
-		bResult = aDMUSR002M0Service.saveUsr(inVo);
-		
-		if (bResult) {
+		try {
+			bResult = aDMUSR002M0Service.saveUsr(inVo);
 			
-			resultMap.put("resultCode"   , "200");
-			resultMap.put("resultMessage", "Success !!!");
-		} else {
+			if (bResult) {
+				
+				resultMap.put("resultCode"   , "200");
+				resultMap.put("resultMessage", "Success !!!");
+			} else {
+				resultMap.put("resultCode"   , "300");
+				resultMap.put("resultMessage", "Save Failed !!!");
+			}
+		} catch(Exception e) {
 			resultMap.put("resultCode"   , "300");
-			resultMap.put("resultMessage", "Save Failed !!!");
+			resultMap.put("resultMessage", e.getMessage());
+			throw new Exception("ADMUSR002M0Service.saveUsr Error : " + e.getMessage());
 		}
 		
 		return resultMap;

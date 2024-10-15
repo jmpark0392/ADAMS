@@ -61,7 +61,8 @@ public class ADMUSR002M0Service {
 	 * @exception Exception
 	 */
 	public boolean saveUsr(ADMUSR002M0R0DTO inVo) throws Exception {
-		
+
+		String sMaxUsrCntYn = "";
 		String newpassword  = "";
 		boolean bMail       = false;
 		
@@ -70,7 +71,14 @@ public class ADMUSR002M0Service {
 		try {
 			// 2. 관리자 비밀번호 공백 시 임시 비밀번호를 생성한다.(영+영+숫+영+영+숫=6자리)
 			if ( inVo.getOldUsrId() == null || "".equals(inVo.getOldUsrId()) ) {
-	
+				
+				sMaxUsrCntYn = aDMUSR002M0DAO.selectUsrCntChk(inVo.getCsNo());
+				
+				if( "N".equals(sMaxUsrCntYn) ) {
+					// 최대 인원보다 많은 인원을 등록할 수 없습니다.
+					throw new Exception("ADMUSR002M0Service.saveUsr Error : You cannot register more people than the maximum number.");
+				}
+				
 				for (int i = 1; i <= 6; i++) {
 					// 영자
 					if (i % 3 != 0) {
