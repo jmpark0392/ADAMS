@@ -1,176 +1,122 @@
 <!DOCTYPE html>
-<html 
-  lang="ko"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}"
+<html
+	lang="ko"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}"
 >
+	<th:block layout:fragment="content">
+		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+		<div class="page-wrapper" id="page-wrapper">
+			<div class="container" id="container">
+				<h2>[[${menuNm}]]</h2>
+				<div class="ptag-container">
+					<span>[[${navigator}]]</span>
+					<div class="form-container">
+						<div class="form-box">
+							<form id="filter-form" name="form" method="post" action="/BIZADT001M0SelectList" onsubmit="return false;">
+								<div class="row">
+									<div class="col">
+										<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Account Title/Name"/>
+										<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">
+											Search
+										</button>
+									</div>
+									<div class="col text-end">
+										<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="reconcile()" data-test="create-button" onsubmit="return false;">
+											Reconcile
+										</button>
+										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">
+											Download
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div style="padding-top: 2em"></div>
+					<div style="padding-top: 2em"></div>
+					<div class="card card-md" id="divMyGrid">
+						<table class="table" align="center" style="width: 1284px; height: 500px"></table>
+					</div>
+	 			</div>
+				<div class="popupDataForm">
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">
+						Launch modal with form
+					</button>
+					<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+						<div class="modal-dialog modal-small" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">New report</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="row"></div>
+								</div>
+								<div class="modal-footer">
+									<div class="col flex-start">
+										<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
+									</div>
+									<div class="col-auto me-0 p-1"></div>
+									<div class="col-auto m-0">
+										<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">
+											Save changes
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<script>
+		function checkData(data){
+		return parentCheckData(data, check_cols);
+		}
 
-<th:block layout:fragment="content">
-	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-    <div class="page-wrapper" id="page-wrapper">
-      <div class="container" id="container">
-        <h2>Audit Trail</h2>
-        <div class="ptag-container">
-          <span><a href="#"> Home ></a></span>
-          <span><a href="#"> Audit Trail</a></span>
-          <div class="form-container">
-            <div class="form-box">
-              <form
-                id="filter-form"
-                name="form"
-                method="post"
-                action="/BIZADT001M0SelectList"
-                onsubmit="return false;"
-              >
-                <div class="row">
-                  <div class="col">
-                    <input
-                      id="inpSearchTxt"
-                      name="inpSearchTxt"
-                      type="text"
-                      class="form-input-temp"
-                      placeholder="Account Title/Name"
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="main()"
-                    >
-                      Search
-                    </button>
-                  </div>
-                  <div class="col text-end">
-                    <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="reconcile()"
-                      data-test="create-button"
-                      onsubmit="return false;"
-                    >
-                      Reconcile
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-lime"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      id="downloadExcel"
-                    >
-                      Download
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div style="padding-top: 2em"></div>
-          <div id="divMyGrid">
-            <table align="center" class="table"></table>
-          </div>
-        </div>
-        <div class="popupDataForm">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            style="display: none"
-          >
-            Launch modal with form
-          </button>
-          <div
-            class="modal fade"
-            id="exampleModal"
-            tabindex="-1"
-            style="display: none"
-          >
-            <div class="modal-dialog modal-small" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">New report</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <!-- Removed repetitive content for clarity -->
-                    <!-- Add necessary modal content here -->
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <a
-                    href="#"
-                    class="btn btn-link link-secondary"
-                    data-bs-dismiss="modal"
-                    >Cancel</a
-                  >
-                  <a
-                    href="#"
-                    class="btn btn-primary ms-auto"
-                    data-bs-dismiss="modal"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    >Save changes</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
-        function checkData(data){
-            return parentCheckData(data, check_cols);
-        }
-        
-        function getFile(input){
-            return parentGetFile(input, '/BIZADT001M0SelectList');
-        }
-        
-    </script>
-    <script src="/js/utils.js"></script>
-    <script>
-        $(document).ready(function() {
-            console.log("Document is ready.");
-            //화면 접속시 바로 조회
-            main();
-            //send버튼 누르면, 조건적용하여 검색
-            $("#send").click(main);
-            //엔터키누르면, 조건적용하여 검색
-            $("input").on("keyup", function(key) {
-                if (key.keyCode == 13) {
-                    main();
-                }
-            });
-        });
-        
-        var grid;
-        var dataView;
-        var data;
-        var unqId = "seqNo";
-        var xcpt_cols = [unqId, "regUsrid", "regDt"];
-        var check_cols = [unqId, "atitCd"];
-        var columns = [
-            {id: "atitCd",   name: "Account Title", field: "atitCd", width: 80, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-            {id: "atitNm", name: "Account Title Name", field: "atitNm", width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
-            {id: "insuPlItmCd",   name: "Insurance Code", field: "insuPlItmCd", width: 80, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-            {id: "insuPlItmNm",   name: "Insurance Name", field: "insuPlItmNm", width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
-            {id: "acntAmt", name: "Amt", field: "acntAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
-            {id: "insuPlItmAmt", name: "Recon Amt", field: "insuPlItmAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
-            {id: "diffAmt",   name: "Diff", field: "diffAmt", sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
-            {id: "regUsrid", name: "Registrant", field: "regUsrid", width: 100, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-            {id: "regDt", name: "Registration Date", field: "regDt", width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
-        ];
-        
-        var options = {
-            enableCellNavigation: true,
+		function getFile(input){
+		return parentGetFile(input, '/BIZADT001M0SelectList');
+		}
+
+	</script>
+	<script src="/js/utils.js"></script>
+	<script>
+		$(document).ready(function () {
+			console.log("Document is ready.");
+			//화면 접속시 바로 조회
+			main();
+			//send버튼 누르면, 조건적용하여 검색
+			$("#send").click(main);
+			//엔터키누르면, 조건적용하여 검색
+			$("input").on("keyup", function (key) {
+				if (key.keyCode == 13) {
+					main();
+				}
+			});
+		});
+
+		var grid;
+		var dataView;
+		var data;
+		var unqId = "seqNo";
+		var xcpt_cols = [unqId, "regUsrid", "regDt"];
+		var check_cols = [unqId, "atitCd"];
+		var columns = [
+			{id: "atitCd",			name: "Account Title",		field: "atitCd",		width: 80,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "atitNm",			name: "Account Title Name",	field: "atitNm",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+			{id: "insuPlItmCd",		name: "Insurance Code",		field: "insuPlItmCd",	width: 80,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "insuPlItmNm",		name: "Insurance Name",		field: "insuPlItmNm",	width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+			{id: "acntAmt",			name: "Amt",				field: "acntAmt",					sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
+			{id: "insuPlItmAmt",	name: "Recon Amt",			field: "insuPlItmAmt",				sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
+			{id: "diffAmt",			name: "Diff",				field: "diffAmt",					sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
+			{id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 100, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "frstRegDtm",		name: "Registration Date",	field: "frstRegDtm",	width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
+		];
+
+		var options = {
+			enableCellNavigation: true,
             enableColumnReorder: false,
             forceFitColumns: true,
             multiColumnSort: true,
