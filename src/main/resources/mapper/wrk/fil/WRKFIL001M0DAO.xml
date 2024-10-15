@@ -18,6 +18,9 @@
 		     , FRST_REG_DTM
 		  FROM TB_UPL_FILE_LST
          WHERE 1=1
+         <if test= 'csNo != "999"'>
+           AND CS_NO = #{csNo}
+         </if>
          <if test='searchTxt != ""'>
            AND (
                    FILE_NM  LIKE CONCAT_WS('%', #{searchTxt}, '%')
@@ -30,6 +33,7 @@
             SELECT MAX(SEQ_NO)+1 FROM TB_UPL_FILE_LST;
         </selectKey>
         INSERT INTO [dbo].[TB_UPL_FILE_LST] (
+            [CS_NO],
             [SEQ_NO],
             [DB_ID],
             [TBL_ID],
@@ -45,6 +49,7 @@
             [FRST_REG_DTM]
         )
         VALUES (
+            #{csNo},
             #{seqNo},
             #{dbId},
             #{tblId},
@@ -72,11 +77,14 @@
                VRF_USE_YN = #{vrfUseYn},
                FNL_UPD_EMP_NO = #{frstRegEmpNo},
                FNL_UPD_DTM = CONVERT(CHAR(10), getdate(), 23)
-         WHERE SEQ_NO = #{seqNo}
+         WHERE 1=1
+           AND SEQ_NO = #{seqNo}
+           AND CS_NO  = #{csNo}
     </update>
     <delete id="deleteList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL001M0P1DTO" >
         DELETE FROM TB_UPL_FILE_LST
         WHERE 1=1
             AND SEQ_NO  =  #{seqNo}
+            AND CS_NO   = #{csNo}
     </delete>
 </mapper>

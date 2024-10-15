@@ -34,7 +34,10 @@ public class WRKFIL001M0Controller {
 	 * @return
 	 */
 	@RequestMapping(value="/WRKFIL001M0SelectList", method=RequestMethod.POST, consumes="application/json")
-	public List<WRKFIL001M0R0DTO> select(@RequestBody WRKFIL001M0P0DTO inVo) {
+	public List<WRKFIL001M0R0DTO> select(@RequestBody WRKFIL001M0P0DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		
@@ -54,6 +57,7 @@ public class WRKFIL001M0Controller {
 
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		try {
@@ -71,6 +75,7 @@ public class WRKFIL001M0Controller {
 		
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		try {
@@ -84,7 +89,10 @@ public class WRKFIL001M0Controller {
 	}
 	
 	@RequestMapping(value="/WRKFIL001M0DeleteList", method=RequestMethod.POST, consumes="application/json")
-	public void delete(@RequestBody WRKFIL001M0P1DTO inVo) {
+	public void delete(@RequestBody WRKFIL001M0P1DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());		
 		
 		log.info(inVo.toString());
 		try {
