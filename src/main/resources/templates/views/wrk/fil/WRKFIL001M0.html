@@ -189,10 +189,10 @@
 		var check_cols = [unqId, "fileNm", "tblId"];
 		var columns = [
 			{ id: unqId,			name: "Seq",				field: unqId,			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "fileNm",			name: "File Name",			field: "fileNm",		width: 250,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns" },
-			{ id: "dbId",			name: "Database ID",		field: "dbId",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" },
-			{ id: "tblId",			name: "Table ID",			field: "tblId",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns" },
-			{ id: "fileDsc",		name: "File Info",			field: "fileDsc",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" },
+			{ id: "fileNm",			name: "File Name",			field: "fileNm",		width: 250,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+			{ id: "dbId",			name: "Database ID",		field: "dbId",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+			{ id: "tblId",			name: "Table ID",			field: "tblId",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+			{ id: "fileDsc",		name: "File Info",			field: "fileDsc",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 			{ id: "fileDelYn",		name: "File Del YN",		field: "fileDelYn",		width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "uiSelYn",		name: "UI View YN",			field: "uiSelYn",		width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "useYn",			name: "Use YN",				field: "useYn",			width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
@@ -233,23 +233,7 @@
 			},
 		};
 
-		function addSlickGridSomeStyling() {
-			const style = document.createElement("style");
-			style.innerHTML = `
-				.slick-header-columns {
-					font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-					font-size: 13px;
-				}
-				.slick-cell {
-					font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-					font-size: 13px;
-				}
-				`;
-			document.head.appendChild(style);
-		}
-
 			function main() {
-				addSlickGridSomeStyling();
 				// 그리드 초기화 및 데이터 로드
 				console.log("Initializing SlickGrid...");
 				getCsList(

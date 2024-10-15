@@ -257,6 +257,12 @@
 
     // Function to handle "Use" button click for Basic Subscription
     function useBasicSubscription() {
+
+
+    	var res_cfm = confirm("Basic Plan will be applied immediately. Shall we proceed?");
+    	if (res_cfm) {
+
+
       $.ajax({
         type: "POST",
         url: "/ADMSRV001M0MergeServiceOption",
@@ -272,7 +278,6 @@
         success: function (data) {
           console.log("Response data:", data);
           if (data.status === "success") {
-            confirm("Basic Plan will be applied immediately. Shall we proceed?");
             console.log("Basic Subscription activation successful:", data);
             // will update the ui accordingly
             $("#basicSubscriptionButton")
@@ -301,10 +306,23 @@
           alert("Failed to activate Basic Subscription.");
         },
       });
+
+
+    	} else {
+        	return false;
+        }
+
+
     }
 
     // Function to handle "Use" button click for Premium Subscription
     function usePremiumSubscription() {
+
+
+    	var res_cfm = confirm("Premium Plan will be applied immediately. Shall we proceed?");
+    	if (res_cfm) {
+
+
       $.ajax({
         type: "POST",
         url: "/ADMSRV001M0MergeServiceOption",
@@ -320,7 +338,6 @@
         success: function (data) {
           console.log("Response data:", data);
           if (data.status === "success") {
-            confirm("Premium Plan will be applied immediately. Shall we proceed?");
             console.log("Premium Subscription activation successful:", data);
             // will update the ui to show the ui accordingly
             $("#premiumSubscriptionButton")
@@ -349,10 +366,23 @@
           alert("Failed to activate Premium Subscription.");
         },
       });
+
+
+    	} else {
+        	return false;
+        }
+
+
     }
 
     // Function to handle "Add" button click in Option Addition
     function addOption() {
+
+
+    	var res_cfm = confirm("The selected option will be applied immediately. Shall we proceed?");
+    	if (res_cfm) {
+
+
       var selectedValue = $("#optionSelect").val();
       if (selectedValue === "") {
         alert("Please select an option to add.");
@@ -381,7 +411,6 @@
         success: function (data) {
           console.log("Response data:", data);
           if (data.status === "success") {
-            confirm("The selected option will be applied immediately. Shall we proceed?");
             console.log("Option addition successful:", data);
             // Update the selected option display
             $("#selectedOption").text(
@@ -397,6 +426,13 @@
           alert("Failed to add option.");
         },
       });
+
+
+    	} else {
+        	return false;
+        }
+
+
     }
 
     // Function to fetch and display the user's current subscription info

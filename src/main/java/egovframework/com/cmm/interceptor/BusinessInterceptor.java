@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
 import com.rds.adams.web.common.AdamsConstant;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
 import com.rds.adams.web.core.utils.StringUtil;
 
@@ -43,6 +44,7 @@ public class BusinessInterceptor extends WebContentInterceptor {
 		
 		HttpSession session = request.getSession();
 		List<AdamsMenuDTO> menuList = (List<AdamsMenuDTO>) session.getAttribute(AdamsConstant.SESSION_MENU_TREELIST);
+		AdamsLoginDTO adamsLoginDTO = (AdamsLoginDTO) session.getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		
 		String menuId = getMenuIdByUrl(request);
 		String menuNm = getMenuNmByUrl(request);
@@ -54,6 +56,7 @@ public class BusinessInterceptor extends WebContentInterceptor {
 			modelAndView.addObject("menuId", menuId);
 			modelAndView.addObject("menuNm", menuNm);
 			modelAndView.addObject("navigator", getNavigator(request, menuId));
+			modelAndView.addObject("loginDTO", adamsLoginDTO);
 		}
 		
 		log.info("========================================================");

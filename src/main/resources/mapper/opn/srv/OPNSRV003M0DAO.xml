@@ -19,8 +19,9 @@
                     AND TYPE = 'P'
                     AND NUMBER BETWEEN 1 AND DATEDIFF( D,  CONVERT( DATETIME, CONCAT(#{ymd} ,'01'),112) , DATEADD(MM, 1, CONVERT( DATETIME, CONCAT(#{ymd} ,'01'),112)))
                 ) Z
-           , [dbo].[TB_CS_MNG_LST] Y
-        WHERE 1=1
+            INNER JOIN [dbo].[TB_CS_MNG_LST] Y ON 1=1
+            WHERE 1=1
+                AND Y.CS_NO = #{csNo}
         )
         ,   TMP_BASE_CS_SRVC AS 
         (
