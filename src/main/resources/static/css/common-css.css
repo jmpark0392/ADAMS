@@ -50,6 +50,14 @@ a.nav-link.active {
   background: rgba(0, 0, 255, 0.2);
   transition: 0.5s background;
 }
+.slick-cell {
+  height: 30px; /* 셀 높이 설정 */
+  line-height: 25px; /* 셀 높이와 동일하게 설정 */
+  /* 필요에 따라 아래 속성을 추가 */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 /** override slick-cell to make it look like Excel sheet */
 .slick-container {
   --alpine-header-column-height: 20px;
