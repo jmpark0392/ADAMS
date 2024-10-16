@@ -103,8 +103,8 @@
           <form name="divData">
             <!-- <p>►&nbsp;<label for="lblGrdTitle">Grid title: </label></p> -->
 
-            <div class="card card-md" align="center">
-              <table id="divGrdMain" style="width: 1284px; height: 500px"></table>
+            <div class="card card-md" align="center" id="divMyGrid">
+              <table id="divMyGrid" style="width: 1284px; height: 500px"></table>
             </div>
           </form>
         </div>
@@ -164,7 +164,7 @@
     function getSearchList() {
       console.log("Sending AJAX request...");
 
-      const element = document.getElementById("divGrdMain");
+      const element = document.getElementById("divMyGrid");
       element.innerHTML = "";
 
       if (
@@ -250,6 +250,8 @@
                 field: sCd,
                 sortable: true,
                 editor: Slick.Editors.Text,
+                headerCssClass: "slick-header-columns",
+                cssClass: "slick-column-left",
               });
             }
 
@@ -268,13 +270,14 @@
               asyncEditorLoading: false,
               autoEdit: false,
               autoEditNewRow: false,
+              rowHeight: 35,
             };
 
             // 그리드 초기화 및 데이터 로드
             console.log("Initializing SlickGrid...");
 
             var grid = new Slick.Grid(
-              "#divGrdMain",
+              "#divMyGrid",
               grdData,
               columns,
               options
@@ -414,7 +417,7 @@
       });
     }
     function clearSlickGridData() {
-      var grid = new Slick.Grid("#divGrdMain", [{}], [{}], [{}]);
+      var grid = new Slick.Grid("#divMyGrid", [{}], [{}], [{}]);
     }
   </script>
 </th:block>

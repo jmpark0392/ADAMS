@@ -113,7 +113,7 @@
              , LOAD_ED_DT   = GETDATE()
              , LOAD_CNT     = #{loadCnt}
              , LOAD_SUCC_YN = #{loadSuccYn}
-             , STD_YYMM       = #{stdYm}
+             , STD_YYMM       = #{stdYymm}
              , FNL_UPD_DTM  = GETDATE()
          WHERE 1=1
            AND SEQ_NO = #{seqNo}

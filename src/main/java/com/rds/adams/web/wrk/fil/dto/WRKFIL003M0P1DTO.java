@@ -28,7 +28,7 @@ public class WRKFIL003M0P1DTO {
     private String fileNm;
     private int    loadCnt;
     private String loadSuccYn;
-    private String stdYm;
+    private String stdYymm;
     private String csNo;
 
 }

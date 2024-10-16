@@ -10,7 +10,7 @@
              , A.TBL_ID
              , A.FILE_NM
              , A.LOAD_CNT
-             , A.STD_YM
+             , A.STD_YYMM
              , A.FRST_REG_EMP_NO
              , A.LOAD_ST_DT
              , A.LOAD_ED_DT
@@ -35,7 +35,7 @@
            AND A.LOAD_ST_DT BETWEEN #{startLoadDate} AND #{endLoadDate}
          </if>
          <if test="startStdYymm != null and startStdYymm != '' and endStdYymm != null and endStdYymm != ''">
-           AND A.STD_YM BETWEEN REPLACE(#{startStdYymm}, '-', '') AND REPLACE(#{endStdYymm}, '-', '')
+           AND A.STD_YYMM BETWEEN REPLACE(#{startStdYymm}, '-', '') AND REPLACE(#{endStdYymm}, '-', '')
          </if>
     </select>
 </mapper>

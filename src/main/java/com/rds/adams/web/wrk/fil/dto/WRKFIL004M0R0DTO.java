@@ -27,7 +27,7 @@ public class WRKFIL004M0R0DTO {
     private String fileNm;
     private String tblId;
     private int loadCnt;
-    private String stdYm;
+    private String stdYymm;
     
     @Schema(description = "최초등록사원번호")
 	private String frstRegEmpNo;
