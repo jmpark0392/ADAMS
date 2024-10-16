@@ -81,7 +81,7 @@
                   </form> -->
                 <!-- choose file -->
                 <form method="post" id="uploadFrm" enctyp="multipart/form-data">
-                  <input type="file" class="form-control file-attach mb-0" style="padding: 5px" />
+                  <input id="btnFileUpload" name="btnFileUpload" type="file" value="File Upload" accept=".xlsx, .xls" class="form-control file-attach mb-0" style="padding: 5px" />
                 </form>
                 <!-- </div> -->
               </div>
@@ -349,7 +349,7 @@
       var formData = new FormData();
       var inputFile = $("input[name='btnFileUpload']");
       var files = inputFile[0].files;
-      console.log(files);
+      console.log("File 0 : " + files[0]);
 
       for (var i = 0; i < files.length; i++) {
         formData.append("uploadFile", files[i]);
@@ -379,7 +379,7 @@
         //file: files,
         data: formData,
         success: function (data) {
-          console.log(data);
+          //console.log(data);
 
           alert("파일업로드 저장 성공");
 

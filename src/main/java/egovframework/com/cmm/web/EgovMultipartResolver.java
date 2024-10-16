@@ -31,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.rds.adams.web.core.utils.StringUtil;
+
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.let.utl.fcc.service.EgovFileUploadUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -84,11 +86,13 @@ public class EgovMultipartResolver extends CommonsMultipartResolver {
 
 		// Extract multipart files and multipart parameters.
 		for (Iterator<FileItem> it = fileItems.iterator(); it.hasNext();) {
+			
 			FileItem fileItem = it.next();
 
 			if (fileItem.isFormField()) {
 
 				String value = null;
+				
 				if (encoding != null) {
 					try {
 						value = fileItem.getString(encoding);
@@ -100,7 +104,9 @@ public class EgovMultipartResolver extends CommonsMultipartResolver {
 				} else {
 					value = fileItem.getString();
 				}
+				
 				String[] curParam = multipartParameters.get(fileItem.getFieldName());
+				
 				if (curParam == null) {
 					// simple form field
 					multipartParameters.put(fileItem.getFieldName(), new String[] { value });
@@ -112,10 +118,10 @@ public class EgovMultipartResolver extends CommonsMultipartResolver {
 
 				//contentType 입력
 				mpParamContentTypes.put(fileItem.getFieldName(), fileItem.getContentType());
+				
 			} else {
 
 				CommonsMultipartFile file = createMultipartFile(fileItem);
-				multipartFiles.add(file.getName(), file);
 
 				log.debug("Found multipart file [{" + file.getName() + "}] of size {" + file.getSize()
 						+ "} bytes with original filename [{" + file.getOriginalFilename() + "}], stored {"
@@ -124,10 +130,17 @@ public class EgovMultipartResolver extends CommonsMultipartResolver {
 				String fileName = file.getOriginalFilename();
 				String fileExtension = EgovFileUploadUtil.getFileExtension(fileName);
 				log.debug("Found File Extension = "+fileExtension);
+				
 				if (whiteListFileUploadExtensions == null || "".equals(whiteListFileUploadExtensions)) {
+					
 					log.debug("The file extension whitelist has not been set.");
+					
 				} else {
-					if (fileName == null || "".equals(fileName)) {
+					
+					if ("blob".equals(fileName.toLowerCase()) && "blob".equals(fileExtension.toLowerCase())) {
+						log.debug("skip!! : ["+fileName+"."+fileExtension+"]");
+						continue;
+					} else if (StringUtil.isEmpty(fileName)) {
 						log.debug("No file name.");
 					} else {
 						if ("".equals(fileExtension)) { // 확장자 없는 경우 처리 불가
@@ -140,11 +153,16 @@ public class EgovMultipartResolver extends CommonsMultipartResolver {
 							throw new SecurityException("["+fileExtension+"] File extension not allowed.");
 						}
 					}
+					
 				}
+				
+				log.debug("multipartFiles.add()");
+				multipartFiles.add(file.getName(), file);
 
 			}
 		}
 
 		return new MultipartParsingResult(multipartFiles, multipartParameters, mpParamContentTypes);//2022.01. Method call passes null for non-null parameter 처리
+		
 	}
 }
