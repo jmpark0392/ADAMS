@@ -76,7 +76,7 @@
                ) AA 
           LEFT OUTER JOIN TB_ATIT_MNG_LST BB 
             ON AA.ATIT_CD = BB.ATIT_CD
-          ORDER BY BB.SRT_ORD
+          ORDER BY BB.ORD_SEQ
                  <if test='searchTxt != ""'>
                    AND (
                            ATIT_CD LIKE '%' + #{searchTxt} + '%'
