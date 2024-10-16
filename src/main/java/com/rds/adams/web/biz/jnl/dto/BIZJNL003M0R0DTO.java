@@ -1,5 +1,6 @@
 package com.rds.adams.web.biz.jnl.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,20 +19,38 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "분개내역 조회 DTO")
 @ToString
 @Getter
 @Setter
 public class BIZJNL003M0R0DTO {
 	
+	@Schema(description = "행번호")
 	private int rowNumber;
-	private String stdYymm;  /* 기준년월 */
-	private String jrnlNo; /* 분개번호 */
-	private String atitCd;  /* 계정과목코드 */
-	private String atitNm;  /* 계정과목명 */
-	private String drCrDvCd;  /* 차대구분 */
-	private String jrnlAmt;  /* 분개금액 */
-	private String frstRegEmpNo;  /* 등록사용자ID */
-	private String frstRegDtm;  /* 등록일 */
+	
+	@Schema(description = "기준년월")
+	private String stdYymm;
+	
+	@Schema(description = "분개번호")
+	private String jrnlNo;
+	
+	@Schema(description = "계정과목코드")
+	private String atitCd;
+	
+	@Schema(description = "계정과목명")
+	private String atitNm;
+	
+	@Schema(description = "차대구분")
+	private String drCrDvCd;
+	
+	@Schema(description = "분개금액")
+	private String jrnlAmt;
+	
+	@Schema(description = "최초등록사원번호")
+	private String frstRegEmpNo;
+
+	@Schema(description = "최초등록일시")
+	private String frstRegDtm;
 	
 }
 

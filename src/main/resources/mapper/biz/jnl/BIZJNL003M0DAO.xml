@@ -14,10 +14,13 @@
                FROM TB_JNL_RST_LST AS A
               INNER JOIN TB_ATIT_MNG_LST AS B
                  ON A.ATIT_CD = B.ATIT_CD
+			<if test= 'csNo != "999"'>
+				AND A.CS_NO        = #{csNo}
+			</if>
 			<if test='searchTxt != ""'>
 				AND (
 						ATIT_CD LIKE '%' + #{searchTxt} + '%'
-					OR ATIT_NM LIKE '%' + #{searchTxt} + '%'
+					OR  ATIT_NM LIKE '%' + #{searchTxt} + '%'
 					)
 			</if>
     </select>
@@ -28,7 +31,8 @@
     <insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0P1DTO">
 			INSERT INTO TB_JNL_RST_LST
 			SELECT 
-			       '202406'          AS STD_YYMM
+			       AAA.CS_NO         AS CS_NO
+			     , '202406'          AS STD_YYMM
 			     , '202406' +'-'+ INSC_DV_CD +'-'+ VALU_METD_CD +'-'+ LVL_1_CD + LVL_2_CD + LVL_3_CD + '-'
 			     + FORMAT ( row_number() over ( PARTITION BY LVL_1_CD ,LVL_2_CD ,LVL_3_CD ORDER BY LVL_1_CD, LVL_2_CD, LVL_3_CD), '00000' )      AS JRNL_NO
 			     , AAA.AC_SUBJ_CD    AS ATIT_CD
@@ -39,15 +43,16 @@
 			     , '00002'           AS FNL_UPD_EMP_NO
 			     , GETDATE()         AS FNL_UPD_DTM
 			  FROM (
-			         SELECT 
-			                AA.INSC_DV_CD
+			         SELECT
+			                AA.CS_NO 
+			              , AA.INSC_DV_CD
 			              , AA.VALU_METD_CD
 			              , AA.LVL_1_CD
 			              , AA.LVL_2_CD
 			              , AA.LVL_3_CD
-			              , AA.DR_AC_SUBJ_CD AC_SUBJ_CD
+			              , AA.DR_AC_SUBJ_CD  AS AC_SUBJ_CD
 			              , BB.AMT
-			              , 'DR' DR_CR_DV_CD
+			              , 'DR'              AS DR_CR_DV_CD
 			           FROM TB_JNL_RUL_MNG_LST AA
 			          INNER JOIN (
 			                       SELECT 
@@ -299,10 +304,11 @@
 			                     ) BB
 			                  ON AA.LVL_1_CD  = BB.ETC_1_DESC
 			                 AND AA.LVL_2_CD  = BB.ETC_2_DESC
-			                 AND AA.LVL_3_CD  = BB.ETC_3_DESC    
+			                 AND AA.LVL_3_CD  = BB.ETC_3_DESC  
 			     UNION ALL
 			     SELECT 
-			            AA.INSC_DV_CD
+				        AA.CS_NO
+			          , AA.INSC_DV_CD
 			          , AA.VALU_METD_CD
 			          , AA.LVL_1_CD
 			          , AA.LVL_2_CD
@@ -561,7 +567,7 @@
 			                 ) BB
 			               ON AA.LVL_1_CD  = BB.ETC_1_DESC
 			              AND AA.LVL_2_CD  = BB.ETC_2_DESC
-			              AND AA.LVL_3_CD  = BB.ETC_3_DESC    
+			              AND AA.LVL_3_CD  = BB.ETC_3_DESC  						  
 			        ) AAA
     </insert>
 </mapper>

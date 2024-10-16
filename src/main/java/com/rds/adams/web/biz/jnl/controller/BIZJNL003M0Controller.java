@@ -34,7 +34,11 @@ public class BIZJNL003M0Controller {
 	 * @return
 	 */
 	@RequestMapping(value="/BIZJNL003M0SelectList", method=RequestMethod.POST, consumes="application/json")
-	public List<BIZJNL003M0R0DTO> select(@RequestBody BIZJNL003M0P0DTO inVo) {
+	public List<BIZJNL003M0R0DTO> select(@RequestBody BIZJNL003M0P0DTO inVo, HttpServletRequest request) {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
+		
 		
 		log.info(inVo.toString());
 		
@@ -51,10 +55,10 @@ public class BIZJNL003M0Controller {
 	@RequestMapping(value="/BIZJNL003M0ExecuteList", method=RequestMethod.POST, consumes="application/json")
 	public void execute(@RequestBody ExecuteDTO inVo, HttpServletRequest request) {
 		
-		ExecuteDTO executeDTO = new ExecuteDTO();
-		executeDTO.setStdYymm(inVo.getStdYymm());
+		
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		executeDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		inVo.setStdYymm(inVo.getStdYymm());
+		inVo.setUsrId(sAdamsLoginDTO.getUsrId());
 				
 		log.info(inVo.toString());
 		try {
