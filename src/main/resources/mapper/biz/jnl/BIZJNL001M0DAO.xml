@@ -5,36 +5,38 @@
 <mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0R0DTO">
 		SELECT
-		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-             , ATIT_CD
-		     , ATIT_KOR_NM
-		     , ATIT_ENG_NM
-		     , HGRK_ATIT_CD
-		     , AC_LVL_CD
-		     , BKG_AC_YN
-		     , FS_DV_CD
-		     , AC_DV_CD
-		     , AC_KIND_CD
-		     , APP_ST_DT
-		     , APP_ED_DT
-		     , ORD_SEQ
-		     , ETC_DESC
-		     , USE_YN
-		     , FRST_REG_EMP_NO
-		     , FRST_REG_DTM
-		  FROM TB_ATIT_MNG_LST
-         WHERE 1=1
-           AND CS_NO = #{csNo}
-         <if test='searchTxt != ""'>
-           AND (
-                	ATIT_CD LIKE '%' + #{searchTxt} + '%'
-                OR ATIT_KOR_NM LIKE '%' + #{searchTxt} + '%'
-                OR ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
-                )
-         </if>
-    </select>
-    <insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO">
-        INSERT INTO [dbo].[TB_ATIT_MNG_LST] (
+				ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
+			, ATIT_CD
+			, ATIT_KOR_NM
+			, ATIT_ENG_NM
+			, HGRK_ATIT_CD
+			, AC_LVL_CD
+			, BKG_AC_YN
+			, FS_DV_CD
+			, AC_DV_CD
+			, AC_KIND_CD
+			, APP_ST_DT
+			, APP_ED_DT
+			, ORD_SEQ
+			, ETC_DESC
+			, USE_YN
+			, FRST_REG_EMP_NO
+			, FRST_REG_DTM
+		 FROM TB_ATIT_MNG_LST
+		WHERE 1=1
+		<if test= 'csNo != "999"'>
+			AND AA.CS_NO        = #{csNo}
+		</if>
+		<if test='searchTxt != ""'>
+			AND (
+					ATIT_CD     LIKE '%' + #{searchTxt} + '%'
+				OR  ATIT_KOR_NM LIKE '%' + #{searchTxt} + '%'
+				OR  ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
+				)
+		</if>
+	</select>
+	<insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO">
+		INSERT INTO [dbo].[TB_ATIT_MNG_LST] (
 			  [CS_NO]
 			, [ATIT_CD]
 			, [ATIT_KOR_NM]

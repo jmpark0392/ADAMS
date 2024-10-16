@@ -39,15 +39,18 @@
                  ) AA
          INNER JOIN TB_ATIT_MNG_LST AS BB
             ON AA.CR_AC_SUBJ_CD = BB.ATIT_CD
-         WHERE AA.CS_NO         = #{csNo}
-         <if test='searchTxt != ""'>
-            AND (
-                    DR_AC_SUBJ_CD LIKE '%' + #{searchTxt} + '%'
-                 OR AA.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
-                 OR CR_AC_SUBJ_CD LIKE '%' + #{searchTxt} + '%'
-                 OR AA.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
-                 )
-         </if>
+         WHERE 1=1
+		<if test= 'csNo != "999"'>
+			AND AA.CS_NO        = #{csNo}
+		</if>
+		<if test='searchTxt != ""'>
+			AND (
+					DR_AC_SUBJ_CD  LIKE '%' + #{searchTxt} + '%'
+				OR  AA.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
+				OR  CR_AC_SUBJ_CD  LIKE '%' + #{searchTxt} + '%'
+				OR  AA.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
+				)
+		</if>
     </select>
     <insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
 		INSERT INTO [dbo].[TB_JNL_RUL_MNG_LST] 
