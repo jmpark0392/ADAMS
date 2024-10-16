@@ -147,7 +147,7 @@ public class WRKFIL003M0Service {
 		
 	}
 	
-	public void saveUploadFile(MultipartFile[] uploadFile, WRKFIL003M0P0DTO inVo) {
+	public void saveUploadFile(MultipartFile[] uploadFile, WRKFIL003M0P0DTO inVo, String csNo) {
 		
 		UploadFile					atachFile			= null;
 		OPCPackage					opcPackage			= null;
@@ -227,6 +227,7 @@ public class WRKFIL003M0Service {
 		dBaseQuery = dBaseQuery + "   WHERE 1=1  ";
 		
 		// 업로드 이력 Insert
+		wRKFIL003M0P1DTO.setCsNo(csNo);
 		iSeqNo = wRKFIL003M0DAO.insertUplHist(wRKFIL003M0P1DTO);
 		
 		System.out.println(" ====== wRKFIL003M0P1DTO : " + wRKFIL003M0P1DTO.toString());

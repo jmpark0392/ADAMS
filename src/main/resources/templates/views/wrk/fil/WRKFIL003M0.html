@@ -80,7 +80,7 @@
                     />
                   </form> -->
                 <!-- choose file -->
-                <form method="post" id="uploadFrm" enctyp="multipart/form-data">
+                <form method="post" id="uploadFrm">
                   <input id="btnFileUpload" name="btnFileUpload" type="file" value="File Upload" accept=".xlsx, .xls" class="form-control file-attach mb-0" style="padding: 5px" />
                 </form>
                 <!-- </div> -->
@@ -350,11 +350,19 @@
       var inputFile = $("input[name='btnFileUpload']");
       var files = inputFile[0].files;
       console.log("File 0 : " + files[0]);
+      
+      var month = document.getElementById("inputMonth").value;
+      var year = document.getElementById("inputYear").value;
+      var stdYymm = year + month.padStart(2, "0");
 
       for (var i = 0; i < files.length; i++) {
         formData.append("uploadFile", files[i]);
       }
+      
+      formData.append("uploadFileVal", $("#cmbUploadFileList").val());
+      formData.append("inpStdYymm", stdYymm);
 
+      /*
       formData.append(
         "param",
         new Blob(
@@ -367,17 +375,19 @@
           { type: "application/json" }
         )
       );
+      */
 
       $.ajax({
         //enctype: 'multipart/form-data',
         //contentType: 'multipart/form-data; charset=utf-8',
         type: "POST",
         url: "/WRKFIL003M0SaveUploadFile",
+        enctype: 'multipart/form-data',
+        //file: files,
+        data: formData,
         processData: false,
         contentType: false,
         cache: false,
-        //file: files,
-        data: formData,
         success: function (data) {
           //console.log(data);
 

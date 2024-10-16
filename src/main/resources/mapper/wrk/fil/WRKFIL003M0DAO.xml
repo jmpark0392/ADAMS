@@ -77,13 +77,14 @@
         INSERT INTO RDSDB.dbo.TB_UPL_HIST
                (
                  DB_ID
+               , CS_NO
                , TBL_ID
                , FILE_NM
                , LOAD_ST_DT
                , LOAD_ED_DT
                , LOAD_CNT
                , LOAD_SUCC_YN
-               , STD_YM
+               , STD_YYMM
                , FNL_UPD_EMP_NO
                , FNL_UPD_DTM
                , FRST_REG_EMP_NO
@@ -92,6 +93,7 @@
         VALUES
                (
                  #{dbId}
+               , #{csNo}
                , #{tblId}
                , #{fileNm}
                , GETDATE()
@@ -111,7 +113,7 @@
              , LOAD_ED_DT   = GETDATE()
              , LOAD_CNT     = #{loadCnt}
              , LOAD_SUCC_YN = #{loadSuccYn}
-             , STD_YM       = #{stdYm}
+             , STD_YYMM       = #{stdYm}
              , FNL_UPD_DTM  = GETDATE()
          WHERE 1=1
            AND SEQ_NO = #{seqNo}

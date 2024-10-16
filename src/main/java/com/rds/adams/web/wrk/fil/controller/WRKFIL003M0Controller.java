@@ -3,14 +3,20 @@ package com.rds.adams.web.wrk.fil.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.rds.adams.web.common.AdamsConstant;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P0DTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL003M0R1DTO;
 import com.rds.adams.web.wrk.fil.service.WRKFIL003M0Service;
@@ -61,11 +67,22 @@ public class WRKFIL003M0Controller {
 	 */
 	@SuppressWarnings("resource")
 	@RequestMapping(value="/WRKFIL003M0SaveUploadFile", method=RequestMethod.POST)
-	public String saveUploadFile( @RequestPart(name = "uploadFile") MultipartFile[] uploadFile, @RequestPart(name = "param") WRKFIL003M0P0DTO inVo) throws Exception {
+	public String saveUploadFile( @RequestPart(name = "uploadFile") MultipartFile[] uploadFile
+			, @RequestParam("uploadFileVal") String uploadFileVal
+			, @RequestParam("inpStdYymm") String inpStdYymm
+			, HttpServletRequest request) throws Exception {
+		
+		WRKFIL003M0P0DTO inVo = new WRKFIL003M0P0DTO();
+		inVo.setUploadFile(Integer.parseInt(uploadFileVal));
+		inVo.setStdYymm(inpStdYymm);
+		
+		HttpSession session = request.getSession();
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) session.getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String csNo = sAdamsLoginDTO.getCsNo();
 		
 		log.info(uploadFile.toString() + "\n" + inVo.toString());
 		
-		wRKFIL003M0Service.saveUploadFile(uploadFile, inVo);
+		wRKFIL003M0Service.saveUploadFile(uploadFile, inVo, csNo);
 		
 		log.info("");
 		
