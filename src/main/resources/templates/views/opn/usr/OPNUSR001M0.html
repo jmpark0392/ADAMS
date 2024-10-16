@@ -15,16 +15,10 @@
 							onsubmit="return false;">
 							<div class="row">
 								<div class="col">
-									<label class="form-label"> Menu Name Korean: </label>
-									<input id="inpMenuNmKor" name="inpMenuNmKor" type="text" class="form-input-temp"
-										placeholder="Menu Korean" />
+									<label class="form-label"> Menu Name: </label>
+									<input id="inpMenuNm" name="inpMenuNm" type="text" class="form-input-temp"
+										placeholder="Menu Korean/English" />
 									<br>
-									<label class="form-label"> Menu Name English: </label>
-									<input id="inpMenuNmEng" name="inpMenuNmEng" type="text" class="form-input-temp"
-										placeholder="Menu English" />
-								</div>
-
-								<div class="col">
 									<label class="form-label"> Menu Description: </label>
 									<input id="inpMenuDesc" name="inpMenuDesc" type="text" class="form-input-temp"
 										placeholder="Menu Description" />
@@ -164,6 +158,43 @@
 
 			gf_Transaction(option, fn_callback);
 		}
+		
+		var MenuIDFormatter = function (row, cell, value, columnDef, dataContext, grid) {
+			if (value == null || value == undefined || dataContext === undefined) { return ""; }
+			value = value.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+			var spacer = "<span style='display:inline-block;height:1px;width:" + (15 * dataContext["indent"]) + "px'></span>";
+			var idx = dataView.getIdxById(dataContext.menuId);
+			var data = grid.getData().items;
+			var hasChildren = (data[idx + 1] && data[idx + 1].indent > data[idx].indent);
+			
+			if (hasChildren) {
+				if (dataContext._collapsed) {
+					return spacer + " <span class='toggle sgi sgi-plus-box-outline'></span>&nbsp;" + value;
+				} 
+				else {
+					return spacer + " <span class='toggle sgi sgi-minus-box-outline'></span>&nbsp;" + value;
+				}
+			}
+			else {
+				return spacer + " <span class='toggle'></span>&nbsp;" + value;
+			}
+		};
+		
+		// 필터링 함수
+		function myFilter(item) {
+			//console.log("myFilter's item: ", item);
+			var data = grid.getData().items;
+			if (item.parent != null) {
+				var parent = data[item.parent];
+				while (parent) {
+					if (parent._collapsed) {
+						return false;
+					}
+					parent = data[parent.parent];
+				}
+			}
+			return true;
+		}
 	</script>
 	<script src="js/utils.js"></script>
 	<script>
@@ -199,58 +230,59 @@
 		var grid;
 		var dataView;
 		var data;
+		var expandedRows = {}; // 각 부모의 확장 상태를 기록
 		var unqId = "menuId";
 		var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
 		var check_cols = [unqId, "menuNmKor", "menuNmEng"];
 		var selbox_cols = ["srvcCd", "adminAuthYn", "sysopAuthYn", "useYn", "delYn"]
 		var columns = [
-			{ id: "menuId", name: "Menu ID", field: "menuId", width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "menuNmKor", name: "Menu Name Korean", field: "menuNmKor", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", }
-			, { id: "menuNmEng", name: "Menu Name English", field: "menuNmEng", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", }
-			, { id: "upprMenuId", name: "Upper Menu ID", field: "upprMenuId", width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "menuSrtOrd", name: "Menu Sorted Order", field: "menuSrtOrd", width: 80, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "menuDesc", name: "Menu Description", field: "menuDesc", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", }
-			, { id: "pgmNm", name: "Program Name", field: "pgmNm", width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "pgmPathNm", name: "Program Path Name", field: "pgmPathNm", width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "srvcCd", name: "Service Code", field: "srvcCd", width: 60, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "adminAuthYn", name: "Admin Auth YN", field: "adminAuthYn", width: 50, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },]) }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "sysopAuthYn", name: "SysOp AUth YN", field: "sysopAuthYn", width: 50, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },]) }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "useYn", name: "Use YN", field: "useYn", width: 50, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },]) }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "delYn", name: "Del YN", field: "delYn", width: 50, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },]) }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "frstRegEmpNo", name: "Registrant", field: "frstRegEmpNo", width: 100, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-			, { id: "frstRegDtm", name: "Registration Date", field: "frstRegDtm", width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-		];
+						//formatter: MenuIDFormatter,
+						{ id: "menuId", name: "Menu ID", field: "menuId", width: 100, sortable: true, editor: Slick.Editors.Text, formatter: MenuIDFormatter, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns" }
+					,	{ id: "menuNmKor", name: "Menu Name Korean", field: "menuNmKor", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", }
+					,	{ id: "menuNmEng", name: "Menu Name English", field: "menuNmEng", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", }
+					,	{ id: "upprMenuId", name: "Upper Menu ID", field: "upprMenuId", width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "menuSrtOrd", name: "Menu Sorted Order", field: "menuSrtOrd", width: 80, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "menuDesc", name: "Menu Description", field: "menuDesc", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", }
+					,	{ id: "pgmNm", name: "Program Name", field: "pgmNm", width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "pgmPathNm", name: "Program Path Name", field: "pgmPathNm", width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "srvcCd", name: "Service Code", field: "srvcCd", width: 60, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "adminAuthYn", name: "Admin Auth YN", field: "adminAuthYn", width: 50, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },]) }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "sysopAuthYn", name: "SysOp AUth YN", field: "sysopAuthYn", width: 50, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },]) }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "useYn", name: "Use YN", field: "useYn", width: 50, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },]) }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "delYn", name: "Del YN", field: "delYn", width: 50, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },]) }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "frstRegEmpNo", name: "Registrant", field: "frstRegEmpNo", width: 100, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "frstRegDtm", name: "Registration Date", field: "frstRegDtm", width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					];
 
-		var options = {
-			enableCellNavigation: true
-			, enableColumnReorder: false
-			, forceFitColumns: false
-			, multiColumnSort: true
-			, numberedMultiColumnSort: true
-			, tristateMultiColumnSort: true
-			, sortColNumberInSeparateSpan: true
-			, enableAutoSizeColumns: true
-			, editable: false
-			, enableAddRow: true
-			, asyncEditorLoading: false
-			, autoEdit: false
-			, autoEditNewRow: false
-			,
-		};
+		var options	=	{
+						enableCellNavigation: true
+					,	enableColumnReorder: false
+					,	forceFitColumns: false
+					,	multiColumnSort: true
+					,	numberedMultiColumnSort: true
+					,	tristateMultiColumnSort: true
+					,	sortColNumberInSeparateSpan: true
+					,	enableAutoSizeColumns: true
+					,	editable: false
+					,	enableAddRow: true
+					,	asyncEditorLoading: false
+					,	autoEdit: false
+					,	autoEditNewRow: false
+					};
 
 		var newRowIds = 0;
 
-		var pluginOptions = {
-			clipboardCommandHandler: function (editCommand) { undoRedoBuffer.queueAndExecuteCommand.call(undoRedoBuffer, editCommand) }
-			, readOnlyMode: false
-			, includeHeaderWhenCopying: false
-			, newRowCreator: function (count) {
-				for (var i = 0; i < count; i++) {
-					var item = { id: "newRow_" + newRowIds++, };
-					grid.getData().addItem(item);
-				}
-			}
-		};
+		var pluginOptions	=	{
+								clipboardCommandHandler: function (editCommand) { undoRedoBuffer.queueAndExecuteCommand.call(undoRedoBuffer, editCommand) }
+							,	readOnlyMode: false
+							,	includeHeaderWhenCopying: false
+							,	newRowCreator: function (count) {
+																for (var i = 0; i < count; i++) {
+																	var item = { id: "newRow_" + newRowIds++, };
+																	grid.getData().addItem(item);
+																	}
+																}
+							};
 
 		function addSlickGridSomeStyling() {
 			const style = document.createElement("style");
@@ -272,12 +304,11 @@
 			// 그리드 초기화 및 데이터 로드
 			console.log("Initializing SlickGrid...");
 			getList(
-				(input = JSON.stringify({
-					menuNmKor: $("#inpMenuNmKor").val()
-					, menuNmEng: $("#inpMenuNmEng").val()
-					, menuDesc: $("#inpMenuDesc").val()
-					, pgmNm: $("#inpPgmNm").val()
-				})
+				(input	=	JSON.stringify({
+							menuNm: $("#inpMenuNm").val()
+						,	menuDesc: $("#inpMenuDesc").val()
+						,	pgmNm: $("#inpPgmNm").val()
+						})
 				)
 			);
 		}
@@ -316,9 +347,34 @@
 		}
 
 		function fn_setGrid(data) {
-
-			dataView = new Slick.Data.DataView({ idField: unqId });
+			
+			var	indent = 0;
+			var parents = [];
+			var parent;
+			
+			for	(var i = 0; i < data.length; i++){
+				
+				var d = data[i];
+				
+				if((d.upprMenuId == null || d.upprMenuId == '')){
+					indent = 0;
+					d["indent"] = indent;
+					d["parent"] = null;
+					parent = i;
+					d["_collapsed"] = true;
+				}
+				else {
+					indent = 1;
+					d["indent"] = indent;
+					d["parent"] = parent;
+					d["_collapsed"] = false;
+				}
+			}
+			
+			dataView = new Slick.Data.DataView({ idField: unqId, inlineFilters: true });
 			grid = new Slick.Grid("#divMyGrid", dataView, columns, options);
+			
+			console.log("After something: ", data);
 
 			// Make the grid respond to DataView change events.
 			dataView.onRowCountChanged.subscribe(function (e, args) {
@@ -327,12 +383,15 @@
 			});
 
 			dataView.onRowsChanged.subscribe(function (e, args) {
-				grid.invalidate();
+				grid.invalidateRows(args.rows);
 				grid.render();
 			});
 
 			// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
+			dataView.beginUpdate();
 			dataView.setItems(data, unqId);
+			dataView.setFilter(myFilter);
+			dataView.endUpdate();
 
 			// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
 			grid.onBeforeSort.subscribe(function (e, args) {
@@ -359,8 +418,43 @@
 				}
 				);
 				grid.render();
-			}
-			);
+			});
+			grid.onClick.subscribe(function (e, args) {
+				if (e.getNativeEvent().target.classList.contains("toggle")) {
+					var item = dataView.getItem(args.row);
+					//console.log("Toggle!!");
+					//console.log("row: ", item);
+					if (item) {
+						if (!item._collapsed) {
+							item._collapsed = true;
+						} else {
+							item._collapsed = false;
+						}
+						dataView.updateItem(item.menuId, item);
+					}
+					e.stopImmediatePropagation();
+				}
+			});
+			/*
+			grid.onClick.subscribe(function (e, args) {
+				if ($(e.target).hasClass("toggle")) {
+					var item = args.grid.getDataItem(args.row);
+					console.log("Toggle!!");
+					console.log("row: ", item);
+					
+					if (item.indent === 0) {
+						// 부모 행이면 확장/축소 토글
+						//expandedRows[rowIndex] = !expandedRows[rowIndex];
+						item._collapsed = !item._collapsed;
+					}
+					dataView.updateItem(item.menuId, item);
+					dataView.refresh(); // 필터 재적용
+					//grid.invalidate();
+					//grid.render();
+					//e.stopImmediatePropagation();
+				}
+			});
+			*/
 
 			grid.setSelectionModel(new Slick.CellSelectionModel());
 			grid.registerPlugin(new Slick.AutoTooltips());
@@ -373,7 +467,7 @@
 				var newItem = args.item;
 				var column = args.column;
 				dataView.beginUpdate();
-				dataView.setItems(data);
+				dataView.setItems(data, unqId);
 				dataView.endUpdate();
 				grid.updateRowCount();
 				grid.render();
@@ -385,7 +479,7 @@
 
 			grid.onCellChange.subscribe(function (e, args) {
 				dataView.beginUpdate();
-				dataView.setItems(data);
+				dataView.setItems(data, unqId);
 				dataView.endUpdate();
 				grid.updateRowCount();
 				grid.render();

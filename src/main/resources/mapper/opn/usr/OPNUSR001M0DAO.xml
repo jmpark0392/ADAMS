@@ -23,11 +23,8 @@
              , MM.FRST_REG_DTM
           FROM [RDSDB].[DBO].[TB_MENU_MNG_LST] MM
          WHERE 1=1
-         <if test='menuNmKor != "" and menuNmKor != null'>
-           AND MM.MENU_NM_KOR LIKE '%' + #{menuNmKor} + '%'
-         </if>
-         <if test='menuNmEng != "" and menuNmEng != null'>
-           AND MM.MENU_NM_ENG LIKE '%' + #{menuNmEng} + '%'
+         <if test='menuNm != "" and menuNm != null'>
+           AND (MM.MENU_NM_KOR LIKE '%' + #{menuNm} + '%' OR  MM.MENU_NM_ENG LIKE '%' + #{menuNm} + '%')
          </if>
          <if test='menuDesc != "" and menuDesc != null'>
            AND MM.MENU_DESC   LIKE '%' + #{menuDesc} + '%'

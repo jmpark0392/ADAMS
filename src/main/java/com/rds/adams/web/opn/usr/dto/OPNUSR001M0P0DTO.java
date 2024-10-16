@@ -24,11 +24,8 @@ import lombok.ToString;
 @Setter
 public class OPNUSR001M0P0DTO {
 
-    @Schema(description = "메뉴명 한글")
-    private String menuNmKor;
-    
-    @Schema(description = "메뉴명 영문")
-    private String menuNmEng;
+    @Schema(description = "메뉴명 한글/영어")
+    private String menuNm;
     
     @Schema(description = "메뉴 설명")
     private String menuDesc;
