@@ -11,7 +11,10 @@
              , A.TBL_ID
           FROM TB_UPL_FILE_LST A
          WHERE 1=1
+         <if test= 'csNo != "999"'>
+           AND CS_NO = #{csNo}
            AND A.USE_YN = 'Y'
+         </if>
          <if test='dummyStr != ""'>
            AND 1=1
          </if>
@@ -44,9 +47,9 @@
             #{ordSeq},                -- 정렬순서
             #{itmDsc},                -- 항목설명
             #{selBasYn},              -- 조회기준여부
-             'admin',
+            #{frstRegEmpNo},
             CONVERT(CHAR(10), getdate(), 23),
-            'admin',
+            #{frstRegEmpNo},
             CONVERT(CHAR(10), getdate(), 23)
         );
     </insert>
@@ -61,15 +64,17 @@
                ITM_DSC = #{itmDsc},               -- 항목설명
                SEL_BAS_YN = #{selBasYn}           -- 조회기준여부
              , FNL_UPD_DTM    = GETDATE()
-             , FNL_UPD_EMP_NO = 'admin'
+             , FNL_UPD_EMP_NO = #{frstRegEmpNo}
          WHERE 1=1
            AND TBL_ID = #{tblId}                  -- 필터링기준 : 테이블ID
            AND CLMN_ID = #{itmId}                 -- 필터링기준 : 컬럼ID
+           AND CS_NO   = #{csNo}
     </update>
     <delete id="deleteList">
         DELETE TB_UPL_ITM_LST
          WHERE 1=1
            AND TBL_ID  = #{tblId}                  -- 필터링기준 : 테이블ID
            AND CLMN_ID = #{itmId}                 -- 필터링기준 : 컬럼ID
+           AND CS_NO   = #{csNo}
     </delete>
 </mapper>
