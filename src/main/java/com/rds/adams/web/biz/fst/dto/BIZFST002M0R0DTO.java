@@ -1,5 +1,6 @@
 package com.rds.adams.web.biz.fst.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,22 +19,43 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "재무제표PL 조회 DTO")
 @ToString
 @Getter
 @Setter
 public class BIZFST002M0R0DTO {
 	
+	@Schema(description = "행번호")
 	private int rowNumber;
-	private String stdYymm;  /* 기준년월 */
-	private String atitCd;  /* 계정과목코드 */
-	private String atitNm;  /* 계정과목명 */
-	private String fsDvCd;  /* 재무제표구분코드 */
-	private int basAmt;  /* 기초금액 */
-	private int drAmt;  /* 차변금액 */
-	private int crAmt;  /* 대변금액 */
-	private int entmAmt;  /* 기말금액 */
-	private String regUsrid;  /* 등록사용자ID */
-	private String regDt;  /* 등록일 */
 	
+	@Schema(description = "기준년월")
+	private String stdYymm;
+	
+	@Schema(description = "계정과목코드")
+	private String atitCd;
+	
+	@Schema(description = "계정과목명")
+	private String atitNm;
+	
+	@Schema(description = "재무제표구분코드")
+	private String fsDvCd;
+	
+	@Schema(description = "기초금액")
+	private int basAmt;
+	
+	@Schema(description = "차변금액")
+	private int drAmt;
+	
+	@Schema(description = "대변금액")
+	private int crAmt;
+	
+	@Schema(description = "기말금액")
+	private int entmAmt;
+	
+	@Schema(description = "최초등록사원번호")
+	private String frstRegEmpNo;
+
+	@Schema(description = "최초등록일시")
+	private String frstRegDtm;
 }
 

@@ -96,30 +96,30 @@
             
             gf_Transaction(option, fn_callback);
         }
-        
+
     </script>
 	<script src="js/utils.js"></script>
 	<script>
-        $(document).ready(function() {
-            console.log("Document is ready.");
-            //화면 접속시 바로 조회
-            main();
-            //send버튼 누르면, 조건적용하여 검색
-            $("#send").click(main);
-            //엔터키누르면, 조건적용하여 검색
-            $("input").on("keyup", function(key) {
-                if (key.keyCode == 13) {
-                    main();
-                }
-            });
-        });
-        
-        var grid;
-        var dataView;
-        var data;
-        var unqId = "rowNumber";
-        var xcpt_cols = [unqId, "regUsrid", "regDt"];
-        var check_cols = [unqId, ];
+		$(document).ready(function() {
+			console.log("Document is ready.");
+			//화면 접속시 바로 조회
+			main();
+			//send버튼 누르면, 조건적용하여 검색
+			$("#send").click(main);
+			//엔터키누르면, 조건적용하여 검색
+			$("input").on("keyup", function(key) {
+				if (key.keyCode == 13) {
+					main();
+				}
+			});
+		});
+
+		var grid;
+		var dataView;
+		var data;
+		var unqId = "rowNumber";
+		var xcpt_cols = [unqId, "regUsrid", "regDt"];
+		var check_cols = [unqId, ];
 		var columns = [
 				{id: "ptfCd",				name: "Portfolio",							field: "ptfCd",					width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns"},
 				{id: "basAmt",				name: "Basis",								field: "basAmt",				width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
@@ -135,10 +135,10 @@
 				{id: "atsAssmUpdAmt",		name: "Assumption Change",					field: "atsAssmUpdAmt",			width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
 				{id: "exrtEfftAmt",			name: "Fx Effect",							field: "exrtEfftAmt",			width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
 				{id: "entmAmt",				name: "End",								field: "entmAmt",				width: 150, sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, 	headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
-				{id: "regUsrid",			name: "Registrant",							field: "regUsrid",				width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-				{id: "regDt",				name: "Registration Date",					field: "regDt",					width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
+				{id: "frstRegEmpNo",		name: "Registrant",							field: "frstRegEmpNo",			width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+				{id: "frstRegDtm",			name: "Registration Date",					field: "frstRegDtm",			width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, 								headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
 		];
-        
+
         var options = {
             enableCellNavigation: true,
             enableColumnReorder: false,

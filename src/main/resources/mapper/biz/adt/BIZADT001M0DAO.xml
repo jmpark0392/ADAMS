@@ -18,7 +18,11 @@
 	        , A.FRST_REG_DTM     AS FRST_REG_DTM
 	     FROM TB_ACNT_RECT_LST AS A
 	    INNER JOIN TB_ATIT_MNG_LST AS B
-	       ON A.ATIT_CD = B.ATIT_CD;
+	       ON A.ATIT_CD = B.ATIT_CD
+	     WHERE 1=1
+	     <if test= 'csNo != "999"'>
+			AND A.CS_NO        = #{csNo}
+		</if>
          <if test='searchTxt != ""'>
            AND (
                    ATIT_CD LIKE '%' + #{searchTxt} + '%'

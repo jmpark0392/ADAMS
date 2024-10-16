@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rds.adams.web.biz.ins.dto.BIZINS001M0P0DTO;
-import com.rds.adams.web.biz.ins.dto.BIZINS001M0P1DTO;
 import com.rds.adams.web.biz.ins.dto.BIZINS001M0R0DTO;
 import com.rds.adams.web.biz.ins.service.BIZINS001M0Service;
 import com.rds.adams.web.common.AdamsConstant;
@@ -35,9 +34,12 @@ public class BIZINS001M0Controller {
 	 * @return
 	 */
 	@RequestMapping(value="/BIZINS001M0SelectList", method=RequestMethod.POST, consumes="application/json")
-	public List<BIZINS001M0R0DTO> select(@RequestBody BIZINS001M0P0DTO inVo) {
+	public List<BIZINS001M0R0DTO> select(@RequestBody BIZINS001M0P0DTO inVo, HttpServletRequest request) {
 		
 		log.info(inVo.toString());
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		List<BIZINS001M0R0DTO> result = bIZINS001M0Service.selectList(inVo);
 		
@@ -50,10 +52,10 @@ public class BIZINS001M0Controller {
 	@RequestMapping(value="/BIZINS001M0ExecuteList", method=RequestMethod.POST, consumes="application/json")
 	public void execute(@RequestBody ExecuteDTO inVo, HttpServletRequest request) {
 		
-		ExecuteDTO executeDTO = new ExecuteDTO();
-		executeDTO.setStdYymm(inVo.getStdYymm());
+		inVo.setStdYymm(inVo.getStdYymm());
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		executeDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		inVo.setUsrId(sAdamsLoginDTO.getUsrId());
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		try {

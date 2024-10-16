@@ -23,5 +23,8 @@ public class ExecuteDTO {
 	
 	@Schema(description = "등록자ID")
 	private String usrId;
+	
+	@Schema(description = "고객사번호")
+	private String csNo;
 
 }

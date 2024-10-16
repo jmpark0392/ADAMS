@@ -27,5 +27,8 @@ public class BIZADT001M0P0DTO {
 	
 	@Schema(description = "검색텍스트")
 	private String searchTxt;
+	
+	@Schema(description = "고객사번호")
+	private String csNo;
 }
 

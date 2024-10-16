@@ -28,6 +28,9 @@ public class BIZADT001M0R0DTO {
 	@Schema(description = "기준년월")
 	private String stdYymm;
 	
+	@Schema(description = "고객사번호")
+	private String csNo;
+	
 	@Schema(description = "일련번호")
 	private String seqNo;
 	
