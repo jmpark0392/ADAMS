@@ -1,7 +1,5 @@
 package com.rds.adams.web.opn.srv.dto;
 
-import java.math.BigDecimal;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.ToString;
 import lombok.Getter;

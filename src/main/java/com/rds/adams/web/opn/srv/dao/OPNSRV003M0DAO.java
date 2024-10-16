@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.rds.adams.web.opn.srv.dto.OPNSRV003M0P0DTO;
 import com.rds.adams.web.opn.srv.dto.OPNSRV003M0R0DTO;
+import com.rds.adams.web.opn.srv.dto.OPNSRV003M0P1DTO;
+import com.rds.adams.web.opn.srv.dto.OPNSRV003M0R1DTO;
 
 @Mapper
 public interface OPNSRV003M0DAO {
@@ -14,7 +16,7 @@ public interface OPNSRV003M0DAO {
 	 * @return List<OPNSRV003M0R0DTO>
 	 * @exception Exception
 	 */
-
+	
     public List<OPNSRV003M0R0DTO> getChartInfos(OPNSRV003M0P0DTO inVo);
-
+	public List<OPNSRV003M0R1DTO> getGridData(OPNSRV003M0P1DTO inVo);
 }

@@ -201,12 +201,6 @@
             $.each(data, function (index, option) {
               // Combine optCd and optDtlsCd as the value
               var value =
-                option.optCd +
-                "|" +
-                option.optDtlsCd +
-                "|" +
-                option.optDtlsNm +
-                "|" +
                 option.optDtlsDesc;
               $optionSelect.append(
                 '<option value="' +

@@ -201,4 +201,254 @@
         ORDER BY A.YMD
         ]]>
     </select>
+    <select id="getGridData" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV003M0P1DTO" resultType="com.rds.adams.web.opn.srv.dto.OPNSRV003M0R1DTO">    
+    <![CDATA[
+        WITH TMP_D AS 
+        ( 
+          SELECT 
+                 Z.YMD                               AS YMD    /*DAY, 날짜의 일*/
+               , Y.CS_NO                             AS CS_NO
+               , COUNT(1) OVER(PARTITION BY Y.CS_NO) AS M_DAY  /* 월일수 */
+            FROM (
+                   SELECT
+                          CONCAT( '202410' , FORMAT( NUMBER , '00' )) AS YMD /*DAY, 날짜의 일*/
+                     FROM MASTER..SPT_VALUES
+                    WHERE 1=1
+                      AND TYPE = 'P'
+                      AND NUMBER BETWEEN 1 AND DATEDIFF( D,  CONVERT( DATETIME, CONCAT('202410' ,'01'),112) , DATEADD(MM, 1, CONVERT( DATETIME, CONCAT('202410' ,'01'),112)))
+                 ) Z
+            INNER JOIN [dbo].[TB_CS_MNG_LST] Y ON 1=1
+            WHERE 1=1
+    ]]>
+      <if test='csNo != null and csNo != "" '>
+          AND ( Y.CS_NO     LIKE '%' + #{csNo} + '%' OR Y.COMP_NM LIKE '%' + #{csNo} + '%' )
+      </if>
+    <![CDATA[
+            AND Y.CS_NO <> '999'
+        )
+    ,   TMP_BASE_CS_SRVC AS 
+        (
+          SELECT 
+                 B.YMD          AS YMD     /* 년월일 */
+               , B.CS_NO        AS CS_NO   /* 고객사번호 */
+               , MAX( CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN A.SRVC_CD 
+                           ELSE NULL 
+                      END )     AS SRVC_CD      /* 서비스코드 */
+               , MAX(A.SRVC_CD) AS SRVC_CD_EXP  /* 서비스코드_예상 */
+            FROM TMP_D AS B
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_CS_SRVC_HIST]  AS A
+                         ON B.YMD   BETWEEN CONVERT(CHAR(8),A.SRVC_STR_DTM,112) AND CONVERT(CHAR(8),A.SRVC_END_DTM,112)
+                        AND B.CS_NO = A.CS_NO
+           WHERE 1=1
+           GROUP BY B.YMD
+                  , B.CS_NO
+        )
+    ,   TMP_BASE_CS_OPT AS 
+        (
+          SELECT 
+                 A.YMD          AS YMD              /* 년월일 */
+               , A.CS_NO        AS CS_NO            /* 고객사번호 */
+               , A.OPT_CD       AS OPT_CD           /* 옵션코드 */
+               , B.OPT_DTLS_CD  AS OPT_DTLS_CD      /* 옵션상세코드 */
+               , A.OPT_VLU      AS OPT_VLU          /* 옵션값 */
+               , C.OPT_DTLS_CD  AS OPT_DTLS_CD_EXP  /* 옵션상세코드_예상 */
+               , A.OPT_VLU_EXP  AS OPT_VLU_EXP      /* 옵션값_예상 */
+            FROM (
+                   SELECT 
+                          B.YMD          AS YMD
+                        , B.CS_NO
+                        , A.OPT_CD
+                        , MAX( CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN C.OPT_DTLS_VLU
+                                    ELSE NULL 
+                               END )     AS OPT_VLU
+                        , MAX(C.OPT_DTLS_VLU) AS OPT_VLU_EXP
+                     FROM TMP_D AS B
+                     LEFT OUTER JOIN [RDSDB].[dbo].[TB_CS_OPT_HIST]  AS A
+                                  ON B.YMD    BETWEEN CONVERT(CHAR(8),A.OPT_STR_DTM,112) AND CONVERT(CHAR(8),A.OPT_END_DTM,112)
+                                 AND B.CS_NO  = A.CS_NO
+                                 AND A.OPT_CD = '01'
+                     LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF]  AS C
+                                  ON A.OPT_CD      = C.OPT_CD
+                                 AND A.OPT_DTLS_CD = C.OPT_DTLS_CD
+                    WHERE 1=1
+                    GROUP BY B.YMD
+                           , B.CS_NO
+                           , A.OPT_CD
+                 ) A
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF]  AS B
+                         ON B.OPT_CD      = '01'
+                        AND A.OPT_VLU     = B.OPT_DTLS_VLU
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF]  AS C
+                         ON C.OPT_CD      = '01'
+                        AND A.OPT_VLU_EXP = C.OPT_DTLS_VLU
+           WHERE 1=1
+        )
+    ,   TMP_BASE_SRVC AS 
+        (
+          SELECT 
+                 B.YMD                      AS YMD
+               , B.CS_NO                    AS CS_NO
+               , A.SRVC_CD                  AS SRVC_CD
+               , MAX( CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN A.SRVC_UPRC / M_DAY
+                           ELSE NULL 
+                      END )                 AS SRVC_COST
+               , MAX( A.SRVC_UPRC / M_DAY ) AS SRVC_COST_EXP
+            FROM TMP_D  AS B
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_SVRC_HIST] AS A
+                         ON B.YMD   BETWEEN CONVERT(CHAR(8),A.SRVC_STR_DTM,112) AND CONVERT(CHAR(8),A.SRVC_END_DTM,112)
+           WHERE 1=1
+           GROUP BY B.YMD
+                  , B.CS_NO
+                  , A.SRVC_CD
+        )
+    ,   TMP_BASE_OPT AS 
+        (
+          SELECT 
+                 B.YMD                      AS YMD
+               , B.CS_NO                    AS CS_NO
+               , A.OPT_CD                   AS OPT_CD
+               , MAX( CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN A.OPT_UPRC / M_DAY
+                           ELSE NULL 
+                      END )                 AS OPT_COST
+               , MAX( A.OPT_UPRC / M_DAY )  AS OPT_COST_EXP
+            FROM TMP_D  AS B
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_HIST] AS A
+                         ON B.YMD BETWEEN CONVERT(CHAR(8),A.OPT_STR_DTM,112) AND CONVERT(CHAR(8),A.OPT_END_DTM,112)
+           WHERE 1=1
+           GROUP BY B.YMD
+                  , B.CS_NO
+                  , A.OPT_CD
+        )
+    ,   TMP_RESULT AS 
+        (
+          SELECT 
+                 A.YMD
+               , A.CS_NO
+               , B.SRVC_CD
+               , B.SRVC_CD_EXP
+               , CASE WHEN B.SRVC_CD = '01' THEN 1 ELSE 0 END AS B_SRVC_VAL
+               , CASE WHEN B.SRVC_CD = '02' THEN 1 ELSE 0 END AS P_SRVC_VAL
+               , ISNULL(C.SRVC_COST     , 0 ) AS SRVC_COST
+               , ISNULL(D.SRVC_COST_EXP , 0 ) AS SRVC_COST_EXP
+               , CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( C.SRVC_COST )      OVER( PARTITION BY A.CS_NO ORDER BY A.YMD  ROWS UNBOUNDED PRECEDING )
+                      ELSE NULL
+                 END                          AS SRVC_COST_SUM
+               , CASE WHEN B.YMD >= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( D.SRVC_COST_EXP )  OVER( PARTITION BY A.CS_NO ORDER BY A.YMD, A.CS_NO  ROWS UNBOUNDED PRECEDING )
+                      ELSE NULL
+                 END                          AS SRVC_COST_EXP_SUM
+               , E.OPT_CD
+               , E.OPT_DTLS_CD
+               , E.OPT_DTLS_CD_EXP
+               , ISNULL(F.OPT_COST     , 0 )  AS OPT_COST
+               , ISNULL(G.OPT_COST_EXP , 0 )  AS OPT_COST_EXP
+               , CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( F.OPT_COST * ISNULL(H.OPT_DTLS_VLU , 0 ) )   OVER( PARTITION BY A.CS_NO ORDER BY A.YMD  ROWS UNBOUNDED PRECEDING )
+                      ELSE NULL
+                 END                          AS OPT_COST_SUM
+               , CASE WHEN B.YMD >= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( G.OPT_COST_EXP * ISNULL(I.OPT_DTLS_VLU , 0 ) )  OVER( PARTITION BY A.CS_NO ORDER BY A.YMD, A.CS_NO  ROWS UNBOUNDED PRECEDING )
+                      ELSE NULL
+                 END                          AS OPT_COST_EXP_SUM
+               , ISNULL(H.OPT_DTLS_VLU , 0 )  AS OPT_DTLS_VLU
+               , ISNULL(I.OPT_DTLS_VLU , 0 )  AS OPT_DTLS_VLU_EXP
+            FROM TMP_D                         AS A
+            LEFT OUTER JOIN TMP_BASE_CS_SRVC   AS B
+                         ON A.YMD   = B.YMD
+                        AND A.CS_NO = B.CS_NO
+            LEFT OUTER JOIN TMP_BASE_SRVC      AS C
+                         ON A.YMD     = C.YMD
+                        AND A.CS_NO   = C.CS_NO
+                        AND B.YMD     = C.YMD
+                        AND B.CS_NO   = C.CS_NO
+                        AND B.SRVC_CD = C.SRVC_CD
+            LEFT OUTER JOIN TMP_BASE_SRVC      AS D
+                         ON A.YMD         = D.YMD
+                        AND A.CS_NO       = D.CS_NO
+                        AND B.YMD         = D.YMD
+                        AND B.CS_NO       = D.CS_NO
+                        AND B.SRVC_CD_EXP = D.SRVC_CD
+            LEFT OUTER JOIN TMP_BASE_CS_OPT    AS E
+                         ON A.YMD   = E.YMD
+                        AND A.CS_NO = E.CS_NO
+            LEFT OUTER JOIN TMP_BASE_OPT       AS F
+                         ON A.YMD    = F.YMD
+                        AND A.CS_NO  = F.CS_NO
+                        AND E.YMD    = F.YMD
+                        AND E.CS_NO  = F.CS_NO
+                        AND E.OPT_CD = F.OPT_CD
+            LEFT OUTER JOIN TMP_BASE_OPT       AS G
+                         ON A.YMD    = G.YMD
+                        AND A.CS_NO  = G.CS_NO
+                        AND E.YMD    = G.YMD
+                        AND E.CS_NO  = G.CS_NO
+                        AND E.OPT_CD = G.OPT_CD
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF] AS H
+                         ON E.OPT_CD      = H.OPT_CD
+                        AND E.OPT_DTLS_CD = H.OPT_DTLS_CD
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF] AS I
+                         ON E.OPT_CD          = I.OPT_CD
+                        AND E.OPT_DTLS_CD_EXP = I.OPT_DTLS_CD
+           WHERE 1=1
+    )
+    SELECT 
+           A.CS_NO
+         , B.COMP_NM
+         , A.GRP
+         , A.SRVC_CD
+         , A.SRVC_NM
+         , A.DAY_CNT
+         , A.SRVC_COST_SUM
+         , SUM( A.SRVC_COST_SUM )     OVER(PARTITION BY A.CS_NO) AS SRVC_COST_TOTAL
+         , SUM( A.SRVC_COST_EXP_SUM ) OVER(PARTITION BY A.CS_NO) AS SRVC_COST_EXP_TOTAL
+      FROM (
+             SELECT 
+                    A.CS_NO
+                  , '1'                                 AS GRP
+                  , ISNULL(A.SRVC_CD, A.SRVC_CD_EXP)    AS SRVC_CD
+                  , ISNULL(B.SRVC_NM, C.SRVC_NM)        AS SRVC_NM
+                  , COUNT(A.SRVC_CD)                    AS DAY_CNT
+                  , ROUND( SUM(A.SRVC_COST)     , 2)    AS SRVC_COST_SUM
+                  , ROUND( SUM(A.SRVC_COST_EXP) , 2)    AS SRVC_COST_EXP_SUM
+               FROM TMP_RESULT                        A
+               LEFT OUTER JOIN RDSDB.dbo.TB_SVRC_INF  B
+                            ON A.SRVC_CD = B.SRVC_CD
+               LEFT OUTER JOIN RDSDB.dbo.TB_SVRC_INF  C
+                            ON A.SRVC_CD_EXP = C.SRVC_CD
+              WHERE 1=1
+                AND ISNULL(A.SRVC_CD, A.SRVC_CD_EXP) IS NOT NULL
+              GROUP BY A.CS_NO
+                     , ISNULL(A.SRVC_CD, A.SRVC_CD_EXP)
+                     , ISNULL(B.SRVC_NM, C.SRVC_NM)
+             UNION ALL 
+             SELECT 
+                    A.CS_NO
+                  , '2'                                       AS GRP
+                  , ISNULL(A.OPT_DTLS_CD, A.OPT_DTLS_CD_EXP)  AS SRVC_CD
+                  , ISNULL(D.OPT_NM +' : '+ B.OPT_DTLS_NM, E.OPT_NM +' : '+ C.OPT_DTLS_NM)      AS SRVC_NM
+                  , COUNT(A.OPT_DTLS_CD)                      AS DAY_CNT
+                  , ROUND( SUM(A.OPT_COST)     , 2)           AS SRVC_COST_SUM
+                  , ROUND( SUM(A.OPT_COST_EXP) , 2)           AS SRVC_COST_EXP_SUM
+               FROM TMP_RESULT                            A
+               LEFT OUTER JOIN RDSDB.dbo.TB_OPT_DTLS_INF  B
+                            ON A.OPT_CD      = B.OPT_CD
+                           AND A.OPT_DTLS_CD = B.OPT_DTLS_CD
+               LEFT OUTER JOIN RDSDB.dbo.TB_OPT_DTLS_INF  C
+                            ON A.OPT_CD          = C.OPT_CD
+                           AND A.OPT_DTLS_CD_EXP = C.OPT_DTLS_CD
+               LEFT OUTER JOIN RDSDB.dbo.TB_OPT_INF  D
+                            ON A.OPT_CD      = D.OPT_CD
+               LEFT OUTER JOIN RDSDB.dbo.TB_OPT_INF  E
+                            ON A.OPT_CD      = E.OPT_CD
+              WHERE 1=1
+                AND ISNULL(A.OPT_DTLS_CD, A.OPT_DTLS_CD_EXP) IS NOT NULL
+              GROUP BY A.CS_NO
+                     , ISNULL(A.OPT_DTLS_CD, A.OPT_DTLS_CD_EXP)
+                     , ISNULL(D.OPT_NM +' : '+ B.OPT_DTLS_NM, E.OPT_NM +' : '+ C.OPT_DTLS_NM)
+           ) A
+     INNER JOIN RDSDB.dbo.TB_CS_MNG_LST B
+             ON A.CS_NO = B.CS_NO
+     WHERE 1=1
+     ORDER BY A.CS_NO
+            , A.GRP
+            , A.SRVC_CD
+    ]]>
+    </select>
 </mapper>

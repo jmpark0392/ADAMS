@@ -12,6 +12,8 @@ import com.rds.adams.web.opn.srv.service.OPNSRV003M0Service;
 
 import com.rds.adams.web.opn.srv.dto.OPNSRV003M0P0DTO;
 import com.rds.adams.web.opn.srv.dto.OPNSRV003M0R0DTO;
+import com.rds.adams.web.opn.srv.dto.OPNSRV003M0P1DTO;
+import com.rds.adams.web.opn.srv.dto.OPNSRV003M0R1DTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +51,22 @@ public class OPNSRV003M0Controller {
 		log.info(inVo.toString());
 		
 		List<OPNSRV003M0R0DTO> result = oPNSRV003M0Service.getChartInfos(inVo);
+		
+		log.info(result.toString());
+		
+		return result;
+		
+	}
+	/**
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/OPNSRV003M0getGridData", method=RequestMethod.POST, consumes="application/json")
+    public List<OPNSRV003M0R1DTO> getGridData(@RequestBody OPNSRV003M0P1DTO inVo) {
+		
+		log.info(inVo.toString());
+		
+		List<OPNSRV003M0R1DTO> result = oPNSRV003M0Service.getGridData(inVo);
 		
 		log.info(result.toString());
 		

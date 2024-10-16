@@ -122,13 +122,12 @@
       function getCsList(input) {
         console.log("getCsList input : " + input);
         var option = {
-          id: "SelectList",
-          type: "post",
-          url: "/OPNSRV003M0getChartInfos",
+          type: "POST",
+          url: "/OPNSRV003M0getGridData",
           async: false,
           dataType: "json",
           contentType: "application/json; charset=utf-8",
-          data: input,
+          data: input
         };
 
         gf_Transaction(option, fn_callback);
@@ -149,18 +148,39 @@
         });
       });
 
+      function fn_callback(result) {
+        console.log("result data: ", result.data); 
+        if(result.data){
+          let data = result.data;
+          generateRandomId(data); // generate random id for each data object
+          fn_setGrid(data); // set the grid with the data
+          return data;
+        }
+      }
+
+      function generateRandomId(data) {
+        data.forEach((item, index) => {
+          item.uniqueId = index + 1;
+        });
+        console.log("data after the unique id generation: ", data);
+        return data;
+
+      }
+
+
       // slicgrid 관련 변수
       var grid;
       var dataView;
-      var data;
-      var unqId = "seqNo";
-      var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
-      var check_cols = [unqId, "fileNm", "tblId"];
+      // var unqId = "csNo";
+
+      // var uniqueId = generateRandomId(data);
+      // console.log("uniqueId after the random id genaration: ", uniqueId)
+    
       var columns = [
         {
-          id: unqId,
-          name: "Seq",
-          field: unqId,
+          id: "uniqueId",
+          name: "ID",
+          field: "uniqueId",
           editor: Slick.Editors.Text,
           validator: createValidator,
           width: 10,
@@ -168,9 +188,9 @@
           cssClass: "slick-column-center",
         },
         {
-          id: "fileNm",
-          name: "File Name",
-          field: "fileNm",
+          id: "compNm",
+          name: "Company Name",
+          field: "compNm",
           sortable: true,
           editor: Slick.Editors.Text,
           validator: (value, args) =>
@@ -180,21 +200,64 @@
             ]),
           width: 170,
           headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
         },
         {
-          id: "dbId",
-          name: "Database ID",
-          field: "dbId",
+          id: "srvcNm",
+          name: "Service Name",
+          field: "srvcNm",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          validator: (value, args) =>
+            complexValidator(value, args, [
+              createValidator,
+              noWhitespaceValidator,
+            ]),
+          width: 170,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
+        }, 
+        {
+          id: "dayCnt",
+          name: "Usage Day Count",
+          field: "dayCnt",
+          sortable: true,
+          editor: function (args) {
+            return new ComboBoxEditor(args, [
+              { key: "Y", value: "Y" },
+              { key: "N", value: "N" },
+            ]);
+          },
+          width: 60,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
+        }, 
+        {
+          id: "srvcCostSum",
+          name: "Service Cost Amount",
+          field: "srvcCostSum",
           sortable: true,
           editor: Slick.Editors.Text,
           validator: createValidator,
-          width: 60,
+          width: 120,
           headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
         },
         {
-          id: "tblId",
-          name: "Table ID",
-          field: "tblId",
+          id: "srvcCostTotal",
+          name: "Service Cost Total",
+          field: "srvcCostTotal",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          validator: createValidator,
+          width: 120,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
+        },
+        {
+          id: "srvcCostExpTotal",
+          name: "Expected Total Cost",
+          field: "srvcCostExpTotal",
           sortable: true,
           editor: Slick.Editors.Text,
           validator: (value, args) =>
@@ -203,95 +266,6 @@
               noWhitespaceValidator,
             ]),
           width: 120,
-          headerCssClass: "slick-header-columns",
-        },
-        {
-          id: "fileDsc",
-          name: "File Info",
-          field: "fileDsc",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          validator: createValidator,
-          width: 120,
-          headerCssClass: "slick-header-columns",
-        },
-        {
-          id: "fileDelYn",
-          name: "File Del YN",
-          field: "fileDelYn",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-          width: 60,
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center",
-        },
-        {
-          id: "uiSelYn",
-          name: "UI view YN",
-          field: "uiSelYn",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-          width: 60,
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center",
-        },
-        {
-          id: "useYn",
-          name: "Use YN",
-          field: "useYn",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-          width: 50,
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center",
-        },
-        {
-          id: "vrfUseYn",
-          name: "Validation YN",
-          field: "vrfUseYn",
-          sortable: true,
-          editor: function (args) {
-            return new ComboBoxEditor(args, [
-              { key: "Y", value: "Y" },
-              { key: "N", value: "N" },
-            ]);
-          },
-          width: 70,
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center",
-        },
-        {
-          id: "frstRegEmpNo",
-          name: "Registrant ID",
-          field: "frstRegEmpNo",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          width: 60,
-          headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center",
-        },
-        {
-          id: "frstRegDtm",
-          name: "Registration Date",
-          field: "frstRegDtm",
-          sortable: true,
-          editor: Slick.Editors.Text,
-          width: 80,
           headerCssClass: "slick-header-columns",
           cssClass: "slick-column-center",
         },
@@ -356,43 +330,21 @@
         // 그리드 초기화 및 데이터 로드
         console.log("Initializing SlickGrid...");
 
-        // these will be used to get the month and year from the user
-        // const month = document.getElementById("inputMonth").value;
-        // const year = document.getElementById("inputYear").value;
-        // const stdYymm = year + month.padStart(2, "0");
+        const companyCode = document.getElementById("companyCode").value || ""
+        console.log("company code: ", companyCode);
 
-        // getCsList(
-        //   (input = JSON.stringify({
-        //     ymd: stdYymm,
-        //   }))
-        // );
+        // here we make a call to get the grid data
+        getCsList(
+          (input = JSON.stringify({
+            csNo: companyCode
+          }))
+        );
       }
 
-      function fn_callback(result) {
-        console.log("fn_callback : " + result.id);
-        if (result.resultCd == "S") {
-          switch (result.id) {
-            case "SelectList":
-              fn_setGrid(result.data);
-
-              break;
-            case "insertList":
-              main();
-
-              break;
-            case "updateList":
-              main();
-
-              break;
-          }
-        } else if (result.resultCd == "E") {
-        } else {
-          console.log("fn_callback result : ", result);
-        }
-      }
       function fn_setGrid(data) {
         console.log("sucessfully fetched data : ", data);
         console.log("fn_setGrid data : ", data);
+
         dataView = new Slick.Data.DataView();
         grid = new Slick.Grid(
           "#divMyGridBackup",
@@ -412,15 +364,17 @@
           grid.render();
         });
 
+       
         // setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
-        dataView.setItems(data, unqId);
+        dataView.setItems(data, "uniqueId");
+        console.log("dataView data: ", dataView.getItems());
 
         // when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
-        grid.onBeforeSort.subscribe(function (e, args) {
-          return true;
-        });
+        // grid.onBeforeSort.subscribe(function (e, args) {
+        //   return true;
+        // });
 
-        // 정렬
+        // 정렬 sorting
         grid.onSort.subscribe(function (e, args) {
           var cols = args.sortCols;
 
@@ -439,6 +393,8 @@
             return 0;
           });
 
+          grid.invalidateAllRows();
+          dataView.setItems(data, "uniqueId");
           grid.render();
         });
 
@@ -588,7 +544,7 @@
                   text: 'User Average',
                 },
                 grid: {
-                  drawOnChartArea: false, // Prevent grid lines from overlapping
+                  drawOnChartArea: false, 
                 },
                 ticks: {
                   beginAtZero: true,
@@ -705,13 +661,15 @@
             numbersOnly
             return true;
           } else {
-            alert("Please enter only 3 digit numbers (company code) ! ")
+            alert("Please enter a valid company code!");
             return false;
           }
         }
 
         // search function to make a fetch call to the server
         function searchFunction() {
+         
+
           if (
             $("#inputMonth").val() === "" &&
             $("#inputYear").val() === ""
@@ -732,8 +690,12 @@
           const conpanyCode = document.getElementById("companyCode").value || "001";
           const stdYymm = year + month.padStart(2, "0");
 
+          console.log("we came here to search for the data: ", stdYymm, conpanyCode); 
           // validaion methoid will be tirggered
-          inputValidation(conpanyCode);
+          inputValidation(conpanyCode)
+
+           // when the user clicks on the serach button, we update the gfrid data by making a call.
+           main();
 
           // Send an AJAX GET request to the endpoint
           $.ajax({
@@ -749,51 +711,14 @@
             dataType: "json",
             success: function (data) {
               console.log("Data received from the single ajax form:", data);
-              // we handle the data here
               // update the chart wwth the data
               updateChart(data);
-              // if (data && data.length > 0) {
-              //   let totalCostUsage = data[0].maxSrvcCostSum;
-              //   // let totalCostUsage = data[0].reduce(
-              //   //   (acc, item) => acc + item.srvcCostSum
-              //   // );
-              //   // map((item) => item.maxSrvcCostSum);
-              //   let estimatedCostUsage = data[0].maxSrvcCostExpSum;
-              //   // let estimatedUsage = data[0].reduce(
-              //   //   (acc, item) => acc + item.maxSrvcCostExpSum
-              //   // );
-              //   // .map((item) => item.maxSrvcCostExpSum);
-              //   console.log("totalCostUsage", totalCostUsage);
-              //   console.log("estimatedUsage", estimatedUsage);
-              //   // Display the currently selected option data
-              //   if (estimatedUsage > 0 || totalCostUsage > 0) {
-              //     $("#estimatedUsage")
-              //       .text(
-              //         "+ " + estimatedCostUsage.toLocaleString() + " (KRW)"
-              //       )
-              //       .css("font-weight", "bold");
-              //     $("#totalUsage")
-              //       .text("+ " + totalCostUsage.toLocaleString() + " (KRW)")
-              //       .css("font-weight", "bold");
-              //   } else {
-              //     // No positive values found
-              //     $("#estimatedUsage").text("0 (KRW)");
-              //     $("#estimatedUsage").css("font-weight", "bold");
-              //     $("#totalUsage").text("0 (KRW)");
-              //     $("#totalUsage").css("font-weight", "bold");
-              //   }
-              // } else if (data && data.length === 0) {
-              //   // No subscription info found
-              //   $("#estimatedUsage").text("0 (KRW)");
-              //   $("#estimatedUsage").css("font-weight", "bold");
-              //   $("#totalUsage").text("0 (KRW)");
-              //   $("#totalUsage").css("font-weight", "bold");
-              // }
             },
             error: function (xhr, status, error) {
               console.error("Error fetching data:", status, error);
             },
           });
+        
         }
 
         // seafch button event listener
@@ -804,7 +729,7 @@
         $(document).ready(function () {
           // we fetch the user subcrioption info
           // getUserSubscriptionInfo();
-          // searchFunction();
+          searchFunction();
         });
       });
 
@@ -823,5 +748,4 @@
   </div>
   <script src="js/utils.js"></script>
 </th:block>
-
 </html>

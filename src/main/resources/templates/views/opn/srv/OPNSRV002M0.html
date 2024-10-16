@@ -189,17 +189,11 @@
 		var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
 		var check_cols = [unqId, "fileNm", "tblId"];
 		var columns = [
-			{ id: unqId,			name: "Seq",				field: unqId,			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "fileNm",			name: "Option Name",			field: "fileNm",		width: 250,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
-			{ id: "dbId",			name: "Database ID",		field: "dbId",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
-			{ id: "tblId",			name: "Table ID",			field: "tblId",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
-			{ id: "fileDsc",		name: "File Info",			field: "fileDsc",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
-			{ id: "fileDelYn",		name: "File Del YN",		field: "fileDelYn",		width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "uiSelYn",		name: "UI View YN",			field: "uiSelYn",		width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "useYn",			name: "Use YN",				field: "useYn",			width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "vrfUseYn",		name: "Validation YN",		field: "vrfUseYn",		width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "frstRegEmpNo",	name: "Registrant ID",		field: "frstRegEmpNo",	width: 100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "frstRegDtm",		name: "Registration Date",	field: "frstRegDtm",	width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: unqId,			name: "ID",				field: unqId,			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "fileNm",			name: "Option Code",		field: "fileNm",		width: 250,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+			{ id: "dbId",			name: "Option Name",		field: "dbId",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+			{ id: "tblId",			name: "Option Price",		field: "tblId",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+			{ id: "fileDsc",		name: "Option Start Date",	field: "fileDsc",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 		];
 
 		var options = {
