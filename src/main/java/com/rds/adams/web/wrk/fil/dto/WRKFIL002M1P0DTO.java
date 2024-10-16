@@ -22,4 +22,5 @@ import lombok.ToString;
 @Setter
 public class WRKFIL002M1P0DTO {
 	private String tblIdTxt;
+	private String csNo;
 }

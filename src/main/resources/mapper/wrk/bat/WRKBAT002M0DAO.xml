@@ -14,10 +14,13 @@
 		     , SUB_EMP_NO
 		     , ETC_DESC
 		     , USE_YN
-		     , FRST_REG_EMP_NO  AS REG_USR_ID
-		     , FRST_REG_DTM     AS REG_DT
+		     , FRST_REG_EMP_NO
+		     , FRST_REG_DTM
 		  FROM TB_BAT_MNG_LST
-         WHERE 1=1
+		WHERE 1=1
+		<if test='csNo != "999"'>
+			AND CS_NO = #{csNo}
+		</if>
          <if test='searchTxt != ""'>
            AND (
                 	BAT_PROG_ID LIKE '%' + #{searchTxt} + '%'

@@ -2,12 +2,16 @@ package com.rds.adams.web.wrk.bat.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rds.adams.web.common.AdamsConstant;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.wrk.bat.dto.WRKBAT003M0P0DTO;
 import com.rds.adams.web.wrk.bat.dto.WRKBAT003M0R0DTO;
 import com.rds.adams.web.wrk.bat.service.WRKBAT003M0Service;
@@ -22,7 +26,10 @@ public class WRKBAT003M0Controller {
 	WRKBAT003M0Service wRKBAT003M0Service;
 
 	@RequestMapping(value="/WRKBAT003M0SelectList", method=RequestMethod.POST, consumes="application/json")
-	public List<WRKBAT003M0R0DTO> select(@RequestBody WRKBAT003M0P0DTO inVo){
+	public List<WRKBAT003M0R0DTO> select(@RequestBody WRKBAT003M0P0DTO inVo, HttpServletRequest request){
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		

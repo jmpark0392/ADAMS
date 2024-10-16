@@ -19,8 +19,9 @@
 		  FROM TB_UPL_FILE_LST
          WHERE 1=1
          <if test= 'csNo != "999"'>
-           AND CS_NO = #{csNo}
+           AND CS_NO       = #{csNo}
          </if>
+           AND DEL_YN = 'N'
          <if test='searchTxt != ""'>
            AND (
                    FILE_NM  LIKE CONCAT_WS('%', #{searchTxt}, '%')
@@ -43,6 +44,7 @@
             [UI_SEL_YN],
             [USE_YN],
             [VRF_USE_YN],
+            [DEL_YN],
             [FNL_UPD_EMP_NO],
             [FNL_UPD_DTM],
             [FRST_REG_EMP_NO],
@@ -59,6 +61,7 @@
             #{uiSelYn},
             #{useYn},
             #{vrfUseYn},
+            'N',
             #{frstRegEmpNo},
             CONVERT(CHAR(10), getdate(), 23),
             #{frstRegEmpNo},

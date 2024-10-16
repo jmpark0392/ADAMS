@@ -1,5 +1,6 @@
 package com.rds.adams.web.wrk.bat.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,10 +19,13 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "배치결과 조회 조건 DTO")
 @ToString
 @Getter
 @Setter
 public class WRKBAT002M0P0DTO {
+	
+	private String csNo;
 	private String searchTxt;
 	private String[] exePrdList;
 }

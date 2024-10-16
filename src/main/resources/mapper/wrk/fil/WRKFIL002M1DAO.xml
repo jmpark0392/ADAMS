@@ -4,7 +4,7 @@
 
 <mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL002M1DAO">
     <select id="selectList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M1P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M1R0DTO">
-        <if test='tblIdTxt != "" and csNo != "999"'>
+        <if test='tblIdTxt != ""'>
         SELECT 
                TBL_ID                  /* 테이블ID */
              , ITM_NM                  /* 칼럼명 */
@@ -18,7 +18,9 @@
              , SEL_BAS_YN              /* 조회기준여부 */
           FROM TB_UPL_ITM_LST
          WHERE 1=1
+         	<if test='csNo != "999"'>
            AND CS_NO  = #{csNo}
+           </if>
            AND TBL_ID = #{tblIdTxt}    /* 테이블ID로 필터링 */
          ORDER BY TBL_ID, ORD_SEQ
         </if>

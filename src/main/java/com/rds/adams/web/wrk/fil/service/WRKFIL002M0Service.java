@@ -18,7 +18,7 @@ public class WRKFIL002M0Service {
 	WRKFIL002M0DAO wRKFIL002M0DAO;
 	
 	public List<WRKFIL002M0R0DTO> selectList(WRKFIL002M0P0DTO inVo) {
-		
+
 		return wRKFIL002M0DAO.selectList(inVo);
 		
 	}

@@ -13,12 +13,15 @@
 		     , A.BAT_EXE_ERR_CD                       AS BAT_EXE_ERR_CD
 		     , A.STD_YYMM                             AS STD_YYMM
 		     , B.MAIN_EMP_NO                          AS MAIN_EMP_NO
-		     , A.FRST_REG_EMP_NO                      AS REG_USR_ID
-		     , A.FRST_REG_DTM                         AS REG_DT
+		     , A.FRST_REG_EMP_NO                      AS FRST_REG_EMP_NO
+		     , A.FRST_REG_DTM                         AS FRST_REG_DTM
 		  FROM TB_BAT_RST_LST AS A
 		 INNER JOIN TB_BAT_MNG_LST AS B
 		    ON A.BAT_PROG_ID = B.BAT_PROG_ID
          WHERE 1=1
+         <if test=' csNo != "999"'>
+         	AND A.CS_NO = #{csNo}
+         </if>
          <if test='searchTxt != ""'>
            AND (
                 	A.BAT_PROG_ID LIKE '%' + #{searchTxt} + '%'
