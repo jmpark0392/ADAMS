@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.adm.usr.dao.ADMUSR001M0DAO">
+    <select id="selectCompList" parameterType="com.rds.adams.web.adm.usr.dto.ADMUSR001M0P0DTO" resultType="com.rds.adams.web.adm.usr.dto.ADMUSR001M0R0DTO">
+        /* web.amd.usr.dao.ADMUSR001M0DAO.selectUsrList */
+        SELECT
+			A.COUNTRY_NM_ENG									AS CountryNmEng		/* 국가명(영문) */
+			, A.COMP_NO_DV_CD									AS CompNoDvCd		/* 회사번호구분 */
+			, A.COMP_NO											AS CompNo			/* 회사번호 */
+			, A.COMP_NM											AS CompNm			/* 회사명 */
+			, A.REPER_NM										AS ReperNm			/* 대표자명 */
+			, A.REP_PH_NO										AS RepPhNo			/* 대표전화번호 */
+			, A.PTB_NM											AS PtbNm			/* 담당자명 */
+			, A.PTB_PH_NO										AS PtbPhNo			/* 담당자전화번호 */
+			, A.PTB_EMAIL										AS PtbEmail			/* 담당자이메일 */
+			, A.POST_NO											AS PostNo			/* 우편번호 */
+			, A.ADDRS											AS Addrs			/* 기본주소 */
+			, A.DTLS_ADDRS										AS DtlsAddrs		/* 상세주소 */
+			, CONVERT(CHAR(10), A.USE_STR_DTM     , 23)			AS UseStrDtm		/* 사용시작일시 */
+			, CONVERT(CHAR(10), A.FRST_REG_DTM    , 23)			AS FrstRegDtm		/* 최초등록일시 */
+		FROM [RDSDB].[dbo].[TB_CS_MNG_LST]	A  /* 사용자관리 */
+         WHERE 1=1
+           AND A.CS_NO      = #{csNo}
+    </select>
+    
+    <update id="updateCompList" parameterType="com.rds.adams.web.adm.usr.dto.ADMUSR001M0P1DTO" >
+        /* web.amd.usr.dao.ADMUSR001M0DAO.updateCompList */
+
+        UPDATE TB_CS_MNG_LST
+        SET 
+            COMP_NM = #{companyName},
+            COMP_NO_DV_CD = #{companyDivision},
+            COMP_NO = #{companyNo},
+            COUNTRY_NM_ENG = #{countryName},
+            ADDRS = #{basicAddress},
+            DTLS_ADDRS = #{detailedAddress},
+            POST_NO = #{postalCode},
+            REPER_NM = #{representativeName},
+            REP_PH_NO = #{representativePhone},
+            USE_STR_DTM = #{useStartDatetime},
+            FRST_REG_DTM = #{userregdatetime}
+        WHERE CS_NO = #{csNo}
+    </update>
+
+</mapper>
