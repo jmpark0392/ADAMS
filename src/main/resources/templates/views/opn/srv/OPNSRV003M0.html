@@ -240,6 +240,7 @@
           width: 120,
           headerCssClass: "slick-header-columns",
           cssClass: "slick-column-center",
+          formatter: numberFormatter,
         },
         {
           id: "srvcCostTotal",
@@ -251,12 +252,15 @@
           width: 120,
           headerCssClass: "slick-header-columns",
           cssClass: "slick-column-center",
+          formatter: numberFormatter,
+
         },
         {
           id: "srvcCostExpTotal",
           name: "Expected Total Cost",
           field: "srvcCostExpTotal",
           sortable: true,
+          formatter: numberFormatter,
           editor: Slick.Editors.Text,
           validator: (value, args) =>
             complexValidator(value, args, [
@@ -268,6 +272,23 @@
           cssClass: "slick-column-center",
         },
       ];
+
+
+      function numberFormatter(row, cell, value, columnDef, dataContext) {
+        console.log(`Formatting value: ${value}`);
+
+        if(value !== null && !isNaN(value)){
+          // console.log("ADDING THE FORMAT: ", value);
+          return value.toLocaleString("en-US");
+        } else {
+          return value;
+        }
+        console.log("ADDING THE FORMAT: ", value);
+      }
+
+      // const testValue = data[0].srvcCostSum;
+      // console.log(numberFormatter(0, 0, testValue, null, null)); // Should output formatted number  
+
 
       function companyNameFormatter(row, cell, value, columnDef, dataContext) {
         var dataView = grid.getData();
@@ -356,6 +377,7 @@
       }
 
       function fn_setGrid(data) {
+
         console.log("sucessfully fetched data : ", data);
         console.log("fn_setGrid data : ", data);
 
@@ -675,6 +697,11 @@
             alert("Please enter a valid company code!");
             return false;
           }
+        }
+
+        // slice from 15551612 to 15,551,612
+        function sliceNumber(){
+
         }
 
         // search function to make a fetch call to the server
