@@ -59,6 +59,7 @@ public class BusinessInterceptor extends WebContentInterceptor {
 			modelAndView.addObject("navigator", getNavigator(request, menuId));
 			modelAndView.addObject("loginDTO", adamsLoginDTO);
 			modelAndView.addObject("today", DateUtil.getToday());
+			modelAndView.addObject("todayDayOfWeek", DateUtil.getTodayByDayOfWeek());
 		}
 		
 		log.info("========================================================");

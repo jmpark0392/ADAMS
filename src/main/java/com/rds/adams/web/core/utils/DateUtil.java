@@ -891,5 +891,39 @@ public class DateUtil
     	}
 		return retDt;
 	}
+	
+	public static String getTodayByDayOfWeek() {
+		
+		Calendar calendar = Calendar.getInstance();
+		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+		
+		String todayByDayOfWeek = "";
+		
+		switch(dayOfWeek) {
+			case 1:
+				todayByDayOfWeek = "SUN";
+				break;
+			case 2:
+				todayByDayOfWeek = "MON";
+				break;
+			case 3:
+				todayByDayOfWeek = "TUE";
+				break;
+			case 4:
+				todayByDayOfWeek = "WED";
+				break;
+			case 5:
+				todayByDayOfWeek = "THU";
+				break;
+			case 6:
+				todayByDayOfWeek = "FRI";
+				break;
+			case 7:
+				todayByDayOfWeek = "SAT";
+				break;
+		}
+		
+		return todayByDayOfWeek;
+	}
 
 }
