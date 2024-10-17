@@ -38,9 +38,9 @@
 			     , AAA.AC_SUBJ_CD    AS ATIT_CD
 			     , AAA.DR_CR_DV_CD   AS DR_CR_DV_CD
 			     , AAA.AMT           AS JRNL_AMT
-			     , '00002'           AS FRST_REG_EMP_NO
+			     , #{usrId}          AS FRST_REG_EMP_NO
 			     , GETDATE()         AS FRST_REG_DTM
-			     , '00002'           AS FNL_UPD_EMP_NO
+			     , #{usrId}          AS FNL_UPD_EMP_NO
 			     , GETDATE()         AS FNL_UPD_DTM
 			  FROM (
 			         SELECT

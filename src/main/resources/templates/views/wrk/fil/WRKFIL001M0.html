@@ -510,7 +510,7 @@
 				selectInput.dataset.editorid = column.id;
 
 				const defaultOption = document.createElement("option");
-				defaultOption.value = "Y";
+				defaultOption.value = "";
 				defaultOption.textContent = "-options-";
 				selectInput.appendChild(defaultOption);
 
@@ -568,15 +568,14 @@
 					if (input) {
 						formData[column.field] = input.value.trim();
 					}
-
 					console.log("input테스트");
 				});
 				
-				// 숨겨진 컬럼의 데이터도 수집
-				/*
-				hiddenColumns.forEach(hiddenColId => {
-					formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
-				}); */
+				if (modalType === "edit") {
+					hiddenColumns.forEach(hiddenColId => {
+						formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
+					});
+				}
 
 				if (modalType === "create") {
 					console.log("create테스트");
