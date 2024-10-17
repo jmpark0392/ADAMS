@@ -213,7 +213,7 @@
 	              main();
 	            });
 	          });
-	          main();
+	          //main();
 	          //화면 접속시 바로 조회
 	          //main();
 	        });
@@ -253,7 +253,7 @@
 			var columns = [
 				{id: "tblId",		name: "테이블ID",					field: "tblId",		width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 				{ id: "itmNm",		name: "Column Name",			field: "itmNm",		width: 120, sortable: true, editor: Slick.Editors.Text, validator: (value, args) =>  complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
-				{ id: "unqId",		name: "Column ID",				field: unqId,		width: 120, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
+				{ id: unqId,		name: "Column ID",				field: unqId,		width: 120, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 				{ id: "dataTpCd",	name: "Data Type",				field: "dataTpCd",	width: 80, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "VARCHAR", value: "VARCHAR" }, { key: "NUMBER", value: "NUMBER" }, { key: "DATE", value: "DATE" }, { key: "TIMESTAMP", value: "TIMESTAMP" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 				{ id: "pkYn",		name: "Primary Key",			field: "pkYn",		width: 80, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 				{ id: "vlvlVrfYn",	name: "Validation Use",			field: "vlvlVrfYn",	width: 80, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
@@ -321,6 +321,10 @@
 						case "updateList":
 						main();
 	
+						break;
+						case "deleteList":
+							main();
+							
 						break;
 					}
 				} else if (result.resultCd == "E") {
@@ -550,9 +554,10 @@
 							deleteButton.onclick = function () {
 								if (confirm("Do you want to delete?") == true) {
 								// delete the selected row
-								dataView.deleteItem(dataContext[unqId]);
+								//dataView.deleteItem(dataContext[unqId]);
 								fn_deleteCs(JSON.stringify(dataContext));
-								location.reload(true);
+								//location.reload(true);
+								modalElement.hide();
 								}
 							};
 						}
@@ -602,10 +607,6 @@
 
 					formGroupElem.appendChild(detailLabelitem);
 
-					if(column.id === "tblId"){
-						inputElem.value = selectedValue;
-						inputElem.disabled = true;
-					}
 					
 					if (column.id === "dataTpCd" || column.id === "pkYn" || column.id === "vlvlVrfYn" || column.id === "selBasYn") {
 						const selectInput = document.createElement('select');
@@ -644,6 +645,14 @@
 						 inputElem.dataset.editorid = column.id;
 						 inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 						 formGroupElem.appendChild(inputElem);
+
+						if(column.id === "tblId"){
+							inputElem.value = selectedValue;
+							inputElem.disabled = true;
+						}
+						if(modalType === "edit" && column.id === "itmId"){
+							inputElem.disabled = true;
+						}
 						
 					}
 
@@ -797,7 +806,7 @@
 	              if (modalType === "create") {
 	                  // Add new item to grid data
 	                  if (checkData(formData)) {
-	                      formData[unqId] = grid.getDataLength() + 1;
+	                      //formData[unqId] = grid.getDataLength() + 1;
 	                    //   dataView.insertItem(grid.getDataLength(), formData);
 							if(confirm("Do you want to save?")== true ){
 								insertCs(JSON.stringify(formData));
@@ -826,7 +835,7 @@
 								// updateFile(formData);
 								fn_updateCs(JSON.stringify(formData));
 							}
-								location.reload(true);
+								//location.reload(true);
 							} else {
 								alert("No changes detected.");
 								return;
