@@ -59,6 +59,7 @@ public class BIZJNL003M0Controller {
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setStdYymm(inVo.getStdYymm());
 		inVo.setUsrId(sAdamsLoginDTO.getUsrId());
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 				
 		log.info(inVo.toString());
 		try {
