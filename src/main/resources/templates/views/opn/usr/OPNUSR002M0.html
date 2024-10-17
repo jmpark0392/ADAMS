@@ -1,93 +1,86 @@
 <!DOCTYPE html>
-<html
-	lang="ko"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}"
->
-	<th:block layout:fragment="content">
-		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-		<div class="page-wrapper" id="page-wrapper">
-			<div class="container" id="container">
-				<h2>[[${menuNm}]]</h2>
-				<div class="ptag-container">
-					<!-- <span><a href="#"> Home ></a></span> -->
-					<span>[[${navigator}]]</span>
-					<div class="form-container">
-						<div class="form-box">
-							<form id="filter-form" name="form" method="post" action="/OPNUSR002M0SelectList" onsubmit="return false;">
-								<div class="row">
-									<div class="col">
-										<!-- 회사번호구분코드 -->
-										<label for="lblCompNoDvCd">Company Number Type : </label>
-										<select id="selCompNoDvCd" style="padding: 3px">
-											<option selected="selected" value="">- select -</option>
-											<option value="1">DUNS Number</option>
-											<option value="2">Corporation Number</option>
-											<option value="3">Business Registration Number</option>
-										</select>
-										<!-- 회사번호/명 -->
-										<label for=lblCompNoNm>Company Number/Name : </label>
-										<input id="inpCompNoNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
-										<!-- 담당자명 -->
-										<label for="lblPtbNm">Manager Name : </label>
-										<input id="inpPtbNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
-										<!-- 국가명 -->
-										<label for="lblCountryNm">Country Name : </label>
-										<input id="inpCountryNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
-										<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">
-											Search
-										</button>
-									</div>
-									<div class="col text-end">
-										<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px"
-											onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-											data-test="create-button" onsubmit="return false;" hidden="true">Create</button>
-										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px"id="downloadExcel">
-											Download
-										</button>
-										<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" 
-											onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-											data-test="edit-button" onsubmit="return false;" >
-											Edit
-										</button>
-									</div>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<th:block layout:fragment="content">
+	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="container">
+			<h2>[[${menuNm}]]</h2>
+			<div class="ptag-container">
+				<!-- <span><a href="#"> Home ></a></span> -->
+				<span>[[${navigator}]]</span>
+				<div class="form-container">
+					<div class="form-box">
+						<form id="filter-form" name="form" method="post" action="/OPNUSR002M0SelectList" onsubmit="return false;">
+							<div class="row align-items-center">
+								<div class="col-auto">
+									<!-- 회사번호구분코드 -->
+									<label for="lblCompNoDvCd" class="form-label">Company Number Type : </label>
+									<select id="selCompNoDvCd" class="form-select select-options p-1" style="padding: 3px">
+										<option selected="selected" value="">- select -</option>
+										<option value="1">DUNS Number</option>
+										<option value="2">Corporation Number</option>
+										<option value="3">Business Registration Number</option>
+									</select>
 								</div>
-							</form>
-						</div>
-					</div>
-					<div style="padding-top: 2em"></div>
-					<div id="divMyGrid">
-						<table align="center" class="table"></table>
+								<div class="col-auto">
+									<!-- 회사번호/명 -->
+									<label for=lblCompNoNm class="form-label">Company Number/Name : </label>
+									<input id="inpCompNoNm" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Input Name" />
+								</div>
+								<div class="col-auto">
+									<!-- 담당자명 -->
+									<label for="lblPtbNm" class="form-label">Manager Name : </label>
+									<input id="inpPtbNm" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Input Name" />
+								</div>
+								<div class="col-auto">
+									<!-- 국가명 -->
+									<label for="lblCountryNm" class="form-label">Country Name : </label>
+									<input id="inpCountryNm" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Input Name" />
+								</div>
+								<div class="col-auto">
+									<button type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
+								</div>
+								<div class="col text-end">
+									<p style="height:27px;">&nbsp;</p>
+									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;" hidden="true">Create</button>
+									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">Download</button>
+									<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
-				<div class="popupDataForm">
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">Launch modal with form</button>
-		
-					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-small" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title">New report</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-		
-								<div class="modal-body">
-									<div class="row">
-									</div>
-								</div>
-								<div class="modal-footer">
-									<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"> Cancel </a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px;"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg> Save changes
-									</a>
-								</div>
+				<div style="padding-top: 2em"></div>
+				<div id="divMyGrid">
+					<table align="center" class="table"></table>
+				</div>
+			</div>
+			<div class="popupDataForm">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">Launch modal with form</button>
+
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-small" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">New report</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+
+							<div class="modal-body">
+								<div class="row"></div>
+							</div>
+							<div class="modal-footer">
+								<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"> Cancel </a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px;"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg> Save changes
+								</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<script src="js/utils.js"></script>
-		<script>
+	</div>
+	<script src="js/utils.js"></script>
+	<script>
 			function checkData(data) {
 			return parentCheckData(data, check_cols);
 			}
@@ -137,7 +130,7 @@
 			}
 			
 		</script>
-		<script>
+	<script>
 			$(document).ready(function () {
 				console.log("Document is ready.");
 				//화면 접속시 바로 조회
@@ -183,27 +176,27 @@
 			var xcpt_cols = ["seqNo", "csNo", "oldStatDvCd", "frstRegDtm"];
 			var check_cols = ["compNo", "compNm"];
 			var columns = [
-							{ id: unqId,		name: "Seq",							field: unqId,							width: 60, 	editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "csNo",		 	name: "customer number",				field: "csNo",		 	sortable: true, width: 0,	editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "compNoDvCd",	name: "type of company identification", field: "compNoDvCd",	sortable: true, width: 120, editor: function (args) { return new ComboBoxEditor(args, [ { key: "DUNS Number", value: "1" }, { key: "Corporation Number", value: "2" }, { key: "Business Registration Number", value: "3" } ]);} }
-						, { id: "compNo",		name: "company identification number",	field: "compNo",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator])}
-						, { id: "compNm",		name: "company name",					field: "compNm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "repPhNo",		name: "representative phone number",	field: "repPhNo",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "reperNm",		name: "representative person name",	 	field: "reperNm",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "ptbNm",		name: "manager name",					field: "ptbNm",			sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "ptbPhNo",		name: "manager phone number",			field: "ptbPhNo",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "ptbEmail",	 	name: "manager email",					field: "ptbEmail",	 	sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "postNo",		name: "postal code",					field: "postNo",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "addrs",		name: "company address 1",				field: "addrs",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "dtlsAddrs",	name: "company address 2",				field: "dtlsAddrs",		sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "statDvCd",	 	name: "status",						 	field: "statDvCd",	 	sortable: true, width: 100, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Normal use", value: "0" }, { key: "Application for use", value: "1" }, { key: "Waiting for use", value: "2" }, { key: "Application for change", value: "3" }, { key: "Application for suspension of use", value: "8" }, { key: "Suspension of use", value: "9" }]);} }
-						, { id: "oldStatDvCd",	name: "status",						 	field: "oldStatDvCd",	sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "useStrDtm",	name: "use start date/time",			field: "useStrDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "useEndDtm",	name: "use end date/time",				field: "useEndDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "countryCd",	name: "country code",					field: "countryCd",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "countryNmKor", name: "country Name(Korea)",			field: "countryNmKor", 	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "countryNmEng", name: "country Name(English)",			field: "countryNmEng", 	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "frstRegDtm",	name: "first registration date/time",	field: "frstRegDtm",	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
+							{ id: unqId,		name: "Seq",							field: unqId,							width: 80, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "csNo",		 	name: "Customer number",				field: "csNo",		 	sortable: true, width: 0,	editor: Slick.Editors.Text, validator: createValidator, hidden:true }
+						, { id: "compNoDvCd",	name: "Type of company identification", field: "compNoDvCd",	sortable: true, width: 200, editor: function (args) { return new ComboBoxEditor(args, [ { key: "DUNS Number", value: "1" }, { key: "Corporation Number", value: "2" }, { key: "Business Registration Number", value: "3" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "compNo",		name: "Company identification number",	field: "compNo",		sortable: true, width: 200, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
+						, { id: "compNm",		name: "Company name",					field: "compNm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "repPhNo",		name: "Representative phone number",	field: "repPhNo",		sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "reperNm",		name: "Representative person name",	 	field: "reperNm",		sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "ptbNm",		name: "Manager name",					field: "ptbNm",			sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "ptbPhNo",		name: "Manager phone number",			field: "ptbPhNo",		sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "ptbEmail",	 	name: "Manager email",					field: "ptbEmail",	 	sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "postNo",		name: "Postal code",					field: "postNo",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "addrs",		name: "Company address 1",				field: "addrs",			sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "dtlsAddrs",	name: "Company address 2",				field: "dtlsAddrs",		sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "statDvCd",	 	name: "Status",						 	field: "statDvCd",	 	sortable: true, width: 100, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Normal use", value: "0" }, { key: "Application for use", value: "1" }, { key: "Waiting for use", value: "2" }, { key: "Application for change", value: "3" }, { key: "Application for suspension of use", value: "8" }, { key: "Suspension of use", value: "9" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "oldStatDvCd",	name: "Status",						 	field: "oldStatDvCd",	sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
+						, { id: "useStrDtm",	name: "Use start date/time",			field: "useStrDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "useEndDtm",	name: "Use end date/time",				field: "useEndDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "countryCd",	name: "Country code",					field: "countryCd",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "countryNmKor", name: "Country Name(Korea)",			field: "countryNmKor", 	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "countryNmEng", name: "Country Name(English)",			field: "countryNmEng", 	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "frstRegDtm",	name: "First registration date/time",	field: "frstRegDtm",	sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						];
 	
 			var options = {
@@ -221,6 +214,7 @@
 						, asyncEditorLoading: false
 						, autoEdit: false
 						, autoEditNewRow: false
+						, rowHeight: 35
 						};	
 	
 			var newRowIds = 0;
@@ -244,23 +238,7 @@
 				},
 			};
 	
-			function addSlickGridSomeStyling() {
-				const style = document.createElement("style");
-				style.innerHTML = `
-					.slick-header-columns {
-						font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-						font-size: 13px;
-					}
-					.slick-cell {
-						font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-						font-size: 13px;
-					}
-					`;
-				document.head.appendChild(style);
-			};
-	
 			function main() {
-				addSlickGridSomeStyling();
 				// 그리드 초기화 및 데이터 로드
 				console.log("Initializing SlickGrid...");
 				getCsList(
@@ -815,5 +793,5 @@
 			}
 	
 		</script>
-	</th:block>
+</th:block>
 </html>

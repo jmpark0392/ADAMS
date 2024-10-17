@@ -1,92 +1,85 @@
 <!DOCTYPE html>
-<html
-	lang="ko"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}"
->
-	<th:block layout:fragment="content">
-		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-		<div class="page-wrapper" id="page-wrapper">
-			<div class="container" id="container">
-				<h2>[[${menuNm}]]</h2>
-				<div class="ptag-container">
-					<!-- <span><a href="#"> Home ></a></span> -->
-					<span>[[${navigator}]]</span>
-					<div class="form-container">
-						<div class="form-box">
-							<form id="filter-form" name="form" method="post" action="/OPNUSR003M0SelectList" onsubmit="return false;">
-								<div class="row">
-									<div class="col">
-										<!-- 회사번호/명 -->
-										<label for=lblCompNoNm>Company Number/Name : </label>
-										<input id="inpCompNoNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
-										<!-- 사용자ID/명 -->
-										<label for="lblUsrIdNm">User ID/Name : </label>
-										<input id="inpUsrIdNm" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Input Name" />
-										<!-- 사용자구분코드 -->
-										<label for="lblUsrDvCd">User Type : </label>
-										<select id="selUsrDvCd" style="padding: 3px">
-											<option selected="selected" value="">- select -</option>
-										</select>
-										<!-- 상태구분코드 -->
-										<label for="lblStatDvCd">Status : </label>
-										<select id="selStatDvCd" style="padding: 3px">
-											<option selected="selected" value="">- select -</option>
-										</select>
-										<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">
-											Search
-										</button>
-									</div>
-									<div class="col text-end">
-										<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px"
-											onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-											data-test="create-button" onsubmit="return false;" hidden="true">Create</button>
-										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px"id="downloadExcel">
-											Download
-										</button>
-										<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" 
-											onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-											data-test="edit-button" onsubmit="return false;" >
-											Edit
-										</button>
-									</div>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<th:block layout:fragment="content">
+	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="container">
+			<h2>[[${menuNm}]]</h2>
+			<div class="ptag-container">
+				<!-- <span><a href="#"> Home ></a></span> -->
+				<span>[[${navigator}]]</span>
+				<div class="form-container">
+					<div class="form-box">
+						<form id="filter-form" name="form" method="post" action="/OPNUSR003M0SelectList" onsubmit="return false;">
+							<div class="row align-items-center">
+								<div class="col-auto">
+									<!-- 회사번호/명 -->
+									<label for="lblCompNoNm" class="form-label">Company Number/Name : </label>
+									<input id="inpCompNoNm" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Input Name" />
 								</div>
-							</form>
-						</div>
-					</div>
-					<div style="padding-top: 2em"></div>
-					<div id="divMyGrid">
-						<table align="center" class="table"></table>
+								<div class="col-auto">
+									<!-- 사용자ID/명 -->
+									<label for="lblUsrIdNm" class="form-label">User ID/Name : </label>
+									<input id="inpUsrIdNm" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Input Name" />
+								</div>
+								<div class="col-auto">
+									<!-- 사용자구분코드 -->
+									<label for="lblUsrDvCd" class="form-label">User Type : </label>
+									<select id="selUsrDvCd" class="form-select select-options p-1" style="padding: 3px">
+										<option selected="selected" value="">- select -</option>
+									</select>
+								</div>
+								<div class="col-auto">
+									<!-- 상태구분코드 -->
+									<label for="lblStatDvCd" class="form-label">Status : </label>
+									<select id="selStatDvCd" class="form-select select-options p-1" style="padding: 3px">
+										<option selected="selected" value="">- select -</option>
+									</select>
+								</div>
+								<div class="col-auto">
+									<button type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
+								</div>
+								<div class="col text-end">
+									<p style="height:27px;">&nbsp;</p>
+									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;" hidden="true">Create</button>
+									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">Download</button>
+									<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
-				<div class="popupDataForm">
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">Launch modal with form</button>
-		
-					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-small" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title">New report</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-		
-								<div class="modal-body">
-									<div class="row">
-									</div>
-								</div>
-								<div class="modal-footer">
-									<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"> Cancel </a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px;"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg> Save changes
-									</a>
-								</div>
+				<div style="padding-top: 2em"></div>
+				<div id="divMyGrid">
+					<table align="center" class="table"></table>
+				</div>
+			</div>
+			<div class="popupDataForm">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">Launch modal with form</button>
+
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-small" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">New report</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+
+							<div class="modal-body">
+								<div class="row"></div>
+							</div>
+							<div class="modal-footer">
+								<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"> Cancel </a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px;"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg> Save changes
+								</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<script src="js/utils.js"></script>
-		<script>
+	</div>
+	<script src="js/utils.js"></script>
+	<script>
 			function checkData(data) {
 			return parentCheckData(data, check_cols);
 			}
@@ -136,7 +129,7 @@
 			}
 			
 		</script>
-		<script>
+	<script>
 
 		    // 페이지 로드 시 옵션을 초기화
 		    window.onload = function() {
@@ -197,20 +190,20 @@
 					           , 9:"Suspension of use" };
 			
 			var columns = [
-							{ id: unqId,			name: "Seq",					field: unqId,								width: 60, 	editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "csNo",		 		name: "customer number",		field: "csNo",		 		sortable: true, width: 60,	editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "compNm",			name: "company name",			field: "compNm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "usrDvCd",			name: "user identifier code",	field: "usrDvCd",			sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: usrDvCdList }
-						, { id: "usrId",			name: "user email",	 			field: "usrId",				sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "oldUsrId",			name: "user email",	 			field: "oldUsrId",			sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "usrNm",			name: "user name",	 			field: "usrNm",				sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "usrEmail",			name: "user email",				field: "usrEmail",			sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "usrPhNo",			name: "user phone number",		field: "usrPhNo",			sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "statDvCd",	 		name: "status",					field: "statDvCd",	 		sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: statDvCdList }
-						, { id: "oldStatDvCd",		name: "status",					field: "oldStatDvCd",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "useStrDtm",		name: "use start date",			field: "useStrDtm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "useEndDtm",		name: "use end date",			field: "useEndDtm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
-						, { id: "passwordUpdDtm",	name: "password update date",	field: "passwordUpdDtm",	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator }
+							{ id: unqId,			name: "Seq",					field: unqId,								width: 80, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "csNo",		 		name: "Customer number",		field: "csNo",		 		sortable: true, width: 120,	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "compNm",			name: "Company name",			field: "compNm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "usrDvCd",			name: "User identifier code",	field: "usrDvCd",			sortable: true, width: 150, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: usrDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "usrId",			name: "UsrId",		 			field: "usrId",				sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "oldUsrId",			name: "OldUsrId",	 			field: "oldUsrId",			sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
+						, { id: "usrNm",			name: "User name",	 			field: "usrNm",				sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "usrEmail",			name: "User email",				field: "usrEmail",			sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, hidden:true, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "usrPhNo",			name: "User phone number",		field: "usrPhNo",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "statDvCd",	 		name: "Status",					field: "statDvCd",	 		sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: statDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "oldStatDvCd",		name: "OldStatDvCd",			field: "oldStatDvCd",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
+						, { id: "useStrDtm",		name: "Use start date",			field: "useStrDtm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "useEndDtm",		name: "Use end date",			field: "useEndDtm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "passwordUpdDtm",	name: "Password update date",	field: "passwordUpdDtm",	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						];
 	
 			var options = {
@@ -228,6 +221,7 @@
 						, asyncEditorLoading: false
 						, autoEdit: false
 						, autoEditNewRow: false
+						, rowHeight: 35
 						};	
 	
 			var newRowIds = 0;
@@ -250,24 +244,8 @@
 					}
 				},
 			};
-	
-			function addSlickGridSomeStyling() {
-				const style = document.createElement("style");
-				style.innerHTML = `
-					.slick-header-columns {
-						font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-						font-size: 13px;
-					}
-					.slick-cell {
-						font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-						font-size: 13px;
-					}
-					`;
-				document.head.appendChild(style);
-			};
-	
+
 			function main() {
-				addSlickGridSomeStyling();
 				// 그리드 초기화 및 데이터 로드
 				console.log("Initializing SlickGrid...");
 				getCsList(
@@ -877,5 +855,5 @@
 		    }
 	
 		</script>
-	</th:block>
+</th:block>
 </html>
