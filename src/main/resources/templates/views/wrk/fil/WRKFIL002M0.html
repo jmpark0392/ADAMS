@@ -113,8 +113,8 @@
 			function checkData(data) {
 				return parentCheckData(data, check_cols);
 			}
-			function getCsList(input) {
-				console.log("getCsList input : " + input);
+			function getList(input) {
+				console.log("getList input : " + input);
 				var option = {
 				id: "SelectList",
 				type: "post",
@@ -128,13 +128,13 @@
 				gf_Transaction(option, fn_callback);
 			}
 
-			function insertCs(addedRow) {
+			function insertList(addedRow) {
 				var option = {
 				id: "insertList",
 				type: "post",
 				url: "/WRKFIL002M0InsertList",
 				async: false,
-				dataType: "json",
+				dataType: "text",
 				contentType: "application/json; charset=utf-8",
 				data: addedRow,
 				};
@@ -142,7 +142,7 @@
 				gf_Transaction(option, fn_callback);
 			}
 
-			function fn_updateCs(input) {
+			function updateList(input) {
 				console.log("updateCs input : " + input);
 				var option = {
 				id: "updateList",
@@ -157,7 +157,7 @@
 				gf_Transaction(option, fn_callback);
 			}
 
-			function fn_deleteCs(input) {
+			function deleteList(input) {
 				console.log("deleteCs input : " + input);
 				var option = {
 				id: "deleteList",
@@ -251,7 +251,7 @@
 			var xcpt_cols = ["tblId", "regUsrid", "regDt"];
 			var check_cols = [unqId];
 			var columns = [
-				{id: "tblId",		name: "테이블ID",					field: "tblId",		width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
+				{id: "tblId",		name: "Table ID",				field: "tblId",		width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 				{ id: "itmNm",		name: "Column Name",			field: "itmNm",		width: 120, sortable: true, editor: Slick.Editors.Text, validator: (value, args) =>  complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 				{ id: unqId,		name: "Column ID",				field: unqId,		width: 120, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 				{ id: "dataTpCd",	name: "Data Type",				field: "dataTpCd",	width: 80, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "VARCHAR", value: "VARCHAR" }, { key: "NUMBER", value: "NUMBER" }, { key: "DATE", value: "DATE" }, { key: "TIMESTAMP", value: "TIMESTAMP" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
@@ -301,7 +301,7 @@
 				// 그리드 초기화 및 데이터 로드
 				console.log("Initializing SlickGrid...");
 				console.log("선택된 value: ", selectedValue);
-				getCsList(( input = JSON.stringify({ tblIdTxt: selectedValue }))
+				getList(( input = JSON.stringify({ tblIdTxt: selectedValue }))
 				);
 			}
 			//data = getFile((input = JSON.stringify({ tblIdTxt: selectedValue })));
@@ -311,21 +311,26 @@
 				if (result.resultCd == "S") {
 					switch (result.id) {
 						case "SelectList":
-						fn_setGrid(result.data);
-	
-						break;
-						case "insertList":
-						main();
-	
-						break;
-						case "updateList":
-						main();
-	
-						break;
-						case "deleteList":
-							main();
 							
-						break;
+							fn_setGrid(result.data);
+							break;
+						case "insertList":
+							
+							alert("Successfully Insert");
+							main();
+							break;
+							
+						case "updateList":
+							
+							alert("Successfully Updated");
+							main();
+							break;
+							
+						case "deleteList":
+							
+							alert("Successfully Deleted");
+							main();
+							break;
 					}
 				} else if (result.resultCd == "E") {
 				} else {
@@ -459,9 +464,8 @@
 
 				let options1 = [
 					{ value: "VARCHAR", text: "VARCHAR", column: "dataTpCd" },
-					{ value: "NUMBER", text: "NUMBER", column: "dataTpCd" },
-					{ value: "DATE", text: "DATE", column: "dataTpCd" },
-					{ value: "TIMESTAMP", text: "TIMESTAMP", column: "dataTpCd" },
+					{ value: "NUMERIC", text: "NUMERIC", column: "dataTpCd" },
+					{ value: "DATE", text: "DATE", column: "dataTpCd" }
 				];
 
 				let options2 = [
@@ -555,7 +559,7 @@
 								if (confirm("Do you want to delete?") == true) {
 								// delete the selected row
 								//dataView.deleteItem(dataContext[unqId]);
-								fn_deleteCs(JSON.stringify(dataContext));
+								deleteList(JSON.stringify(dataContext));
 								//location.reload(true);
 								modalElement.hide();
 								}
@@ -808,8 +812,8 @@
 	                  if (checkData(formData)) {
 	                      //formData[unqId] = grid.getDataLength() + 1;
 	                    //   dataView.insertItem(grid.getDataLength(), formData);
-							if(confirm("Do you want to save?")== true ){
-								insertCs(JSON.stringify(formData));
+							if(confirm("Do you want to register?")== true ){
+								insertList(JSON.stringify(formData));
 								console.log("formData that is being sent : " + JSON.stringify(formData));
 								// location.reload(true);
 								// dataView.insertItem(grid.getDataLength(), formData);
@@ -833,7 +837,7 @@
 	                    	formData[unqId] = originalData[unqId];	
 							if (confirm("Do you want to modify?") == true) {
 								// updateFile(formData);
-								fn_updateCs(JSON.stringify(formData));
+								updateList(JSON.stringify(formData));
 							}
 								//location.reload(true);
 							} else {
