@@ -1,76 +1,56 @@
 
 <!DOCTYPE html>
-<html
-	lang="ko"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}"
->
-	<th:block layout:fragment="content">
-		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-		<div class="page-wrapper" id="page-wrapper">
-			<div class="container" id="container">
-				<h2>[[${menuNm}]]</h2>
-				<div class="ptag-container">
-					<span>[[${navigator}]]</span>
-					<div class="form-container">
-						<div class="form-box">
-							<form id="filter-form" name="form" method="post" action="BIZJNL001M0SelectList" onsubmit="return false;">
-								<div class="row">
-									<div class="col-auto">
-										<div class="input-group">
-											<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Account Title/Name"/>
-											<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">
-												Search
-					 						</button>
-										</div>
-									</div>
-									<div class="col text-end">
-										<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px"
-												onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">
-											Create
-										</button>
-										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">
-											Download
-										</button>
-										<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px"
-												onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">
-											Edit
-										</button>
-									</div>
-								</div>	
-							</form>
-						</div>
-	 				</div>
-					<div style="padding-top: 2em"></div>
-					<div class="card card-md" id="divMyGrid">
-						<table class="table" align="center" style="width: 1284px; height: 500px"></table>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<th:block layout:fragment="content">
+	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="container">
+			<h2>[[${menuNm}]]</h2>
+			<div class="ptag-container">
+				<span>[[${navigator}]]</span>
+				<div class="form-container">
+					<div class="form-box">
+						<form id="filter-form" name="form" method="post" action="BIZJNL001M0SelectList" onsubmit="return false;">
+							<div class="row">
+								<div class="col-sm-6 col-md-3">
+									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Account Title/Name" />
+								</div>
+								<div class="col-auto">
+									<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
+								</div>
+								<div class="col text-end">
+									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">Create</button>
+									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">Download</button>
+									<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="renewOptions(true);openDetails('edit');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
+								</div>
+							</div>
+						</form>
 					</div>
-	 			</div>
-				<div class="popupDataForm">
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">
-						Launch modal with form
-					</button>
-					<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
-						<div class="modal-dialog modal-small" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title">New report</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div style="padding-top: 2em"></div>
+				<div class="card card-md" id="divMyGrid">
+					<table class="table" align="center" style="width: 1284px; height: 500px"></table>
+				</div>
+			</div>
+			<div class="popupDataForm">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">Launch modal with form</button>
+				<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+					<div class="modal-dialog modal-small" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">New report</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="row"></div>
+							</div>
+							<div class="modal-footer">
+								<div class="col flex-start">
+									<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
 								</div>
-								<div class="modal-body">
-									<div class="row"></div>
-								</div>
-								<div class="modal-footer">
-									<div class="col flex-start">
-										<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
-									</div>
-									<div class="col-auto me-0 p-1"></div>
-									<div class="col-auto m-0">
-										<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">
-											Save changes
-										</a>
-									</div>
+								<div class="col-auto me-0 p-1"></div>
+								<div class="col-auto m-0">
+									<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px"> Save changes </a>
 								</div>
 							</div>
 						</div>
@@ -78,6 +58,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	<script src="js/utils.js"></script>
 	<script>
 		function checkData(data) {
@@ -193,8 +174,8 @@
 		var check_cols = [unqId, "atitKorNm"];
 		var columns = [
 			{ id: "atitCd",			name: "Account Title",		field: "atitCd",		width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{ id: "atitKorNm",		name: "Account Name(Kor)",	field: "atitKorNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
-			{ id: "atitEngNm",		name: "Account Name(Eng)",	field: "atitEngNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns"},
+			{ id: "atitKorNm",		name: "Account Name(Kor)",	field: "atitKorNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
+			{ id: "atitEngNm",		name: "Account Name(Eng)",	field: "atitEngNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{ id: "hgrkAtitCd",		name: "High Rank Title",	field: "hgrkAtitCd",	width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "acLvlCd",		name: "Account Rank",		field: "acLvlCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "1", value: "1" }, { key: "2", value: "2" }, { key: "3", value: "3" }, { key: "4", value: "4" }, { key: "5", value: "5" }, { key: "6", value: "6" }, { key: "7", value: "7" }, { key: "8", value: "8" }, { key: "9", value: "9" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "bkgAcYn",		name: "Booking",			field: "bkgAcYn",					sortable: true, editor: function (args) { return new ComboBoxEditor(args, [ { key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
@@ -222,7 +203,8 @@
 			enableAddRow: true,
   			asyncEditorLoading: false,
    			autoEdit: false,
- 			autoEditNewRow: false
+ 			autoEditNewRow: false,
+ 			rowHeight: 35,
 		};
 
 
@@ -242,23 +224,7 @@
 			},
 		};
 
-		function addSlickGridSomeStyling() {
-			const style = document.createElement("style");
-			style.innerHTML = `
-				.slick-header-columns {
-					font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-					font-size: 13px;
-				}
-				.slick-cell {
-					font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-					font-size: 13px;
-				}
-				`;
-			document.head.appendChild(style);
-		}
-
 			function main() {
-				addSlickGridSomeStyling();
 				// 그리드 초기화 및 데이터 로드
 				console.log("Initializing SlickGrid...");
 				getList(
@@ -821,5 +787,5 @@
 			}); */
 		}
 		</script>
-	</th:block>
+</th:block>
 </html>
