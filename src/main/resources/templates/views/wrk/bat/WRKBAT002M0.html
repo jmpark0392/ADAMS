@@ -203,12 +203,14 @@
 			},
 		};
 		
-		function getStdYymm() {
-			var inputMonth	= $("#inputMonth").val();
-			var inputYear	= $("#inputYear").val();
-			var stdYymm		= ((inputYear.length  != 0) ? inputYear: "")
-							+ ((inputMonth.length != 0) ? inputMonth.padStart(2, "0"): "");
-			return stdYymm;
+		function getStdYymm(){
+			var inputYear = $("#inputYear").val();
+			var inputMonth = $("#inputMonth").val();
+			var inputStdYymm = inputYear + ((inputMonth.length != 0) ? inputMonth.padStart(2, "0"): "");
+			if (inputStdYymm.length != 6){
+				inputStdYymm = null;
+			}
+			return inputStdYymm
 		}
 		
 		function main() {
