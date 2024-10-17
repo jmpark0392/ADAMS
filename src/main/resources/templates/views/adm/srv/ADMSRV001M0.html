@@ -169,6 +169,10 @@
                       <span class="fs-3">It will be charged by the number of days as many as you used the option.</span>
                     </div>
                   </div>
+                  <div class="p-4 mt-5">
+                    <span>Currently Using Option:&nbsp;</span>
+                    <span id="selectedOption" style="font-weight: bold;"> None</span>
+                  </div>
                     <div class="card-footer card-footer-transparent">
                       <button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">Add</button>
                     </div>
@@ -183,79 +187,10 @@
   </div>
   <!-- </div> -->
   <script>
-    // Function to fetch all available options and populate the select element
-    function fetchOptions() {
-      $.ajax({
-        type: "GET",
-        url: "/ADMSRV001M0SelectAllOptions",
-        async: true,
-        dataType: "json",
-        success: function (data) {
-          console.log("Options fetched successfully:", data);
-          var $optionSelect = $("#optionSelect");
-          $optionSelect.empty();
-          if (data.length > 0) {
-            $optionSelect.append(
-              '<option value="">select the number of users</option>'
-            );
-            $.each(data, function (index, option) {
-              // Combine optCd and optDtlsCd as the value
-              var value =
-                option.optDtlsDesc;
-              $optionSelect.append(
-                '<option value="' +
-                value +
-                '">' +
-                option.optDtlsDesc +
-                "</option>"
-              );
-            });
-            console.log("Options added to select element: ", data);
-          } else {
-            $optionSelect.append(
-              '<option value="">No options available</option>'
-            );
-          }
-        },
-        error: function (xhr, status, error) {
-          console.error("Error fetching options:", status, error);
-          $("#optionSelect").html(
-            '<option value="">Error loading options</option>'
-          );
-        },
-      });
-    }
-
-    // write me function that will retreive the selcted option value's correspodning  optDtlsCd and send it to other cetch call request param value
-    function getSelectedOptionValue() {
-      var selectedValue = $("#optionSelect").val();
-      if (selectedValue === "") {
-        alert("Please select an option to add.");
-        return;
-      }
-
-      // Split the selected value to get optCd and optDtlsCd
-      var codes = selectedValue.split("|");
-      var optCd = codes[0];
-      console.log("Console logging the selectedValue: ", selectedValue);
-
-      console.log("Console logging the optionCode code: ", codes[0]);
-      var optDtlsCd = codes[1];
-      console.log("Console logging the optioDeatils code: ", codes[1]);
-    }
-
-    // Call fetchOptions when the page loads
-    $(document).ready(function () {
-      fetchOptions();
-    });
-
     // Function to handle "Use" button click for Basic Subscription
     function useBasicSubscription() {
-
-
     	var res_cfm = confirm("Basic Plan will be applied immediately. Shall we proceed?");
     	if (res_cfm) {
-
 
       $.ajax({
         type: "POST",
@@ -301,97 +236,88 @@
         },
       });
 
-
     	} else {
         	return false;
         }
-
-
     }
 
     // Function to handle "Use" button click for Premium Subscription
     function usePremiumSubscription() {
-
-
     	var res_cfm = confirm("Premium Plan will be applied immediately. Shall we proceed?");
+
     	if (res_cfm) {
-
-
-      $.ajax({
-        type: "POST",
-        url: "/ADMSRV001M0MergeServiceOption",
-        async: true,
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        xhrFields: {
-          withCredentials: true,
-        },
-        data: JSON.stringify({
-          srvcCd: "02", // Service code for Premium Subscription
-        }),
-        success: function (data) {
-          console.log("Response data:", data);
-          if (data.status === "success") {
-            console.log("Premium Subscription activation successful:", data);
-            // will update the ui to show the ui accordingly
-            $("#premiumSubscriptionButton")
-              .removeClass("btn btn-primary w-100")
-              .addClass("btn btn-success w-100")
-              .text("Current Plan")
-              .removeAttr("onclick");
-              //.prop("disabled", true);
-            $("#basicSubscriptionButton")
-              .removeClass("btn btn-success w-100")
-              .addClass("btn btn-primary w-100")
-              .text("Seriously?")
-              .attr("onclick","useBasicSubscription()");
-              //.prop("disabled", false);
-            alert("Your company is currently subscribing to Premium Plan.");
-          } else {
-            alert("Failed to activate the Premium Subscription service.");
-          }
-        },
-        error: function (xhr, status, error) {
-          console.error(
-            "Error activating Premium Subscription:",
-            xhr.responseText || status,
-            error
-          );
-          alert("Failed to activate Premium Subscription.");
-        },
-      });
-
-
+        $.ajax({
+          type: "POST",
+          url: "/ADMSRV001M0MergeServiceOption",
+          async: true,
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          xhrFields: {
+            withCredentials: true,
+          },
+          data: JSON.stringify({
+            srvcCd: "02", // Service code for Premium Subscription
+          }),
+          success: function (data) {
+            console.log("Response data:", data);
+            if (data.status === "success") {
+              console.log("Premium Subscription activation successful:", data);
+              // will update the ui to show the ui accordingly
+              $("#premiumSubscriptionButton")
+                .removeClass("btn btn-primary w-100")
+                .addClass("btn btn-success w-100")
+                .text("Current Plan")
+                .removeAttr("onclick");
+                //.prop("disabled", true);
+              $("#basicSubscriptionButton")
+                .removeClass("btn btn-success w-100")
+                .addClass("btn btn-primary w-100")
+                .text("Seriously?")
+                .attr("onclick","useBasicSubscription()");
+                //.prop("disabled", false);
+              alert("Your company is currently subscribing to Premium Plan.");
+            } else {
+              alert("Failed to activate the Premium Subscription service.");
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error(
+              "Error activating Premium Subscription:",
+              xhr.responseText || status,
+              error
+            );
+            alert("Failed to activate Premium Subscription.");
+          },
+        });
     	} else {
         	return false;
         }
-
-
     }
 
     // Function to handle "Add" button click in Option Addition
     function addOption() {
-
-
     	var res_cfm = confirm("The selected option will be applied immediately. Shall we proceed?");
     	if (res_cfm) {
-
 
       var selectedValue = $("#optionSelect").val();
       if (selectedValue === "") {
         alert("Please select an option to add.");
         return;
       }
+      
+      // get the optDtlsCd from the selectedValue
+      let valuOfSlctedVal = selectedValue.split("|")
 
-      // Split the selected value to get optCd and optDtlsCd
-      var codes = selectedValue.split("|");
-      var optCd = codes[0];
-      console.log("Console logging the selectedValue: ", codes);
+      console.log("Console logging the valuOfSlctedVale: ", valuOfSlctedVal);  
 
-      console.log("Console logging the optionCode code: ", codes[0]);
-      var optDtlsCd = codes[1];
-      console.log("Console logging the optioDeatils code: ", codes[1]);
+      var optCd = valuOfSlctedVal[0];
+      let optDtlsCd = valuOfSlctedVal[1];
+      let optDtlsDesc = valuOfSlctedVal[2] + " " + valuOfSlctedVal[3];
 
+      console.log("Console logging the optCd: ", optCd);
+      console.log("Console logging the optDtlsCd: ", optDtlsCd);
+      console.log("Console logging the optDtlsDesc: ", optDtlsDesc);
+  
       $.ajax({
         type: "POST",
         url: "/ADMSRV001M0UpdateOptionDetails",
@@ -403,13 +329,10 @@
           optDtlsCd: optDtlsCd, // Option Details Code
         }),
         success: function (data) {
-          console.log("Response data:", data);
+          console.log("Respopnse data from the option addition: ", data);
           if (data.status === "success") {
             console.log("Option addition successful:", data);
-            // Update the selected option display
-            $("#selectedOption").text(
-              $("#optionSelect option:selected").text()
-            );
+            $("#selectedOption").text(optDtlsDesc);
             alert("You can add users from now on.");
           } else {
             alert("Failed to add option.");
@@ -421,81 +344,115 @@
         },
       });
 
-
     	} else {
         	return false;
         }
-
-
     }
-
-    // Function to fetch and display the user's current subscription info
-    function getUserSubscriptionInfo() {
+    // function to fetcht the options and compare with the user subscription info
+    function fetchOptionsAndCompare() {
       $.ajax({
         type: "GET",
-        url: "/getUserSubscriptionInfo",
+        url: "/ADMSRV001M0SelectAllOptions",
         async: true,
         dataType: "json",
         success: function (data) {
-          console.log("User subscription info:", data);
-          // update the ui based on the user subscription
-          if (data && data.length > 0) {
-            var subscription = data[0]; // Assuming we hvae only one subscrition
-            if (subscription.srvcCd === "01") {
-              $("#basicSubscriptionButton")
-                .removeClass("btn btn-primary w-100")
-                .addClass("btn btn-success w-100")
-                .text("Current Plan")
-                .removeAttr("onclick");
-                //.prop("disabled", true);
-              $("#premiumSubscriptionButton")
-                .text("Upgrade Now!")
-                //.prop("disabled", false);
-            } else if (subscription.srvcCd === "02") {
-              $("#premiumSubscriptionButton")
-                .removeClass("btn btn-primary w-100")
-                .addClass("btn btn-success w-100")
-                .text("Current Plan")
-                .removeAttr("onclick");
-                //.prop("disabled", true);
-              $("#basicSubscriptionButton")
-                .text("Seriously?")
-                //.prop("disabled", false);
-            } else {
-              $("#basicSubscriptionButton")
-                .text("Good Plan!")
-                .prop("disabled", false);
-              $("#premiumSubscriptionButton")
-                .text("Better Plan!")
-                .prop("disabled", false);
-            }
+          console.log("Options fetched successfully:", data);
+          var $optionSelect = $("#optionSelect");
+          $optionSelect.empty();
+          $optionSelect.append('<option value="">select the number of users</option>');
 
-            // Display the currently selected option
-            if (subscription.optDtlsNm) {
-              $("#selectedOption").text(subscription.optDtlsNm);
-            }
+          // if there is data, we populate the select element
+          if (data.length > 0) {
+            $.each(data, function (index, option) {
+              let optCd = option.optCd;
+              let optDtlsDesc = option.optDtlsDesc;
+              let optDtlsCd = option.optDtlsCd;
+              var value = optCd + "|" + optDtlsCd + "|" + optDtlsDesc;
+              console.log("Console logging the value: ", value);  
+              $optionSelect.append(
+                '<option value="' + value + '">' + optDtlsDesc + "</option>"
+              );
+            });
+            console.log("Options added to select element: ", data);
+            
+            // Now fetch user subscription info and compare
+            $.ajax({
+              type: "GET",
+              url: "/getUserSubscriptionInfo",
+              async: true,
+              dataType: "json",
+              success: function (subscriptionData) {
+                console.log("User subscription info:", subscriptionData);
+                if (subscriptionData && subscriptionData.length > 0) {
+                  var subscription = subscriptionData[0];
+                  updateSubscriptionButtons(subscription.srvcCd);
+
+                  var matchingOption = data.find(option => option.optDtlsCd === subscription.optDtlsCd);
+                  
+                  if (matchingOption) {
+                    var optionValue = matchingOption.optCd + "|" + matchingOption.optDtlsCd + "|" + matchingOption.optDtlsDesc;
+                    $("#optionSelect").val(optionValue);
+                    $("#selectedOption").text(matchingOption.optDtlsDesc);
+                  } else {
+                    $("#optionSelect").val("");
+                    $("#selectedOption").text("None");
+                  }
+                } else {
+                  updateSubscriptionButtons(null);
+                  $("#selectedOption").text("None");
+                }
+              },
+              error: function (xhr, status, error) {
+                console.error("Error fetching user subscription info:", status, error);
+              }
+            });
           } else {
-            // No subscription info found
-            $("#basicSubscriptionButton").text("Good Plan!").prop("disabled", false);
-            $("#premiumSubscriptionButton").text("Better Plan!").prop("disabled", false);
+            $optionSelect.append('<option value="">No options available</option>');
           }
         },
         error: function (xhr, status, error) {
-          console.error(
-            "Error fetching user subscription info:",
-            status,
-            error
-          );
+          console.error("Error fetching options:", status, error);
+          $("#optionSelect").html('<option value="">Error loading options</option>');
         },
       });
     }
 
-    // Call getUserSubscriptionInfo when the page loads
+    // button update function based on the service code 
+    function updateSubscriptionButtons(srvcCd) {
+      $("#basicSubscriptionButton, #premiumSubscriptionButton").removeClass("btn-success").addClass("btn-primary w-100");
+      
+      if (srvcCd === "01") {
+        $("#basicSubscriptionButton")
+          .removeClass("btn-primary").addClass("btn-success")
+          .text("Current Plan")
+          .removeAttr("onclick");
+        $("#premiumSubscriptionButton")
+          .text("Upgrade Now!")
+          .attr("onclick", "usePremiumSubscription()");
+      } else if (srvcCd === "02") {
+        $("#premiumSubscriptionButton")
+          .removeClass("btn-primary").addClass("btn-success")
+          .text("Current Plan")
+          .removeAttr("onclick");
+        $("#basicSubscriptionButton")
+          .text("Seriously?")
+          .attr("onclick", "useBasicSubscription()");
+      } else {
+        $("#basicSubscriptionButton")
+          .text("Good Plan!")
+          .attr("onclick", "useBasicSubscription()");
+        $("#premiumSubscriptionButton")
+          .text("Better Plan!")
+          .attr("onclick", "usePremiumSubscription()");
+      }
+    }
+
+    // Call this function when the page loads
     $(document).ready(function () {
-      getUserSubscriptionInfo();
+      fetchOptionsAndCompare();
     });
+    
   </script>
   <script src="js/utils.js"></script>
 </th:block>
-
 </html>

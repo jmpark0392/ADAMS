@@ -67,27 +67,6 @@
                   id="downloadExcel">
                   Download
                 </button>
-                <!-- <button
-                    name="btnExcelDown"
-                    type="button"
-                    class="btn btn-lime"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    id="downloadExcel"
-                    onclick="getExcelList()"
-                    data-test="edit-button"
-                  >
-                    Download
-                  </button> -->
-                <!-- <button
-                    name="btnSave"
-                    type="button"
-                    class="btn btn-secondary"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    onclick="setSaveUploadFile()"
-                    data-test="edit-button"
-                  >
-                    Save
-                  </button> -->
               </div>
               <!-- Extra space for folowing the form box-->
               <!-- <div style="padding-bottom: 1px"></div> -->
@@ -292,9 +271,7 @@
 
       function companyNameFormatter(row, cell, value, columnDef, dataContext) {
         var dataView = grid.getData();
-        // Check if the current row's company name is the same as the previous row's
 
-        // we get the row inde
         if (row > 0) {
           var prevItem = dataView.getItem(row - 1);
           if (prevItem && prevItem.compNm === value) {
@@ -697,11 +674,6 @@
             alert("Please enter a valid company code!");
             return false;
           }
-        }
-
-        // slice from 15551612 to 15,551,612
-        function sliceNumber(){
-
         }
 
         // search function to make a fetch call to the server
