@@ -120,17 +120,23 @@
 		</script>
 	<script>
 		$(document).ready(function () {
+
 			console.log("Document is ready.");
+			
+			$("#inputMonth").val(gv_month);			
+			$("#inputYear").val(gv_year);
+			
 			//화면 접속시 바로 조회
 			main();
 			//send버튼 누르면, 조건적용하여 검색
 			$("#send").click(main);
 			//엔터키누르면, 조건적용하여 검색
 			$("input").on("keyup", function (key) {
-			if (key.keyCode == 13) {
-				main();
-			}
+				if (key.keyCode == 13) {
+					main();
+				}
 			});
+
 		});
 	
 		var grid;
