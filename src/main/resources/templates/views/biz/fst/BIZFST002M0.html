@@ -11,11 +11,47 @@
 					<div class="form-box">
 						<form id="filter-form" name="form" method="post" action="/BIZFST002M0SelectList" onsubmit="return false;">
 							<div class="row">
+								<!-- Year Select -->
+								<div class="col-auto">
+									<label class="form-label">Standard Year/Month:</label>
+									<select name="user[year]" class="form-select select-month-year p-1" id="inputYear">
+									<option selected value="">- Year -</option>
+									<!-- Year Options -->
+										<option value="2020">2020</option>
+										<option value="2021">2021</option>
+										<option value="2022">2022</option>
+										<option value="2023">2023</option>
+										<option value="2024">2024</option>
+										<option value="2025">2025</option>
+										<option value="2026">2026</option>
+									</select>
+								</div>
+								<!-- Month Select -->
+								<div class="col-auto">
+									<label class="form-label"> &nbsp; </label>
+									<select name="user[month]" class="form-select select-month-year p-1" id="inputMonth">
+									<option selected value="">- Month -</option>
+									<!-- Month Options -->
+									<option value="1">January</option>
+									<option value="2">February</option>
+									<option value="3">March</option>
+									<option value="4">April</option>
+									<option value="5">May</option>
+									<option value="6">June</option>
+									<option value="7">July</option>
+									<option value="8">August</option>
+									<option value="9">September</option>
+									<option value="10">October</option>
+									<option value="11">November</option>
+									<option value="12">December</option>
+									</select>
+								</div>
 								<div class="col-sm-6 col-md-3">
+									<label class="form-label">Search Account Title/Name:</label>
 									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Account Title/Name" />
 								</div>
 								<div class="col-auto">
-									<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
+									<button type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
 								</div>
 								<div class="col text-end">
 									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="getSettle()" data-test="create-button" onsubmit="return false;">Settlement</button>
@@ -59,6 +95,16 @@
         function checkData(data) {
           return parentCheckData(data, check_cols);
         }
+        
+        function getStdYymm(){
+			var inputYear = $("#inputYear").val();
+			var inputMonth = $("#inputMonth").val();
+			var inputStdYymm = inputYear + ((inputMonth.length != 0) ? inputMonth.padStart(2, "0"): "");
+			if (inputStdYymm.length != 6){
+				inputStdYymm = null;
+			}
+			return inputStdYymm
+		}
 
         function getList(input) {
             console.log("getList input : " + input);
@@ -77,7 +123,10 @@
         
         // settle 함수에 보낼 데이터를 가져오는 함수
         function getSettle(){
-            var input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() });
+            var input	=	JSON.stringify({ 
+            				searchTxt: $("#inpSearchTxt").val()
+            			,	stdYymm: getStdYymm()
+            			});
             //console.log("getSettle input : " + input);
         
             settle(input);
@@ -258,8 +307,9 @@
                 // 그리드 초기화 및 데이터 로드
                 console.log("Initializing SlickGrid...");
                 getList(
-                            (input = JSON.stringify({ 
-                                                      searchTxt: $("#inpSearchTxt").val()
+                            (input	=	JSON.stringify({ 
+                            			searchTxt: $("#inpSearchTxt").val()
+                            		,	stdYymm: getStdYymm()
                             }))
                        );
             }
