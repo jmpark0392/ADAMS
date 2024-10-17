@@ -21,13 +21,16 @@
 	       ON A.ATIT_CD = B.ATIT_CD
 	     WHERE 1=1
 	     <if test= 'csNo != "999"'>
-			AND A.CS_NO        = #{csNo}
-		</if>
+	       AND A.CS_NO        = #{csNo}
+	     </if>
          <if test='searchTxt != ""'>
            AND (
-                   ATIT_CD LIKE '%' + #{searchTxt} + '%'
-				OR ATIT_NM LIKE '%' + #{searchTxt} + '%'
+                   A.ATIT_CD LIKE '%' + #{searchTxt} + '%'
+                OR B.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
                 )
+         </if>
+         <if test='stdYymm != "" and stdYymm != null'>
+           AND A.STD_YYMM LIKE '%' + #{stdYymm} + '%'
          </if>
     </select>
 </mapper>
