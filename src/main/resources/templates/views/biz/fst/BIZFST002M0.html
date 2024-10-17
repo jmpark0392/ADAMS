@@ -1,131 +1,61 @@
 <!DOCTYPE html>
-<html
-  lang="ko"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}"
->
- <th:block layout:fragment="content">
-   <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-    <div class="page-wrapper" id="page-wrapper">
-      <div class="container" id="container">
-        <h2>Financial Statements</h2>
-        <div class="ptag-container">
-          <span><a href="#"> Home ></a></span>
-          <span><a href="#"> BS</a></span>
-          <div class="form-container">
-            <div class="form-box">
-              <form
-                id="filter-form"
-                name="form"
-                method="post"
-                action="/BIZFST002M0SelectList"
-                onsubmit="return false;"
-              >
-                <div class="row">
-                  <div class="col">
-                    <input
-                      id="inpSearchTxt"
-                      name="inpSearchTxt"
-                      type="text"
-                      class="form-input-temp"
-                      placeholder="Account Title/Name"
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="main()"
-                    >
-                      Search
-                    </button>
-                  </div>
-                  <div class="col text-end">
-                    <button
-                      form="new-form"
-                      type="button"
-                      class="btn btn-primary"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      onclick="getSettle()"
-                      data-test="create-button"
-                      onsubmit="return false;"
-                    >
-                      Settlement
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-lime"
-                      style="padding: 4px 10px; color: white; font-size: 13px"
-                      id="downloadExcel"
-                    >
-                      Download
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div style="padding-top: 2em"></div>
-          <div id="divMyGrid">
-            <table align="center" class="table"></table>
-          </div>
-        </div>
-        <div class="popupDataForm">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            style="display: none"
-          >
-            Launch modal with form
-          </button>
-          <div
-            class="modal fade"
-            id="exampleModal"
-            tabindex="-1"
-            style="display: none"
-          >
-            <div class="modal-dialog modal-small" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">New report</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <!-- Removed repetitive content for clarity -->
-                    <!-- Add necessary modal content here -->
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <a
-                    href="#"
-                    class="btn btn-link link-secondary"
-                    data-bs-dismiss="modal"
-                    >Cancel</a
-                  >
-                  <a
-                    href="#"
-                    class="btn btn-primary ms-auto"
-                    data-bs-dismiss="modal"
-                    style="padding: 4px 10px; color: white; font-size: 13px"
-                    >Save changes</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="js/utils.js"></script>
-      <script>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<th:block layout:fragment="content">
+	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="container">
+			<h2>[[${menuNm}]]</h2>
+			<div class="ptag-container">
+				<span>[[${navigator}]]</span>
+				<div class="form-container">
+					<div class="form-box">
+						<form id="filter-form" name="form" method="post" action="/BIZFST002M0SelectList" onsubmit="return false;">
+							<div class="row">
+								<div class="col-sm-6 col-md-3">
+									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Account Title/Name" />
+								</div>
+								<div class="col-auto">
+									<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
+								</div>
+								<div class="col text-end">
+									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="getSettle()" data-test="create-button" onsubmit="return false;">Settlement</button>
+									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">Download</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div style="padding-top: 2em"></div>
+				<div id="divMyGrid">
+					<table align="center" class="table"></table>
+				</div>
+			</div>
+			<div class="popupDataForm">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">Launch modal with form</button>
+				<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+					<div class="modal-dialog modal-small" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">New report</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<!-- Removed repetitive content for clarity -->
+									<!-- Add necessary modal content here -->
+								</div>
+							</div>
+							<div class="modal-footer">
+								<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">Save changes</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/utils.js"></script>
+	<script>
         function checkData(data) {
           return parentCheckData(data, check_cols);
         }
@@ -147,7 +77,6 @@
         
         // settle 함수에 보낼 데이터를 가져오는 함수
         function getSettle(){
-            addSlickGridSomeStyling();
             var input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() });
             //console.log("getSettle input : " + input);
         
@@ -171,7 +100,7 @@
         }
 
       </script>
-      <script>
+	<script>
         $(document).ready(function () {
           console.log("Document is ready.");
           //화면 접속시 바로 조회
@@ -201,7 +130,8 @@
               sortable: true,
               editor: Slick.Editors.Text,
               validator: createValidator,
-              headerCssClass: "slick-header-columns", cssClass: "slick-column-center"
+              headerCssClass: "slick-header-columns",
+              cssClass: "slick-column-center"
             },
             {
               id: "atitNm",
@@ -211,7 +141,8 @@
               width: 400,
               editor: Slick.Editors.Text,
               validator: createValidator,
-              headerCssClass: "slick-header-columns"
+              headerCssClass: "slick-header-columns",
+              cssClass: "slick-column-left"
             },
             {
               id: "basAmt",
@@ -299,6 +230,7 @@
           asyncEditorLoading: false,
           autoEdit: false,
           autoEditNewRow: false,
+          rowHeight: 35,
         };
 
         var newRowIds = 0;
@@ -322,23 +254,7 @@
           },
         };
         
-            function addSlickGridSomeStyling() {
-                const style = document.createElement("style");
-                style.innerHTML = `
-                    .slick-header-columns {
-                        font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-                        font-size: 13px;
-                    }
-                    .slick-cell {
-                        font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-                        font-size: 13px;
-                    }
-                    `;
-                document.head.appendChild(style);
-            };
-            
             function main() {
-                addSlickGridSomeStyling();
                 // 그리드 초기화 및 데이터 로드
                 console.log("Initializing SlickGrid...");
                 getList(
@@ -861,5 +777,5 @@
           }
         }
       </script>
-   </th:block>
+</th:block>
 </html>

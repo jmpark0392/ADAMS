@@ -31,9 +31,9 @@
  		<if test= 'csNo != "999"'>
 			AND CS_NO        = #{csNo}
 		</if>
-         <if test='searchTxt != ""'>
+         <if test='stdYymm != "" and stdYymm != null'>
            AND (
-                	STD_YYMM LIKE '%' + #{searchTxt} + '%'
+                	STD_YYMM LIKE '%' + #{stdYymm} + '%'
                 )
          </if>
     </select>
