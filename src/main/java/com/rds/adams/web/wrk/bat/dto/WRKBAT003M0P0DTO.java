@@ -25,7 +25,12 @@ import lombok.ToString;
 @Setter
 public class WRKBAT003M0P0DTO {
 	
-	private String csNo;
+	@Schema(description = "검색텍스트")
 	private String searchTxt;
-
+	
+	@Schema(description = "고객사번호")
+	private String csNo;
+	
+	@Schema(description = "사용자 이름")
+	private String usrNm;
 }

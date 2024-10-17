@@ -30,5 +30,8 @@ public class WRKFIL001M0P0DTO {
 	
 	@Schema(description = "고객사번호")
 	private String csNo;
+	
+	@Schema(description = "사용자 이름")
+	private String usrNm;
 }
 

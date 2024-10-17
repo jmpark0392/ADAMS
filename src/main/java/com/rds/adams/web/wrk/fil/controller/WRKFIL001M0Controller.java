@@ -38,6 +38,7 @@ public class WRKFIL001M0Controller {
 		
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
+		inVo.setUsrNm(sAdamsLoginDTO.getUsrNm());
 		
 		log.info(inVo.toString());
 		

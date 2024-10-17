@@ -58,6 +58,9 @@ public class WRKBAT001M0R0DTO {
 	@Schema(description = "사용여부")
 	private String useYn;
 	
+	@Schema(description = "사용자 이름")
+	private String usrNm;
+	
 	@Schema(description = "등록사용자ID")
 	private String frstRegEmpNo;
 	

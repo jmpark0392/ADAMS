@@ -5,27 +5,29 @@
 <mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL001M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL001M0R0DTO">
 		SELECT
-		       SEQ_NO
-		     , FILE_NM
-		     , DB_ID
-		     , TBL_ID
-		     , FILE_DSC
-		     , FILE_DEL_YN
-		     , UI_SEL_YN
-		     , USE_YN
-		     , VRF_USE_YN
-		     , FRST_REG_EMP_NO 
-		     , FRST_REG_DTM
-		  FROM TB_UPL_FILE_LST
+		       A.SEQ_NO
+		     , A.FILE_NM
+		     , A.DB_ID
+		     , A.TBL_ID
+		     , A.FILE_DSC
+		     , A.FILE_DEL_YN
+		     , A.UI_SEL_YN
+		     , A.USE_YN
+		     , A.VRF_USE_YN
+		     , B.USR_NM 
+		     , A.FRST_REG_DTM
+		  FROM TB_UPL_FILE_LST A
+		  LEFT OUTER JOIN TB_USR_MNG_LST B 
+			ON A.FNL_UPD_EMP_NO = B.USR_ID
          WHERE 1=1
          <if test= 'csNo != "999"'>
-           AND CS_NO       = #{csNo}
+           AND A.CS_NO       = #{csNo}
          </if>
-           AND DEL_YN = 'N'
+           AND A.DEL_YN = 'N'
          <if test='searchTxt != ""'>
            AND (
-                   FILE_NM  LIKE CONCAT_WS('%', #{searchTxt}, '%')
-                OR TBL_ID   LIKE CONCAT_WS('%', #{searchTxt}, '%')
+                   A.FILE_NM  LIKE CONCAT_WS('%', #{searchTxt}, '%')
+                OR A.TBL_ID   LIKE CONCAT_WS('%', #{searchTxt}, '%')
                 )
          </if>
     </select>
