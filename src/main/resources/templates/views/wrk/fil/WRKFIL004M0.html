@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
-  <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 	<div class="page-wrapper" id="page-wrapper">
 		<div class="container" id="container">
 			<h2>[[${menuNm}]]</h2>
@@ -13,143 +13,134 @@
 						<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
 							<div class="row align-items-center">
 								<div class="col-auto">
-										<label for="lblUploadFileList" class="form-label">File Title : </label>
-										<select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select select-options p-1">
-											<option selected="selected" value="">- select -</option>
-										</select>
+									<label for="lblUploadFileList" class="form-label">File Title : </label>
+									<select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select select-options p-1">
+										<option selected="selected" value="">- select -</option>
+									</select>
 								</div>
 								<div class="col-auto">
 									<label class="form-label">Load Date: </label>
 									<div class="input-icon">
-										<input class="form-control select-date p-1" placeholder="Select a date" id="datepicker-icon" value="2020-06-20" style="padding: 3px" size=15 /> 
-										<span class="input-icon-addon ">  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-											<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-											<path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
-											<path d="M16 3v4" />
-											<path d="M8 3v4" />
-											<path d="M4 11h16" />
-											<path d="M11 15h1" />
-											<path d="M12 15v3" /></svg>
+										<input class="form-control select-date p-1" placeholder="Select a date" id="datepicker-icon" value="" style="padding: 3px" size=15 />
+											<span class="input-icon-addon "> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+												<path d="M16 3v4" />
+												<path d="M8 3v4" />
+												<path d="M4 11h16" />
+												<path d="M11 15h1" />
+												<path d="M12 15v3" />
+											</svg>
 										</span>
 									</div>
 								</div>
-						<div class="col-auto mt-4 g-0">
-							<div class="">
-							~
+								<div class="col-auto mt-4 g-0">
+									<div class="">~</div>
+								</div>
+								<div class="col-auto">
+									<label class="form-label">&nbsp; </label>
+									<div class="input-icon">
+										<input class="form-control  select-date p-1" placeholder="Select a date" id="datepicker-icon-prepend" value="2020-06-20" size=15 />
+										<span class="input-icon-addon">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+												<path d="M16 3v4" />
+												<path d="M8 3v4" />
+												<path d="M4 11h16" />
+												<path d="M11 15h1" />
+												<path d="M12 15v3" />
+											</svg>
+										</span>
+									</div>
+								</div>
+								<div class="col-auto">
+									<label class="form-label" style="flex-basis: 100%; margin-bottom: 0.5rem;">Standard Year/Month:</label>
+									<div class="form-group">
+										<select name="user[year]" class="form-select select-month-year p-1" id="inpStartStdYr" style="display: flex; width: 100px; margin-right: 10px">
+											<option selected value="">- Year -</option>
+											<!-- Year Options -->
+											<option value="2020">2020</option>
+											<option value="2021">2021</option>
+											<option value="2022">2022</option>
+											<option value="2023">2023</option>
+											<option value="2024">2024</option>
+											<option value="2025">2025</option>
+											<option value="2026">2026</option>
+										</select>
+										<select name="user[month]" class="form-select select-month-year p-1" id="inpStartMnth" style="display: flex; width: 120px;">
+											<option selected value="">- Month -</option>
+											<!-- Month Options -->
+											<option value="1">January</option>
+											<option value="2">February</option>
+											<option value="3">March</option>
+											<option value="4">April</option>
+											<option value="5">May</option>
+											<option value="6">June</option>
+											<option value="7">July</option>
+											<option value="8">August</option>
+											<option value="9">September</option>
+											<option value="10">October</option>
+											<option value="11">November</option>
+											<option value="12">December</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-auto mt-4 g-0">
+									<div class="">~</div>
+								</div>
+								<div class="col-auto">
+									<label class="form-label" style="flex-basis: 100%; margin-bottom: 0.5rem;">&nbsp;</label>
+									<div class="form-group">
+										<select name="user[year]" class="form-select select-month-year p-1" id="inpEndStdYr" style="display: flex; width: 100px; margin-right: 10px">
+											<option selected value="">- Year -</option>
+											<!-- Year Options -->
+											<option value="2020">2020</option>
+											<option value="2021">2021</option>
+											<option value="2022">2022</option>
+											<option value="2023">2023</option>
+											<option value="2024">2024</option>
+											<option value="2025">2025</option>
+											<option value="2026">2026</option>
+										</select>
+										<select name="user[month]" class="form-select select-month-year p-1" id="inpEndMnth" style="display: flex; width: 120px;">
+											<option selected value="">- Month -</option>
+											<!-- Month Options -->
+											<option value="1">January</option>
+											<option value="2">February</option>
+											<option value="3">March</option>
+											<option value="4">April</option>
+											<option value="5">May</option>
+											<option value="6">June</option>
+											<option value="7">July</option>
+											<option value="8">August</option>
+											<option value="9">September</option>
+											<option value="10">October</option>
+											<option value="11">November</option>
+											<option value="12">December</option>
+										</select>
+									</div>
+								</div>
+								<div class="col">
+									<button name="btnSearch" type="button" class="btn btn-primary search-button p-1" onclick="getSearchList()" data-test="create-button">Search</button>
+								</div>
+								<div class="row mt-3"></div>
 							</div>
-						</div>
-						<div class="col-auto">
-							<label class="form-label">&nbsp; </label>
-							<div class="input-icon">
-							<input class="form-control  select-date p-1" placeholder="Select a date" id="datepicker-icon-prepend" value="2020-06-20" size=15 /> <span class="input-icon-addon"> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-								<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-								<path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
-								<path d="M16 3v4" />
-								<path d="M8 3v4" />
-								<path d="M4 11h16" />
-								<path d="M11 15h1" />
-								<path d="M12 15v3" />
-								</svg>
-												</span>
-							</div>
-						</div>
-				<div class="col-auto">
-					<label class="form-label" style="flex-basis: 100%; margin-bottom: 0.5rem;">Standard Year/Month:</label>
-					<div class="form-group">
-						<select name="user[year]" class="form-select select-month-year p-1" id="inpStartStdYr" style="display:flex; width: 100px; margin-right: 10px">
-							<option selected value="">- Year -</option>
-							<!-- Year Options -->
-							<option value="2020">2020</option>
-							<option value="2021">2021</option>
-							<option value="2022">2022</option>
-							<option value="2023">2023</option>
-							<option value="2024">2024</option>
-							<option value="2025">2025</option>
-							<option value="2026">2026</option>
-						</select>
-						<select name="user[month]" class="form-select select-month-year p-1" id="inpStartMnth" style="display:flex; width: 120px;">
-							<option selected value="">- Month -</option>
-							<!-- Month Options -->
-							<option value="1">January</option>
-							<option value="2">February</option>
-							<option value="3">March</option>
-							<option value="4">April</option>
-							<option value="5">May</option>
-							<option value="6">June</option>
-							<option value="7">July</option>
-							<option value="8">August</option>
-							<option value="9">September</option>
-							<option value="10">October</option>
-							<option value="11">November</option>
-							<option value="12">December</option>
-						</select>
+						</form>
 					</div>
-				</div>
-				<div class="col-auto mt-4 g-0">
-					<div class="">
-					~
-					</div>
-				</div>
-				<div class="col-auto">
-					<label class="form-label" style="flex-basis: 100%; margin-bottom: 0.5rem;">&nbsp;</label>
-					<div class="form-group">
-						<select name="user[year]" class="form-select select-month-year p-1" id="inpEndStdYr" style="display:flex; width: 100px; margin-right: 10px">
-							<option selected value="">- Year -</option>
-							<!-- Year Options -->
-							<option value="2020">2020</option>
-							<option value="2021">2021</option>
-							<option value="2022">2022</option>
-							<option value="2023">2023</option>
-							<option value="2024">2024</option>
-							<option value="2025">2025</option>
-							<option value="2026">2026</option>
-						</select>
-						<select name="user[month]" class="form-select select-month-year p-1" id="inpEndMnth" style="display:flex; width: 120px;">
-							<option selected value="">- Month -</option>
-							<!-- Month Options -->
-							<option value="1">January</option>
-							<option value="2">February</option>
-							<option value="3">March</option>
-							<option value="4">April</option>
-							<option value="5">May</option>
-							<option value="6">June</option>
-							<option value="7">July</option>
-							<option value="8">August</option>
-							<option value="9">September</option>
-							<option value="10">October</option>
-							<option value="11">November</option>
-							<option value="12">December</option>
-						</select>
-					</div>
-				</div>
-				<div class="col"> 
-					<button
-						name="btnSearch" 
-						type="button" 
-						class="btn btn-primary search-button p-1"
-						onclick="getSearchList()"
-						data-test="create-button"
-					>
-						Search
-					</button>
-				</div>
 					<div class="row mt-3"></div>
 				</div>
-					</div>
-					<div class="row mt-3"></div>
-					</form>
-				</div>
-				<div style="padding-top: 2em">  
-          <!-- <p>
+				<div style="padding-top: 2em">
+					<!-- <p>
           ►&nbsp;<label for="lblGrdTitle">Grid Content</label>
         </p> -->
-          <div class="card card-md">
-            <form name="divData">
-              <div align="center" >
-                <table id="divGrdMain" style="width: 1284px; height: 500px" ></table>
-              </div>
-            </form>
-          </div>
+					<div class="card card-md">
+						<form name="divData">
+							<div align="center">
+								<table id="divGrdMain" style="width: 1284px; height: 500px"></table>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -192,6 +183,15 @@
             dropdown.append(option);
           });
         }
+        
+        $("#datepicker-icon").val(gv_year+"-"+gv_month+"-"+gv_day);
+        $("#datepicker-icon-prepend").val(gv_year+"-"+gv_month+"-"+gv_day);
+        
+        $("#inpStartStdYr").val(gv_year);
+        $("#inpStartMnth").val(gv_month);
+        $("#inpEndStdYr").val(gv_year);
+        $("#inpEndMnth").val(gv_month);
+
       });
 
      
@@ -439,6 +439,6 @@
         });
       }
   </script>
-	
+
 </th:block>
 </html>
