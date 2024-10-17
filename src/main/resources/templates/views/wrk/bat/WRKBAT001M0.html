@@ -171,8 +171,8 @@
 		var check_cols = [unqId, "batProgNm"];
 		var columns = [
 			{ id: "batProgId",		name: "Program ID",			field: "batProgId",		width: 65,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "batProgNm",		name: "Program Name",		field: "batProgNm",		width: 300,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" },
-			{ id: "upProgId",		name: "Group Name",			field: "upProgId",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "batProgNm",		name: "Program Name",		field: "batProgNm",		width: 250,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+			{ id: "upProgId",		name: "Group Name",			field: "upProgId",		width: 120,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "lwstProgYn",		name: "Program",			field: "lwstProgYn",	width: 50,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "exePrd",			name: "Cycle",				field: "exePrd",		width: 60,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "Q", value: "Q" }, { key: "M", value: "M" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "mainEmpNo",		name: "Main User",			field: "mainEmpNo",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
@@ -196,7 +196,8 @@
 			enableAddRow: true,
 			asyncEditorLoading: false,
 			autoEdit: false,
-			autoEditNewRow: false
+			autoEditNewRow: false,
+			rowHeight: 35,
 		};
 
 

@@ -1,178 +1,101 @@
 <!DOCTYPE html>
-<html
-lang="ko"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{layout/layout}"
->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <head>
 <style>
-	.slick-cell-checkboxsel {
-		background: #f0f0f0;
-		border-right-color: silver;
-		border-right-style: solid;
-		text-align: center;
-	}
+.slick-cell-checkboxsel {
+	background: #f0f0f0;
+	border-right-color: silver;
+	border-right-style: solid;
+	text-align: center;
+}
 </style>
-</head>>
+</head>
+>
 <th:block layout:fragment="content">
 	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 	<div class="page-wrapper" id="page-wrapper">
-	<div class="container" id="container">
-		<h2>Job Runs</h2>
-		<div class="ptag-container">
-		<span><a href="#"> Job Management ></a></span>
-		<span><a href="#"> Job Runs</a></span>
-		<div class="form-container">
-			<div class="form-box">
-			<form
-				id="filter-form"
-				name="form"
-				method="post"
-				action="/WRKBAT002M0SelectList"
-				onsubmit="return false;"
-			>
-				<div class="row">
-				<!-- Month Select -->
-				<div class="col-auto">
-					<label class="form-label"> Month: </label>
-					<select
-						name="user[month]"
-						class="form-select select-month-year p-1"
-						id="inputMonth"
-					>
-						<option selected value="">- Month -</option>
-						<!-- Month Options -->
-						<option value="1">January</option>
-						<option value="2">February</option>
-						<option value="3">March</option>
-						<option value="4">April</option>
-						<option value="5">May</option>
-						<option value="6">June</option>
-						<option value="7">July</option>
-						<option value="8">August</option>
-						<option value="9">September</option>
-						<option value="10">October</option>
-						<option value="11">November</option>
-						<option value="12">December</option>
-					</select>
-				  </div>
-				<!-- Year Select -->
-				<div class="col-auto">
-					<label class="form-label"> Year: </label>
-					<select
-						name="user[year]"
-						class="form-select select-month-year p-1"
-						id="inputYear"
-					>
-						<option selected value="">- Year -</option>
-						<!-- Year Options -->
-						<option value="2020">2020</option>
-						<option value="2021">2021</option>
-						<option value="2022">2022</option>
-						<option value="2023">2023</option>
-						<option value="2024">2024</option>
-						<option value="2025">2025</option>
-						<option value="2026">2026</option>
-					</select>
-				  </div>
-				<div class="col-auto">
-					<label class="form-label"> Program ID/Name: </label>
-					<input
-					id="inpSearchTxt"
-					name="inpSearchTxt"
-					type="text"
-					class="form-input-temp"
-					placeholder="Program ID/Name"
-					/>
+		<div class="container" id="container">
+			<h2>[[${menuNm}]]</h2>
+			<div class="ptag-container">
+				<span>[[${navigator}]]</span>
+				<div class="form-container">
+					<div class="form-box">
+						<form id="filter-form" name="form" method="post" action="/WRKBAT002M0SelectList" onsubmit="return false;">
+							<div class="row">
+								<!-- Month Select -->
+								<div class="col-auto">
+									<label class="form-label"> Month: </label>
+									<select name="user[month]" class="form-select select-month-year p-1" id="inputMonth">
+										<option selected value="">- Month -</option>
+										<!-- Month Options -->
+										<option value="1">January</option>
+										<option value="2">February</option>
+										<option value="3">March</option>
+										<option value="4">April</option>
+										<option value="5">May</option>
+										<option value="6">June</option>
+										<option value="7">July</option>
+										<option value="8">August</option>
+										<option value="9">September</option>
+										<option value="10">October</option>
+										<option value="11">November</option>
+										<option value="12">December</option>
+									</select>
+								</div>
+								<!-- Year Select -->
+								<div class="col-auto">
+									<label class="form-label"> Year: </label>
+									<select name="user[year]" class="form-select select-month-year p-1" id="inputYear">
+										<option selected value="">- Year -</option>
+										<!-- Year Options -->
+										<option value="2020">2020</option>
+										<option value="2021">2021</option>
+										<option value="2022">2022</option>
+										<option value="2023">2023</option>
+										<option value="2024">2024</option>
+										<option value="2025">2025</option>
+										<option value="2026">2026</option>
+									</select>
+								</div>
+								<div class="col-auto">
+									<label class="form-label"> Program ID/Name: </label> <input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Program ID/Name" />
+								</div>
+								<div class="col-auto">
+									<button type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
+								</div>
+								<div class="col text-end flex-direction:row">
+									<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" id="executeBatch">Execute</button>
+									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">Download</button>
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
-				<div class="col-auto">
-					<button
-					type="button"
-					class="btn btn-primary search-button p-1"
-					style="padding: 4px 10px; color: white; font-size: 13px"
-					onclick="main()"
-					>
-					Search
-					</button>
-				</div>
-				<div class="col text-end flex-direction:row">
-					<button
-					type="button"
-					class="btn btn-primary"
-					style="padding: 4px 10px; color: white; font-size: 13px"
-					id="executeBatch"
-					>
-					Execute
-					</button>
-					<button
-					type="button"
-					class="btn btn-lime"
-					style="padding: 4px 10px; color: white; font-size: 13px"
-					id="downloadExcel"
-					>
-					Download
-					</button>
-				</div>
-				</div>
-			</form>
-			</div>
-		</div>
-		<div style="padding-top: 2em"></div>
-		<div id="divMyGrid">
-			<table align="center" class="table"></table>
-		</div>
-		</div>
-		<div class="popupDataForm">
-		<button
-			type="button"
-			class="btn btn-primary"
-			data-bs-toggle="modal"
-			data-bs-target="#exampleModal"
-			style="display: none"
-		>
-			Launch modal with form
-		</button>
-		<div
-			class="modal fade"
-			id="exampleModal"
-			tabindex="-1"
-			style="display: none"
-		>
-			<div class="modal-dialog modal-small" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-				<h5 class="modal-title">New report</h5>
-				<button
-					type="button"
-					class="btn-close"
-					data-bs-dismiss="modal"
-					aria-label="Close"
-				></button>
-				</div>
-				<div class="modal-body">
-				<div class="row"></div>
-				</div>
-				<div class="modal-footer">
-				<a
-					href="#"
-					class="btn btn-link link-secondary"
-					data-bs-dismiss="modal"
-					>Cancel</a
-				>
-				<a
-					href="#"
-					class="btn btn-primary ms-auto"
-					data-bs-dismiss="modal"
-					style="padding: 4px 10px; color: white; font-size: 13px"
-					>Save changes</a
-				>
+				<div style="padding-top: 2em"></div>
+				<div id="divMyGrid">
+					<table align="center" class="table"></table>
 				</div>
 			</div>
+			<div class="popupDataForm">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">Launch modal with form</button>
+				<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+					<div class="modal-dialog modal-small" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">New report</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="row"></div>
+							</div>
+							<div class="modal-footer">
+								<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a> <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">Save changes</a>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		</div>
-	</div>
 	</div>
 	<script src="js/utils.js"></script>
 	<script>
@@ -233,12 +156,12 @@ layout:decorate="~{layout/layout}"
 		var columns = [
 						checkboxSelector1.getColumnDefinition()	 
 					, { id: unqId,			name: "Program ID",			field: unqId,			width: 80,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[createValidator,noWhitespaceValidator]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
-					, { id: "batProgNm",	name: "Program Name",		field: "batProgNm",		width: 400,	sortable: true,	editor: Slick.Editors.Text,validator: createValidator,headerCssClass: "slick-header-columns" }
-					, { id: "upProgId",		name: "Group Name",			field: "upProgId",		width: 100,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[ createValidator,noWhitespaceValidator,]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
+					, { id: "batProgNm",	name: "Program Name",		field: "batProgNm",		width: 300,	sortable: true,	editor: Slick.Editors.Text,validator: createValidator,headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+					, { id: "upProgId",		name: "Group Name",			field: "upProgId",		width: 140,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[ createValidator,noWhitespaceValidator,]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
 					, { id: "exePrd",		name: "Cycle",				field: "exePrd",		width: 80,	sortable: true,	editor: function (args) { return new ComboBoxEditor( args,[ { key: "Y", value: "Y" },{ key: "Q", value: "Q" },{ key: "M", value: "M" },] ); },headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
-					, { id: "mainEmpNo",	name: "Main User",			field: "mainEmpNo",		width: 100,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[ createValidator,noWhitespaceValidator,]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
-					, { id: "subEmpNo",		name: "Sub User",			field: "subEmpNo",		width: 100,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[ createValidator,noWhitespaceValidator,]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
-					, { id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 100,	sortable: true,	editor: Slick.Editors.Text,headerCssClass: "slick-header-columns",cssClass: "slick-column-center"}
+					, { id: "mainEmpNo",	name: "Main User",			field: "mainEmpNo",		width: 120,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[ createValidator,noWhitespaceValidator,]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
+					, { id: "subEmpNo",		name: "Sub User",			field: "subEmpNo",		width: 120,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[ createValidator,noWhitespaceValidator,]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
+					, { id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 120,	sortable: true,	editor: Slick.Editors.Text,headerCssClass: "slick-header-columns",cssClass: "slick-column-center"}
 					, { id: "frstRegDtm",	name: "Registration Date",	field: "frstRegDtm",	width: 120,	sortable: true,	editor: Slick.Editors.Text,headerCssClass: "slick-header-columns",cssClass: "slick-column-center"}
 					];
 	
@@ -256,7 +179,8 @@ layout:decorate="~{layout/layout}"
 			, asyncEditorLoading: false
 			, autoEdit: false
 			, autoEditNewRow: false
-			};
+			, rowHeight: 35,
+		};
 	
 		var newRowIds = 0;
 	
@@ -287,23 +211,7 @@ layout:decorate="~{layout/layout}"
 			return stdYymm;
 		}
 		
-		function addSlickGridSomeStyling() {
-			const style = document.createElement("style");
-			style.innerHTML = `
-				.slick-header-columns {
-				font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-				font-size: 13px;
-				}
-				.slick-cell {
-				font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-				font-size: 13px;
-				}
-			`;
-			document.head.appendChild(style);
-		}
-	
 		function main() {
-			addSlickGridSomeStyling();
 			// 그리드 초기화 및 데이터 로드
 			console.log("Initializing SlickGrid...");
 			getList(

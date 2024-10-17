@@ -16,11 +16,11 @@
 						<div class="form-box">
 							<form id="filter-form" name="form" method="post" action="/WRKBAT003M0SelectList" onsubmit="return false;">
 								<div class="row">
-									<div class="col">
-										<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-input-temp" placeholder="Program ID/Name" value=""/>
-										<button id="inpSend" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">
-											Search
-										</button>
+									<div class="col-sm-6 col-md-3">
+										<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Program ID/Name" value=""/>
+									</div>
+									<div class="col-auto">
+										<button id="inpSend" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
 									</div>
 									<div class="col text-end">
 										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">
@@ -111,7 +111,7 @@
 		var columns = [
 			{ id: "batExeId",		name: "Execution ID",			field: "batExeId",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "batProgId",		name: "Program ID",				field: "batProgId",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "batProgNm",		name: "Program Name",			field: "batProgNm",		width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" },
+			{ id: "batProgNm",		name: "Program Name",			field: "batProgNm",		width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 			{ id: "batExeRstCd",	name: "Result",					field: "batExeRstCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "batExeErrCd",	name: "Error Code",				field: "batExeErrCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "stdYymm",		name: "Standard Year/Month",	field: "stdYymm",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
@@ -133,7 +133,8 @@
 				enableAddRow: true,
 	  			asyncEditorLoading: false,
 	   			autoEdit: false,
-	 			autoEditNewRow: false
+	 			autoEditNewRow: false,
+	 			rowHeight: 35,
 			};
 	
 		var newRowIds = 0;
@@ -152,23 +153,7 @@
 			},
 		};
 
-		function addSlickGridSomeStyling() {
-			const style = document.createElement("style");
-			style.innerHTML = `
-				.slick-header-columns {
-					font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-					font-size: 13px;
-				}
-				.slick-cell {
-					font-family: San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-					font-size: 13px;
-				}
-				`;
-			document.head.appendChild(style);
-		}
-
 			function main() {
-				addSlickGridSomeStyling();
 				// 그리드 초기화 및 데이터 로드
 				console.log("Initializing SlickGrid...");
 				getList(
