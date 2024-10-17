@@ -143,8 +143,8 @@
 				}
 				});
 				// @formatter: on
-		  </script>
-		  <script>
+		</script>
+		<script>
 			// @formatter:off
 			document.addEventListener("DOMContentLoaded",
 			function() {
@@ -163,7 +163,14 @@
 				}
 				});
 				// @formatter: on
-		  </script>
+		</script>
+		<script>
+			var gv_today = "[[${today}]]";
+			var gv_todayArr = gv_today.split("-");
+			var gv_year = gv_todayArr[0];
+			var gv_month = gv_todayArr[1];
+			var gv_day = gv_todayArr[2];
+		</script>
 	</head>
 </th:block>
 </html>

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.core.utils.DateUtil;
 import com.rds.adams.web.core.utils.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,7 @@ public class BusinessInterceptor extends WebContentInterceptor {
 			modelAndView.addObject("menuNm", menuNm);
 			modelAndView.addObject("navigator", getNavigator(request, menuId));
 			modelAndView.addObject("loginDTO", adamsLoginDTO);
+			modelAndView.addObject("today", DateUtil.getToday());
 		}
 		
 		log.info("========================================================");
