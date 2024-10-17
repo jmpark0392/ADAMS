@@ -453,29 +453,25 @@
 	        // 신규버튼 누르면 동작하는 함수
 	        function openDetails(modalType) {
 
-				let hiddenColumns;
-				let options6 = [
-					{ value: "1", text: "Option 1", column: "dataTpCd" },
-					{ value: "2", text: "Option 2", column: "dataTpCd" },
-					{ value: "3", text: "Option 3", column: "dataTpCd" },
+				let options1 = [
+					{ value: "VARCHAR", text: "VARCHAR", column: "dataTpCd" },
+					{ value: "NUMBER", text: "NUMBER", column: "dataTpCd" },
+					{ value: "DATE", text: "DATE", column: "dataTpCd" },
+					{ value: "TIMESTAMP", text: "TIMESTAMP", column: "dataTpCd" },
 				];
 
-				let options8 = [
-					{ value: "1", text: "Option 1", column: "vlvlVrfYn" },
-					{ value: "2", text: "Option 2", column: "vlvlVrfYn" },
-					{ value: "3", text: "Option 3", column: "vlvlVrfYn" },
-				];
-				console.log("options6 in the console:", options6);
+				let options2 = [
+					{ value: "Y", text: "Y", column: " "},
+					{ value: "N", text: "N", column: " "}
+					];
+				
 	          grid.render();
 	
 	          let originalData = null; // 수정 직전의 데이터를 저장할 변수
 	
-	          if (
-	            grid.getEditorLock().isActive() &&
-	            !grid.getEditorLock().commitCurrentEdit()
-	          ) {
-	            return;
-	          }
+				if ( grid.getEditorLock().isActive() && !grid.getEditorLock().commitCurrentEdit()) {
+					return;
+					}
 	
 	          //신규버튼을 누르면 가장 아래 셀을 선택 후 신규만 입력하도록 ActiveCell을 설정
 	          if (modalType === "create") {
@@ -490,20 +486,18 @@
 
 			  let column = grid.getColumns()[activeCellIndex];
 			  
-			  if((modalType === "edit" && !dataContext) || !column || !activeCell){
+			  if(( modalType === "edit" && !dataContext) || !column || !activeCell ){
 				  alert("Please select a cell to edit.");
 				  return;
 			  }
 	
-	          if (!options.enableCellNavigation) {
-	            throw new Error(
-	              'Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.'
-	            );
-	          } else if (!activeCell && modalType === "edit") {
-	            alert("Please select the column to change its value");
+				if (!options.enableCellNavigation) {
+					throw new Error('Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
+				} else if (!activeCell && modalType === "edit") {
+					alert("Please select the column to change its value");
 				return ;
-	          }	
-	          renewOptions(false);
+				}	
+				renewOptions(false);
 	          
 	            const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
 	            const modalTitleElem = document.querySelector(".modal-title");
@@ -515,9 +509,7 @@
 	            if(modalTitleElem){
 					if (modalType === "create") {
 					modalTitleElem.textContent = "NEW";
-					const existingDeleteButton = document.querySelector(
-						".modal-footer .btn-danger"
-					);
+					const existingDeleteButton = document.querySelector(".modal-footer .btn-danger");
 					if (existingDeleteButton) {
 						existingDeleteButton.remove();
 					}
@@ -525,9 +517,7 @@
 					} else if (modalType === "edit") {
 						modalTitleElem.textContent = "EDIT";
 
-						const existingDeleteButton = document.querySelector(
-							".modal-footer .btn-danger"
-						);
+						const existingDeleteButton = document.querySelector(".modal-footer .btn-danger");
 						if (existingDeleteButton) {
 							existingDeleteButton.remove();
 						}
@@ -616,8 +606,46 @@
 						inputElem.value = selectedValue;
 						inputElem.disabled = true;
 					}
-
-					formGroupElem.appendChild(inputElem);
+					
+					if (column.id === "dataTpCd" || column.id === "pkYn" || column.id === "vlvlVrfYn" || column.id === "selBasYn") {
+						const selectInput = document.createElement('select');
+						selectInput.className = "form-select";
+						selectInput.dataset.editorid = column.id;
+		 				
+						const defaultOption = document.createElement('option');
+						defaultOption.value = "";
+						defaultOption.textContent = "- options -";
+						selectInput.appendChild(defaultOption);
+						
+						let optionsData = [];
+						
+						if(column.id === "dataTpCd"){
+						 	optionsData = options1;
+					  	} else {
+						 	optionsData = options2;
+					  	}
+						
+						optionsData.forEach(option => {
+							const optionElem = document.createElement('option');
+							optionElem.value = option.value;
+							optionElem.textContent = option.text;
+							selectInput.appendChild(optionElem);
+						});
+						
+						if (modalType === "edit") {
+							selectInput.value = dataContext[column.field] || "";
+						}
+			
+						formGroupElem.appendChild(selectInput);
+					} else {
+						const inputElem = document.createElement('input');
+						 inputElem.className = "form-control";
+						 
+						 inputElem.dataset.editorid = column.id;
+						 inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+						 formGroupElem.appendChild(inputElem);
+						
+					}
 
 					colElem.appendChild(formGroupElem);
 					currentRow.appendChild(colElem);
