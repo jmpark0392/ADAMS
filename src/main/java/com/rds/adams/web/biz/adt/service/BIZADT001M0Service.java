@@ -22,7 +22,7 @@ public class BIZADT001M0Service {
 	}
 	
 	public void executeList(ExecuteDTO inVo) {
-		bIZADT001M0DAO.deleteList(inVo);
+		bIZADT001M0DAO.deleteListBf(inVo);
 		bIZADT001M0DAO.insertList(inVo);
 	}
 	

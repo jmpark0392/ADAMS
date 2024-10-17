@@ -362,7 +362,7 @@
 		// 신규버튼 누르면 동작하는 함수
 		function openDetails(modalType) {
 			
-			const hiddenColumns = [unqId,"frstRegEmpNo","frstRegDtm"];
+			const hiddenColumns = [unqId,"usrNm","frstRegDtm"];
 			
 			let options6 = [
 				{ value: "Y", text: "Y", column: " " },
@@ -457,7 +457,8 @@
 							// delete the selected row
 							dataView.deleteItem(dataContext[unqId]);
 							fn_deleteCs(JSON.stringify(dataContext));
-							location.reload(true);
+							//location.reload(true);
+							modalElement.hide();
 						}
 						};
 					}

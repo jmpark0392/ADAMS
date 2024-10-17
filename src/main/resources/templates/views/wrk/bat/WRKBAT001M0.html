@@ -366,9 +366,9 @@
 			let hiddenColumns;
 			
 			if (modalType === "create") {
-				hiddenColumns = ["frstRegEmpNo","frstRegDtm"];
+				hiddenColumns = ["usrNm","frstRegDtm"];
 			} else {
-				hiddenColumns = ["batProgId","frstRegEmpNo","frstRegDtm"];  // 컬럼 숨기기
+				hiddenColumns = ["batProgId","usrNm","frstRegDtm"];  // 컬럼 숨기기
 			}
 			
 			let options4 = [
@@ -414,18 +414,57 @@
 
         
         // Define the modal title based on action
-        if (modalTitleElem) {
-          if (modalType === "create") {
-            modalTitleElem.textContent = "NEW";
-            // modalTitleElem.className = "mb-3";
-          } else if (modalType === "edit") {
-            modalTitleElem.textContent = "EDIT";
-            originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
-          }
-        } else {
-          console.error("error while loading the moda title: ");
-        }
-        renewOptions(false);
+		if (modalTitleElem) {
+			if (modalType === "create") {
+				modalTitleElem.textContent = "NEW";
+				const existingDeleteButton = document.querySelector(".modal-footer .btn-danger");
+				if (existingDeleteButton) {
+					existingDeleteButton.remove();
+				}
+			} else if (modalType === "edit") {
+				modalTitleElem.textContent = "EDIT";
+				
+				const existingDeleteButton = document.querySelector(".modal-footer .btn-danger");
+				if (existingDeleteButton) {
+					existingDeleteButton.remove();
+				}
+
+				const delBtn = document.createElement("a");
+				delBtn.href = "#";
+				delBtn.className = "btn btn-danger delete";
+				delBtn.dataset.dismiss = "modal";
+				delBtn.style.padding = "4px 10px";
+				delBtn.style.color = "white";
+				delBtn.style.fontSize = "13px";
+				delBtn.textContent = "Delete";
+				modalTitleElem.appendChild(delBtn);
+				// getelemtn by class name
+				const divColAuto = document.getElementsByClassName("col-auto me-0");
+
+				if (divColAuto.length > 0) {
+					divColAuto[0].appendChild(delBtn);
+				} else {
+					console.error("divColAuto is not found.");
+				}
+
+				const deleteButton = document.querySelector(".modal-footer .btn-danger");
+				if (deleteButton) {
+					// we remove the existing click event listener
+					// existingDeleteButton.onclick = null;
+					deleteButton.onclick = function () {
+						if (confirm("Do you want to delete?") == true) {
+							// delete the selected row
+							dataView.deleteItem(dataContext[unqId]);
+							deleteList(JSON.stringify(dataContext));
+							modalElement.hide();
+						}
+					};
+			}
+			originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
+		} else {
+			console.error("error while loading the moda title: ");
+		}
+		renewOptions(false);
         
 
 		// Dynamically create form elements based on the columns that have editors
@@ -545,7 +584,7 @@
 			if (modalType === "create") {
 				// Add new item to grid data
 				if (checkData(formData)) {
-					formData[unqId] = grid.getDataLength() + 1;
+					//formData[unqId] = grid.getDataLength() + 1;
 					//dataView.insertItem(grid.getDataLength(), formData);
 					if(confirm("Do you want to register?") == true){
 						insertList(JSON.stringify(formData));
@@ -589,13 +628,14 @@
 			}
 			modalElement.hide(); // we hide the modal
 		}
-		/*
+
 		closeBtn.addEventListener("click", function () {
 			if (modalType === "edit" && originalData) {
 				dataView.updateItem(originalData[unqId], originalData); // Revert changes if canceled
 			}
-		}); */
+		});
 	}
+}
 		</script>
 </th:block>
 </html>

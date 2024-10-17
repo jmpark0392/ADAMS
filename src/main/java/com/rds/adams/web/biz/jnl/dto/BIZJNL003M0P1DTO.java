@@ -31,22 +31,22 @@ public class BIZJNL003M0P1DTO {
 	@Schema(description = "행번호")
 	private int rowNumber;
 	
-	@Schema(description = "행번호")
+	@Schema(description = "기준년월")
 	private String stdYymm;
 	
-	@Schema(description = "행번호")
+	@Schema(description = "분개번호")
 	private String jrnlNo;
 	
-	@Schema(description = "행번호")
+	@Schema(description = "계정과목코드")
 	private String atitCd;
 	
-	@Schema(description = "행번호")
+	@Schema(description = "과목명")
 	private String atitNm;
 	
-	@Schema(description = "행번호")
+	@Schema(description = "차대구분")
 	private String drCrDvCd;
 	
-	@Schema(description = "행번호")
+	@Schema(description = "분개금액")
 	private String jrnlAmt;
 	
 	

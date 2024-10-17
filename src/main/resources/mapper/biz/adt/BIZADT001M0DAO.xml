@@ -4,33 +4,99 @@
 
 <mapper namespace="com.rds.adams.web.biz.adt.dao.BIZADT001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.adt.dto.BIZADT001M0P0DTO" resultType="com.rds.adams.web.biz.adt.dto.BIZADT001M0R0DTO">
-	   SELECT
+       SELECT
 	          A.STD_YYMM         AS STD_YYMM
 	        , A.SEQ_NO           AS SEQ_NO
 	        , A.ATIT_CD          AS ATIT_CD
 	        , B.ATIT_ENG_NM      AS ATIT_NM
 	  	    , A.INSU_PL_ITM_CD   AS INSU_PL_ITM_CD
-			, NULL               AS INSU_PL_ITM_NM
+			, C.VLVL_DESC        AS INSU_PL_ITM_NM
 	  	    , A.ACNT_AMT         AS ACNT_AMT
 	  	    , A.INSU_PL_ITM_AMT  AS INSU_PL_ITM_AMT
 	  	    , A.DIFF_AMT         AS DIFF_AMT
-	        , A.FRST_REG_EMP_NO  AS FRST_REG_EMP_NO
+	        , D.USR_NM           AS FRST_REG_EMP_NO
 	        , A.FRST_REG_DTM     AS FRST_REG_DTM
 	     FROM TB_ACNT_RECT_LST AS A
 	    INNER JOIN TB_ATIT_MNG_LST AS B
-	       ON A.ATIT_CD = B.ATIT_CD
-	     WHERE 1=1
+	      ON A.ATIT_CD = B.ATIT_CD
+        LEFT OUTER JOIN TB_CO_CD_DTLS_LST C
+          ON A.INSU_PL_ITM_CD = C.VLVL_CD AND C.CD_ID = 'C0003'
+        LEFT OUTER JOIN TB_USR_MNG_LST D 
+          ON A.FNL_UPD_EMP_NO = D.USR_ID
+       WHERE 1=1
 	     <if test= 'csNo != "999"'>
 	       AND A.CS_NO        = #{csNo}
 	     </if>
-         <if test='searchTxt != ""'>
+         <if test='searchTxt != "" and searchTxt != null'>
            AND (
                    A.ATIT_CD LIKE '%' + #{searchTxt} + '%'
                 OR B.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
                 )
          </if>
-         <if test='stdYymm != "" and stdYymm != null'>
            AND A.STD_YYMM LIKE '%' + #{stdYymm} + '%'
-         </if>
+          ORDER BY CONVERT(INT, A.SEQ_NO)
     </select>
+        <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.adt.dto.BIZADT001M0P1DTO">
+		DELETE FROM TB_ACNT_RECT_LST
+		 WHERE 1=1
+		   AND STD_YYMM  = #{stdYymm}
+		   AND CS_NO     = #{csNo}
+	</delete>
+	<insert id="insertList" parameterType="com.rds.adams.web.biz.adt.dto.BIZADT001M0P1DTO">
+		INSERT INTO [dbo].[TB_ACNT_RECT_LST] (
+			  [CS_NO]
+			, [STD_YYMM]
+			, [SEQ_NO]
+			, [ATIT_CD]
+			, [INSU_PL_ITM_CD]
+			, [ACNT_AMT]
+			, [INSU_PL_ITM_AMT]
+			, [DIFF_AMT]
+			, [FRST_REG_EMP_NO]
+			, [FRST_REG_DTM]
+			, [FNL_UPD_EMP_NO]
+			, [FNL_UPD_DTM]
+		)
+		SELECT 
+		       #{csNo}                              AS CS_NO
+		     , #{stdYymm}                           AS STD_YYMM 
+		     , SEQ                                  AS SEQ_NO
+		     , MAX(ATIT_CD)                         AS ATIT_CD
+		     , MAX(INSU_PL_ITM_CD)                  AS INSU_PL_ITM_CD
+		     , SUM(ACNT_AMT)                        AS ACNT_AMT
+		     , SUM(INSU_PL_ITM_AMT)                 AS INSU_PL_ITM_AMT
+		     , SUM(ACNT_AMT) - SUM(INSU_PL_ITM_AMT) AS DIFF_AMT
+			 , #{usrId}                  AS FRST_REG_EMP_NO
+			 , GETDATE()                 AS FRST_REG_DTM
+			 , #{usrId}                  AS FNL_UPD_EMP_NO
+			 , GETDATE()                 AS FNL_UPD_DTM
+		  FROM (
+					SELECT  '1'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT ACNT_AMT, 0 INSU_PL_ITM_AMT 
+							                                        FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '3010102010' UNION ALL -- OCI 
+					SELECT  '2'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT, 0   FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '4010105010' UNION ALL -- new contract
+					SELECT  '3'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT, 0   FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '5010201030' UNION ALL -- interest effect
+					SELECT  '4'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT, 0   FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '4010102010' UNION ALL -- expected premium 
+					SELECT  '5'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT, 0   FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '4010103010' UNION ALL -- expected fee
+					SELECT  '6'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT, 0   FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '4010105030' UNION ALL -- CLCL
+					SELECT  '7'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT, 0   FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '4010107030' UNION ALL -- refund
+					SELECT  '8'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT, 0   FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '4010107010' UNION ALL -- mature
+					SELECT  '9'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT, 0   FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '4010104010' UNION ALL -- investigation
+					SELECT '10'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT, 0   FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '4010102040' UNION ALL -- assumption
+					SELECT '11'  AS SEQ, ATIT_CD, '' INSU_PL_ITM_CD, ENTM_AMT, 0   FROM TB_FS_LST WHERE STD_YYMM = #{stdYymm} AND ATIT_CD = '4010302010'           -- fx
+					UNION ALL
+					--- 기초금액 검증
+					SELECT  '1'  AS SEQ, '', '002'  AS DV, 0, SUM(OCI_AMT)                FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL -- 
+					SELECT  '2'  AS SEQ, '', '003'  AS DV, 0, SUM(NEW_CONT_AMT)           FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL -- 
+					SELECT  '3'  AS SEQ, '', '004'  AS DV, 0, SUM(INT_EFFT_AMT)           FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL -- 
+					SELECT  '4'  AS SEQ, '', '005'  AS DV, 0, SUM(ESTM_PRM) 		      FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL -- 
+					SELECT  '5'  AS SEQ, '', '006'  AS DV, 0, SUM(ESTM_FEE) 		      FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL --
+					SELECT  '6'  AS SEQ, '', '007'  AS DV, 0, SUM(ESTM_NEW_CONT_CCLS_AMT) FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL --
+					SELECT  '7'  AS SEQ, '', '008'  AS DV, 0, SUM(ESTM_FEE_RFND_AMT)      FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL --
+					SELECT  '8'  AS SEQ, '', '009'  AS DV, 0, SUM(ESTM_CONT_MTN_AMT)      FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL --
+					SELECT  '9'  AS SEQ, '', '010'  AS DV, 0, SUM(ESTM_IVSG_EXP_AMT)      FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL --
+					SELECT '10'  AS SEQ, '', '011'  AS DV, 0, SUM(ATS_ASSM_UPD_AMT)       FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL --
+					SELECT '11'  AS SEQ, '', '012'  AS DV, 0, SUM(EXRT_EFFT_AMT) 	      FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm}  --
+				) AA
+	GROUP BY SEQ
+	</insert>
 </mapper>

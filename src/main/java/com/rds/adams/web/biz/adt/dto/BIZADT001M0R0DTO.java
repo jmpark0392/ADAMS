@@ -40,6 +40,9 @@ public class BIZADT001M0R0DTO {
 	@Schema(description = "계정과목명")
 	private String atitNm;
 	
+	@Schema(description = "보험손익명")
+	private String insuPlItmNm;
+	
 	@Schema(description = "보험손익항목코드")
 	private String insuPlItmCd;
 	

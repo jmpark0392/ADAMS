@@ -15,6 +15,6 @@ public interface BIZADT001M0DAO {
 	
 	public void insertList(ExecuteDTO inVo);
 	
-	public void deleteList(ExecuteDTO inVo);
+	public void deleteListBf(ExecuteDTO inVo);
 	
 }

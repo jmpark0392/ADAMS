@@ -12,10 +12,13 @@
                          , DR_AMT
                          , CR_AMT
                          , ENTM_AMT
-                         , FRST_REG_EMP_NO  AS FRST_REG_EMP_NO
+                         , FNL_UPD_EMP_NO   AS FNL_UPD_EMP_NO
                          , FRST_REG_DTM     AS FRST_REG_DTM
                       FROM TB_FS_LST 
                      WHERE 1=1
+                     <if test= 'csNo != "999"'>
+					   AND CS_NO        = #{csNo}
+					 </if>
                      <if test='stdYymm != "" and stdYymm != null'>
                        AND STD_YYMM = #{stdYymm} 
                      </if>
@@ -28,7 +31,7 @@
                          , SUM( DR_AMT   )  AS DR_AMT
                          , SUM( CR_AMT   )  AS CR_AMT
                          , SUM( ENTM_AMT )  AS ENTM_AMT
-                         , ''  AS FRST_REG_EMP_NO
+                         , ''     AS FNL_UPD_EMP_NO
                          , ''     AS FRST_REG_DTM
                         FROM LVL4 A
                         LEFT OUTER JOIN TB_ATIT_MNG_LST B
@@ -43,7 +46,7 @@
                          , SUM( DR_AMT   )  AS DR_AMT
                          , SUM( CR_AMT   )  AS CR_AMT
                          , SUM( ENTM_AMT )  AS ENTM_AMT
-                         , ''  AS FRST_REG_EMP_NO
+                         , ''     AS FNL_UPD_EMP_NO
                          , ''     AS FRST_REG_DTM
                       FROM LVL3 A
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
@@ -58,7 +61,7 @@
                          , SUM( DR_AMT   )  AS DR_AMT
                          , SUM( CR_AMT   )  AS CR_AMT
                          , SUM( ENTM_AMT )  AS ENTM_AMT
-                         , ''  AS FRST_REG_EMP_NO
+                         , ''     AS FNL_UPD_EMP_NO
                          , ''     AS FRST_REG_DTM
                       FROM LVL2 A
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
@@ -78,7 +81,7 @@
              , DR_AMT                                 AS DR_AMT
              , CR_AMT                                 AS CR_AMT
              , ENTM_AMT                               AS ENTM_AMT
-             , AA.FRST_REG_EMP_NO                     AS FRST_REG_EMP_NO
+             , CC.USR_NM                              AS FRST_REG_EMP_NO
              , AA.FRST_REG_DTM                        AS FRST_REG_DTM
           FROM (
                            SELECT * FROM LVL4
@@ -88,10 +91,9 @@
                ) AA 
           LEFT OUTER JOIN TB_ATIT_MNG_LST BB 
             ON AA.ATIT_CD = BB.ATIT_CD
+          LEFT OUTER JOIN TB_USR_MNG_LST CC
+            ON AA.FNL_UPD_EMP_NO = CC.USR_ID
           WHERE 1=1
-        <if test= 'csNo != "999"'>
-            AND CS_NO        = #{csNo}
-        </if>
         <if test='searchTxt != ""'>
             AND (
                     AA.ATIT_CD     LIKE '%' + #{searchTxt} + '%'
