@@ -16,7 +16,9 @@
                          , FRST_REG_DTM     AS FRST_REG_DTM
                       FROM TB_FS_LST 
                      WHERE 1=1
-                       AND STD_YYMM = '202406' 
+                     <if test='stdYymm != "" and stdYymm != null'>
+                       AND STD_YYMM = #{stdYymm} 
+                     </if>
                        AND FS_DV_CD = 'PL'   --STD_YYMM , FS_DV_CD  변수
                   )
         , LVL3 AS (
@@ -86,21 +88,22 @@
                ) AA 
           LEFT OUTER JOIN TB_ATIT_MNG_LST BB 
             ON AA.ATIT_CD = BB.ATIT_CD
-		  WHERE 1=1
-			<if test= 'csNo != "999"'>
-				AND CS_NO        = #{csNo}
-			</if>
-			<if test='searchTxt != ""'>
-				AND (
-						ATIT_CD LIKE '%' + #{searchTxt} + '%'
-					 OR ATIT_NM LIKE '%' + #{searchTxt} + '%'
-					)
-			</if>
-			ORDER BY BB.ORD_SEQ
+         WHERE 1=1
+         <if test= 'csNo != "999"'>
+           AND CS_NO        = #{csNo}
+         </if>
+         <if test='searchTxt != ""'>
+           AND (
+                  AA.ATIT_CD     LIKE '%' + #{searchTxt} + '%'
+               OR BB.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
+               )
+         </if>
+         ORDER BY BB.ORD_SEQ
     </select>
     <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST002M0P1DTO">
         DELETE FROM TB_FS_LST
-        WHERE STD_YYMM = '202406'
+        WHERE STD_YYMM = #{stdYymm}
+          AND CS_NO    = #{csNo}
     </delete>
     <insert id="insertList" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST002M0P1DTO">
 		INSERT INTO [dbo].[TB_FS_LST] (
@@ -118,8 +121,8 @@
 			, [FNL_UPD_DTM]
 		) 
 		SELECT
-		       #{csNo}                                                         AS CS_NO
-		     , STD_YYMM                                                        AS STD_YYMM
+		       A.CS_NO                                                         AS CS_NO
+		     , A.STD_YYMM                                                      AS STD_YYMM
 		     , A.ATIT_CD                                                       AS ATIT_CD
 		     , B.FS_DV_CD                                                      AS FS_DV_CD
 		     , 0                                                               AS BAS_AMT
@@ -138,7 +141,8 @@
           FROM TB_JNL_RST_LST A
           LEFT OUTER JOIN TB_ATIT_MNG_LST B
             ON A.ATIT_CD = B.ATIT_CD 
-         WHERE STD_YYMM  = '202406'
-         GROUP BY STD_YYMM, A.ATIT_CD, B.FS_DV_CD     
+         WHERE A.STD_YYMM  = #{stdYymm}
+           AND A.CS_NO     = #{csNo}
+         GROUP BY A.CS_NO, A.STD_YYMM, A.ATIT_CD, B.FS_DV_CD
     </insert>    
 </mapper>

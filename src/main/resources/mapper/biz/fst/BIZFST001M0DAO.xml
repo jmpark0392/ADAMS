@@ -4,141 +4,145 @@
 
 <mapper namespace="com.rds.adams.web.biz.fst.dao.BIZFST001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST001M0P0DTO" resultType="com.rds.adams.web.biz.fst.dto.BIZFST001M0R0DTO">
-		WITH 
-		  LVL4 AS (
-		            SELECT 
-		                   ATIT_CD
-		                 , BAS_AMT
-		                 , DR_AMT
-		                 , CR_AMT
-		                 , ENTM_AMT
+        WITH 
+          LVL4 AS (
+                    SELECT 
+                           ATIT_CD
+                         , BAS_AMT
+                         , DR_AMT
+                         , CR_AMT
+                         , ENTM_AMT
                          , FRST_REG_EMP_NO  AS FRST_REG_EMP_NO
                          , FRST_REG_DTM     AS FRST_REG_DTM
-		              FROM TB_FS_LST 
-		             WHERE 1=1
-		               AND STD_YYMM = '202406' 
-		               AND FS_DV_CD = 'BS'   --STD_YYMM , FS_DV_CD  변수
-		          )
-		, LVL3 AS (
-		            SELECT 
-		                   B.HGRK_ATIT_CD   AS ATIT_CD
-		                 , SUM( BAS_AMT  )  AS BAS_AMT
-		                 , SUM( DR_AMT   )  AS DR_AMT
-		                 , SUM( CR_AMT   )  AS CR_AMT
-		                 , SUM( ENTM_AMT )  AS ENTM_AMT
+                      FROM TB_FS_LST 
+                     WHERE 1=1
+                     <if test='stdYymm != "" and stdYymm != null'>
+                       AND STD_YYMM = #{stdYymm} 
+                     </if>
+                       AND FS_DV_CD = 'BS'   --STD_YYMM , FS_DV_CD  변수
+                  )
+        , LVL3 AS (
+                    SELECT 
+                           B.HGRK_ATIT_CD   AS ATIT_CD
+                         , SUM( BAS_AMT  )  AS BAS_AMT
+                         , SUM( DR_AMT   )  AS DR_AMT
+                         , SUM( CR_AMT   )  AS CR_AMT
+                         , SUM( ENTM_AMT )  AS ENTM_AMT
                          , ''  AS FRST_REG_EMP_NO
                          , ''     AS FRST_REG_DTM
-		                FROM LVL4 A
-		                LEFT OUTER JOIN TB_ATIT_MNG_LST B
-		                  ON A.ATIT_CD = B.ATIT_CD
-		               WHERE B.AC_LVL_CD = '4'
-		               GROUP BY B.HGRK_ATIT_CD 
-		          )
-		, LVL2 AS (
-		            SELECT 
-		                   B.HGRK_ATIT_CD   AS ATIT_CD
-		                 , SUM( BAS_AMT  )  AS BAS_AMT
-		                 , SUM( DR_AMT   )  AS DR_AMT
-		                 , SUM( CR_AMT   )  AS CR_AMT
-		                 , SUM( ENTM_AMT )  AS ENTM_AMT
+                        FROM LVL4 A
+                        LEFT OUTER JOIN TB_ATIT_MNG_LST B
+                          ON A.ATIT_CD = B.ATIT_CD
+                       WHERE B.AC_LVL_CD = '4'
+                       GROUP BY B.HGRK_ATIT_CD 
+                  )
+        , LVL2 AS (
+                    SELECT 
+                           B.HGRK_ATIT_CD   AS ATIT_CD
+                         , SUM( BAS_AMT  )  AS BAS_AMT
+                         , SUM( DR_AMT   )  AS DR_AMT
+                         , SUM( CR_AMT   )  AS CR_AMT
+                         , SUM( ENTM_AMT )  AS ENTM_AMT
                          , ''  AS FRST_REG_EMP_NO
                          , ''     AS FRST_REG_DTM
-		              FROM LVL3 A
-		              LEFT OUTER JOIN TB_ATIT_MNG_LST B
-		                ON A.ATIT_CD = B.ATIT_CD
-		             WHERE B.AC_LVL_CD = '3'
-		             GROUP BY B.HGRK_ATIT_CD 
-		          ) 
-		, LVL1 AS (
-		            SELECT 
-		                   B.HGRK_ATIT_CD   AS ATIT_CD
-		                 , SUM( BAS_AMT  )  AS BAS_AMT
-		                 , SUM( DR_AMT   )  AS DR_AMT
-		                 , SUM( CR_AMT   )  AS CR_AMT
-		                 , SUM( ENTM_AMT )  AS ENTM_AMT
+                      FROM LVL3 A
+                      LEFT OUTER JOIN TB_ATIT_MNG_LST B
+                        ON A.ATIT_CD = B.ATIT_CD
+                     WHERE B.AC_LVL_CD = '3'
+                     GROUP BY B.HGRK_ATIT_CD 
+                  ) 
+        , LVL1 AS (
+                    SELECT 
+                           B.HGRK_ATIT_CD   AS ATIT_CD
+                         , SUM( BAS_AMT  )  AS BAS_AMT
+                         , SUM( DR_AMT   )  AS DR_AMT
+                         , SUM( CR_AMT   )  AS CR_AMT
+                         , SUM( ENTM_AMT )  AS ENTM_AMT
                          , ''  AS FRST_REG_EMP_NO
                          , ''     AS FRST_REG_DTM
-		              FROM LVL2 A
-		              LEFT OUTER JOIN TB_ATIT_MNG_LST B
-		                ON A.ATIT_CD = B.ATIT_CD
-		             WHERE B.AC_LVL_CD = '2'
-		             GROUP BY B.HGRK_ATIT_CD 
-		          )
-		SELECT 
-		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-		     , AA.ATIT_CD                             AS ATIT_CD
-		     , CASE WHEN BB.AC_LVL_CD = '4' THEN '----'
-		            WHEN BB.AC_LVL_CD = '3' THEN '---'
-		            WHEN BB.AC_LVL_CD = '2' THEN '--'
-		            ELSE '' END 
-		     + BB.ATIT_ENG_NM                         AS ATIT_NM
-		     , BAS_AMT                                AS BAS_AMT
-		     , DR_AMT                                 AS DR_AMT
-		     , CR_AMT                                 AS CR_AMT
-		     , ENTM_AMT                               AS ENTM_AMT
-		     , AA.FRST_REG_EMP_NO                     AS FRST_REG_EMP_NO
-		     , AA.FRST_REG_DTM                        AS FRST_REG_DTM
-		  FROM (
-		                   SELECT * FROM LVL4
-		         UNION ALL SELECT * FROM LVL3
-		         UNION ALL SELECT * FROM LVL2
-		         UNION ALL SELECT * FROM LVL1
-		       ) AA 
-		  LEFT OUTER JOIN TB_ATIT_MNG_LST BB 
-		    ON AA.ATIT_CD = BB.ATIT_CD
-		  WHERE 1=1
-			<if test= 'csNo != "999"'>
-				AND CS_NO        = #{csNo}
-			</if>
-			<if test='searchTxt != ""'>
-				AND (
-						ATIT_CD LIKE '%' + #{searchTxt} + '%'
-					 OR ATIT_NM LIKE '%' + #{searchTxt} + '%'
-					)
-			</if>
-			ORDER BY BB.ORD_SEQ
+                      FROM LVL2 A
+                      LEFT OUTER JOIN TB_ATIT_MNG_LST B
+                        ON A.ATIT_CD = B.ATIT_CD
+                     WHERE B.AC_LVL_CD = '2'
+                     GROUP BY B.HGRK_ATIT_CD 
+                  )
+        SELECT 
+               ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
+             , AA.ATIT_CD                             AS ATIT_CD
+             , CASE WHEN BB.AC_LVL_CD = '4' THEN '----'
+                    WHEN BB.AC_LVL_CD = '3' THEN '---'
+                    WHEN BB.AC_LVL_CD = '2' THEN '--'
+                    ELSE '' END 
+             + BB.ATIT_ENG_NM                         AS ATIT_NM
+             , BAS_AMT                                AS BAS_AMT
+             , DR_AMT                                 AS DR_AMT
+             , CR_AMT                                 AS CR_AMT
+             , ENTM_AMT                               AS ENTM_AMT
+             , AA.FRST_REG_EMP_NO                     AS FRST_REG_EMP_NO
+             , AA.FRST_REG_DTM                        AS FRST_REG_DTM
+          FROM (
+                           SELECT * FROM LVL4
+                 UNION ALL SELECT * FROM LVL3
+                 UNION ALL SELECT * FROM LVL2
+                 UNION ALL SELECT * FROM LVL1
+               ) AA 
+          LEFT OUTER JOIN TB_ATIT_MNG_LST BB 
+            ON AA.ATIT_CD = BB.ATIT_CD
+          WHERE 1=1
+        <if test= 'csNo != "999"'>
+            AND CS_NO        = #{csNo}
+        </if>
+        <if test='searchTxt != ""'>
+            AND (
+                    AA.ATIT_CD     LIKE '%' + #{searchTxt} + '%'
+                 OR BB.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
+                 )
+        </if>
+          ORDER BY BB.ORD_SEQ
     </select>
     <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST001M0P1DTO">
         DELETE FROM TB_FS_LST
-        WHERE STD_YYMM = #{stdYymm}
+         WHERE STD_YYMM = #{stdYymm}
+           AND CS_NO    = #{csNo}
     </delete>
     <insert id="insertList" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST001M0P1DTO">
-		INSERT INTO [dbo].[TB_FS_LST] (
-			  [CS_NO]
-			, [STD_YYMM]
-			, [ATIT_CD]
-			, [FS_DV_CD]
-			, [BAS_AMT]
-			, [DR_AMT]
-			, [CR_AMT]
-			, [ENTM_AMT]
-			, [FRST_REG_EMP_NO]
-		    , [FRST_REG_DTM]
-			, [FNL_UPD_EMP_NO]
-			, [FNL_UPD_DTM]
-		) 
-		SELECT
-		       #{csNo}                                                         AS CS_NO
-		     , STD_YYMM                                                        AS STD_YYMM
-		     , A.ATIT_CD                                                       AS ATIT_CD
-		     , B.FS_DV_CD                                                      AS FS_DV_CD
-		     , 0                                                               AS BAS_AMT
-		     , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' THEN JRNL_AMT ELSE 0 END )  AS DR_AMT
-		     , SUM( CASE WHEN A.DR_CR_DV_CD = 'CR' THEN JRNL_AMT ELSE 0 END )  AS CR_AMT
-		     , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT 
-		                 WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT * - 1 
-		                 WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT * - 1 
-		                 WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT 
-		                 ELSE JRNL_AMT  END 
-		           )                                                           AS ENTM_AMT
-		     , #{usrId}                                                        AS FRST_REG_EMP_NO
-		     , GETDATE()                                                       AS FRST_REG_DTM
-		     , #{usrId}                                                        AS FNL_UPD_EMP_NO
-		     , GETDATE()                                                       AS FNL_UPD_DTM
-		  FROM TB_JNL_RST_LST A
-		  LEFT OUTER JOIN TB_ATIT_MNG_LST B
-		    ON A.ATIT_CD = B.ATIT_CD 
-		 WHERE STD_YYMM  = #{stdYymm}
-		 GROUP BY STD_YYMM, A.ATIT_CD, B.FS_DV_CD     
+        INSERT INTO [dbo].[TB_FS_LST] (
+              [CS_NO]
+            , [STD_YYMM]
+            , [ATIT_CD]
+            , [FS_DV_CD]
+            , [BAS_AMT]
+            , [DR_AMT]
+            , [CR_AMT]
+            , [ENTM_AMT]
+            , [FRST_REG_EMP_NO]
+            , [FRST_REG_DTM]
+            , [FNL_UPD_EMP_NO]
+            , [FNL_UPD_DTM]
+        ) 
+        SELECT
+               A.CS_NO                                                           AS CS_NO
+             , A.STD_YYMM                                                        AS STD_YYMM
+             , A.ATIT_CD                                                         AS ATIT_CD
+             , B.FS_DV_CD                                                        AS FS_DV_CD
+             , 0                                                                 AS BAS_AMT
+             , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' THEN A.JRNL_AMT ELSE 0 END )  AS DR_AMT
+             , SUM( CASE WHEN A.DR_CR_DV_CD = 'CR' THEN A.JRNL_AMT ELSE 0 END )  AS CR_AMT
+             , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' AND  B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT 
+                         WHEN A.DR_CR_DV_CD = 'DR' AND  B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT * - 1 
+                         WHEN A.DR_CR_DV_CD = 'CR' AND  B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT * - 1 
+                         WHEN A.DR_CR_DV_CD = 'CR' AND  B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT 
+                         ELSE JRNL_AMT  END 
+                   )                                                             AS ENTM_AMT
+             , #{usrId}                                                          AS FRST_REG_EMP_NO
+             , GETDATE()                                                         AS FRST_REG_DTM
+             , #{usrId}                                                          AS FNL_UPD_EMP_NO
+             , GETDATE()                                                         AS FNL_UPD_DTM
+          FROM TB_JNL_RST_LST A
+          LEFT OUTER JOIN TB_ATIT_MNG_LST B
+            ON A.ATIT_CD = B.ATIT_CD 
+         WHERE A.STD_YYMM  = #{stdYymm}
+           AND A.CS_NO     = #{csNo}
+         GROUP BY A.CS_NO, A.STD_YYMM, A.ATIT_CD, B.FS_DV_CD     
     </insert>
 </mapper>

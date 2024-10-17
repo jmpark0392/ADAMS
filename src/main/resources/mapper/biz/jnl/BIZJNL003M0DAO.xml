@@ -9,11 +9,13 @@
                   , B.ATIT_ENG_NM                           AS ATIT_NM
                   , A.DR_CR_DV_CD                           AS DR_CR_DV_CD
                   , A.JRNL_AMT                              AS JRNL_AMT
-                  , A.FRST_REG_EMP_NO                       AS FRST_REG_EMP_NO
+                  , C.USR_NM                                AS FRST_REG_EMP_NO
                   , A.FRST_REG_DTM                          AS FRST_REG_DTM
                FROM TB_JNL_RST_LST AS A
               INNER JOIN TB_ATIT_MNG_LST AS B
-                 ON A.ATIT_CD = B.ATIT_CD
+                ON A.ATIT_CD = B.ATIT_CD
+              LEFT OUTER JOIN TB_USR_MNG_LST C 
+                ON A.FNL_UPD_EMP_NO = C.USR_ID
             <if test= 'csNo != "999"'>
                 AND A.CS_NO        = #{csNo}
             </if>

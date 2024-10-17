@@ -263,9 +263,7 @@
 
       function companyNameFormatter(row, cell, value, columnDef, dataContext) {
         var dataView = grid.getData();
-        // Check if the current row's company name is the same as the previous row's
 
-        // we get the row inde
         if (row > 0) {
           var prevItem = dataView.getItem(row - 1);
           if (prevItem && prevItem.compNm === value) {
@@ -669,11 +667,6 @@
             alert("Please enter a valid company code!");
             return false;
           }
-        }
-
-        // slice from 15551612 to 15,551,612
-        function sliceNumber(){
-
         }
 
         // search function to make a fetch call to the server
