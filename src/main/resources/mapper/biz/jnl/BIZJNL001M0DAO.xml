@@ -4,34 +4,36 @@
 
 <mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0R0DTO">
-		SELECT
+	   SELECT
 				ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-			, ATIT_CD
-			, ATIT_KOR_NM
-			, ATIT_ENG_NM
-			, HGRK_ATIT_CD
-			, AC_LVL_CD
-			, BKG_AC_YN
-			, FS_DV_CD
-			, AC_DV_CD
-			, AC_KIND_CD
-			, APP_ST_DT
-			, APP_ED_DT
-			, ORD_SEQ
-			, ETC_DESC
-			, USE_YN
-			, FRST_REG_EMP_NO
-			, FRST_REG_DTM
-		 FROM TB_ATIT_MNG_LST
+			, A.ATIT_CD
+			, A.ATIT_KOR_NM
+			, A.ATIT_ENG_NM
+			, A.HGRK_ATIT_CD
+			, A.AC_LVL_CD
+			, A.BKG_AC_YN
+			, A.FS_DV_CD
+			, A.AC_DV_CD
+			, A.AC_KIND_CD
+			, A.APP_ST_DT
+			, A.APP_ED_DT
+			, A.ORD_SEQ
+			, A.ETC_DESC
+			, A.USE_YN
+			, B.USR_NM         AS FRST_REG_EMP_NO
+			, A.FRST_REG_DTM
+		 FROM TB_ATIT_MNG_LST A 
+		 LEFT OUTER JOIN TB_USR_MNG_LST B 
+         ON A.FNL_UPD_EMP_NO = B.USR_ID
 		WHERE 1=1
 		<if test= 'csNo != "999"'>
-			AND CS_NO        = #{csNo}
+			AND A.CS_NO        = #{csNo}
 		</if>
 		<if test='searchTxt != ""'>
 			AND (
-					ATIT_CD     LIKE '%' + #{searchTxt} + '%'
-				OR  ATIT_KOR_NM LIKE '%' + #{searchTxt} + '%'
-				OR  ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
+					A.ATIT_CD     LIKE '%' + #{searchTxt} + '%'
+				OR  A.ATIT_KOR_NM LIKE '%' + #{searchTxt} + '%'
+				OR  A.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
 				)
 		</if>
 	</select>

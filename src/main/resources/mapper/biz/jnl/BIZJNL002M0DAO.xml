@@ -16,7 +16,7 @@
              , BB.ATIT_ENG_NM                         AS CR_AC_SUBJ_NM
              , AA.ETC_DESC                            AS ETC_DESC
              , AA.USE_YN                              AS USE_YN
-             , AA.FRST_REG_EMP_NO                     AS FRST_REG_EMP_NO
+             , CC.USR_NM                              AS FRST_REG_EMP_NO
              , AA.FRST_REG_DTM                        AS FRST_REG_DTM
           FROM (
                  SELECT
@@ -31,14 +31,16 @@
                       , A.CR_AC_SUBJ_CD   AS CR_AC_SUBJ_CD
                       , A.ETC_DESC        AS ETC_DESC
                       , A.USE_YN          AS USE_YN
-                      , A.FRST_REG_EMP_NO AS FRST_REG_EMP_NO
+                      , A.FNL_UPD_EMP_NO  AS FNL_UPD_EMP_NO
                       , A.FRST_REG_DTM    AS FRST_REG_DTM
                    FROM TB_JNL_RUL_MNG_LST AS A
                   INNER JOIN TB_ATIT_MNG_LST AS B
                      ON A.DR_AC_SUBJ_CD = B.ATIT_CD
                  ) AA
          INNER JOIN TB_ATIT_MNG_LST AS BB
-            ON AA.CR_AC_SUBJ_CD = BB.ATIT_CD
+           ON AA.CR_AC_SUBJ_CD = BB.ATIT_CD
+         LEFT OUTER JOIN TB_USR_MNG_LST CC 
+           ON AA.FNL_UPD_EMP_NO = CC.USR_ID
          WHERE 1=1
 		<if test= 'csNo != "999"'>
 			AND AA.CS_NO        = #{csNo}
