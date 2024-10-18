@@ -47,6 +47,9 @@
 					<div class="card card-md" id="divMyGrid">
 						<table class="table" align="center" style="width: 1284px; height: 500px"></table>
 					</div>
+					<div class="card card-md" id="divMyGridBackup"></div>
+						<table class="table" align="center" style="width: 1284px; height: 500px"></table>
+					</div>
 	 			</div>
 				<div class="popupDataForm">
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">
@@ -142,6 +145,22 @@
 
 			gf_Transaction(option, fn_callback);
 		}
+
+		function fn_getSrvcHistList(input) {
+			console.log("fn_getSrvcHistList input : " + input);
+			var option = {
+							id: "getSrvcHistList"
+						, type: "POST"
+						, url: "/OPNSRV003M0getChartInfos"
+						, async: false
+						, dataType: "json"
+						, contentType: "application/json; charset=utf-8"
+						, data: input,
+			};
+
+			gf_Transaction(option, fn_callback);
+		}
+		
 		
 	</script>
 	<script src="js/utils.js"></script>
@@ -182,19 +201,158 @@
 			});
 		});
 
+
+
+		function generateRandomId(data) {
+			data.forEach((item, index) => {
+				item.uniqueId = index + 1;
+			});
+			console.log("data after the unique id generation: ", data);
+			return data;
+		}
+
 		var grid;
 		var dataView;
 		var data;
+		var dataHist;
+		var unqIdHist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 		var unqId = "seqNo";
 		var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
 		var check_cols = [unqId, "fileNm", "tblId"];
+
+
 		var columns = [
-			{ id: unqId,			name: "ID",				field: unqId,			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: unqId,			name: "ID",				    field: unqId,			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "fileNm",			name: "Option Code",		field: "fileNm",		width: 250,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 			{ id: "dbId",			name: "Option Name",		field: "dbId",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 			{ id: "tblId",			name: "Option Price",		field: "tblId",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 			{ id: "fileDsc",		name: "Option Start Date",	field: "fileDsc",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 		];
+
+		var columnsHist = [
+        {
+          id: "compNm",       
+		  name: "Company Name",
+          field: "compNm",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          validator: (value, args) =>
+            complexValidator(value, args, [
+              createValidator,
+              noWhitespaceValidator,
+            ]),
+          width: 150,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-left",
+          formatter: companyNameFormatter,
+        },
+        {
+          id: "srvcNm",
+          name: "Service Name",
+          field: "srvcNm",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          validator: (value, args) =>
+            complexValidator(value, args, [
+              createValidator,
+              noWhitespaceValidator,
+            ]),
+          width: 150,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
+        }, 
+        {
+          id: "dayCnt",
+          name: "Usage Day Count",
+          field: "dayCnt",
+          sortable: true,
+          editor: function (args) {
+            return new ComboBoxEditor(args, [
+              { key: "Y", value: "Y" },
+              { key: "N", value: "N" },
+            ]);
+          },
+          width: 100,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-center",
+        }, 
+        {
+          id: "srvcCostSum",
+          name: "Service Cost Amount",
+          field: "srvcCostSum",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          validator: createValidator,
+          width: 120,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-right",
+          formatter: numberFormatter,
+        },
+        {
+          id: "srvcCostTotal",
+          name: "Service Cost Total",
+          field: "srvcCostTotal",
+          sortable: true,
+          editor: Slick.Editors.Text,
+          validator: createValidator,
+          width: 120,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-right",
+          formatter: numberFormatter,
+
+        },
+        {
+          id: "srvcCostExpTotal",
+          name: "Expected Total Cost",
+          field: "srvcCostExpTotal",
+          sortable: true,
+          formatter: numberFormatter,
+          editor: Slick.Editors.Text,
+          validator: (value, args) =>
+            complexValidator(value, args, [
+              createValidator,
+              noWhitespaceValidator,
+            ]),
+          width: 120,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-right",
+        },
+      ];
+
+	  function numberFormatter(row, cell, value, columnDef, dataContext) {
+        console.log(`Formatting value: ${value}`);
+
+        if(value !== null && !isNaN(value)){
+          // console.log("ADDING THE FORMAT: ", value);
+          return value.toLocaleString("en-US");
+        } else {
+          return value;
+        }
+        console.log("ADDING THE FORMAT: ", value);
+      }
+
+	  function companyNameFormatter(row, cell, value, columnDef, dataContext) {
+        var dataView = grid.getData();
+
+        if (row > 0) {
+          var prevItem = dataView.getItem(row - 1);
+          if (prevItem && prevItem.compNm === value) {
+            // we return an emoty strng to hide the value of the cell
+            return "";
+          }
+        }
+        return value;
+      }
+
+		// var columnsHist = [
+		// 	{ id: unqIdHist,		    name: "ID",				    field: unqIdHist,			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+		// 	{ id: "basicCnt",			name: "Option Code",		field: "basicCnt",		    width: 250,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+		// 	{ id: "premiumCnt",			name: "Option Name",		field: "premiumCnt",	    width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+		// 	{ id: "srvcCostExpSum",		name: "Option Price",		field: "srvcCostExpSum",	width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+		// 	{ id: "srvcCostSum",		name: "Option Start Date",	field: "srvcCostSum",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+		// 	{ id: "userAvg",		    name: "Option Start Date",	field: "userAvg",		    width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+		// 	{ id: "ymd",		        name: "Option Start Date",	field: "ymd",		        width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+		// ];
 
 		var options = {
 				enableCellNavigation: true,
@@ -232,41 +390,42 @@
 				// 그리드 초기화 및 데이터 로드
 				console.log("Initializing SlickGrid...");
 				getCsList(
-							(input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
-						);
+					(input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
+				);
 			}
 
-			
 			/**
 			* Transaction callback 함수
 			**/
 			function fn_callback(result){
-				//console.log("fn_callback : " + result.id);
 				if( result.resultCd == "S" ){
 					switch (result.id){
 						case "SelectList" :
 							fn_setGrid(result.data);
 							break;
-						case "insertList" :
+						case "insertList"      :
 							alert("Successfully Insert");
 							main();
 							break;
-						case "updateList" :
+						case "updateList"      :
 							alert("Successfully Updated");
 							main();
 							break;
-						case "deleteList" :
+						case "deleteList"      :
 							alert("Successfully Deleted");
 							main();
 							break;
+						case "getSrvcHistList" :
+							generateRandomId(result.data);
+							fn_setGridOtnData(result.data);
+							break;
 					}
 				} else if( result.resultCd == "E") {
-				} else {
-					console.log("fn_callback result : ", result);
+					alert(result.resultMsg);
 				}
 			}
 
-			function fn_setGrid(data){
+			function fn_setGrid(data) {
 				//dataView = new Slick.Data.DataView( { idField: unqId });
 				dataView = new Slick.Data.DataView();
 				grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
@@ -358,10 +517,126 @@
 				}
 			});
 
-			//grid.setActiveCell(0, 0);
-			console.log("SlickGrid initialized.");
-			}
+			grid.onClick.subscribe(function (e, args) {
+			   let clickedRowData = dataView.getItem(args.row);
+			   console.log("clickedRowData:", clickedRowData);
+			   
+			   const stdYymm = "202409";
+			   const conpanyCode = "";
 
+			   fn_getSrvcHistList(JSON.stringify({  
+					ymd: stdYymm,
+					csNo: conpanyCode
+				}));
+			});
+
+			grid.setActiveCell(0, 0);
+			console.log("SlickGrid initialized.");
+		}
+
+			function fn_setGridOtnData(dataHist){
+	
+				var dataViewHist = new Slick.Data.DataView({ idField: unqIdHist });
+				var gridHist     = new Slick.Grid("#divMyGridBackup", dataViewHist, columnsHist, options);
+
+				// Make the grid respond to DataView change events.
+				dataViewHist.onRowCountChanged.subscribe(function (e, args) {
+					gridHist.updateRowCount();
+					gridHist.render();
+				});
+
+				dataViewHist.onRowsChanged.subscribe(function (e, args) {
+					gridHist.invalidate();
+					gridHist.render();
+				});
+
+				// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
+				dataViewHist.setItems(dataHist, unqIdHist);
+
+				// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
+				gridHist.onBeforeSort.subscribe(function (e, args) {
+					return true;
+				});
+
+				// 정렬
+				gridHist.onSort.subscribe(function (e, args) {
+					var cols = args.sortCols;
+
+						dataHist.sort(function (dataRow1, dataRow2) {
+						for (var i = 0, l = cols.length; i < l; i++) {
+							var field  = cols[i].sortCol.field;
+							var sign   = cols[i].sortAsc ? 1 : -1;
+							var value1 = dataRow1[field],
+							
+							value2 = dataRow2[field];
+							
+							var result = (value1 == value2 ? 0 : value1 > value2 ? 1 : -1) * sign;
+							
+							if (result != 0) {
+								return result;
+							}
+						}
+					return 0;
+					});
+
+					gridHist.render();
+				});
+
+				gridHist.setSelectionModel(new Slick.CellSelectionModel());
+				gridHist.registerPlugin(new Slick.AutoTooltips());
+
+				// set keyboard focus on the grid
+				//grid.getCanvasNode().focus();
+				gridHist.registerPlugin(new Slick.CellExternalCopyManager(pluginOptionsHist));
+
+				gridHist.onAddNewRow.subscribe(function (e, args) {
+					var newItem = args.item;
+					var column = args.column;
+					dataViewHist.beginUpdate();
+					dataViewHist.setItems(dataHist);
+					dataViewHist.endUpdate();
+					gridHist.updateRowCount();
+					gridHist.render();
+				});
+
+				gridHist.onBeforeEditCell.subscribe(function (e, args) {
+					console.log("onBeforeEditCell");
+				});
+
+				gridHist.onCellChange.subscribe(function (e, args) {
+					dataViewHist.beginUpdate();
+					dataViewHist.setItems(dataHist);
+					dataViewHist.endUpdate();
+					gridHist.updateRowCount();
+					gridHist.render();
+				});
+
+				gridHist.onValidationError.subscribe(function (e, args) {
+					// handle validation errors originating from the CompositeEditor
+					if (args.validationResults) {
+					let errorMsg = args.validationResults.msg || "";
+					if (args.editor && args.editor instanceof Slick.CompositeEditor) {
+						if (args.validationResults.errors) {
+						errorMsg += "\n";
+						args.validationResults.errors.forEach(function (
+							error,
+							errorIndex
+						) {
+							const columnName = error.editor.args.column.id;
+							errorMsg += `${columnName.toUpperCase()}: ${error.msg}`;
+						});
+						}
+						console.log(errorMsg);
+					}
+					} else {
+					alert(errorMessages);
+					}
+				});
+
+				gridHist.setActiveCell(0, 0);
+				console.log("SlickGridHist initialized.");
+			}
+			
 			// Download Excel functionality
 			document.getElementById("downloadExcel").addEventListener("click", function () {
 				const currDate = getCurrentDateTime();
