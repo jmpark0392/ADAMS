@@ -50,6 +50,7 @@
 									<button type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
 								</div>
 								<div class="col text-end">
+									<p style="height:27px;">&nbsp;</p>
 									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="getSummarize()" data-test="create-button" onsubmit="return false;">Summarize</button>
 									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">Download</button>
 								</div>
@@ -145,17 +146,25 @@
 	<script src="js/utils.js"></script>
 	<script>
 		$(document).ready(function() {
+			
 			console.log("Document is ready.");
+			
+			$("#inputYear").val(gv_year);
+			$("#inputMonth").val(gv_month);
+			
 			//화면 접속시 바로 조회
 			main();
+			
 			//send버튼 누르면, 조건적용하여 검색
 			$("#send").click(main);
+			
 			//엔터키누르면, 조건적용하여 검색
 			$("input").on("keyup", function(key) {
 				if (key.keyCode == 13) {
 					main();
 				}
 			});
+			
 		});
 
 		var grid;
