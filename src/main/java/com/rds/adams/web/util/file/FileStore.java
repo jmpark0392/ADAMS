@@ -39,7 +39,7 @@ public class FileStore {
     }
 */
 
-    public UploadFile storeFile(MultipartFile multipartFile) throws IOException { // 파일을 서버에 저장하는 메소드
+    public UploadFile storeFile(MultipartFile multipartFile, String usrId) throws IOException { // 파일을 서버에 저장하는 메소드
         // MultipartFile로 받은후 서버에 저장하고, UploadFile 객체를 만들어 반환
         if (multipartFile.isEmpty()) {
             return null;
@@ -59,7 +59,7 @@ public class FileStore {
         uuidFileInfoDTO.setFileNm(originalFilename);
         uuidFileInfoDTO.setUplPath(fileDir);
         uuidFileInfoDTO.setExt(extractExt(originalFilename));
-        uuidFileInfoDTO.setRegUsrid("TEST");
+        uuidFileInfoDTO.setRegUsrid(usrId);
         uuidFileInfoDTO.setFileSize(multipartFile.getSize());
         
         System.out.println(" ===> uuidFileInfoDTO : " + uuidFileInfoDTO.toString() );

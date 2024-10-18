@@ -147,7 +147,7 @@ public class WRKFIL003M0Service {
 		
 	}
 	
-	public void saveUploadFile(MultipartFile[] uploadFile, WRKFIL003M0P0DTO inVo, String csNo) {
+	public void saveUploadFile(MultipartFile[] uploadFile, WRKFIL003M0P0DTO inVo, String csNo, String usrId) {
 		
 		UploadFile					atachFile			= null;
 		OPCPackage					opcPackage			= null;
@@ -176,6 +176,9 @@ public class WRKFIL003M0Service {
 		String 	sBaseQuery	= " INSERT INTO ";		// 동적쿼리 생성용 String
 		String 	sAddQuery	= "";					// 동적쿼리 생성용 String : Records
 		String 	dBaseQuery	= " DELETE FROM ";		// 동적쿼리 생성용 String : DELETE
+		String sStdYymm     = null;         		// 기준년월
+		String sFileNm      = "";         			// 파일명
+		String sLoadSuccYn  = "N";         			// 성공여부
 		
 		/* 조회된 컬럼 수만큼 For문으로 동적 쿼리문 생성 및 적재기준여부가 Y인 컬럼저장 */
 		for ( WRKFIL003M0R0DTO wRKFIL003M0R0DTO : wRKFIL003M0P0DTOList ) {
@@ -228,6 +231,7 @@ public class WRKFIL003M0Service {
 		
 		// 업로드 이력 Insert
 		wRKFIL003M0P1DTO.setCsNo(csNo);
+		wRKFIL003M0P1DTO.setUsrId(usrId);
 		iSeqNo = wRKFIL003M0DAO.insertUplHist(wRKFIL003M0P1DTO);
 		
 		System.out.println(" ====== wRKFIL003M0P1DTO : " + wRKFIL003M0P1DTO.toString());
@@ -252,9 +256,9 @@ public class WRKFIL003M0Service {
 		}
 		
 		/* 공통 컬럼 정보 default Set */
-		sAddQuery   = sAddQuery + "   , 'TEST' "	  // TO-DO : 세션 사용자 ID로 변경
+		sAddQuery   = sAddQuery + "   , '" + usrId + "' "	  // TO-DO : 세션 사용자 ID로 변경
 								+ "   , GETDATE() "
-								+ "   , 'TEST' "	  // TO-DO : 세션 사용자 ID로 변경
+								+ "   , '" + usrId + "' "	  // TO-DO : 세션 사용자 ID로 변경
 								+ "   , GETDATE() "
 								+ "   )";
 		
@@ -264,8 +268,9 @@ public class WRKFIL003M0Service {
 		for (MultipartFile multipartFile : uploadFile) {
 
 			try {
-				atachFile = fileStore.storeFile(multipartFile);
+				atachFile = fileStore.storeFile(multipartFile, usrId);
 				
+				sFileNm    = atachFile.getUploadFileName();
 				opcPackage = OPCPackage.open(atachFile.getStoreFilePath() + atachFile.getStoreFileName());
 				wb		 = new XSSFWorkbook(opcPackage);
 				
@@ -328,12 +333,16 @@ public class WRKFIL003M0Service {
 				
 				for ( String colSel : colSelBasY ) {
 					dBaseQuery = dBaseQuery + " AND " + colSel + "   =   " + firstElm.get(colSel);
+					if ( "STD_YYMM".equals(colSel) ) {
+						sStdYymm = (String) firstElm.get(colSel);
+					}
 				}
 				dBaseQuery = dBaseQuery + "   ;   ";
 				
 				wRKFIL003M0DAO.deleteList(dBaseQuery);
 				wRKFIL003M0DAO.insertDataList(sBaseQuery, sAddQuery, mapExcelDataList);
-
+				
+				sLoadSuccYn = "Y";
 			} catch (IOException ioe) {
 				System.out.println("===> ioe.getMessage() : " + ioe.getMessage());
 			} catch (Exception e) {
@@ -354,6 +363,10 @@ public class WRKFIL003M0Service {
 			}
 		}
 		
+		wRKFIL003M0P1DTO.setStdYymm(sStdYymm);
+		wRKFIL003M0P1DTO.setFileNm(sFileNm);
+		wRKFIL003M0P1DTO.setLoadSuccYn(sLoadSuccYn);
+		wRKFIL003M0P1DTO.setLoadCnt(iRowCnt-1);
 		// 업로드 이력 Update
 		wRKFIL003M0DAO.updateUplHist(wRKFIL003M0P1DTO);
 		

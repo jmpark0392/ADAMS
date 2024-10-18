@@ -30,5 +30,6 @@ public class WRKFIL003M0P1DTO {
     private String loadSuccYn;
     private String stdYymm;
     private String csNo;
+    private String usrId;
 
 }

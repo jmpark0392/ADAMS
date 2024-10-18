@@ -13,8 +13,10 @@
              , FILE_NM
              , EXT
              , FILE_SIZE
-             , REG_USRID
-             , RSG_DT
+             , FNL_UPD_EMP_NO
+             , FNL_UPD_DTM
+             , FRST_REG_EMP_NO
+             , FRST_REG_DTM
              )
         VALUES
              ( 
@@ -24,6 +26,8 @@
              , #{fileNm}
              , #{ext}
              , #{fileSize}
+             , #{regUsrid}
+             , GETDATE()
              , #{regUsrid}
              , GETDATE()
              )

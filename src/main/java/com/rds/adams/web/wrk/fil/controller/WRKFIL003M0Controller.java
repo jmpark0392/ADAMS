@@ -79,10 +79,11 @@ public class WRKFIL003M0Controller {
 		HttpSession session = request.getSession();
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) session.getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		String csNo = sAdamsLoginDTO.getCsNo();
+		String usrId = sAdamsLoginDTO.getUsrId();
 		
 		log.info(uploadFile.toString() + "\n" + inVo.toString());
 		
-		wRKFIL003M0Service.saveUploadFile(uploadFile, inVo, csNo);
+		wRKFIL003M0Service.saveUploadFile(uploadFile, inVo, csNo, usrId);
 		
 		log.info("");
 		
