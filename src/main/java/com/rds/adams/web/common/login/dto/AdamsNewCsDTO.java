@@ -59,6 +59,9 @@ public class AdamsNewCsDTO implements Serializable{
     @Schema(description = "사용자비밀번호")
     private String usrPassword;
 
+    @Schema(description = "회사홈페이지URL")
+    private String compHmpgUrl;
+
     @Schema(description = "우편번호")
     private String postNo;
 

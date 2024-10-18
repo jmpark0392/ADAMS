@@ -307,6 +307,7 @@
              , [PTB_EMAIL]
              , [ADMIN_ID]
              , [ADMIN_PASSWORD]
+             , [COMP_HMPG_URL]
              , [POST_NO]
              , [ADDRS]
              , [DTLS_ADDRS]
@@ -340,6 +341,7 @@
              , #{ptbEmail}
              , #{ptbEmail}
              , PWDENCRYPT(#{usrPassword})
+             , #{compHmpgUrl}
              , #{postNo}
              , #{addrs}
              , #{dtlsAddrs}
