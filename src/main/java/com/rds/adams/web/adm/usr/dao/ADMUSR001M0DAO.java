@@ -35,6 +35,8 @@ public interface ADMUSR001M0DAO {
 	public List<ADMUSR001M0R0DTO> selectCompList(ADMUSR001M0P0DTO inVo);
 
 	public int updateCompList(ADMUSR001M0P1DTO inVo);
+	
+	public int updateServiceCode(ADMUSR001M0P1DTO inVo);
 
 
 }

@@ -11,7 +11,7 @@
              , A.FILE_NM
              , A.LOAD_CNT
              , A.STD_YYMM
-             , A.FRST_REG_EMP_NO
+             , C.USR_NM        AS FRST_REG_EMP_NO
              , A.LOAD_ST_DT
              , A.LOAD_ED_DT
              , A.LOAD_SUCC_YN
@@ -30,6 +30,8 @@
                        ON 1=1
                       AND A.DB_ID  = B.DB_ID
                       AND A.TBL_ID = B.TBL_ID
+          LEFT OUTER JOIN RDSDB.dbo.TB_USR_MNG_LST C
+                       ON A.FNL_UPD_EMP_NO = C.USR_ID
          WHERE 1=1
          <if test="startLoadDate != null and startLoadDate != '' and endLoadDate != null and endLoadDate != ''">
            AND A.LOAD_ST_DT BETWEEN #{startLoadDate} AND #{endLoadDate}
@@ -37,5 +39,7 @@
          <if test="startStdYymm != null and startStdYymm != '' and endStdYymm != null and endStdYymm != ''">
            AND A.STD_YYMM BETWEEN REPLACE(#{startStdYymm}, '-', '') AND REPLACE(#{endStdYymm}, '-', '')
          </if>
+         ORDER BY A.FNL_UPD_DTM DESC
+                , A.SEQ_NO DESC
     </select>
 </mapper>

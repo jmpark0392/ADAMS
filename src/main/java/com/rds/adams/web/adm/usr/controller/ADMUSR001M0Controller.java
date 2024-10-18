@@ -15,7 +15,6 @@ import com.rds.adams.web.adm.usr.dto.ADMUSR001M0P0DTO;
 import com.rds.adams.web.adm.usr.dto.ADMUSR001M0P1DTO;
 import com.rds.adams.web.adm.usr.dto.ADMUSR001M0R0DTO;
 import com.rds.adams.web.adm.usr.service.ADMUSR001M0Service;
-import com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO;
 import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 
@@ -62,21 +61,36 @@ public class ADMUSR001M0Controller {
 		
 	}
 
+	/**
+	 * @param model
+	 * @return
+	 * @throws Exception 
+	 */	
+	
 	@RequestMapping(value="/ADMUSR001M0UpdateCompList", method=RequestMethod.POST, consumes="application/json")
-	public void update(@RequestBody ADMUSR001M0P1DTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> update(@RequestBody ADMUSR001M0P1DTO inVo, HttpServletRequest request) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	    boolean  bResult = false;
+
+		log.info(inVo.toString());
 		
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-    	inVo.setCsNo(sAdamsLoginDTO.getCsNo());
+		inVo.setFnlUpdEmpNo(sAdamsLoginDTO.getUsrId());
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
+    	
+    	bResult = aDMUSR001M0Service.updateCompList(inVo);
 		
-		log.info(inVo.toString());
-		try {
-			aDMUSR001M0Service.updateCompList(inVo);
-			log.info("success");
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.info("fail");
+		if (bResult) {
+			
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
+		} else {
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "Update Failed !!!");
 		}
-		return;
+
+		return resultMap;
 	}
 
 	/*
@@ -97,4 +111,30 @@ public class ADMUSR001M0Controller {
 	
 	}
 	*/	
+	
+	@RequestMapping(value="/ADMUSR001M0UpdateServiceCode", method=RequestMethod.POST, consumes="application/json")
+	public HashMap<String, Object> updateService(@RequestBody ADMUSR001M0P1DTO inVo, HttpServletRequest request) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	    boolean  bResult = false;
+
+		log.info(inVo.toString());
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setFnlUpdEmpNo(sAdamsLoginDTO.getUsrId());
+    	inVo.setCsNo(sAdamsLoginDTO.getCsNo());
+    	
+    	bResult = aDMUSR001M0Service.updateServiceCode(inVo);
+		
+		if (bResult) {
+			
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
+		} else {
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "Update Failed !!!");
+		}
+
+		return resultMap;
+	}
 }

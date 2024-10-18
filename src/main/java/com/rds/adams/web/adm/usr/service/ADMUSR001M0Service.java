@@ -63,8 +63,10 @@ public class ADMUSR001M0Service {
 	*/
 	
 	
-	public int updateCompList(ADMUSR001M0P1DTO inVo) {
-        return aDMUSR001M0DAO.updateCompList(inVo); // 업데이트된 행의 수를 반환
+	public boolean updateCompList(ADMUSR001M0P1DTO inVo) {
+        
+		aDMUSR001M0DAO.updateCompList(inVo);
+		return true; // 업데이트된 행의 수를 반환
     }
 	
 	/*
@@ -79,5 +81,11 @@ public class ADMUSR001M0Service {
 		
 	}
 	*/
+	
+	public boolean updateServiceCode(ADMUSR001M0P1DTO inVo) {
+        
+		aDMUSR001M0DAO.updateServiceCode(inVo);
+		return true; // 업데이트된 행의 수를 반환
+    }
 	
 }
