@@ -11,6 +11,21 @@
 					<div class="form-box">
 						<form id="filter-form" name="form" method="post" action="/WRKBAT002M0SelectList" onsubmit="return false;">
 							<div class="row">
+								<!-- Year Select -->
+								<div class="col-auto">
+									<label class="form-label"> Year: </label>
+									<select name="user[year]" class="form-select select-month-year p-1" id="inputYear">
+										<option selected value="">- Year -</option>
+										<!-- Year Options -->
+										<option value="2020">2020</option>
+										<option value="2021">2021</option>
+										<option value="2022">2022</option>
+										<option value="2023">2023</option>
+										<option value="2024">2024</option>
+										<option value="2025">2025</option>
+										<option value="2026">2026</option>
+									</select>
+								</div>
 								<!-- Month Select -->
 								<div class="col-auto">
 									<label class="form-label"> Month: </label>
@@ -29,21 +44,6 @@
 										<option value="10">October</option>
 										<option value="11">November</option>
 										<option value="12">December</option>
-									</select>
-								</div>
-								<!-- Year Select -->
-								<div class="col-auto">
-									<label class="form-label"> Year: </label>
-									<select name="user[year]" class="form-select select-month-year p-1" id="inputYear">
-										<option selected value="">- Year -</option>
-										<!-- Year Options -->
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2023">2023</option>
-										<option value="2024">2024</option>
-										<option value="2025">2025</option>
-										<option value="2026">2026</option>
 									</select>
 								</div>
 								<div class="col-auto">
@@ -212,6 +212,20 @@
 		function main() {
 			// 그리드 초기화 및 데이터 로드
 			console.log("Initializing SlickGrid...");
+			const element = document.getElementById("divMyGrid");
+			element.innerHTML = "";
+
+			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "") {
+				alert("Please select a year, month!");
+			return false;
+			} else if ($("#inputYear").val() === "") {
+				alert("Please select a year to continue!");
+			return false;
+			} else if ($("#inputMonth").val() === "") {
+				alert("Please select a month to continue!");
+			return false;
+			} 
+			
 			getList(
 					(input	=	JSON.stringify({ 
 													searchTxt	: $("#inpSearchTxt").val()

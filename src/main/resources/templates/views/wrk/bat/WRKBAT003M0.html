@@ -128,16 +128,14 @@
 						, dataType    : "json"
 						, contentType : "application/json; charset=utf-8"
 						, data        : input
-	};
+			};
+			gf_Transaction(option, fn_callback);
+		}
 
-	gf_Transaction(option, fn_callback);
-}
 	</script>
 	<script>
 		$(document).ready(function () {
 			console.log("Document is ready.");
-			//화면 접속시 바로 조회
-			main();
 			//send버튼 누르면, 조건적용하여 검색
 			$("#send").click(main);
 			//엔터키누르면, 조건적용하여 검색
@@ -199,16 +197,30 @@
 			},
 		};
 
-			function main() {
-				// 그리드 초기화 및 데이터 로드
-				console.log("Initializing SlickGrid...");
-				getList(
-							(input	=	JSON.stringify({ 
-										searchTxt: $("#inpSearchTxt").val()
-									,	stdYymm: getStdYymm()
-									}))
-						);
-			}
+		function main() {
+			// 그리드 초기화 및 데이터 로드
+			console.log("Initializing SlickGrid...");
+			const element = document.getElementById("divMyGrid");
+			element.innerHTML = "";
+
+			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "") {
+				alert("Please select a year, month!");
+			return false;
+			} else if ($("#inputYear").val() === "") {
+				alert("Please select a year to continue!");
+			return false;
+			} else if ($("#inputMonth").val() === "") {
+				alert("Please select a month to continue!");
+			return false;
+			} 
+			
+			getList(
+						(input	=	JSON.stringify({ 
+									searchTxt: $("#inpSearchTxt").val()
+								,	stdYymm: getStdYymm()
+								}))
+					);
+		}
 
 			/**
 			* Transaction callback 함수
