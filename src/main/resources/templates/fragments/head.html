@@ -167,12 +167,10 @@
 		</script>
 		<script>
 			var gv_today = "[[${today}]]";
+			var gv_closingYm = "[[${closingYm}]]";
 			var gv_todayDayOfWeek = "[[${todayDayOfWeek}]]";
-			var gv_todayArr = gv_today.split("-");
-			var gv_year = gv_todayArr[0];
-			var gv_month = gv_todayArr[1];
-			var gv_day = gv_todayArr[2];
-			console.log(gv_todayDayOfWeek);
+			var gv_year = gv_closingYm.substring(0,4);
+			var gv_month = Number(gv_closingYm.substring(4,6));
 		</script>
 	</head>
 </th:block>
