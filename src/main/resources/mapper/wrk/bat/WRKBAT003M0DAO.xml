@@ -22,12 +22,16 @@
 			ON A.FNL_UPD_EMP_NO = C.USR_ID
          WHERE 1=1
          <if test=' csNo != "999"'>
-         	AND A.CS_NO = #{csNo}
+           AND A.CS_NO = #{csNo}
          </if>
          <if test='searchTxt != ""'>
            AND (
-                	A.BAT_PROG_ID LIKE '%' + #{searchTxt} + '%'
+                A.BAT_PROG_ID LIKE '%' + #{searchTxt} + '%'
                 )
          </if>
+         <if test=' stdYymm != "" and stdYymm != null '>
+           AND A.STD_YYMM = #{stdYymm}
+         </if>
+         
     </select>
 </mapper>
