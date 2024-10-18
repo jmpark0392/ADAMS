@@ -319,7 +319,23 @@ public class WRKFIL003M0Service {
 						}
 						
 						if( iRowCnt != 1 ) {
+							mapExcelDataList = new ArrayList<>();
+							
 							mapExcelDataList.add(mapExcelData);
+							
+							if( iRowCnt == 2 ) {
+
+								for ( String colSel : colSelBasY ) {
+									dBaseQuery = dBaseQuery + " AND " + colSel + "   =   " + mapExcelData.get(colSel);
+									if ( "STD_YYMM".equals(colSel) ) {
+										sStdYymm = (String) mapExcelData.get(colSel);
+									}
+								}
+								dBaseQuery = dBaseQuery + "   ;   ";
+								wRKFIL003M0DAO.deleteList(dBaseQuery);
+							}
+							
+							wRKFIL003M0DAO.insertDataList(sBaseQuery, sAddQuery, mapExcelDataList);
 						}
 						
 						//System.out.println(); // Row를 구분해주기 위한 엔터
@@ -327,20 +343,6 @@ public class WRKFIL003M0Service {
 					System.out.println(" =====> mapExcelDataList : " + mapExcelDataList.toString());
 					System.out.println(" ============= while(iterator.hasNext()) END =================");
 			  	}
-				
-				//맨 첫번째 행의 값을 가져온다.
-				var firstElm = mapExcelDataList.get(0);
-				
-				for ( String colSel : colSelBasY ) {
-					dBaseQuery = dBaseQuery + " AND " + colSel + "   =   " + firstElm.get(colSel);
-					if ( "STD_YYMM".equals(colSel) ) {
-						sStdYymm = (String) firstElm.get(colSel);
-					}
-				}
-				dBaseQuery = dBaseQuery + "   ;   ";
-				
-				wRKFIL003M0DAO.deleteList(dBaseQuery);
-				wRKFIL003M0DAO.insertDataList(sBaseQuery, sAddQuery, mapExcelDataList);
 				
 				sLoadSuccYn = "Y";
 			} catch (IOException ioe) {
