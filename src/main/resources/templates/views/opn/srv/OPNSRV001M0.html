@@ -28,7 +28,7 @@
 									<div class="col text-end">
 										<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px"
 											onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}"
-											data-test="create-button" onsubmit="return false;">
+											data-test="create-button" onsubmit="return false;" hidden="true">
 											Create
 										</button>
 										<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px"id="downloadExcel">
@@ -80,6 +80,7 @@
 							</div>
 						</div>
 					</div>
+					<div style="padding-top: 2em"></div>
 					<div class="col-12 mb-1">
 						<div class="card card-md ">
 							<div class="container my-3">
@@ -205,16 +206,17 @@
 			var dataHist;
 			var unqId      = "seqNo";
 			var unqIdHist  = "seqNoHist";
-			var xcpt_cols  = ["seqNo", "srvcCd"];
+			var xcpt_cols  = ["seqNo", "srvcCd", "oldSrvcStrDtm"];
 			var check_cols = ["srvcCd"];
 			var columns = [
-							{ id: unqId,		name: "Seq",					field: unqId,							width: 40, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
-						, { id: "srvcCd",		name: "service code",			field: "srvcCd",		sortable: true, width: 100,	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
-						, { id: "srvcNm",		name: "service name", 			field: "srvcNm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
-						, { id: "srvcUprc",		name: "service unit price",		field: "srvcUprc",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", formatter: currencyFormatter, cssClass: "slick-column-right" }
-						, { id: "basicsUsrCnt",	name: "Users",					field: "basicsUsrCnt",	sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", formatter: currencyFormatter, cssClass: "slick-column-right" }
-						, { id: "srvcStrDtm",	name: "service start date",		field: "srvcStrDtm",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
-						, { id: "srvcDesc",		name: "service description",	field: "srvcDesc",		sortable: true, width: 500, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
+							{ id: unqId,			name: "Seq",					field: unqId,							width: 40, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
+						, { id: "srvcCd",			name: "service code",			field: "srvcCd",		sortable: true, width: 100,	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
+						, { id: "srvcNm",			name: "service name", 			field: "srvcNm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
+						, { id: "srvcDesc",			name: "service description",	field: "srvcDesc",		sortable: true, width: 500, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
+						, { id: "srvcStrDtm",		name: "service start date",		field: "srvcStrDtm",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true }
+						, { id: "oldSrvcStrDtm",	name: "service start date",		field: "oldSrvcStrDtm",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true }
+						, { id: "srvcUprc",			name: "service unit price",		field: "srvcUprc",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true, formatter: currencyFormatter, cssClass: "slick-column-right" }
+						, { id: "basicsUsrCnt",		name: "Users",					field: "basicsUsrCnt",	sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true, formatter: currencyFormatter, cssClass: "slick-column-right" }
 						];
 			var columnsHist = [
 								{ id: unqIdHist,		name: "Seq",					field: unqIdHist,							width: 40, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
@@ -583,9 +585,9 @@
 				let hiddenColumns;
 				
 				if (modalType === "create") {
-					hiddenColumns = ["seqNo"];
+					hiddenColumns = ["seqNo", "oldSrvcStrDtm"];
 				} else {
-					hiddenColumns = ["seqNo","srvcCd"];  // 예: 'srvcCd' 컬럼 숨기기
+					hiddenColumns = ["seqNo","srvcCd", "oldSrvcStrDtm"];  // 예: 'srvcCd' 컬럼 숨기기
 				}
 				
 				

@@ -145,6 +145,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="js/utils.js"></script>
 	<script>
       $(document).ready(function () {
         console.log("Document is ready.");
@@ -203,10 +204,11 @@
           let date = input.split("/");
           return date[1] + date[0];
         }
+        console.log("flipDate :"+flipDate);
 
         // method that clears the input field
         function clearInputField(inputValue) {
-          let value  = inputValue.value;
+          let value  = String(inputValue.value);
           let cleanedValue = value.replace(/[_\/\s]/g, '');
           if(cleanedValue === "") {
             inputValue.value = "";
@@ -219,8 +221,8 @@
 		let inputEndStdYear = document.getElementById('inpEndStdYr');
 		let inputEndStdMonth = document.getElementById('inpEndMnth');
 		
-		let inputStartStdYm = inputStartStdYear + inputStartStdMonth.padStart(2, "0");
-		let inputEndStdYm = inputEndStdYear + inputEndStdMonth.padStart(2, "0");
+		let inputStartStdYm = inputStartStdYear + String(inputStartStdMonth).padStart(2, "0");
+		let inputEndStdYm = inputEndStdYear + String(inputEndStdMonth).padStart(2, "0");
 
         // we check based on whether the input value is inserted or not 
         if(inputStartStdYm !== "" && inputEndStdYm !== "") {
@@ -313,9 +315,9 @@
                   editor: Slick.Editors.Text,
                 },
                 {
-                  id: "regUsrid",
+                  id: "frstRegEmpNo",
                   name: "registrant",
-                  field: "regUsrid",
+                  field: "frstRegEmpNo",
                   sortable: true,
                   editor: Slick.Editors.Text,
                 },
@@ -439,6 +441,5 @@
         });
       }
   </script>
-
 </th:block>
 </html>
