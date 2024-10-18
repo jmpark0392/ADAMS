@@ -56,7 +56,7 @@
 										<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Program ID/Name" value=""/>
 									</div>
 									<div class="col-auto">
-										<button id="inpSend" type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
+										<button id="inpSend" type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="getSearch()">Search</button>
 									</div>
 									<div class="col text-end">
 										<p style="height:27px;">&nbsp;</p>
@@ -111,6 +111,12 @@
 		function getStdYymm(){
 			var inputYear = $("#inputYear").val();
 			var inputMonth = $("#inputMonth").val();
+
+			// inputYear나 inputMonth가 비어있는지 체크
+		    if (!inputYear || !inputMonth) {
+		        return null; // 년도나 월이 비어 있으면 null을 반환
+		    }
+
 			var inputStdYymm = inputYear + ((inputMonth.length != 0) ? inputMonth.padStart(2, "0"): "");
 			if (inputStdYymm.length != 6){
 				inputStdYymm = null;
@@ -136,6 +142,8 @@
 	<script>
 		$(document).ready(function () {
 			console.log("Document is ready.");
+			
+			main();
 			//send버튼 누르면, 조건적용하여 검색
 			$("#send").click(main);
 			//엔터키누르면, 조건적용하여 검색
@@ -200,19 +208,31 @@
 		function main() {
 			// 그리드 초기화 및 데이터 로드
 			console.log("Initializing SlickGrid...");
-			const element = document.getElementById("divMyGrid");
-			element.innerHTML = "";
+			getList(
+						(input	=	JSON.stringify({ 
+									searchTxt: $("#inpSearchTxt").val()
+								,	stdYymm: getStdYymm()
+								}))
+					);
+		}
+		
+		function getSearch() {
+			// 그리드 초기화 및 데이터 로드
+			console.log("Initializing SlickGrid...");
 
 			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "") {
 				alert("Please select a year, month!");
-			return false;
+				return;
 			} else if ($("#inputYear").val() === "") {
 				alert("Please select a year to continue!");
-			return false;
+				return;
 			} else if ($("#inputMonth").val() === "") {
 				alert("Please select a month to continue!");
-			return false;
+				return;
 			} 
+			
+			const element = document.getElementById("divMyGrid");
+			element.innerHTML = "";
 			
 			getList(
 						(input	=	JSON.stringify({ 

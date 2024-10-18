@@ -51,7 +51,7 @@
 									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Account Title/Name" />
 								</div>
 								<div class="col-auto">
-									<button type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
+									<button type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="getSearch()">Search</button>
 								</div>
 								<div class="col text-end">
 									<p style="height:27px;">&nbsp;</p>
@@ -316,6 +316,33 @@
 	        function main() {
 				// 그리드 초기화 및 데이터 로드
 				console.log("Initializing SlickGrid...");
+				getList(
+							(input	=	JSON.stringify({ 
+										searchTxt: $("#inpSearchTxt").val()
+									,	stdYymm: getStdYymm()
+					        }))
+					   );
+			}
+	        
+	        
+	        function getSearch() {
+				// 그리드 초기화 및 데이터 로드
+				console.log("Initializing SlickGrid...");
+				
+				if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "") {
+					alert("Please select a year, month!");
+					return;
+				} else if ($("#inputYear").val() === "") {
+					alert("Please select a year to continue!");
+					return;
+				} else if ($("#inputMonth").val() === "") {
+					alert("Please select a month to continue!");
+					return;
+				} 
+				
+				const element = document.getElementById("divMyGrid");
+				element.innerHTML = "";
+				
 				getList(
 							(input	=	JSON.stringify({ 
 										searchTxt: $("#inpSearchTxt").val()
