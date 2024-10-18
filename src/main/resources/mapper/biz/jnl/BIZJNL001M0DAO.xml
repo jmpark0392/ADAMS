@@ -3,30 +3,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL001M0DAO">
-    <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0R0DTO">
-	   SELECT
+    <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0R0DTO">	
+		SELECT
 				ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-			, A.ATIT_CD
-			, A.ATIT_KOR_NM
-			, A.ATIT_ENG_NM
-			, A.HGRK_ATIT_CD
-			, A.AC_LVL_CD
-			, A.BKG_AC_YN
-			, A.FS_DV_CD
-			, A.AC_DV_CD
-			, A.AC_KIND_CD
-			, A.APP_ST_DT
-			, A.APP_ED_DT
-			, A.ORD_SEQ
-			, A.ETC_DESC
-			, A.USE_YN
-			, B.USR_NM         AS FRST_REG_EMP_NO
-			, A.FRST_REG_DTM
-		 FROM TB_ATIT_MNG_LST A 
-		 LEFT OUTER JOIN TB_USR_MNG_LST B 
-         ON A.FNL_UPD_EMP_NO = B.USR_ID
-		WHERE 1=1
-		<if test= 'csNo != "999"'>
+             , A.ATIT_CD                               AS atitCd
+             , A.ATIT_KOR_NM                           AS atitKorNm
+             , A.ATIT_ENG_NM                           AS atitEngNm
+             , A.HGRK_ATIT_CD                          AS hgrkAtitCd
+             , A.AC_LVL_CD                             AS acLvlCd       
+             , A.BKG_AC_YN                             AS bkgAcYn
+             , A.FS_DV_CD                              AS fsDvCd
+             , A.AC_DV_CD                              AS acDvCd
+             , A.AC_KIND_CD                            AS acKindCd
+             , CONVERT(CHAR(10), CONVERT(DATE, A.APP_ST_DT, 112), 23)    AS appStDt
+             , CONVERT(CHAR(10), CONVERT(DATE, A.APP_ED_DT, 112), 23)       AS appEdDt
+             , A.ORD_SEQ                               AS ordSeq
+             , A.ETC_DESC                              AS etcDesc
+             , A.USE_YN                                AS useYn
+             , B.USR_NM                                AS frstRegEmpNo
+             , CONVERT(CHAR(10), A.FRST_REG_DTM, 23)                          AS frstRegDtm
+		  FROM TB_ATIT_MNG_LST A 
+		  LEFT OUTER JOIN TB_USR_MNG_LST B 
+          ON A.FNL_UPD_EMP_NO = B.USR_ID
+		 WHERE 1=1
+		   AND A.APP_ST_DT IS NOT NULL
+		   AND A.APP_ED_DT IS NOT NULL
+		<if test= 'csNo != "999"'>	
 			AND A.CS_NO        = #{csNo}
 		</if>
 		<if test='searchTxt != ""'>

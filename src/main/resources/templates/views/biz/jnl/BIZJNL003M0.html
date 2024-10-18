@@ -133,7 +133,9 @@
 			});
 			//console.log("getSettle input : " + input);
 
-			journalize(input);
+			if(confirm("Do you want to Journalize?") == true){
+				journalize(input);
+			}
 		}
 
 		function journalize(input) {

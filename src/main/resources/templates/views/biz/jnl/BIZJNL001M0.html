@@ -109,7 +109,7 @@
 			gf_Transaction(option, fn_callback);
 		}
 
-		function deleteList(todeleteRow) {
+		function deleteList(input) {
 			console.log("deleteList input : " + input);
 			var option = {
 							id          : "deleteList"
@@ -170,7 +170,7 @@
 		var dataView;
 		var data;
 		var unqId = "rowNumber";
-		var xcpt_cols = ["regUsrid", "regDt"];
+		var xcpt_cols = ["frstRegEmpNo", "frstRegDtm"];
 		var check_cols = [unqId, "atitKorNm"];
 		var columns = [
 			{ id: "atitCd",			name: "Account Title",		field: "atitCd",		width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
@@ -502,8 +502,8 @@
 							if (confirm("Do you want to delete?") == true) {
 								// delete the selected row
 								dataView.deleteItem(dataContext[unqId]);
-								fn_deleteCs(JSON.stringify(dataContext));
-								location.reload(true);
+								deleteList(JSON.stringify(dataContext));
+								modalElement.hide();
 							}
 						};
 					}
@@ -551,9 +551,47 @@
 				inputElem.value = modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 	
 				formGroupElem.appendChild(detailLabelitem);
-	
-				if(column.id === "acLvlCd" || column.id === "bkgAcYn" ||  column.id === "fsDvCd" || 
-				   column.id === "acDvCd"  || column.id === "acKindCd" || column.id === "useYn") {
+
+				if(column.id === "appStDt" || column.id === "appEdDt"){
+					// this is the date input field
+					const dateInputContainer = document.createElement('div');
+					dateInputContainer.className = "input-icon mb-2";
+					const dateInput = document.createElement('input');
+					dateInput.type = "date";
+					dateInput.className = "form-control";
+					dateInput.dataset.editorid = column.id;
+					dateInput.id = "datepicker-icon";
+					dateInput.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // Pre-fill if in edit mode
+
+					const dateInputAddon = document.createElement('span');
+					dateInputAddon.className = "input-icon-addon";
+					const svgElement = document.createElement('svg');
+					svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+					svgElement.setAttribute("class", "icon");
+					svgElement.setAttribute("width", "24");
+					svgElement.setAttribute("height", "24");
+					svgElement.setAttribute("viewBox", "0 0 24 24");
+					svgElement.setAttribute("stroke-width", "2");
+					svgElement.setAttribute("stroke", "currentColor");
+					svgElement.setAttribute("fill", "none");
+					svgElement.setAttribute("stroke-linecap", "round");
+					svgElement.setAttribute("stroke-linejoin", "round");
+
+					const pathElement1 = document.createElement('path');
+					pathElement1.setAttribute("stroke", "none");
+					pathElement1.setAttribute("d", "M0 0h24v24H0z");
+					pathElement1.setAttribute("fill", "none");
+
+					svgElement.appendChild(pathElement1);
+
+					dateInputContainer.appendChild(dateInput);
+					dateInputContainer.appendChild(dateInputAddon);
+					dateInputAddon.appendChild(svgElement);
+
+					// we add the date input to	to the form group element
+					formGroupElem.appendChild(dateInputContainer);
+					} else if( column.id === "acLvlCd" || column.id === "bkgAcYn" ||  column.id === "fsDvCd" || 
+					column.id === "acDvCd"  || column.id === "acKindCd" || column.id === "useYn" ) {
 	
 					const selectInput = document.createElement('select');
 					selectInput.className = "form-select";
@@ -593,9 +631,6 @@
 			} else {
 				 const inputElem = document.createElement('input');
 				 inputElem.className = "form-control";
-				 if(modalType === "edit" && (( column.id === "regUsrid" ) || ( column.id === "regDt" ))){
-						inputElem.readOnly = true;
-				}
 				 inputElem.dataset.editorid = column.id;
 				 inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 				 formGroupElem.appendChild(inputElem);
@@ -735,7 +770,7 @@
 				if (modalType === "create") {
 					// Add new item to grid data
 					if (checkData(formData)) {
-						formData[unqId] = grid.getDataLength() + 1;
+						//formData[unqId] = grid.getDataLength() + 1;
 						//dataView.insertItem(grid.getDataLength(), formData);
 						if(confirm("Do you want to register?") == true){
 							insertList(JSON.stringify(formData));
@@ -779,12 +814,12 @@
 				}
 				modalElement.hide(); // we hide the modal
 			}
-			/*
+			
 			closeBtn.addEventListener("click", function () {
 				if (modalType === "edit" && originalData) {
 					dataView.updateItem(originalData[unqId], originalData); // Revert changes if canceled
 				}
-			}); */
+			});
 		}
 		</script>
 </th:block>

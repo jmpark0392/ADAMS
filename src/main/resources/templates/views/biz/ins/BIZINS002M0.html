@@ -122,8 +122,9 @@
         	var inputStdYymm = getStdYymm();
             var input = JSON.stringify({ stdYymm: inputStdYymm });
             //console.log("getsummarize input : " + input);
-        
-            summarize(input);
+			if(confirm("Do you want to summarize Insurance movement?") == true){
+				summarize(input);
+			}
         }
         
         function summarize(input) {
@@ -236,30 +237,31 @@
                    );
         }
 
-        /**
-         * Transaction callback 함수
-         **/
-        function fn_callback(result){
-           console.log("fn_callback : " + result.id);
-             if( result.resultCd == "S" ){
-                    
-                 switch (result.id){
-                     case "SelectList" :
-                         
-                         fn_setGrid(result.data);
-                         
-                     break;
-                     case "ExecuteList" :
-                         console.log("executeList case");
-                         main();
-                     break;
-                 }      
-             } else if( result.resultCd == "E") {
-                 
-            } else {
-                 console.log("fn_callback result : ", result);
-              }
-         }
+		/**
+		 * Transaction callback 함수
+		 **/
+		function fn_callback(result){
+		   console.log("fn_callback : " + result.id);
+			 if( result.resultCd == "S" ){
+					
+				 switch (result.id){
+					 case "SelectList" :
+						 
+						 fn_setGrid(result.data);
+						 
+					 break;
+					 case "ExecuteList" :
+						 console.log("executeList case");
+						 alert("Successfully Summarized");
+						 main();
+					 break;
+				 }	  
+			 } else if( result.resultCd == "E") {
+				 
+			} else {
+				 console.log("fn_callback result : ", result);
+			  }
+		 }
 
            function fn_setGrid(data){
                 

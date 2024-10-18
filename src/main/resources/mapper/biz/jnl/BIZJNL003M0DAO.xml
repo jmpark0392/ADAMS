@@ -16,6 +16,7 @@
                 ON A.ATIT_CD = B.ATIT_CD
               LEFT OUTER JOIN TB_USR_MNG_LST C 
                 ON A.FNL_UPD_EMP_NO = C.USR_ID
+            WHERE 1=1
             <if test= 'csNo != "999"'>
                 AND A.CS_NO        = #{csNo}
             </if>
@@ -25,11 +26,7 @@
                     OR  ATIT_NM LIKE '%' + #{searchTxt} + '%'
                     )
             </if>
-            <if test='stdYymm != "" and stdYymm != null'>
-                AND (
-                    A.STD_YYMM LIKE '%' + #{stdYymm} + '%'
-                    )
-            </if>
+                AND A.STD_YYMM LIKE '%' + #{stdYymm} + '%'
     </select>
     <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0P1DTO">
         DELETE FROM TB_JNL_RST_LST

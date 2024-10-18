@@ -126,7 +126,7 @@
 			gf_Transaction(option, fn_callback);
 		}
 
-		function deleteList(todeleteRow) {
+		function deleteList(input) {
 			console.log("deleteList input : " + input);
 			var option = {
 							id        : "deleteList"
@@ -444,8 +444,49 @@
 			if (modalTitleElem) {
 				if (modalType === "create") {
 					modalTitleElem.textContent = "NEW";
-			} else if (modalType === "edit") {
+					const existingDeleteButton = document.querySelector(".modal-footer .btn-danger");
+					if (existingDeleteButton) {
+						existingDeleteButton.remove();
+					}
+				} else if (modalType === "edit") {
 					modalTitleElem.textContent = "EDIT";
+					
+					const existingDeleteButton = document.querySelector(".modal-footer .btn-danger");
+					if (existingDeleteButton) {
+						existingDeleteButton.remove();
+					}
+
+					const delBtn = document.createElement("a");
+					delBtn.href = "#";
+					delBtn.className = "btn btn-danger delete";
+					delBtn.dataset.dismiss = "modal";
+					delBtn.style.padding = "4px 10px";
+					delBtn.style.color = "white";
+					delBtn.style.fontSize = "13px";
+					delBtn.textContent = "Delete";
+					modalTitleElem.appendChild(delBtn);
+					// getelemtn by class name
+					const divColAuto = document.getElementsByClassName("col-auto me-0");
+
+					if (divColAuto.length > 0) {
+						divColAuto[0].appendChild(delBtn);
+					} else {
+						console.error("divColAuto is not found.");
+					}
+
+					const deleteButton = document.querySelector(".modal-footer .btn-danger");
+					if (deleteButton) {
+						// we remove the existing click event listener
+						// existingDeleteButton.onclick = null;
+						deleteButton.onclick = function () {
+							if (confirm("Do you want to delete?") == true) {
+								// delete the selected row
+								dataView.deleteItem(dataContext[unqId]);
+								deleteList(JSON.stringify(dataContext));
+								modalElement.hide();
+							}
+						};
+					}
 					originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
 				}
 			} else {

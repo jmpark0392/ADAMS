@@ -123,7 +123,9 @@
 			var input = JSON.stringify({ stdYymm: inputStdYymm });
 			//console.log("getsummarize input : " + input);
 		
-			summarize(input);
+			if(confirm("Do you want to summarize Insurance movement?") == true){
+				summarize(input);
+			}
 		}
 		
 		function summarize(input) {
@@ -251,6 +253,7 @@
 					 break;
 					 case "ExecuteList" :
 						 console.log("executeList case");
+						 alert("Successfully Summarized");
 						 main();
 					 break;
 				 }	  

@@ -19,9 +19,7 @@
                      <if test= 'csNo != "999"'>
 					   AND CS_NO        = #{csNo}
 					 </if>
-                     <if test='stdYymm != "" and stdYymm != null'>
                        AND STD_YYMM = #{stdYymm} 
-                     </if>
                        AND FS_DV_CD = 'BS'   --STD_YYMM , FS_DV_CD  변수
                   )
         , LVL3 AS (

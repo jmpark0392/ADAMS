@@ -43,6 +43,9 @@
 		   AND CS_NO     = #{csNo}
 	</delete>
 	<insert id="insertList" parameterType="com.rds.adams.web.biz.adt.dto.BIZADT001M0P1DTO">
+		<selectKey resultType="int" keyProperty="seqNo" order="BEFORE">
+			SELECT MAX(SEQ_NO)+1 FROM TB_UPL_FILE_LST;
+		</selectKey>	
 		INSERT INTO [dbo].[TB_ACNT_RECT_LST] (
 			  [CS_NO]
 			, [STD_YYMM]

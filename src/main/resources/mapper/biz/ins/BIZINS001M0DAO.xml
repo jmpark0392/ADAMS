@@ -33,11 +33,7 @@
  		<if test= 'csNo != "999"'>
 			AND A.CS_NO        = #{csNo}
 		</if>
-		<if test='stdYymm != "" and stdYymm != null'>
-			AND (
-					A.STD_YYMM LIKE '%' + #{stdYymm} + '%'
-				)
-		</if>
+			AND A.STD_YYMM LIKE '%' + #{stdYymm} + '%'
 	</select>
     <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.ins.dto.BIZINS001M0P1DTO">
 		DELETE FROM TB_INSU_PL_TTL_LST 

@@ -129,9 +129,11 @@
 		function getReconcile(){
 			var inputStdYymm = getStdYymm();
 			var input = JSON.stringify({ stdYymm: inputStdYymm });
-			console.log("getsummarize input : " + input);
+			console.log("getReconcile input : " + input);
 		
-			reconcile(input);
+			if(confirm("Do you want to Reconcile FS account / Insurance profit & loss ?") == true){
+				reconcile(input);
+			}
 		}
 		
 		function reconcile(input) {
@@ -194,38 +196,38 @@
 		];
 
 		var options = {
-			enableCellNavigation: true,
-            enableColumnReorder: false,
-            forceFitColumns: false,
-            multiColumnSort: true,
-            numberedMultiColumnSort: true,
-            tristateMultiColumnSort: true,
-            sortColNumberInSeparateSpan: true,
-            enableAutoSizeColumns: true,
-            editable: false,   // grid도 편집가능.. grid 편집 기능 제거 필요..
-            enableAddRow: true,
-            asyncEditorLoading: false,
-            autoEdit: false,
-            autoEditNewRow: false,
-            rowHeight: 35,
-        };
-        
-        var newRowIds = 0;
-    
-        var pluginOptions = {
-            clipboardCommandHandler: function(editCommand){ undoRedoBuffer.queueAndExecuteCommand.call(undoRedoBuffer,editCommand); },
-            readOnlyMode : false,
-            includeHeaderWhenCopying : false,
-            newRowCreator: function(count) {
-                for (var i = 0; i < count; i++) {
-                    var item = {
-                        id: "newRow_" + newRowIds++
-                    }
-                grid.getData().addItem(item);
-                }
-            }
-        };
-        
+				enableCellNavigation: true,
+				enableColumnReorder: false,
+				forceFitColumns: false,
+				multiColumnSort: true,
+				numberedMultiColumnSort: true,
+				tristateMultiColumnSort: true,
+				sortColNumberInSeparateSpan: true,
+				enableAutoSizeColumns: true,
+				editable: false,   // grid도 편집가능.. grid 편집 기능 제거 필요..
+				enableAddRow: true,
+				asyncEditorLoading: false,
+				autoEdit: false,
+				autoEditNewRow: false,
+				rowHeight: 35,
+			};
+			
+			var newRowIds = 0;
+		
+			var pluginOptions = {
+				clipboardCommandHandler: function(editCommand){ undoRedoBuffer.queueAndExecuteCommand.call(undoRedoBuffer,editCommand); },
+				readOnlyMode : false,
+				includeHeaderWhenCopying : false,
+				newRowCreator: function(count) {
+					for (var i = 0; i < count; i++) {
+						var item = {
+							id: "newRow_" + newRowIds++
+						}
+					grid.getData().addItem(item);
+					}
+				}
+			};
+
 		function main() {
 			// 그리드 초기화 및 데이터 로드
 			console.log("Initializing SlickGrid...");
@@ -238,7 +240,7 @@
 				   );
 		}
 		
-        /**
+		/**
 		 * Transaction callback 함수
 		 **/
 		function fn_callback(result){
@@ -263,7 +265,7 @@
 				 console.log("fn_callback result : ", result);
 			  }
 		 }
-        
+
 		   function fn_setGrid(data){
 				
 				dataView = new Slick.Data.DataView( { idField: unqId });
@@ -286,8 +288,7 @@
 			// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
 			grid.onBeforeSort.subscribe(function (e, args) {
 				return true;
-			});				   
-		  
+			});
 	
 		   // 정렬
 		   grid.onSort.subscribe(function (e, args) {
