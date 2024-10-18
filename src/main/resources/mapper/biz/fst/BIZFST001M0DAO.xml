@@ -4,16 +4,16 @@
 
 <mapper namespace="com.rds.adams.web.biz.fst.dao.BIZFST001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST001M0P0DTO" resultType="com.rds.adams.web.biz.fst.dto.BIZFST001M0R0DTO">
-        WITH 
+      WITH 
           LVL4 AS (
                     SELECT 
-                           ATIT_CD
-                         , BAS_AMT
-                         , DR_AMT
-                         , CR_AMT
-                         , ENTM_AMT
-                         , FNL_UPD_EMP_NO   AS FNL_UPD_EMP_NO
-                         , FRST_REG_DTM     AS FRST_REG_DTM
+                           ATIT_CD                AS ATIT_CD
+                         , BAS_AMT                AS BAS_AMT
+                         , DR_AMT                 AS DR_AMT
+                         , CR_AMT                 AS CR_AMT
+                         , ENTM_AMT               AS ENTM_AMT
+                         , FNL_UPD_EMP_NO         AS FNL_UPD_EMP_NO
+                         , FNL_UPD_DTM            AS FNL_UPD_DTM
                       FROM TB_FS_LST 
                      WHERE 1=1
                      <if test= 'csNo != "999"'>
@@ -24,28 +24,28 @@
                   )
         , LVL3 AS (
                     SELECT 
-                           B.HGRK_ATIT_CD   AS ATIT_CD
-                         , SUM( BAS_AMT  )  AS BAS_AMT
-                         , SUM( DR_AMT   )  AS DR_AMT
-                         , SUM( CR_AMT   )  AS CR_AMT
-                         , SUM( ENTM_AMT )  AS ENTM_AMT
-                         , ''     AS FNL_UPD_EMP_NO
-                         , ''     AS FRST_REG_DTM
-                        FROM LVL4 A
-                        LEFT OUTER JOIN TB_ATIT_MNG_LST B
-                          ON A.ATIT_CD = B.ATIT_CD
-                       WHERE B.AC_LVL_CD = '4'
-                       GROUP BY B.HGRK_ATIT_CD 
+                           B.HGRK_ATIT_CD          AS ATIT_CD
+                         , SUM( BAS_AMT )          AS BAS_AMT
+                         , SUM( DR_AMT )           AS DR_AMT
+                         , SUM( CR_AMT )           AS CR_AMT
+                         , SUM( ENTM_AMT )         AS ENTM_AMT
+                         , MAX( A.FNL_UPD_EMP_NO ) AS FNL_UPD_EMP_NO
+                         , MAX( A.FNL_UPD_DTM )    AS FNL_UPD_DTM
+                      FROM LVL4 A
+                      LEFT OUTER JOIN TB_ATIT_MNG_LST B
+                        ON A.ATIT_CD = B.ATIT_CD
+                     WHERE B.AC_LVL_CD = '4'
+                     GROUP BY B.HGRK_ATIT_CD 
                   )
         , LVL2 AS (
                     SELECT 
-                           B.HGRK_ATIT_CD   AS ATIT_CD
-                         , SUM( BAS_AMT  )  AS BAS_AMT
-                         , SUM( DR_AMT   )  AS DR_AMT
-                         , SUM( CR_AMT   )  AS CR_AMT
-                         , SUM( ENTM_AMT )  AS ENTM_AMT
-                         , ''     AS FNL_UPD_EMP_NO
-                         , ''     AS FRST_REG_DTM
+                           B.HGRK_ATIT_CD          AS ATIT_CD
+                         , SUM( BAS_AMT )          AS BAS_AMT
+                         , SUM( DR_AMT )           AS DR_AMT
+                         , SUM( CR_AMT )           AS CR_AMT
+                         , SUM( ENTM_AMT )         AS ENTM_AMT
+                         , MAX( A.FNL_UPD_EMP_NO ) AS FNL_UPD_EMP_NO
+                         , MAX( A.FNL_UPD_DTM )    AS FNL_UPD_DTM
                       FROM LVL3 A
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
                         ON A.ATIT_CD = B.ATIT_CD
@@ -54,13 +54,13 @@
                   ) 
         , LVL1 AS (
                     SELECT 
-                           B.HGRK_ATIT_CD   AS ATIT_CD
-                         , SUM( BAS_AMT  )  AS BAS_AMT
-                         , SUM( DR_AMT   )  AS DR_AMT
-                         , SUM( CR_AMT   )  AS CR_AMT
-                         , SUM( ENTM_AMT )  AS ENTM_AMT
-                         , ''     AS FNL_UPD_EMP_NO
-                         , ''     AS FRST_REG_DTM
+                           B.HGRK_ATIT_CD          AS ATIT_CD
+                         , SUM( BAS_AMT )          AS BAS_AMT
+                         , SUM( DR_AMT )           AS DR_AMT
+                         , SUM( CR_AMT )           AS CR_AMT
+                         , SUM( ENTM_AMT )         AS ENTM_AMT
+                         , MAX( A.FNL_UPD_EMP_NO ) AS FNL_UPD_EMP_NO
+                         , MAX( A.FNL_UPD_DTM )    AS FNL_UPD_DTM
                       FROM LVL2 A
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
                         ON A.ATIT_CD = B.ATIT_CD
@@ -80,7 +80,7 @@
              , CR_AMT                                 AS CR_AMT
              , ENTM_AMT                               AS ENTM_AMT
              , CC.USR_NM                              AS FRST_REG_EMP_NO
-             , AA.FRST_REG_DTM                        AS FRST_REG_DTM
+             , AA.FNL_UPD_DTM                         AS FRST_REG_DTM
           FROM (
                            SELECT * FROM LVL4
                  UNION ALL SELECT * FROM LVL3
