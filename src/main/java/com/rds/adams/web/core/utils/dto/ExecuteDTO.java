@@ -26,5 +26,7 @@ public class ExecuteDTO {
 	
 	@Schema(description = "고객사번호")
 	private String csNo;
-
+	
+	@Schema(description = "고객사번호")
+	private int seqNo;
 }

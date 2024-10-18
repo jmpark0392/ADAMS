@@ -552,6 +552,7 @@
 	
 				formGroupElem.appendChild(detailLabelitem);
 
+
 				if(column.id === "appStDt" || column.id === "appEdDt"){
 					// this is the date input field
 					const dateInputContainer = document.createElement('div');
@@ -590,7 +591,8 @@
 
 					// we add the date input to	to the form group element
 					formGroupElem.appendChild(dateInputContainer);
-					} else if( column.id === "acLvlCd" || column.id === "bkgAcYn" ||  column.id === "fsDvCd" || 
+					} else 
+					if( column.id === "acLvlCd" || column.id === "bkgAcYn" ||  column.id === "fsDvCd" || 
 					column.id === "acDvCd"  || column.id === "acKindCd" || column.id === "useYn" ) {
 	
 					const selectInput = document.createElement('select');

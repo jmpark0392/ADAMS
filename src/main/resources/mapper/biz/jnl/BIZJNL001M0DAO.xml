@@ -21,7 +21,7 @@
              , A.ETC_DESC                              AS etcDesc
              , A.USE_YN                                AS useYn
              , B.USR_NM                                AS frstRegEmpNo
-             , CONVERT(CHAR(10), A.FRST_REG_DTM, 23)                          AS frstRegDtm
+             , A.FRST_REG_DTM                          AS frstRegDtm
 		  FROM TB_ATIT_MNG_LST A 
 		  LEFT OUTER JOIN TB_USR_MNG_LST B 
           ON A.FNL_UPD_EMP_NO = B.USR_ID
@@ -72,8 +72,8 @@
             , #{fsDvCd}
             , #{acDvCd}
             , #{acKindCd}
-            , #{appStDt}
-            , #{appEdDt}
+            , REPLACE(#{appStDt}, '-', '')
+            , REPLACE(#{appEdDt}, '-', '')
             , #{ordSeq}
             , #{etcDesc}
             , #{useYn}
@@ -94,8 +94,8 @@
                FS_DV_CD = #{fsDvCd},
                AC_DV_CD = #{acDvCd},
 			   AC_KIND_CD = #{acKindCd},
-			   APP_ST_DT = #{appStDt},
-			   APP_ED_DT = #{appEdDt},
+			   APP_ST_DT = REPLACE(#{appStDt}, '-', ''),
+			   APP_ED_DT = REPLACE(#{appEdDt}, '-', ''),
 			   ORD_SEQ = #{ordSeq},
 			   ETC_DESC = #{etcDesc},
                USE_YN = #{useYn},
