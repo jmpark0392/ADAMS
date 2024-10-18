@@ -305,6 +305,7 @@
              , [PTB_NM]
              , [PTB_PH_NO]
              , [PTB_EMAIL]
+             , [PTB_DEPT_NM]
              , [ADMIN_ID]
              , [ADMIN_PASSWORD]
              , [COMP_HMPG_URL]
@@ -339,6 +340,7 @@
              , #{ptbNm}
              , #{ptbPhNo}
              , #{ptbEmail}
+             , #{ptbDeptNm}
              , #{ptbEmail}
              , PWDENCRYPT(#{usrPassword})
              , #{compHmpgUrl}
