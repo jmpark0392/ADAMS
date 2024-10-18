@@ -1,209 +1,161 @@
 <!DOCTYPE html>
-<html
-  lang="ko"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}"
->
-  <th:block layout:fragment="content">
-    <div class="page">
-      <script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-      <div class="page-wrapper" id="page-wrapper">
-        <!-- Main Container -->
-        <div class="container" id="container">
-          <h2>[[${menuNm}]]</h2>
-          <div class="ptag-container">
-            <!-- <span><a href="#"> Home ></a></span> -->
-            <span>[[${navigator}]]</span>
-          </div>
-          <!-- Form Container -->
-          <div class="form-container">
-            <div class="form-box">
-              <form
-                id="filter-form"
-                name="form"
-                method="post"
-                action="/WRKFIL001M0SelectList"
-                onsubmit="return false;"
-              >
-                <div class="row align-items-center">
-                  <!-- Input and Search Button on the far left -->
-                  <div class="col-md-4 mb-2 mb-md-0" style="margin-left: 8px">
-                    <!-- <label for="datepicker-icon-prepend" class="form-label"
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<th:block layout:fragment="content">
+	<div class="page">
+		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+		<div class="page-wrapper" id="page-wrapper">
+			<!-- Main Container -->
+			<div class="container" id="container">
+				<h2>[[${menuNm}]]</h2>
+				<div class="ptag-container">
+					<!-- <span><a href="#"> Home ></a></span> -->
+					<span>[[${navigator}]]</span>
+				</div>
+				<!-- Form Container -->
+				<div class="form-container">
+					<div class="form-box">
+						<form id="filter-form" name="form" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
+							<div class="row align-items-center">
+								<!-- Input and Search Button on the far left -->
+								<div class="col-md-4 mb-2 mb-md-0" style="margin-left: 8px">
+									<!-- <label for="datepicker-icon-prepend" class="form-label"
                       >Year / Month</label
                     > -->
-                    <div class="mb-3">
-                      <label class="form-label">Year / Month</label>
-                      <div class="row">
-                        <div class="col-auto">
-                          <select
-                            name="user[month]"
-                            class="form-select select-month-year p-1"
-                          >
-                            <option value="">Month</option>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option selected="selected" value="9">
-                              September
-                            </option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                          </select>
-                        </div>
-                        <!-- <div class="col-3"></div> -->
-                        <div class="col-auto">
-                          <select
-                            name="user[year]"
-                            class="form-select select-month-year p-1"
-                          >
-                            <option value="">Year</option>
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option selected="selected" value="2024">
-                              2024
-                            </option>
-                            <option value="2025">2025</option>
-                            <option value="2026">2026</option>
-                          </select>
-                        </div>
-                        <div class="col-auto">
-                          <button
-                            type="button"
-                            class="btn btn-primary .search-button-file p-1"
-                            id="searchButton"
-                          >
-                            Search
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!-- Page content -->
-        <div class="page-body">
-          <div class="container-xl">
-            <div class="row row-cards">
-              <div class="col-sm-6 col-lg-3">
-                <div class="card card-md d-flex flex-column h-100">
-                  <div class="card-body text-center flex-grow-1">
-                    <div
-                      class="text-uppercase text-secondary font-weight-medium"
-                    >
-                      <!-- Basic Service -->
-                      <span id="serviceChange"> </span>
-                    </div>
+									<div class="mb-3">
+										<label class="form-label">Search Year / Month</label>
+										<div class="row">
+											<div class="col-auto">
+												<select name="user[year]" class="form-select select-month-year p-1">
+													<option value="">Year</option>
+													<option value="2020">2020</option>
+													<option value="2021">2021</option>
+													<option value="2022">2022</option>
+													<option value="2023">2023</option>
+													<option value="2024">2024</option>
+													<option value="2025">2025</option>
+													<option value="2026">2026</option>
+												</select>
+											</div>
+											<!-- <div class="col-3"></div> -->
+											<div class="col-auto">
+												<select name="user[month]" class="form-select select-month-year p-1">
+													<option value="">Month</option>
+													<option value="1">January</option>
+													<option value="2">February</option>
+													<option value="3">March</option>
+													<option value="4">April</option>
+													<option value="5">May</option>
+													<option value="6">June</option>
+													<option value="7">July</option>
+													<option value="8">August</option>
+													<option value="9">September</option>
+													<option value="10">October</option>
+													<option value="11">November</option>
+													<option value="12">December</option>
+												</select>
+											</div>
+											<div class="col-auto">
+												<button type="button" class="btn btn-primary .search-button-file p-1" id="searchButton">Search</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- Page content -->
+			<div class="page-body">
+				<div class="container-xl">
+					<div class="row row-cards">
+						<div class="col-sm-6 col-lg-3">
+							<div class="card card-md d-flex flex-column h-100">
+								<div class="card-body text-center flex-grow-1">
+									<div class="text-uppercase text-secondary font-weight-medium">
+										<!-- Basic Service -->
+										<span id="serviceChange"> </span>
+									</div>
 
-                    <ul class="list-unstyled lh-lg">
-                      <li>
-                        <!-- <strong>5</strong> Users -->
-                      </li>
-                      <li>
-                        <div class="mt-2 flex-container">
-                          <span class="mb-2">User:&nbsp;</span>
-                          <span id="userNumber"> </span>
-                        </div>
-                        <!-- - Basic User: 5 -->
-                      </li>
-                      <li></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+									<ul class="list-unstyled lh-lg">
+										<li>
+											<!-- <strong>5</strong> Users -->
+										</li>
+										<li>
+											<div class="mt-2 flex-container">
+												<span class="mb-2">User:&nbsp;</span> <span id="userNumber"> </span>
+											</div> <!-- - Basic User: 5 -->
+										</li>
+										<li></li>
+									</ul>
+								</div>
+							</div>
+						</div>
 
-              <div class="col-sm-6 col-lg-3">
-                <div class="card card-md d-flex flex-column h-100">
-                  <div class="card-body text-center text-center flex-grow-1">
-                    <div
-                      class="text-uppercase text-secondary font-weight-medium"
-                    >
-                      Total Usage
-                    </div>
-                    <!-- <div class="display-5 fw-bold my-3">$99</div> -->
-                    <ul class="list-unstyled lh-lg">
-                      <li>
-                        <!-- <strong>100</strong> Users -->
-                      </li>
-                      <li>
-                        <div class="mt-2 flex-container">
-                          <span class="mb-2">Total:&nbsp</span>
-                          <span id="totalUsage"> </span>
-                        </div>
-                        <!-- Total: 11.580.000 (KRW) -->
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="card card-md d-flex flex-column h-100">
-                  <div class="card-body text-center text-center flex-grow-1">
-                    <div
-                      class="text-uppercase text-secondary font-weight-medium"
-                    >
-                      Estimated Usage
-                    </div>
-                    <!-- <div class="display-5 fw-bold my-3">$139</div> -->
-                    <ul class="list-unstyled lh-lg">
-                      <li>
-                        <!-- <strong>Unlimited</strong> Users -->
-                      </li>
-                      <li>
-                        <div class="mt-2 flex-container">
-                          <span class="mb-2">Total:&nbsp;</span>
-                          <span id="estimatedUsage"> </span>
-                        </div>
-                        <!-- Total: 18.651.000 (KRW) -->
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="card card-md d-flex flex-column h-100">
-                  <div class="card-body text-center text-center flex-grow-1">
-                    <div
-                      class="text-uppercase text-secondary font-weight-medium"
-                    >
-                      Option(s) Panel
-                    </div>
-                    <ul class="list-unstyled lh-lg">
-                      <li></li>
-                      <!-- <li><strong>10</strong> Users</li> -->
-                      <!-- <form class="optionForm"> -->
-                      <div class="card card-lg">
-                        <div class="mt-2 flex-container">
-                          <span class="mb-2">User's Option: &nbsp;</span>
-                          <span id="selectedOption"> </span>
-                        </div>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 mb-3">
-                <div class="card card-md">
-                  <div class="container my-5">
-                    <canvas id="mixedChart" width="300" height="150"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <script>
+						<div class="col-sm-6 col-lg-3">
+							<div class="card card-md d-flex flex-column h-100">
+								<div class="card-body text-center text-center flex-grow-1">
+									<div class="text-uppercase text-secondary font-weight-medium">Total Usage</div>
+									<!-- <div class="display-5 fw-bold my-3">$99</div> -->
+									<ul class="list-unstyled lh-lg">
+										<li>
+											<!-- <strong>100</strong> Users -->
+										</li>
+										<li>
+											<div class="mt-2 flex-container">
+												<span class="mb-2">Total:&nbsp</span> <span id="totalUsage"> </span>
+											</div> <!-- Total: 11.580.000 (KRW) -->
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-lg-3">
+							<div class="card card-md d-flex flex-column h-100">
+								<div class="card-body text-center text-center flex-grow-1">
+									<div class="text-uppercase text-secondary font-weight-medium">Estimated Usage</div>
+									<!-- <div class="display-5 fw-bold my-3">$139</div> -->
+									<ul class="list-unstyled lh-lg">
+										<li>
+											<!-- <strong>Unlimited</strong> Users -->
+										</li>
+										<li>
+											<div class="mt-2 flex-container">
+												<span class="mb-2">Total:&nbsp;</span> <span id="estimatedUsage"> </span>
+											</div> <!-- Total: 18.651.000 (KRW) -->
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-lg-3">
+							<div class="card card-md d-flex flex-column h-100">
+								<div class="card-body text-center text-center flex-grow-1">
+									<div class="text-uppercase text-secondary font-weight-medium">Option(s) Panel</div>
+									<ul class="list-unstyled lh-lg">
+										<li></li>
+										<!-- <li><strong>10</strong> Users</li> -->
+										<!-- <form class="optionForm"> -->
+										<div class="card card-lg">
+											<div class="mt-2 flex-container">
+												<span class="mb-2">User's Option: &nbsp;</span> <span id="selectedOption"> </span>
+											</div>
+										</div>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 mb-3">
+							<div class="card card-md">
+								<div class="container my-5">
+									<canvas id="mixedChart" width="300" height="150"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script>
           let initlaizedChart;
           //  we have to wait for the DOM to load
           document.addEventListener("DOMContentLoaded", function () {
@@ -516,15 +468,20 @@
             }
 
             $(document).ready(function () {
+            	
+              $('select[name="user[month]"]').val(gv_month);
+              $('select[name="user[year]"]').val(gv_year);
+    			
               fetchSubscriptionList();
               // we fetch the user subcrioption info
               getUserSubscriptionInfo();
               searchFunction();
+              
             });
           });
         </script>
-      </div>
-    </div>
-    <script src="js/utils.js"></script>
-  </th:block>
+		</div>
+	</div>
+	<script src="js/utils.js"></script>
+</th:block>
 </html>
