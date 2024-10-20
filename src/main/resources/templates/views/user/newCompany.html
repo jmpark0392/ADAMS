@@ -463,55 +463,61 @@
     	var csrfHeader    = $("meta[name='_csrf_header']").attr("content");
     	
     	if ( isNull(vCountryNmEng) == "" ) {
-            alert("Select Country Name.");
+            alert("Select your country.");
             $("#countryName").focus();
     		return;
     	}
     	
     	if ( isNull(vCompNoDvCd) == "" ) {
-            alert("Select Type of Company Identification.");
+            alert("Select a type of company identification.");
             $("#companyDivision").focus();
     		return;
     	}
     	
     	if ( isNull(vCompNo) == "" ) {
-            alert("Enter Company Identification Number");
+            alert("Enter your company identification number");
             $("#companyNo").focus();
     		return;
     	}
     	
     	if ( isNull(vCompNm) == "" ) {
-            alert("Enter Company Name.");
+            alert("Enter your company name.");
             $("#companyName").focus();
     		return;
     	}
-    	
+
+    	if ( isNull(vCompHmpgUrl) == "" ) {
+            alert("Enter your comapny homepage URL.");
+            $("#companyHomepage").focus();
+    		return;
+    	}
+
     	if ( isNull(vRepPhNo) == "" ) {
-            alert("Enter Phone Number.");
+            alert("Enter your company representative pohone number.");
             $("#representativePhone").focus();
     		return;
     	}
     	
     	if ( isNull(vReperNm) == "" ) {
-            alert("Enter Representative Name.");
+            alert("Enter your comapny representative person name. (President, CEO etc.)");
             $("#representativeName").focus();
     		return;
     	}
     	
     	if ( isNull(vPtbNm) == "" ) {
-            alert("Enter Your Name.");
+            alert("Enter your name.");
             $("#managerName").focus();
     		return;
     	}
     	
     	if ( isNull(vPtbPhNo) == "" ) {
-            alert("Enter Your Phone Number.");
+            alert("Enter your phone number.");
             $("#managerPhone").focus();
     		return;
     	}
     	
     	if ( isNull(vPtbEmail) == "" ) {
-            alert("Enter Your e-mail.");
+            alert("Enter your e-mail.");
             $("#managerEmail").focus();
     		return;
     	}
@@ -524,13 +530,13 @@
         }
 
     	if ( isNull(vUsrPassword) == "" ) {
-            alert("Enter Your Password.");
+            alert("Enter your password.");
             $("#usrPassword").focus();
     		return;
     	}
 
     	if ( isNull(vUsrPasswordAgain) == "" ) {
-            alert("Re-enter Your Password.");
+            alert("Re-enter your password.");
             $("#usrPasswordAgain").focus();
     		return;
     	}
@@ -542,19 +548,19 @@
     	}
     	
     	if ( isNull(vPostNo) == "" ) {
-            alert("Enter Postal Code.");
+            alert("Enter your company postal code.");
             $("#postalCode").focus();
     		return;
     	}
     	
     	if ( isNull(vAddrs) == "" ) {
-            alert("Enter Company Address 1.");
+            alert("Enter your company address 1.");
             $("#basicAddress").focus();
     		return;
     	}
     	
     	if ( isNull(vDtlsAddrs) == "" ) {
-            alert("Enter Company Address 2.");
+            alert("Enter your company address 2.");
             $("#detailedAddress").focus();
     		return;
     	}
