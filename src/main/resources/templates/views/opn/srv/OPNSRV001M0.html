@@ -111,7 +111,7 @@
 				gf_Transaction(option, fn_callback );
 			}
 	
-			function insertCs(addedRow) {
+			function insertSrvc(addedRow) {
 				var option = {
 						   id          : "insertList"
 					     , type        : "post"
@@ -125,8 +125,8 @@
 				gf_Transaction(option, fn_callback );
 			}
 	
-			function fn_updateCs(input) {
-				console.log("updateCs input : " + input);
+			function fn_updateSrvc(input) {
+				console.log("updateSrvc input : " + input);
 				var option = {
 						   id          : "updateList"
 					     , type        : "post"
@@ -225,7 +225,7 @@
 						, autoWidth: true
 						, asyncEditorLoading: false
 						, autoEdit: false
-						, autoEditNewRow: false
+						, autoEditNewRow: true
 						, rowHeight: 35
 						};	
 	
@@ -712,7 +712,7 @@
 		
 				// focus on a first cell with an Editor (unless current cell already has an Editor then do nothing)
 				// also when it's a "Create" modal, we'll scroll to the end of the grid
-				var rowIndex = modalType === "create" ? data.length : activeRow;
+				var rowIndex = modalType === "create" ? grid.getDataLength() : activeRow;
 				focusOnFirstCellWithEditor(columns, rowIndex, isWithMassUpdate);
 	
 				if (modalType === "edit" && !dataContext) {
@@ -828,18 +828,20 @@
 							formData[column.field] = input.value.trim();
 						}
 					});
-					
+
+					if (modalType === "edit") {
 					// 숨겨진 컬럼의 데이터도 수집
-			        hiddenColumns.forEach(hiddenColId => {
-			            formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
-			        });
+				        hiddenColumns.forEach(hiddenColId => {
+				            formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
+				        });
+					}
 					
 					if (modalType === "create") {
 						// Add new item to grid data
 						if (checkData(formData)) {
 							//formData[unqId] = grid.getDataLength() + 1;
 							//dataView.insertItem(grid.getDataLength(), formData);
-							insertCs(JSON.stringify(formData));
+							insertSrvc(JSON.stringify(formData));
 
 						} else {
 							alert("Please fill out all required fields.");
@@ -857,9 +859,9 @@
 	
 						if (isChanged) {
 							formData[unqId] = originalData[unqId];
-							console.log("fn_updateCs befor formData:", formData);
+							console.log("fn_updateSrvc befor formData:", formData);
 							//dataView.updateItem(originalData[unqId], formData);
-							fn_updateCs(JSON.stringify(formData));
+							fn_updateSrvc(JSON.stringify(formData));
 						} else {
 							alert("No changes detected.");
 							return;

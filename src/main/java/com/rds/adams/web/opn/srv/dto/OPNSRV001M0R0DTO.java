@@ -48,6 +48,9 @@ public class OPNSRV001M0R0DTO {
     @Schema(description = "서비스시작일시")
     private String srvcStrDtm;
 
+    @Schema(description = "old서비스시작일시")
+    private String oldSrvcStrDtm;
+
     @Schema(description = "서비스설명")
     private String srvcDesc;
 

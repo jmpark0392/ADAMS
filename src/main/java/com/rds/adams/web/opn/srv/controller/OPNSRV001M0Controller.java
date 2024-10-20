@@ -47,7 +47,7 @@ public class OPNSRV001M0Controller {
 	 * @return
 	 */
 	@RequestMapping(value="/OPNSRV001M0SelectList", method=RequestMethod.POST, consumes="application/json")
-	public List<OPNSRV001M0R0DTO> selectCsNoList(@RequestBody OPNSRV001M0P0DTO inVo) {
+	public List<OPNSRV001M0R0DTO> selectSrvcList(@RequestBody OPNSRV001M0P0DTO inVo) {
 		
 		log.info(inVo.toString());
 		
@@ -64,7 +64,7 @@ public class OPNSRV001M0Controller {
 	 * @return
 	 */
 	@RequestMapping(value="/OPNSRV001M0SelectHistList", method=RequestMethod.POST, consumes="application/json")
-	public List<OPNSRV001M0R1DTO> selectCsNoList(@RequestBody OPNSRV001M0P1DTO inVo) {
+	public List<OPNSRV001M0R1DTO> selectSrvcHistList(@RequestBody OPNSRV001M0P1DTO inVo) {
 		
 		log.info(inVo.toString());
 		
@@ -82,7 +82,7 @@ public class OPNSRV001M0Controller {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value="/OPNSRV001M0UpdateList", method=RequestMethod.POST, consumes="application/json")
-	public HashMap<String, Object> saveCsNo(@RequestBody OPNSRV001M0R0DTO inVo, HttpServletRequest request) throws Exception {
+	public HashMap<String, Object> updateSrvcList(@RequestBody OPNSRV001M0R0DTO inVo, HttpServletRequest request) throws Exception {
 		
 		HashMap<String, Object> resultMap = new HashMap<String,Object>();
 	    boolean  bResult = false;
@@ -91,16 +91,53 @@ public class OPNSRV001M0Controller {
 
     	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
     	inVo.setUsrId(sAdamsLoginDTO.getUsrId());
-		
-		bResult = OPNSRV001M0Service.saveCsNo(inVo);
-		
-		if (bResult) {
+		try {
+			bResult = OPNSRV001M0Service.updateSrvcList(inVo);
 			
-			resultMap.put("resultCode"   , "200");
-			resultMap.put("resultMessage", "Success !!!");
-		} else {
-			resultMap.put("resultCode"   , "300");
-			resultMap.put("resultMessage", "Save Failed !!!");
+			if (bResult) {
+				
+				resultMap.put("resultCode"   , "200");
+				resultMap.put("resultMessage", "Success !!!");
+			} else {
+				resultMap.put("resultCode"   , "300");
+				resultMap.put("resultMessage", "Save Failed !!!");
+			}
+		} catch (Exception e) {
+			throw new Exception("OPNSRV001M0Controller Error : " + e.getMessage());
+		}
+		
+		return resultMap;
+		
+	}
+	
+	/**
+	 * @param model
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value="/OPNSRV001M0InsertList", method=RequestMethod.POST, consumes="application/json")
+	public HashMap<String, Object> insertSrvcList(@RequestBody OPNSRV001M0R0DTO inVo, HttpServletRequest request) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	    boolean  bResult = false;
+		
+		log.info(inVo.toString());
+
+    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+    	inVo.setUsrId(sAdamsLoginDTO.getUsrId());
+		try {
+			bResult = OPNSRV001M0Service.insertSrvcList(inVo);
+			
+			if (bResult) {
+				
+				resultMap.put("resultCode"   , "200");
+				resultMap.put("resultMessage", "Success !!!");
+			} else {
+				resultMap.put("resultCode"   , "300");
+				resultMap.put("resultMessage", "Save Failed !!!");
+			}
+		} catch (Exception e) {
+			throw new Exception("OPNSRV001M0Controller Error : " + e.getMessage());
 		}
 		
 		return resultMap;

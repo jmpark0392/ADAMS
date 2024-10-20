@@ -36,24 +36,61 @@ public interface OPNSRV001M0DAO {
 
 	/**
 	 * 서비스 이력 목록 조회를 처리한다
-	 * @param vo OPNSRV001M0P0DTO
-	 * @return List<OPNSRV001M0R0DTO>
+	 * @param vo OPNSRV001M0P1DTO
+	 * @return List<OPNSRV001M0R1DTO>
 	 * @exception Exception
 	 */
 	public List<OPNSRV001M0R1DTO> selectSrvcHistList(OPNSRV001M0P1DTO inVo);
 
 	/**
-	 * 서비스 정보를 저장한다
-	 * @param vo OPNSRV001M0P1DTO
+	 * 서비스 이력 시작일자 적합성를 조회한다
+	 * @param vo OPNSRV001M0R0DTO
+	 * @return String
 	 * @exception Exception
 	 */
-	public void updateCsNo(OPNSRV001M0R0DTO inVo);
+	public String selectChkDate(OPNSRV001M0R0DTO inVo);
+
+	/**
+	 * 서비스 이력 시작일자 기준 count 조회를 처리한다
+	 * @param vo OPNSRV001M0R0DTO
+	 * @return String
+	 * @exception Exception
+	 */
+	public String selectChkHist(OPNSRV001M0R0DTO inVo);
+
+	/**
+	 * 서비스 정보를 저장한다
+	 * @param vo OPNSRV001M0R0DTO
+	 * @exception Exception
+	 */
+	public void updateSrvc(OPNSRV001M0R0DTO inVo);
 
 	/**
 	 * 서비스 이력 정보를 저장한다
-	 * @param vo OPNSRV001M0P1DTO
+	 * @param vo OPNSRV001M0R0DTO
 	 * @exception Exception
 	 */
-	public void insertAdmUsr(OPNSRV001M0R0DTO inVo);
+	public void updateSrvcHistDay(OPNSRV001M0R0DTO inVo);
+
+	/**
+	 * 서비스 이력 정보를 저장한다
+	 * @param vo OPNSRV001M0R0DTO
+	 * @exception Exception
+	 */
+	public void updateSrvcHistBefor(OPNSRV001M0R0DTO inVo);
+
+	/**
+	 * 서비스 이력 정보를 저장한다
+	 * @param vo OPNSRV001M0R0DTO
+	 * @exception Exception
+	 */
+	public void insertSrvcHist(OPNSRV001M0R0DTO inVo);
+
+	/**
+	 * 서비스 정보를 저장한다
+	 * @param vo OPNSRV001M0R0DTO
+	 * @exception Exception
+	 */
+	public void insertSrvc(OPNSRV001M0R0DTO inVo);
 
 }
