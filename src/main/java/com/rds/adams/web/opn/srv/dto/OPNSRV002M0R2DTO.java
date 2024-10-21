@@ -60,6 +60,7 @@ public class OPNSRV002M0R2DTO {
     @Schema(description = "옵션상세종료일시")
     private String optDtlsEndDtm;
 
+    // this should be regarded as not important to use in the ui side
     @Schema(description = "최종수정사원번호")
     private String fnlUpdEmpNoDtls;
 

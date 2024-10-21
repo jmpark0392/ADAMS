@@ -100,6 +100,7 @@ public class OPNSRV002M0Controller {
 	 * @param model
 	 * @return
 	 */
+	// 4th grid data request from the ui side
 	@RequestMapping(value="/OPNSRV002M0SelectDetailHistList", method=RequestMethod.POST, consumes="application/json")
 	public List<OPNSRV002M0R3DTO> selectOptDetailHistList(@RequestBody OPNSRV002M0P2DTO inVo) {
 		
