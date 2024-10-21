@@ -437,7 +437,7 @@
 	            }
 	          });
 	
-	          grid.setActiveCell(0, 0);
+	          //grid.setActiveCell(0, 0);
 	          console.log("SlickGrid initialized.");
 	        }
 
@@ -485,19 +485,30 @@
 	          if (modalType === "create") {
 	            grid.setActiveCell(grid.getDataLength(), 0);
 	          }
-	          var activeCell = grid.getActiveCell();
-	          var activeRow = (activeCell && activeCell.row) || 0;
-			  const dataContext = grid.getDataItem(activeRow);
+	          
+				var activeCell = grid.getActiveCell();
+				console.log("activeCell:", activeCell);
 
-			  // get the active cell index
-			  let activeCellIndex = activeCell.cell;
+				// 선택된 cell이 없을 경우
+				if (!activeCell) {
+					alert("Please select a cell to edit the data.");
+				return;
+				}
+				
+				//get the active cell index
+				let activeCellIndex = activeCell.cell;
 
-			  let column = grid.getColumns()[activeCellIndex];
-			  
+				//let column = grid.getColumns()[activeCellIndex];
+
+				// setting the active row to the first row if the active row is undefined
+				var activeRow = (activeCell && activeCell.row) || 0;
+				const dataContext = grid.getDataItem(activeRow);
+			
+				/*
 			  if(( modalType === "edit" && !dataContext) || !column || !activeCell ){
 				  alert("Please select a cell to edit.");
 				  return;
-			  }
+			  } */
 	
 				if (!options.enableCellNavigation) {
 					throw new Error('Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
