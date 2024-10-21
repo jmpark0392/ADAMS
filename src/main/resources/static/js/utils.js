@@ -578,5 +578,49 @@ function getCycleFromYymm(stdYymm){
 	}
 }
 
+function getUnqIds(data, unqId){
+	var idList = [];
+	for	(var i = 0; i < data.length; i++){
+		idList.push(data[i][unqId])
+	}
+	return idList
+}
 
+function fn_getDataForTree(data, unqId, upprId, indentCol, indentFactor = 1){
+	var allIds = getUnqIds(data, unqId);
+	for	(var i = 0; i < data.length; i++)
+	{
+		var d = data[i];
+		d["indent"] = parseInt(d[indentCol]) * indentFactor;
+		
+		if(d[indentCol] == 0){
+			d["parent"] = null;
+		}
+		else {
+			d["parent"] = allIds.indexOf(d[upprId]);
+		}
+		d["_collapsed"] = false;
+	} 
+	return data
+}
 
+var TreeArchFormatter = function (row, cell, value, columnDef, dataContext, grid) {
+	if (value == null || value == undefined || dataContext === undefined) { return ""; }
+	value = value.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+	var spacer = "<span style='display:inline-block;height:1px;width:" + (15 * dataContext["indent"]) + "px'></span>";
+	var idx = dataView.getIdxById(dataContext[unqId]);
+	var data = grid.getData().items;
+	var hasChildren = (data[idx + 1] && data[idx + 1].indent > data[idx].indent);
+	
+	if (hasChildren) {
+		if (dataContext._collapsed) {
+			return spacer + " <span class='toggle sgi sgi-plus-box-outline'></span>&nbsp;" + value;
+		} 
+		else {
+			return spacer + " <span class='toggle sgi sgi-minus-box-outline'></span>&nbsp;" + value;
+		}
+	}
+	else {
+		return spacer + " <span class='toggle'></span>&nbsp;" + value;
+	}
+};
