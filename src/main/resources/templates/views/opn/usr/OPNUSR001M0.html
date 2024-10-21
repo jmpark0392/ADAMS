@@ -134,22 +134,6 @@
 
 			gf_Transaction(option, fn_callback);
 		}
-		
-		// 필터링 함수
-		function myFilter(item) {
-			//console.log("myFilter's item: ", item);
-			var data = grid.getData().items;
-			if (item.parent != null) {
-				var parent = data[item.parent];
-				while (parent) {
-					if (parent._collapsed) {
-						return false;
-					}
-					parent = data[parent.parent];
-				}
-			}
-			return true;
-		}
 	</script>
 	<script src="js/utils.js"></script>
 	<script>
@@ -307,7 +291,7 @@
 			// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
 			dataView.beginUpdate();
 			dataView.setItems(data, unqId);
-			dataView.setFilter(myFilter);
+			dataView.setFilter(treeFilter);
 			dataView.endUpdate();
 
 			// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
@@ -336,11 +320,10 @@
 				);
 				grid.render();
 			});
+			
 			grid.onClick.subscribe(function (e, args) {
 				if (e.getNativeEvent().target.classList.contains("toggle")) {
 					var item = dataView.getItem(args.row);
-					//console.log("Toggle!!");
-					//console.log("row: ", item);
 					if (item) {
 						if (!item._collapsed) {
 							item._collapsed = true;
@@ -352,32 +335,11 @@
 					e.stopImmediatePropagation();
 				}
 			});
-			/*
-			grid.onClick.subscribe(function (e, args) {
-				if ($(e.target).hasClass("toggle")) {
-					var item = args.grid.getDataItem(args.row);
-					console.log("Toggle!!");
-					console.log("row: ", item);
-					
-					if (item.indent === 0) {
-						// 부모 행이면 확장/축소 토글
-						//expandedRows[rowIndex] = !expandedRows[rowIndex];
-						item._collapsed = !item._collapsed;
-					}
-					dataView.updateItem(item.menuId, item);
-					dataView.refresh(); // 필터 재적용
-					//grid.invalidate();
-					//grid.render();
-					//e.stopImmediatePropagation();
-				}
-			});
-			*/
 
 			grid.setSelectionModel(new Slick.CellSelectionModel());
 			grid.registerPlugin(new Slick.AutoTooltips());
 
 			// set keyboard focus on the grid
-			//grid.getCanvasNode().focus();
 			grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
 
 			grid.onAddNewRow.subscribe(function (e, args) {

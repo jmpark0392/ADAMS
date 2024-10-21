@@ -16,12 +16,12 @@
                          , FNL_UPD_DTM            AS FNL_UPD_DTM
                       FROM TB_FS_LST 
                      WHERE 1=1
-                     <if test= 'csNo != "999"'>
-					   AND CS_NO        = #{csNo}
-					 </if>
-                       AND STD_YYMM = #{stdYymm} 
-                       AND FS_DV_CD = 'BS'   --STD_YYMM , FS_DV_CD  변수
-                  )
+                 <if test= 'csNo != "999"'>
+                   AND CS_NO        = #{csNo}
+                 </if>
+                   AND STD_YYMM = #{stdYymm} 
+                   AND FS_DV_CD = 'BS'   --STD_YYMM , FS_DV_CD  변수
+              )
         , LVL3 AS (
                     SELECT 
                            B.HGRK_ATIT_CD          AS ATIT_CD
@@ -35,8 +35,8 @@
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
                         ON A.ATIT_CD = B.ATIT_CD
                      WHERE B.AC_LVL_CD = '4'
-                     GROUP BY B.HGRK_ATIT_CD 
-                  )
+                 GROUP BY B.HGRK_ATIT_CD 
+              )
         , LVL2 AS (
                     SELECT 
                            B.HGRK_ATIT_CD          AS ATIT_CD
@@ -50,8 +50,8 @@
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
                         ON A.ATIT_CD = B.ATIT_CD
                      WHERE B.AC_LVL_CD = '3'
-                     GROUP BY B.HGRK_ATIT_CD 
-                  ) 
+                 GROUP BY B.HGRK_ATIT_CD 
+              ) 
         , LVL1 AS (
                     SELECT 
                            B.HGRK_ATIT_CD          AS ATIT_CD
@@ -67,20 +67,18 @@
                      WHERE B.AC_LVL_CD = '2'
                      GROUP BY B.HGRK_ATIT_CD 
                   )
-        SELECT 
+        SELECT
                ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
              , AA.ATIT_CD                             AS ATIT_CD
-             , CASE WHEN BB.AC_LVL_CD = '4' THEN '----'
-                    WHEN BB.AC_LVL_CD = '3' THEN '---'
-                    WHEN BB.AC_LVL_CD = '2' THEN '--'
-                    ELSE '' END 
-             + BB.ATIT_ENG_NM                         AS ATIT_NM
+             , BB.HGRK_ATIT_CD                        AS HGRK_ATIT_CD
+             , BB.ATIT_ENG_NM                         AS ATIT_NM
              , BAS_AMT                                AS BAS_AMT
              , DR_AMT                                 AS DR_AMT
              , CR_AMT                                 AS CR_AMT
              , ENTM_AMT                               AS ENTM_AMT
              , CC.USR_NM                              AS FRST_REG_EMP_NO
              , AA.FNL_UPD_DTM                         AS FRST_REG_DTM
+             , BB.AC_LVL_CD                           AS LEVEL_CD
           FROM (
                            SELECT * FROM LVL4
                  UNION ALL SELECT * FROM LVL3
@@ -91,14 +89,14 @@
             ON AA.ATIT_CD = BB.ATIT_CD
           LEFT OUTER JOIN TB_USR_MNG_LST CC
             ON AA.FNL_UPD_EMP_NO = CC.USR_ID
-          WHERE 1=1
-        <if test='searchTxt != ""'>
-            AND (
-                    AA.ATIT_CD     LIKE '%' + #{searchTxt} + '%'
-                 OR BB.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
-                 )
-        </if>
-          ORDER BY BB.ORD_SEQ
+         WHERE 1=1
+         <if test='searchTxt != ""'>
+           AND (
+                   AA.ATIT_CD     LIKE '%' + #{searchTxt} + '%'
+                OR BB.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
+               )
+         </if>
+         ORDER BY BB.ORD_SEQ
     </select>
     <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST001M0P1DTO">
         DELETE FROM TB_FS_LST

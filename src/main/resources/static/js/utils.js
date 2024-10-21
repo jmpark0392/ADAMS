@@ -624,3 +624,21 @@ var TreeArchFormatter = function (row, cell, value, columnDef, dataContext, grid
 		return spacer + " <span class='toggle'></span>&nbsp;" + value;
 	}
 };
+
+// 필터링 함수
+function treeFilter(item) {
+	//console.log("treeFilter's item: ", item);
+	var data = grid.getData().items;
+	if (item.parent != null) {
+		var parent = data[item.parent];
+		
+		while (parent) {
+			if (parent._collapsed) {
+				return false;
+			}
+			parent = data[parent.parent];
+		}
+		
+	}
+	return true;
+}

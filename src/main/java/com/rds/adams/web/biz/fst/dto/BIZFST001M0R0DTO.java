@@ -34,6 +34,9 @@ public class BIZFST001M0R0DTO {
 	@Schema(description = "계정과목코드")
 	private String atitCd;
 	
+	@Schema(description = "상위계정과목코드")
+	private String hgrkAtitCd;
+	
 	@Schema(description = "계정과목명")
 	private String atitNm;
 	
@@ -57,6 +60,9 @@ public class BIZFST001M0R0DTO {
 
 	@Schema(description = "최초등록일시")
 	private String frstRegDtm;
+	
+	@Schema(description = "메뉴레벨코드")
+	private String levelCd;
 	
 }
 

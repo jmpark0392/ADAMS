@@ -17,8 +17,8 @@
                       FROM TB_FS_LST 
                      WHERE 1=1
                      <if test= 'csNo != "999"'>
-					   AND CS_NO        = #{csNo}
-					 </if>
+                       AND CS_NO        = #{csNo}
+                     </if>
                        AND STD_YYMM = #{stdYymm} 
                        AND FS_DV_CD = 'PL'   --STD_YYMM , FS_DV_CD  변수
                   )
@@ -69,18 +69,16 @@
                   )
         SELECT 
                ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-		     , AA.ATIT_CD                             AS ATIT_CD
-             , CASE WHEN BB.AC_LVL_CD = '4' THEN '----'
-                    WHEN BB.AC_LVL_CD = '3' THEN '---'
-                    WHEN BB.AC_LVL_CD = '2' THEN '--'
-                    ELSE '' END 
-		     + BB.ATIT_ENG_NM                         AS ATIT_NM
-		     , BAS_AMT                                AS BAS_AMT
-		     , DR_AMT                                 AS DR_AMT
-		     , CR_AMT                                 AS CR_AMT
-		     , ENTM_AMT                               AS ENTM_AMT
-		     , CC.USR_NM                              AS FRST_REG_EMP_NO
-		     , AA.FNL_UPD_DTM                         AS FRST_REG_DTM
+             , AA.ATIT_CD                             AS ATIT_CD
+             , BB.HGRK_ATIT_CD                        AS HGRK_ATIT_CD
+             , BB.ATIT_ENG_NM                         AS ATIT_NM
+             , BAS_AMT                                AS BAS_AMT
+             , DR_AMT                                 AS DR_AMT
+             , CR_AMT                                 AS CR_AMT
+             , ENTM_AMT                               AS ENTM_AMT
+             , CC.USR_NM                              AS FRST_REG_EMP_NO
+             , AA.FNL_UPD_DTM                         AS FRST_REG_DTM
+             , BB.AC_LVL_CD                           AS LEVEL_CD
           FROM (
                            SELECT * FROM LVL4
                  UNION ALL SELECT * FROM LVL3
@@ -106,26 +104,26 @@
           AND CS_NO    = #{csNo}
     </delete>
     <insert id="insertList" parameterType="com.rds.adams.web.biz.fst.dto.BIZFST002M0P1DTO">
-		INSERT INTO [dbo].[TB_FS_LST] (
-			  [CS_NO]
-			, [STD_YYMM]
-			, [ATIT_CD]
-			, [FS_DV_CD]
-			, [BAS_AMT]
-			, [DR_AMT]
-			, [CR_AMT]
-			, [ENTM_AMT]
-			, [FRST_REG_EMP_NO]
-		    , [FRST_REG_DTM]
-			, [FNL_UPD_EMP_NO]
-			, [FNL_UPD_DTM]
-		) 
-		SELECT
-		       A.CS_NO                                                         AS CS_NO
-		     , A.STD_YYMM                                                      AS STD_YYMM
-		     , A.ATIT_CD                                                       AS ATIT_CD
-		     , B.FS_DV_CD                                                      AS FS_DV_CD
-		     , 0                                                               AS BAS_AMT
+        INSERT INTO [dbo].[TB_FS_LST] (
+              [CS_NO]
+            , [STD_YYMM]
+            , [ATIT_CD]
+            , [FS_DV_CD]
+            , [BAS_AMT]
+            , [DR_AMT]
+            , [CR_AMT]
+            , [ENTM_AMT]
+            , [FRST_REG_EMP_NO]
+            , [FRST_REG_DTM]
+            , [FNL_UPD_EMP_NO]
+            , [FNL_UPD_DTM]
+        ) 
+        SELECT
+               A.CS_NO                                                         AS CS_NO
+             , A.STD_YYMM                                                      AS STD_YYMM
+             , A.ATIT_CD                                                       AS ATIT_CD
+             , B.FS_DV_CD                                                      AS FS_DV_CD
+             , 0                                                               AS BAS_AMT
              , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' THEN JRNL_AMT ELSE 0 END )  AS DR_AMT
              , SUM( CASE WHEN A.DR_CR_DV_CD = 'CR' THEN JRNL_AMT ELSE 0 END )  AS CR_AMT
              , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT 
@@ -134,10 +132,10 @@
                          WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT 
                          ELSE JRNL_AMT  END 
                    )                                                           AS  ENTM_AMT
-		     , #{usrId}                                                        AS FRST_REG_EMP_NO
-		     , GETDATE()                                                       AS FRST_REG_DTM
-		     , #{usrId}                                                        AS FNL_UPD_EMP_NO
-		     , GETDATE()                                                       AS FNL_UPD_DTM
+             , #{usrId}                                                        AS FRST_REG_EMP_NO
+             , GETDATE()                                                       AS FRST_REG_DTM
+             , #{usrId}                                                        AS FNL_UPD_EMP_NO
+             , GETDATE()                                                       AS FNL_UPD_DTM
           FROM TB_JNL_RST_LST A
           LEFT OUTER JOIN TB_ATIT_MNG_LST B
             ON A.ATIT_CD = B.ATIT_CD 

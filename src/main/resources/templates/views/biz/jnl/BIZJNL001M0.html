@@ -65,24 +65,6 @@
 			return parentCheckData(data, check_cols);
 		}
 		
-		// 필터링 함수
-		function myFilter(item) {
-			//console.log("myFilter's item: ", item);
-			var data = grid.getData().items;
-			if (item.parent != null) {
-				var parent = data[item.parent];
-				
-				while (parent) {
-					if (parent._collapsed) {
-						return false;
-					}
-					parent = data[parent.parent];
-				}
-				
-			}
-			return true;
-		}
-		
 		function getList(input) {
 			console.log("getList input : " + input);
 			var option = {
@@ -187,7 +169,7 @@
 		var grid;
 		var dataView;
 		var data;
-		var unqId = "atitCd";
+		var unqId = "rowNumber";
 		var xcpt_cols = ["frstRegEmpNo", "frstRegDtm"];
 		var check_cols = [unqId, "atitKorNm"];
 		var columns = [
@@ -206,7 +188,8 @@
 			{ id: "appEdDt",		name: "Apply End Date",		field: "appEdDt",		width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "useYn",			name: "Use YN",				field: "useYn",						sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }, ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 100, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{ id: "frstRegDtm",		name: "Registration Date",	field: "frstRegDtm",	width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}];
+			{ id: "frstRegDtm",		name: "Registration Date",	field: "frstRegDtm",	width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
+			];
 
 		var options = {
 			enableCellNavigation: true,
@@ -280,7 +263,7 @@
 			}
 
 			function fn_setGrid(data){
-				data = fn_getDataForTree(data, unqId, "hgrkAtitCd", "acLvlCd", 2)
+				data = fn_getDataForTree(data, "atitCd", "hgrkAtitCd", "acLvlCd", 2)
 				
 				dataView = new Slick.Data.DataView();
 				grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
@@ -299,7 +282,7 @@
 				// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
 				dataView.beginUpdate();
 				dataView.setItems(data, unqId);
-				dataView.setFilter(myFilter);
+				dataView.setFilter(treeFilter);
 				dataView.endUpdate();
 
 				// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
@@ -330,8 +313,6 @@
 				grid.onClick.subscribe(function (e, args) {
 					if (e.getNativeEvent().target.classList.contains("toggle")) {
 						var item = dataView.getItem(args.row);
-						//console.log("Toggle!!");
-						//console.log("row: ", item);
 						if (item) {
 							if (!item._collapsed) {
 								item._collapsed = true;
@@ -344,56 +325,56 @@
 					}
 				});
 
-			grid.setSelectionModel(new Slick.CellSelectionModel());
-			grid.registerPlugin(new Slick.AutoTooltips());
-
-			// set keyboard focus on the grid
-			//grid.getCanvasNode().focus();
-			grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
-
-			grid.onAddNewRow.subscribe(function (e, args) {
-				var newItem = args.item;
-				var column = args.column;
-				dataView.beginUpdate();
-				dataView.setItems(data);
-				dataView.endUpdate();
-				grid.updateRowCount();
-				grid.render();
-			});
-
-			grid.onBeforeEditCell.subscribe(function (e, args) {
-				console.log("onBeforeEditCell");
-			});
-
-			grid.onCellChange.subscribe(function (e, args) {
-				dataView.beginUpdate();
-				dataView.setItems(data);
-				dataView.endUpdate();
-				grid.updateRowCount();
-				grid.render();
-			});
-
-			grid.onValidationError.subscribe(function (e, args) {
-				// handle validation errors originating from the CompositeEditor
-				if (args.validationResults) {
-					let errorMsg = args.validationResults.msg || "";
-					if (args.editor && args.editor instanceof Slick.CompositeEditor) {
-						if (args.validationResults.errors) {
-							errorMsg += "\n";
-							args.validationResults.errors.forEach(function (error, errorIndex) {
-								const columnName = error.editor.args.column.id;
-								errorMsg += `${columnName.toUpperCase()}: ${error.msg}`;
-							});
+				grid.setSelectionModel(new Slick.CellSelectionModel());
+				grid.registerPlugin(new Slick.AutoTooltips());
+	
+				// set keyboard focus on the grid
+				//grid.getCanvasNode().focus();
+				grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
+	
+				grid.onAddNewRow.subscribe(function (e, args) {
+					var newItem = args.item;
+					var column = args.column;
+					dataView.beginUpdate();
+					dataView.setItems(data);
+					dataView.endUpdate();
+					grid.updateRowCount();
+					grid.render();
+				});
+	
+				grid.onBeforeEditCell.subscribe(function (e, args) {
+					console.log("onBeforeEditCell");
+				});
+	
+				grid.onCellChange.subscribe(function (e, args) {
+					dataView.beginUpdate();
+					dataView.setItems(data);
+					dataView.endUpdate();
+					grid.updateRowCount();
+					grid.render();
+				});
+	
+				grid.onValidationError.subscribe(function (e, args) {
+					// handle validation errors originating from the CompositeEditor
+					if (args.validationResults) {
+						let errorMsg = args.validationResults.msg || "";
+						if (args.editor && args.editor instanceof Slick.CompositeEditor) {
+							if (args.validationResults.errors) {
+								errorMsg += "\n";
+								args.validationResults.errors.forEach(function (error, errorIndex) {
+									const columnName = error.editor.args.column.id;
+									errorMsg += `${columnName.toUpperCase()}: ${error.msg}`;
+								});
+							}
+							console.log(errorMsg);
 						}
-						console.log(errorMsg);
+					} else {
+						alert(errorMessages);
 					}
-				} else {
-					alert(errorMessages);
-				}
-			});
-
-			//grid.setActiveCell(0, 0);
-			console.log("SlickGrid initialized.");
+				});
+	
+				//grid.setActiveCell(0, 0);
+				console.log("SlickGrid initialized.");
 			}
 
 			// Download Excel functionality
