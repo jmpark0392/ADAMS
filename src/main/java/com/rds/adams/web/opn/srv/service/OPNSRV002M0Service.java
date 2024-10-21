@@ -252,6 +252,30 @@ public class OPNSRV002M0Service {
 		return true;
 		
 	}
+
+	/**
+	 * 옵션 상세 정보를 삭제로 저장을 처리한다
+	 * @param vo OPNSRV002M0R2DTO
+	 * @return boolean
+	 * @exception Exception
+	 */
+	public boolean deleteOptDetailList(OPNSRV002M0R2DTO inVo) throws Exception {
+		
+		try {
+
+			inVo.setUseYn("N");
+			inVo.setDelYn("Y");
+			
+			oPNSRV002M0DAO.updateOptDtls(inVo);
+			
+		} catch (Exception e) {
+			throw new Exception("OPNSRV002M0Service Error : " + e.getMessage());
+		}
+		log.debug(" OPNSRV002M0R0DTO : " + inVo.toString());
+		
+		return true;
+		
+	}
 	
 
 }

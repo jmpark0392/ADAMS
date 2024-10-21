@@ -248,6 +248,40 @@ public class OPNSRV002M0Controller {
 		return resultMap;
 		
 	}
+	
+	/**
+	 * @param model
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value="/OPNSRV002M0DeleteDetailList", method=RequestMethod.POST, consumes="application/json")
+	public HashMap<String, Object> deleteOptDetailList(@RequestBody OPNSRV002M0R2DTO inVo, HttpServletRequest request) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	    boolean  bResult = false;
+		
+		log.info(inVo.toString());
+
+    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+    	inVo.setUsrId(sAdamsLoginDTO.getUsrId());
+		try {
+			bResult = OPNSRV002M0Service.deleteOptDetailList(inVo);
+			
+			if (bResult) {
+				
+				resultMap.put("resultCode"   , "200");
+				resultMap.put("resultMessage", "Success !!!");
+			} else {
+				resultMap.put("resultCode"   , "300");
+				resultMap.put("resultMessage", "Save Failed !!!");
+			}
+		} catch (Exception e) {
+			throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
+		}
+		
+		return resultMap;
+		
+	}
 
 	
 }
