@@ -69,4 +69,9 @@ public class OPNUSR001M0R0DTO {
     @Schema(description = "최초등록일시")
     private String frstRegDtm;
 
+    @Schema(description = "메뉴레벨코드")
+    private String levelCd;
+    
+    @Schema(description = "정렬코드")
+    private String sortCd;
 }

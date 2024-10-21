@@ -135,27 +135,6 @@
 			gf_Transaction(option, fn_callback);
 		}
 		
-		var MenuIDFormatter = function (row, cell, value, columnDef, dataContext, grid) {
-			if (value == null || value == undefined || dataContext === undefined) { return ""; }
-			value = value.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-			var spacer = "<span style='display:inline-block;height:1px;width:" + (15 * dataContext["indent"]) + "px'></span>";
-			var idx = dataView.getIdxById(dataContext.menuId);
-			var data = grid.getData().items;
-			var hasChildren = (data[idx + 1] && data[idx + 1].indent > data[idx].indent);
-			
-			if (hasChildren) {
-				if (dataContext._collapsed) {
-					return spacer + " <span class='toggle sgi sgi-plus-box-outline'></span>&nbsp;" + value;
-				} 
-				else {
-					return spacer + " <span class='toggle sgi sgi-minus-box-outline'></span>&nbsp;" + value;
-				}
-			}
-			else {
-				return spacer + " <span class='toggle'></span>&nbsp;" + value;
-			}
-		};
-		
 		// 필터링 함수
 		function myFilter(item) {
 			//console.log("myFilter's item: ", item);
@@ -212,8 +191,8 @@
 		var check_cols = [unqId, "menuNmKor", "menuNmEng"];
 		var selbox_cols = ["srvcCd", "adminAuthYn", "sysopAuthYn", "useYn", "delYn"]
 		var columns = [
-						//formatter: MenuIDFormatter,
-						{ id: "menuId", name: "Menu ID", field: "menuId", width: 140, sortable: true, editor: Slick.Editors.Text, formatter: MenuIDFormatter, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						//formatter: TreeArchFormatter,
+						{ id: "menuId", name: "Menu ID", field: "menuId", width: 200, sortable: true, editor: Slick.Editors.Text, formatter: TreeArchFormatter, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 					,	{ id: "menuNmKor", name: "Menu Name Korean", field: "menuNmKor", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"}
 					,	{ id: "menuNmEng", name: "Menu Name English", field: "menuNmEng", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"}
 					,	{ id: "upprMenuId", name: "Upper Menu ID", field: "upprMenuId", width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
@@ -307,30 +286,9 @@
 				console.log("fn_callback result : ", result);
 			}
 		}
-
+		
 		function fn_setGrid(data) {
-			
-			var	indent = 0;
-			var parents = [];
-			var parent;
-			
-			for	(var i = 0; i < data.length; i++){
-				
-				var d = data[i];
-				
-				if((d.upprMenuId == null || d.upprMenuId == '')){
-					indent = 0;
-					d["indent"] = indent;
-					d["parent"] = null;
-					parent = i;
-				}
-				else {
-					indent = 1;
-					d["indent"] = indent;
-					d["parent"] = parent;
-				}
-				d["_collapsed"] = false;
-			}
+			data = fn_getDataForTree(data, unqId, "upprMenuId", "levelCd", 2)
 			
 			dataView = new Slick.Data.DataView({ idField: unqId, inlineFilters: true });
 			grid = new Slick.Grid("#divMyGrid", dataView, columns, options);

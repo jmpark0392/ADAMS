@@ -62,9 +62,27 @@
 	<script src="js/utils.js"></script>
 	<script>
 		function checkData(data) {
-		return parentCheckData(data, check_cols);
+			return parentCheckData(data, check_cols);
 		}
-
+		
+		// 필터링 함수
+		function myFilter(item) {
+			//console.log("myFilter's item: ", item);
+			var data = grid.getData().items;
+			if (item.parent != null) {
+				var parent = data[item.parent];
+				
+				while (parent) {
+					if (parent._collapsed) {
+						return false;
+					}
+					parent = data[parent.parent];
+				}
+				
+			}
+			return true;
+		}
+		
 		function getList(input) {
 			console.log("getList input : " + input);
 			var option = {
@@ -169,11 +187,11 @@
 		var grid;
 		var dataView;
 		var data;
-		var unqId = "rowNumber";
+		var unqId = "atitCd";
 		var xcpt_cols = ["frstRegEmpNo", "frstRegDtm"];
 		var check_cols = [unqId, "atitKorNm"];
 		var columns = [
-			{ id: "atitCd",			name: "Account Title",		field: "atitCd",		width: 100, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{ id: "atitCd",			name: "Account Title",		field: "atitCd",		width: 260, sortable: true, editor: Slick.Editors.Text, formatter: TreeArchFormatter, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{ id: "atitKorNm",		name: "Account Name(Kor)",	field: "atitKorNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{ id: "atitEngNm",		name: "Account Name(Eng)",	field: "atitEngNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{ id: "hgrkAtitCd",		name: "High Rank Title",	field: "hgrkAtitCd",	width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
@@ -262,7 +280,8 @@
 			}
 
 			function fn_setGrid(data){
-				//dataView = new Slick.Data.DataView( { idField: unqId });
+				data = fn_getDataForTree(data, unqId, "hgrkAtitCd", "acLvlCd", 2)
+				
 				dataView = new Slick.Data.DataView();
 				grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
 
@@ -278,7 +297,10 @@
 				});
 
 				// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
+				dataView.beginUpdate();
 				dataView.setItems(data, unqId);
+				dataView.setFilter(myFilter);
+				dataView.endUpdate();
 
 				// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
 				grid.onBeforeSort.subscribe(function (e, args) {
@@ -287,23 +309,40 @@
 
 				// 정렬
 				grid.onSort.subscribe(function (e, args) {
-				var cols = args.sortCols;
-
-				data.sort(function (dataRow1, dataRow2) {
-					for (var i = 0, l = cols.length; i < l; i++) {
-						var field  = cols[i].sortCol.field;
-						var sign   = cols[i].sortAsc ? 1 : -1;
-						var value1 = dataRow1[field],
-						value2 = dataRow2[field];
-						var result = (value1 == value2 ? 0 : value1 > value2 ? 1 : -1) * sign;
-						if (result != 0) {
-						return result;
-						}
-					}
-				return 0;
+					var cols = args.sortCols;
+	
+					data.sort(function (dataRow1, dataRow2) {
+						for (var i = 0, l = cols.length; i < l; i++) {
+							var field  = cols[i].sortCol.field;
+							var sign   = cols[i].sortAsc ? 1 : -1;
+							var value1 = dataRow1[field],
+							value2 = dataRow2[field];
+							var result = (value1 == value2 ? 0 : value1 > value2 ? 1 : -1) * sign;
+							if (result != 0) {
+								return result;
+								}
+							}
+							return 0;
+							});
+						grid.render();
 				});
-				grid.render();
-			});
+				
+				grid.onClick.subscribe(function (e, args) {
+					if (e.getNativeEvent().target.classList.contains("toggle")) {
+						var item = dataView.getItem(args.row);
+						//console.log("Toggle!!");
+						//console.log("row: ", item);
+						if (item) {
+							if (!item._collapsed) {
+								item._collapsed = true;
+							} else {
+								item._collapsed = false;
+							}
+							dataView.updateItem(item[unqId], item);
+						}
+						e.stopImmediatePropagation();
+					}
+				});
 
 			grid.setSelectionModel(new Slick.CellSelectionModel());
 			grid.registerPlugin(new Slick.AutoTooltips());
