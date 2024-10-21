@@ -143,6 +143,9 @@
 		$(document).ready(function () {
 			console.log("Document is ready.");
 			
+			$("#inputMonth").val(gv_month);			
+			$("#inputYear").val(gv_year);
+			
 			main();
 			//send버튼 누르면, 조건적용하여 검색
 			$("#send").click(main);

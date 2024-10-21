@@ -18,22 +18,37 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "적재이력 조회 결과 DTO")
 @ToString
 @Getter
 @Setter
 public class WRKFIL004M0R0DTO {
 	
+	@Schema(description = "순번")
 	private int seqNo;
-    private String fileNm;
-    private String tblId;
-    private int loadCnt;
-    private String stdYymm;
-    
-    @Schema(description = "최초등록사원번호")
+	
+	@Schema(description = "파일명")
+	private String fileNm;
+	
+	@Schema(description = "테이블ID")
+	private String tblId;
+	
+	@Schema(description = "적재건수")
+	private int loadCnt;
+	
+	@Schema(description = "기준년월")
+	private String stdYymm;
+	
+	@Schema(description = "적재시작일시")
+	private String loadStrDt;
+	
+	@Schema(description = "적재종료일시")
+	private String loadEndDt;
+	
+	@Schema(description = "적재성공여부")
+	private String loadSuccYn;
+
+	@Schema(description = "최초등록사원번호")
 	private String frstRegEmpNo;
-    
-    private String loadStDt;
-    private String loadEdDt;
-    private String loadSuccYn;
 
 }

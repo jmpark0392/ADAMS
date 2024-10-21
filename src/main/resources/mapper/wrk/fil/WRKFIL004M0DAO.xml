@@ -5,41 +5,40 @@
 <mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL004M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL004M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL004M0R0DTO">
         SELECT
-               A.SEQ_NO
-             , A.FILE_NM
-             , A.TBL_ID
-             , A.FILE_NM
-             , A.LOAD_CNT
-             , A.STD_YYMM
-             , C.USR_NM        AS FRST_REG_EMP_NO
-             , A.LOAD_ST_DT
-             , A.LOAD_ED_DT
-             , A.LOAD_SUCC_YN
+               A.SEQ_NO         AS SEQ_NO
+             , A.FILE_NM        AS FILE_NM
+             , A.TBL_ID         AS TBL_ID
+             , A.FILE_NM        AS FILE_NM
+             , A.LOAD_CNT       AS LOAD_CNT
+             , A.STD_YYMM       AS STD_YYMM
+             , C.USR_NM         AS FRST_REG_EMP_NO
+             , A.LOAD_STR_DT    AS LOAD_STR_DT
+             , A.LOAD_END_DT    AS LOAD_END_DT
+             , A.LOAD_SUCC_YN   AS LOAD_SUCC_YN
           FROM RDSDB.dbo.TB_UPL_HIST A
-               INNER JOIN (
-                           SELECT
-                                  DB_ID
-                                , TBL_ID
-                             FROM RDSDB.dbo.TB_UPL_FILE_LST
-                            WHERE 1=1
-                              AND USE_YN = 'Y'
-                          <if test='uploadFile != ""'>
-                              AND SEQ_NO = #{uploadFile}
-                          </if>
-                          ) B
-                       ON 1=1
-                      AND A.DB_ID  = B.DB_ID
-                      AND A.TBL_ID = B.TBL_ID
-          LEFT OUTER JOIN RDSDB.dbo.TB_USR_MNG_LST C
-                       ON A.FNL_UPD_EMP_NO = C.USR_ID
-         WHERE 1=1
-         <if test="startLoadDate != null and startLoadDate != '' and endLoadDate != null and endLoadDate != ''">
-           AND A.LOAD_ST_DT BETWEEN #{startLoadDate} AND #{endLoadDate}
-         </if>
-         <if test="startStdYymm != null and startStdYymm != '' and endStdYymm != null and endStdYymm != ''">
-           AND A.STD_YYMM BETWEEN REPLACE(#{startStdYymm}, '-', '') AND REPLACE(#{endStdYymm}, '-', '')
-         </if>
-         ORDER BY A.FNL_UPD_DTM DESC
-                , A.SEQ_NO DESC
+         INNER JOIN (
+                      SELECT
+                             DB_ID
+                           , TBL_ID
+                        FROM RDSDB.dbo.TB_UPL_FILE_LST
+                       WHERE 1=1
+                         AND USE_YN = 'Y'
+                       <if test='uploadFile != ""'>
+                         AND SEQ_NO = #{uploadFile}
+                       </if>
+                     ) B
+                 ON 1=1
+                AND A.DB_ID  = B.DB_ID
+                AND A.TBL_ID = B.TBL_ID
+               LEFT OUTER JOIN RDSDB.dbo.TB_USR_MNG_LST C
+                 ON A.FNL_UPD_EMP_NO = C.USR_ID
+              WHERE 1=1
+             <if test="startLoadDate != null and startLoadDate != '' and endLoadDate != null and endLoadDate != ''">
+               AND A.LOAD_STR_DT BETWEEN #{startLoadDate} AND #{endLoadDate}
+             </if>
+             <if test="startStdYymm != null and startStdYymm != '' and endStdYymm != null and endStdYymm != ''">
+               AND A.STD_YYMM BETWEEN REPLACE(#{startStdYymm}, '-', '') AND REPLACE(#{endStdYymm}, '-', '')
+             </if>
+             ORDER BY A.FNL_UPD_DTM DESC, A.SEQ_NO DESC
     </select>
 </mapper>
