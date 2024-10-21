@@ -437,6 +437,8 @@ function gf_Transaction(option, callbackFn ) {
                         }
          , error      : function (xhr, status, error) {
 		                    console.error("!!!! ERROR !!!!!", status, error);
+                            gf_errorHandler(xhr);
+                            
                             result.resultCd = "E";
                             result.id       = option.id;
                             result.xhr      = xhr;
@@ -641,4 +643,19 @@ function treeFilter(item) {
 		
 	}
 	return true;
+}
+
+/*===========================================
+ * service callback error Handler function
+ * @param obj   xhr
+ ===========================================*/
+function gf_errorHandler(xhr) {
+	if (xhr.status == "403" || xhr.status == "404") {
+		$("#pageName").val("/error/error_400");
+	} else if (xhr.status == "500" || xhr.status == "503") {
+		$("#pageName").val("/error/error_500");
+	} else {
+		$("#pageName").val("/error/error");
+	} 
+	$("#form").submit();
 }
