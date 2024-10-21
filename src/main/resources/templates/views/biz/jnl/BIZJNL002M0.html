@@ -422,18 +422,28 @@
 			}
 
 			var activeCell = grid.getActiveCell();
+			console.log("activeCell:", activeCell);
+			
+			// 선택된 cell이 없을 경우
+			if (!activeCell) {
+				alert("Please select a cell to edit the data.");
+			return;
+			}
+			
+			//get the active cell index
+			let activeCellIndex = activeCell.cell;
+			
 			var activeRow = (activeCell && activeCell.row) || 0;
 
+			/*
 			if (!options.enableCellNavigation) {
 				throw new Error('Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
 			} else if (!activeCell && modalType === "edit") {
 				throw new Error("No records selected for edit operation");
-			}
+			} */
 
 			const dataContext = grid.getDataItem(activeRow);
-			const modalElement = new bootstrap.Modal(
-				document.getElementById("exampleModal")
-			);
+			const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
 			const modalTitleElem = document.querySelector(".modal-title");
 			const modalBodyElem = document.querySelector(".modal-body");
 			console.log("modalTitleElem:", modalTitleElem);
@@ -529,39 +539,39 @@
 	
 				if(column.id === "inscDvCd" || column.id === "valuMetdCd" || column.id === "useYn"){
 		
-				const selectInput = document.createElement('select');
-				selectInput.className = "form-select";
-				selectInput.dataset.editorid = column.id;
-		
-				const defaultOption = document.createElement('option');
-				defaultOption.value = "";
-				defaultOption.textContent = "- options -";
-				selectInput.appendChild(defaultOption);
+					const selectInput = document.createElement('select');
+					selectInput.className = "form-select";
+					selectInput.dataset.editorid = column.id;
+			
+					const defaultOption = document.createElement('option');
+					defaultOption.value = "";
+					defaultOption.textContent = "- options -";
+					selectInput.appendChild(defaultOption);
+						
 					
-				
-				let optionsData = [];
-				
-				if(column.id === "inscDvCd"){
-					optionsData = options1;
-				} else if (column.id === "valuMetdCd") {
-					optionsData = options2; 
-				} else {
-					optionsData = options11;   
-				}
-				
-				optionsData.forEach(option => {
-						const optionElem = document.createElement('option');
-						optionElem.value = option.value;
-						optionElem.textContent = option.text;
-						selectInput.appendChild(optionElem);
-					});
-	
-				if(modalType === "edit"){
-					selectInput.value = dataContext[column.field] || "";
-				}
-	
-				formGroupElem.appendChild(selectInput);
-	
+					let optionsData = [];
+					
+					if(column.id === "inscDvCd"){
+						optionsData = options1;
+					} else if (column.id === "valuMetdCd") {
+						optionsData = options2; 
+					} else {
+						optionsData = options11;   
+					}
+					
+					optionsData.forEach(option => {
+							const optionElem = document.createElement('option');
+							optionElem.value = option.value;
+							optionElem.textContent = option.text;
+							selectInput.appendChild(optionElem);
+						});
+		
+					if(modalType === "edit"){
+						selectInput.value = dataContext[column.field] || "";
+					}
+		
+					formGroupElem.appendChild(selectInput);
+		
 				} else {
 					const inputElem = document.createElement('input');
 					inputElem.className = "form-control";
@@ -633,33 +643,33 @@
 						}
 					}
 	
-				if (isChanged) {
-					formData[unqId] = originalData[unqId];
-					//dataView.updateItem(originalData[unqId], formData);
-					if(confirm("Do you want to modify?") == true){
-						updateList(JSON.stringify(formData));
+					if (isChanged) {
+						formData[unqId] = originalData[unqId];
+						//dataView.updateItem(originalData[unqId], formData);
+						if(confirm("Do you want to modify?") == true){
+							updateList(JSON.stringify(formData));
+						}
+					} else {
+						alert("No changes detected.");
+					return;
 					}
-				} else {
-					alert("No changes detected.");
-				return;
 				}
-			}
-			grid.render();
-			modalElement.hide(); // Hide the modal after saving\
-		};
+				grid.render();
+				modalElement.hide(); // Hide the modal after saving\
+			};
 
-		// Close button logic
-		const closeBtn = document.querySelector(".modal-footer .btn-link");
- 		closeBtn.removeEventListener("click", closeHandler);
-		closeBtn.addEventListener("click", closeHandler);
+			// Close button logic
+			const closeBtn = document.querySelector(".modal-footer .btn-link");
+	 		closeBtn.removeEventListener("click", closeHandler);
+			closeBtn.addEventListener("click", closeHandler);
 
-		function closeHandler() {
-			if (modalType === "edit" && originalData) {
-				dataView.updateItem(originalData[unqId], originalData);
+			function closeHandler() {
+				if (modalType === "edit" && originalData) {
+					dataView.updateItem(originalData[unqId], originalData);
+				}
+				modalElement.hide(); // we hide the modal
 			}
-			modalElement.hide(); // we hide the modal
 		}
-	}
 	</script>
 </th:block>
 </html>

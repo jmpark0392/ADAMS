@@ -366,7 +366,7 @@
 			let hiddenColumns;
 			
 			if (modalType === "create") {
-				hiddenColumns = ["usrNm","frstRegDtm"];
+				hiddenColumns = ["frstRegEmpNo","frstRegDtm"];
 			} else {
 				hiddenColumns = ["batProgId","usrNm","frstRegDtm"];  // 컬럼 숨기기
 			}
@@ -396,246 +396,256 @@
 			}
 
 			var activeCell = grid.getActiveCell();
-			var activeRow = (activeCell && activeCell.row) || 0;
+			console.log("activeCell:", activeCell);
 
+			// 선택된 cell이 없을 경우
+			if (!activeCell) {
+				alert("Please select a cell to edit the data.");
+			return;
+			}
+			
+			//get the active cell index
+			let activeCellIndex = activeCell.cell;
+
+			/*
 			if (!options.enableCellNavigation) {
 				throw new Error('Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
 			} else if (!activeCell && modalType === "edit") {
 				throw new Error("No records selected for edit operation");
+			} */
+			// setting the active row to the first row if the active row is undefined
+			var activeRow = (activeCell && activeCell.row) || 0;
+			const dataContext = grid.getDataItem(activeRow);
+			const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
+			const modalTitleElem = document.querySelector(".modal-title");
+			const modalBodyElem = document.querySelector(".modal-body");
+			console.log("modalTitleElem:", modalTitleElem);
+
+			modalBodyElem.innerHTML = ""; // Clear previous content
+
+
+			// Define the modal title based on action
+			if (modalTitleElem) {
+				if (modalType === "create") {
+					modalTitleElem.textContent = "NEW";
+					const existingDeleteButton = document.querySelector(".modal-footer .btn-danger");
+					if (existingDeleteButton) {
+						existingDeleteButton.remove();
+					}
+				} else if (modalType === "edit") {
+					modalTitleElem.textContent = "EDIT";
+					
+					const existingDeleteButton = document.querySelector(".modal-footer .btn-danger");
+					if (existingDeleteButton) {
+						existingDeleteButton.remove();
+					}
+	
+					const delBtn = document.createElement("a");
+					delBtn.href = "#";
+					delBtn.className = "btn btn-danger delete";
+					delBtn.dataset.dismiss = "modal";
+					delBtn.style.padding = "4px 10px";
+					delBtn.style.color = "white";
+					delBtn.style.fontSize = "13px";
+					delBtn.textContent = "Delete";
+					modalTitleElem.appendChild(delBtn);
+					// getelemtn by class name
+					const divColAuto = document.getElementsByClassName("col-auto me-0");
+	
+					if (divColAuto.length > 0) {
+						divColAuto[0].appendChild(delBtn);
+					} else {
+						console.error("divColAuto is not found.");
+					}
+	
+					const deleteButton = document.querySelector(".modal-footer .btn-danger");
+					if (deleteButton) {
+						// we remove the existing click event listener
+						// existingDeleteButton.onclick = null;
+						deleteButton.onclick = function () {
+							if (confirm("Do you want to delete?") == true) {
+								// delete the selected row
+								dataView.deleteItem(dataContext[unqId]);
+								deleteList(JSON.stringify(dataContext));
+								modalElement.hide();
+							}
+						};
+				}
+				originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
+			} else {
+				console.error("error while loading the moda title: ");
 			}
+			renewOptions(false);
 
-        const dataContext = grid.getDataItem(activeRow);
-        const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
-        const modalTitleElem = document.querySelector(".modal-title");
-        const modalBodyElem = document.querySelector(".modal-body");
-        console.log("modalTitleElem:", modalTitleElem);
 
-        modalBodyElem.innerHTML = ""; // Clear previous content
-
-        
-        // Define the modal title based on action
-		if (modalTitleElem) {
-			if (modalType === "create") {
-				modalTitleElem.textContent = "NEW";
-				const existingDeleteButton = document.querySelector(".modal-footer .btn-danger");
-				if (existingDeleteButton) {
-					existingDeleteButton.remove();
+			// Dynamically create form elements based on the columns that have editors
+			const modalColumns = columns.filter(col => col.editor && !hiddenColumns.includes(col.id));
+	
+			const columnsPerShow = 6;
+			let currentRow;
+	
+			// take the modal body
+			modalColumns.forEach((column, index) => {
+				// we create new row after 6 columms,
+				if (index % columnsPerShow === 0) {
+					currentRow = document.createElement("div");
+					currentRow.className = "row";
+					modalBodyElem.appendChild(currentRow);
 				}
-			} else if (modalType === "edit") {
-				modalTitleElem.textContent = "EDIT";
-				
-				const existingDeleteButton = document.querySelector(".modal-footer .btn-danger");
-				if (existingDeleteButton) {
-					existingDeleteButton.remove();
-				}
-
-				const delBtn = document.createElement("a");
-				delBtn.href = "#";
-				delBtn.className = "btn btn-danger delete";
-				delBtn.dataset.dismiss = "modal";
-				delBtn.style.padding = "4px 10px";
-				delBtn.style.color = "white";
-				delBtn.style.fontSize = "13px";
-				delBtn.textContent = "Delete";
-				modalTitleElem.appendChild(delBtn);
-				// getelemtn by class name
-				const divColAuto = document.getElementsByClassName("col-auto me-0");
-
-				if (divColAuto.length > 0) {
-					divColAuto[0].appendChild(delBtn);
+	
+				const colElem = document.createElement("div");
+				colElem.className = "col-lg-6";
+	
+				const formGroupElem = document.createElement("div");
+				formGroupElem.className = "mb-3";
+	
+				const detailLabelitem = document.createElement("div");
+				detailLabelitem.className = "form-label";
+				detailLabelitem.textContent = column.name;
+	
+				const inputElem = document.createElement("input");
+				inputElem.className = "form-control";
+				inputElem.dataset.editorid = column.id;
+				inputElem.value =
+				modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+	
+				formGroupElem.appendChild(detailLabelitem);
+	
+				if(column.id === "exePrd" || column.id === "lwstProgYn" || column.id === "useYn"){
+		
+					const selectInput = document.createElement('select');
+					selectInput.className = "form-select";
+					selectInput.dataset.editorid = column.id;
+					
+					const defaultOption = document.createElement('option');
+					defaultOption.value = "";
+					defaultOption.textContent = "- options -";
+					selectInput.appendChild(defaultOption);
+						
+					let optionsData = [];
+		
+					if(column.id === "exePrd"){
+						optionsData = options5;
+					} else {
+						  optionsData = options4;
+					}
+		
+					optionsData.forEach(option => {
+						const optionElem = document.createElement('option');
+						optionElem.value = option.value;
+						optionElem.textContent = option.text;
+						selectInput.appendChild(optionElem);
+					});
+		
+					if(modalType === "edit"){
+						selectInput.value = dataContext[column.field] || "";
+					}
+		
+					formGroupElem.appendChild(selectInput);
+	
 				} else {
-					console.error("divColAuto is not found.");
+					const inputElem = document.createElement('input');
+		 			inputElem.className = "form-control";
+		 			inputElem.dataset.editorid = column.id;
+		 			inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+		 			formGroupElem.appendChild(inputElem); 
 				}
 
-				const deleteButton = document.querySelector(".modal-footer .btn-danger");
-				if (deleteButton) {
-					// we remove the existing click event listener
-					// existingDeleteButton.onclick = null;
-					deleteButton.onclick = function () {
-						if (confirm("Do you want to delete?") == true) {
-							// delete the selected row
-							dataView.deleteItem(dataContext[unqId]);
-							deleteList(JSON.stringify(dataContext));
-							modalElement.hide();
-						}
-					};
+				colElem.appendChild(formGroupElem);
+				currentRow.appendChild(colElem);
+			});
+
+			if (modalColumns.length % columnsPerShow !== 0) {
+				const remainingCols = columnsPerShow - (modalColumns.length % columnsPerShow);
+				const spacerCol = document.createElement("div");
+				spacerCol.className = `col-lg-${remainingCols * 2}`; // adjust the spacer column
+				currentRow.appendChild(spacerCol);
 			}
-			originalData = JSON.parse(JSON.stringify(dataContext)); // Save original data for comparison
-		} else {
-			console.error("error while loading the moda title: ");
-		}
-		renewOptions(false);
-        
 
-		// Dynamically create form elements based on the columns that have editors
-		const modalColumns = columns.filter(col => col.editor && !hiddenColumns.includes(col.id));
+			modalElement.show();
 
-        const columnsPerShow = 6;
-        let currentRow;
+			// Save button logic
+			const saveBtn = document.querySelector(".modal-footer .btn-primary");
+			saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
 
-        // take the modal body
+			//modal을 마우스로 드래그가능하도록 설정
+			$(".modal").draggable();
 
-        modalColumns.forEach((column, index) => {
-          // we create new row after 6 columms,
-          if (index % columnsPerShow === 0) {
-            currentRow = document.createElement("div");
-            currentRow.className = "row";
-            modalBodyElem.appendChild(currentRow);
-          }
+			// this will only be triggered when the save button is clicked
+			saveBtn.onclick = function saveHandler() {
+				console.log("Save");
+				const formData = {};
 
-          const colElem = document.createElement("div");
-          colElem.className = "col-lg-6";
-
-          const formGroupElem = document.createElement("div");
-          formGroupElem.className = "mb-3";
-
-          const detailLabelitem = document.createElement("div");
-          detailLabelitem.className = "form-label";
-          detailLabelitem.textContent = column.name;
-
-          const inputElem = document.createElement("input");
-          inputElem.className = "form-control";
-          inputElem.dataset.editorid = column.id;
-          inputElem.value =
-		modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
-
-		formGroupElem.appendChild(detailLabelitem);
-
-		if(column.id === "exePrd" || column.id === "lwstProgYn" || column.id === "useYn"){
-
-			const selectInput = document.createElement('select');
-			selectInput.className = "form-select";
-			selectInput.dataset.editorid = column.id;
-			
-			const defaultOption = document.createElement('option');
-			defaultOption.value = "";
-			defaultOption.textContent = "- options -";
-			selectInput.appendChild(defaultOption);
+				// Collect form data
+				modalColumns.forEach((column) => {
+					console.log("Save2");
+					const input = modalBodyElem.querySelector(`[data-editorid="${column.id}"]`);
+					if (input) {
+						formData[column.field] = input.value.trim();
+					}
+				});
 				
-			let optionsData = [];
-
-		if(column.id === "exePrd"){
-			optionsData = options5;
-		} else {
-			  optionsData = options4;
-		}
-
-			optionsData.forEach(option => {
-				const optionElem = document.createElement('option');
-				optionElem.value = option.value;
-				optionElem.textContent = option.text;
-				selectInput.appendChild(optionElem);
-			});
-
-			if(modalType === "edit"){
-				selectInput.value = dataContext[column.field] || "";
-			}
-        
-         formGroupElem.appendChild(selectInput);
-        	  
-          } else {
-        	 const inputElem = document.createElement('input');
- 			 inputElem.className = "form-control";
- 			 inputElem.dataset.editorid = column.id;
- 			 inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
- 			 formGroupElem.appendChild(inputElem); 
-          }
-
-          colElem.appendChild(formGroupElem);
-          currentRow.appendChild(colElem);
-        });
-
-        if (modalColumns.length % columnsPerShow !== 0) {
-          const remainingCols = columnsPerShow - (modalColumns.length % columnsPerShow);
-          const spacerCol = document.createElement("div");
-          spacerCol.className = `col-lg-${remainingCols * 2}`; // adjust the spacer column
-          currentRow.appendChild(spacerCol);
-        }
-
-        modalElement.show();
-
-     // Save button logic
-        const saveBtn = document.querySelector(".modal-footer .btn-primary");
-        saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
-    
-        //modal을 마우스로 드래그가능하도록 설정
-        $(".modal").draggable();
-
-        // this will only be triggered when the save button is clicked
-        saveBtn.onclick = function saveHandler() {
-        	console.log("Save");
-          const formData = {};
-
-			// Collect form data
-			modalColumns.forEach((column) => {
-				console.log("Save2");
-				const input = modalBodyElem.querySelector(`[data-editorid="${column.id}"]`);
-				if (input) {
-					formData[column.field] = input.value.trim();
+				if (modalType === "edit") {
+					hiddenColumns.forEach(hiddenColId => {
+						formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
+					});
 				}
-			});
-			
-			if (modalType === "edit") {
-				hiddenColumns.forEach(hiddenColId => {
-					formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
+
+				if (modalType === "create") {
+					// Add new item to grid data
+					if (checkData(formData)) {
+						//formData[unqId] = grid.getDataLength() + 1;
+						//dataView.insertItem(grid.getDataLength(), formData);
+						if(confirm("Do you want to register?") == true){
+							insertList(JSON.stringify(formData));
+						}
+					} else {
+						alert("Please fill out all required fields.");
+					return;
+					}
+				} else if (modalType === "edit") {
+					let isChanged = false;
+					for (let key in formData) {
+						if (formData[key] !== originalData[key]) {
+							isChanged = true;
+							break;
+						}
+					}
+	
+					if (isChanged) {
+						formData[unqId] = originalData[unqId];
+						//dataView.updateItem(originalData[unqId], formData);
+						if(confirm("Do you want to modify?") == true){
+							updateList(JSON.stringify(formData));
+						}
+					} else {
+						alert("No changes detected.");
+					return;
+					}
+				}
+				grid.render();
+				modalElement.hide(); // Hide the modal after saving
+			};
+
+				// Close button logic
+				const closeBtn = document.querySelector(".modal-footer .btn-link");
+		 		closeBtn.removeEventListener("click", closeHandler);
+				closeBtn.addEventListener("click", closeHandler);
+
+				function closeHandler() {
+					if (modalType === "edit" && originalData) {
+						dataView.updateItem(originalData[unqId], originalData);
+					}
+					modalElement.hide(); // we hide the modal
+				}
+
+				closeBtn.addEventListener("click", function () {
+					if (modalType === "edit" && originalData) {
+						dataView.updateItem(originalData[unqId], originalData); // Revert changes if canceled
+					}
 				});
 			}
-
-			if (modalType === "create") {
-				// Add new item to grid data
-				if (checkData(formData)) {
-					//formData[unqId] = grid.getDataLength() + 1;
-					//dataView.insertItem(grid.getDataLength(), formData);
-					if(confirm("Do you want to register?") == true){
-						insertList(JSON.stringify(formData));
-					}
-				} else {
-					alert("Please fill out all required fields.");
-				return;
-				}
-			} else if (modalType === "edit") {
-				let isChanged = false;
-				for (let key in formData) {
-					if (formData[key] !== originalData[key]) {
-						isChanged = true;
-						break;
-					}
-				}
-
-				if (isChanged) {
-					formData[unqId] = originalData[unqId];
-					//dataView.updateItem(originalData[unqId], formData);
-					if(confirm("Do you want to modify?") == true){
-						updateList(JSON.stringify(formData));
-					}
-				} else {
-					alert("No changes detected.");
-				return;
-				}
-			}
-			grid.render();
-			modalElement.hide(); // Hide the modal after saving\
-		};
-
-  		// Close button logic
-		const closeBtn = document.querySelector(".modal-footer .btn-link");
- 		closeBtn.removeEventListener("click", closeHandler);
-		closeBtn.addEventListener("click", closeHandler);
-
-		function closeHandler() {
-			if (modalType === "edit" && originalData) {
-				dataView.updateItem(originalData[unqId], originalData);
-			}
-			modalElement.hide(); // we hide the modal
 		}
-
-		closeBtn.addEventListener("click", function () {
-			if (modalType === "edit" && originalData) {
-				dataView.updateItem(originalData[unqId], originalData); // Revert changes if canceled
-			}
-		});
-	}
-}
 		</script>
-</th:block>
+	</th:block>
 </html>
