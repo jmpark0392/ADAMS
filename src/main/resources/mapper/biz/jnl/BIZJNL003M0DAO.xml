@@ -10,7 +10,7 @@
                   , A.DR_CR_DV_CD                           AS DR_CR_DV_CD
                   , A.JRNL_AMT                              AS JRNL_AMT
                   , C.USR_NM                                AS FRST_REG_EMP_NO
-                  , A.FRST_REG_DTM                          AS FRST_REG_DTM
+                  , CONVERT(CHAR(10), A.FRST_REG_DTM, 23)   AS FRST_REG_DTM
                FROM TB_JNL_RST_LST AS A
               INNER JOIN TB_ATIT_MNG_LST AS B
                 ON A.ATIT_CD = B.ATIT_CD

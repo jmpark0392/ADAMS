@@ -63,6 +63,8 @@ public class BIZFST001M0Controller {
 		try {
 			bIZFST001M0Service.executeList(inVo);
 			log.info("success execute");
+			Thread.sleep(1000);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("fail");

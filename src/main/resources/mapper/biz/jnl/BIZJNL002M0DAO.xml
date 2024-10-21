@@ -17,7 +17,7 @@
              , AA.ETC_DESC                            AS ETC_DESC
              , AA.USE_YN                              AS USE_YN
              , CC.USR_NM                              AS FRST_REG_EMP_NO
-             , AA.FRST_REG_DTM                        AS FRST_REG_DTM
+             , CONVERT(CHAR(10), AA.FRST_REG_DTM, 23) AS FRST_REG_DTM
           FROM (
                  SELECT
                         A.CS_NO           AS CS_NO

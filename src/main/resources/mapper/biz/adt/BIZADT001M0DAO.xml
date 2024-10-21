@@ -5,17 +5,17 @@
 <mapper namespace="com.rds.adams.web.biz.adt.dao.BIZADT001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.adt.dto.BIZADT001M0P0DTO" resultType="com.rds.adams.web.biz.adt.dto.BIZADT001M0R0DTO">
        SELECT
-	          A.STD_YYMM         AS STD_YYMM
-	        , A.SEQ_NO           AS SEQ_NO
-	        , A.ATIT_CD          AS ATIT_CD
-	        , B.ATIT_ENG_NM      AS ATIT_NM
-	  	    , A.INSU_PL_ITM_CD   AS INSU_PL_ITM_CD
-			, C.VLVL_DESC        AS INSU_PL_ITM_NM
-	  	    , A.ACNT_AMT         AS ACNT_AMT
-	  	    , A.INSU_PL_ITM_AMT  AS INSU_PL_ITM_AMT
-	  	    , A.DIFF_AMT         AS DIFF_AMT
-	        , D.USR_NM           AS FRST_REG_EMP_NO
-	        , A.FRST_REG_DTM     AS FRST_REG_DTM
+	          A.STD_YYMM                             AS STD_YYMM
+	        , A.SEQ_NO                               AS SEQ_NO
+	        , A.ATIT_CD                              AS ATIT_CD
+	        , B.ATIT_ENG_NM                          AS ATIT_NM
+	  	    , A.INSU_PL_ITM_CD                       AS INSU_PL_ITM_CD
+			, C.VLVL_DESC                            AS INSU_PL_ITM_NM
+	  	    , A.ACNT_AMT                             AS ACNT_AMT
+	  	    , A.INSU_PL_ITM_AMT                      AS INSU_PL_ITM_AMT
+	  	    , A.DIFF_AMT                             AS DIFF_AMT
+	        , D.USR_NM                               AS FRST_REG_EMP_NO
+	        , CONVERT(CHAR(10), A.FRST_REG_DTM, 23)  AS FRST_REG_DTM
 	     FROM TB_ACNT_RECT_LST AS A
 	    INNER JOIN TB_ATIT_MNG_LST AS B
 	      ON A.ATIT_CD = B.ATIT_CD

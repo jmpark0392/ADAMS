@@ -5,17 +5,17 @@
 <mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL001M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL001M0R0DTO">
 		SELECT
-		       A.SEQ_NO
-		     , A.FILE_NM
-		     , A.DB_ID
-		     , A.TBL_ID
-		     , A.FILE_DSC
-		     , A.FILE_DEL_YN
-		     , A.UI_SEL_YN
-		     , A.USE_YN
-		     , A.VRF_USE_YN
-		     , B.USR_NM 
-		     , A.FRST_REG_DTM
+		       A.SEQ_NO                              AS SEQ_NO 
+		     , A.FILE_NM                             AS FILE_NM
+		     , A.DB_ID                               AS DB_ID
+		     , A.TBL_ID                              AS TBL_ID
+		     , A.FILE_DSC                            AS FILE_DSC
+		     , A.FILE_DEL_YN                         AS FILE_DEL_YN
+		     , A.UI_SEL_YN                           AS UI_SEL_YN
+		     , A.USE_YN                              AS USE_YN
+		     , A.VRF_USE_YN                          AS VRF_USE_YN
+		     , B.USR_NM                              AS USR_NM
+		     , CONVERT(CHAR(10), A.FRST_REG_DTM, 23) AS FRST_REG_DTM
 		  FROM TB_UPL_FILE_LST A
 		  LEFT OUTER JOIN TB_USR_MNG_LST B 
 			ON A.FNL_UPD_EMP_NO = B.USR_ID

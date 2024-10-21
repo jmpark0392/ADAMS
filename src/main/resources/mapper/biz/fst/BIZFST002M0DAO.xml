@@ -77,7 +77,7 @@
              , CR_AMT                                 AS CR_AMT
              , ENTM_AMT                               AS ENTM_AMT
              , CC.USR_NM                              AS FRST_REG_EMP_NO
-             , AA.FNL_UPD_DTM                         AS FRST_REG_DTM
+             , CONVERT(CHAR(10), AA.FNL_UPD_DTM, 23)  AS FRST_REG_DTM
              , BB.AC_LVL_CD                           AS LEVEL_CD
           FROM (
                            SELECT * FROM LVL4
