@@ -65,7 +65,7 @@
     
     <update id="updateSrvc">
         /* web.opn.srv.dao.OPNSRV001M0DAO.updateSrvc */
-        UPDATE RDSDB.dbo.TB_SVRC_HIST
+        UPDATE RDSDB.dbo.TB_SVRC_INF
            SET SRVC_NM        = #{srvcNm}
              , SRVC_DESC      = #{srvcDesc}
              , FNL_UPD_EMP_NO = #{usrId}

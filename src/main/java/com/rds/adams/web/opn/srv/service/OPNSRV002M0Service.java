@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import com.rds.adams.web.opn.srv.dao.OPNSRV002M0DAO;
 import com.rds.adams.web.opn.srv.dto.OPNSRV002M0P0DTO;
 import com.rds.adams.web.opn.srv.dto.OPNSRV002M0P1DTO;
+import com.rds.adams.web.opn.srv.dto.OPNSRV002M0P2DTO;
 import com.rds.adams.web.opn.srv.dto.OPNSRV002M0R0DTO;
 import com.rds.adams.web.opn.srv.dto.OPNSRV002M0R1DTO;
 import com.rds.adams.web.opn.srv.dto.OPNSRV002M0R2DTO;
+import com.rds.adams.web.opn.srv.dto.OPNSRV002M0R3DTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,11 +79,27 @@ public class OPNSRV002M0Service {
 	 */
 	public List<OPNSRV002M0R2DTO> selectOptDetailList(OPNSRV002M0P1DTO inVo) {
 		
-		List<OPNSRV002M0R2DTO>	oPNSRV002M0R2DTOList = oPNSRV002M0DAO.selectOptDetailList(inVo);	// 조회 대상 테이블 정보 DTO
+		List<OPNSRV002M0R2DTO>	oPNSRV002M0R2DTOList = oPNSRV002M0DAO.selectOptDtlsList(inVo);	// 조회 대상 테이블 정보 DTO
 		
 		log.debug(" OPNSRV002M0R2DTOList : " + oPNSRV002M0R2DTOList.toString());
 		
 		return oPNSRV002M0R2DTOList;
+		
+	}
+
+	/**
+	 * 옵션 이력 정보 조회를 처리한다
+	 * @param vo OPNSRV002M0P2DTO
+	 * @return List<OPNSRV002M0R3DTO>
+	 * @exception Exception
+	 */
+	public List<OPNSRV002M0R3DTO> selectOptDetailHistList(OPNSRV002M0P2DTO inVo) {
+		
+		List<OPNSRV002M0R3DTO>	oPNSRV002M0R3DTOList = oPNSRV002M0DAO.selectOptDtlsHistList(inVo);	// 조회 대상 테이블 정보 DTO
+		
+		log.debug(" OPNSRV002M0R2DTOList : " + oPNSRV002M0R3DTOList.toString());
+		
+		return oPNSRV002M0R3DTOList;
 		
 	}
 
@@ -150,6 +168,81 @@ public class OPNSRV002M0Service {
 			oPNSRV002M0DAO.insertOpt(inVo);
 			
 			oPNSRV002M0DAO.insertOptHist(inVo);
+			
+		} catch (Exception e) {
+			throw new Exception("OPNSRV002M0Service Error : " + e.getMessage());
+		}
+		log.debug(" OPNSRV002M0R0DTO : " + inVo.toString());
+		
+		return true;
+		
+	}
+
+	/**
+	 * 옵션 정보 저장을 처리한다
+	 * @param vo OPNSRV002M0R2DTO
+	 * @return boolean
+	 * @exception Exception
+	 */
+	public boolean updateOptDetailList(OPNSRV002M0R2DTO inVo) throws Exception {
+		
+		String sChkDate = "";
+		String sChkCd   = "";
+		
+		try {
+			
+			sChkDate = oPNSRV002M0DAO.selectChkDateDtls(inVo);
+			
+			if ( "1".equals(sChkDate) ) {
+				// Error : "현재 날짜보다 과거를 시작할 수 없습니다."
+				throw new Exception("OPNSRV002M0Service Error : You can't start the past more than the current date.");
+			}
+			
+			sChkCd = oPNSRV002M0DAO.selectChkDtlsHist(inVo);
+			
+			oPNSRV002M0DAO.updateOptDtls(inVo);
+			
+			if ( "1".equals(sChkCd) ) {
+				oPNSRV002M0DAO.updateOptDtlsHistDay(inVo);	// Hist 시작일자 기준 Update
+			} else {
+				
+				
+				oPNSRV002M0DAO.updateOptDtlsHistBefor(inVo);
+				
+				oPNSRV002M0DAO.insertOptDtlsHist(inVo);
+				
+			}
+		} catch (Exception e) {
+			throw new Exception("OPNSRV002M0Service Error : " + e.getMessage());
+		}
+		log.debug(" OPNSRV002M0R0DTO : " + inVo.toString());
+		
+		return true;
+		
+	}
+
+	/**
+	 * 옵션 정보 저장을 처리한다
+	 * @param vo OPNSRV002M0R2DTO
+	 * @return boolean
+	 * @exception Exception
+	 */
+	public boolean insertOptDetailList(OPNSRV002M0R2DTO inVo) throws Exception {
+		
+		String sChkDate = "";
+		
+		try {
+			
+			sChkDate = oPNSRV002M0DAO.selectChkDateDtls(inVo);
+			
+			if ( "1".equals(sChkDate) ) {
+				// Error : "현재 날짜보다 과거를 시작할 수 없습니다."
+				throw new Exception("OPNSRV002M0Service Error : You can't start the past more than the current date.");
+			}
+			
+			oPNSRV002M0DAO.insertOptDtls(inVo);
+			
+			oPNSRV002M0DAO.insertOptDtlsHist(inVo);
 			
 		} catch (Exception e) {
 			throw new Exception("OPNSRV002M0Service Error : " + e.getMessage());
