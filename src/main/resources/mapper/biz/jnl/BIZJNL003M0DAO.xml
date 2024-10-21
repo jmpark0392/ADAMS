@@ -27,6 +27,7 @@
                     )
             </if>
                 AND A.STD_YYMM LIKE '%' + #{stdYymm} + '%'
+                ORDER BY A.JRNL_NO, A.DR_CR_DV_CD DESC
     </select>
     <delete id="deleteListBf" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0P1DTO">
         DELETE FROM TB_JNL_RST_LST
@@ -38,8 +39,7 @@
             SELECT 
                    AAA.CS_NO         AS CS_NO
                  , #{stdYymm}        AS STD_YYMM
-                 , #{stdYymm} +'-'+ INSC_DV_CD +'-'+ VALU_METD_CD +'-'+ LVL_1_CD + LVL_2_CD + LVL_3_CD + '-'
-                 + FORMAT ( row_number() over ( PARTITION BY LVL_1_CD ,LVL_2_CD ,LVL_3_CD ORDER BY LVL_1_CD, LVL_2_CD, LVL_3_CD), '00000' )      AS JRNL_NO
+                 , AAA.JRNL_NO       AS JRNL_NO
                  , AAA.AC_SUBJ_CD    AS ATIT_CD
                  , AAA.DR_CR_DV_CD   AS DR_CR_DV_CD
                  , AAA.AMT           AS JRNL_AMT
@@ -50,6 +50,8 @@
               FROM (
                      SELECT
                             AA.CS_NO 
+		                  , #{stdYymm} +'-'+ INSC_DV_CD +'-'+ VALU_METD_CD +'-'+ LVL_1_CD + LVL_2_CD + LVL_3_CD + '-'
+		                  + FORMAT ( row_number() over ( PARTITION BY LVL_1_CD ,LVL_2_CD ,LVL_3_CD ORDER BY LVL_1_CD, LVL_2_CD, LVL_3_CD), '00000' )      AS JRNL_NO                            
                           , AA.INSC_DV_CD
                           , AA.VALU_METD_CD
                           , AA.LVL_1_CD
@@ -309,10 +311,13 @@
                                  ) BB
                               ON AA.LVL_1_CD  = BB.ETC_1_DESC
                              AND AA.LVL_2_CD  = BB.ETC_2_DESC
-                             AND AA.LVL_3_CD  = BB.ETC_3_DESC  
+                             AND AA.LVL_3_CD  = BB.ETC_3_DESC
+                             WHERE AA.CS_NO = #{csNo}  
                  UNION ALL
                  SELECT 
                         AA.CS_NO
+                      , #{stdYymm} +'-'+ INSC_DV_CD +'-'+ VALU_METD_CD +'-'+ LVL_1_CD + LVL_2_CD + LVL_3_CD + '-'
+                      + FORMAT ( row_number() over ( PARTITION BY LVL_1_CD ,LVL_2_CD ,LVL_3_CD ORDER BY LVL_1_CD, LVL_2_CD, LVL_3_CD), '00000' )      AS JRNL_NO  
                       , AA.INSC_DV_CD
                       , AA.VALU_METD_CD
                       , AA.LVL_1_CD
@@ -572,7 +577,8 @@
                              ) BB
                            ON AA.LVL_1_CD  = BB.ETC_1_DESC
                           AND AA.LVL_2_CD  = BB.ETC_2_DESC
-                          AND AA.LVL_3_CD  = BB.ETC_3_DESC                            
+                          AND AA.LVL_3_CD  = BB.ETC_3_DESC   
+                          WHERE AA.CS_NO = #{csNo}                         
                     ) AAA
              WHERE 1=1
                AND AAA.CS_NO    = #{csNo}

@@ -34,7 +34,9 @@
                       FROM LVL4 A
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
                         ON A.ATIT_CD = B.ATIT_CD
-                     WHERE B.AC_LVL_CD = '4'
+                     WHERE 1=1
+                       AND B.AC_LVL_CD = '4'
+                       AND B.CS_NO     = #{csNo}
                  GROUP BY B.HGRK_ATIT_CD 
               )
         , LVL2 AS (
@@ -49,7 +51,9 @@
                       FROM LVL3 A
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
                         ON A.ATIT_CD = B.ATIT_CD
-                     WHERE B.AC_LVL_CD = '3'
+                     WHERE 1=1
+                       AND B.AC_LVL_CD = '3'
+                       AND B.CS_NO     = #{csNo}
                  GROUP BY B.HGRK_ATIT_CD 
               ) 
         , LVL1 AS (
@@ -64,7 +68,9 @@
                       FROM LVL2 A
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
                         ON A.ATIT_CD = B.ATIT_CD
-                     WHERE B.AC_LVL_CD = '2'
+                     WHERE 1=1
+                       AND B.AC_LVL_CD = '2'
+                       AND B.CS_NO     = #{csNo}
                      GROUP BY B.HGRK_ATIT_CD 
                   )
         SELECT

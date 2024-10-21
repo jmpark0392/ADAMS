@@ -429,28 +429,35 @@
 
 			var activeCell = grid.getActiveCell();
 			console.log("activeCell:", activeCell);
+			
+			// 선택된 cell이 없을 경우
+			if (!activeCell) {
+				alert('Click the row you want to modify, and then click the "Edit" button');
+			return;
+			}
 
 			// get the active cell index
 			let activeCellIndex = activeCell.cell;
 
-			let column = grid.getColumns()[activeCellIndex];
+			//let column = grid.getColumns()[activeCellIndex];
 
 			// setting the active row to the first row if the active row is undefined
 			var activeRow = (activeCell && activeCell.row) || 0;
 			const dataContext = grid.getDataItem(activeRow);
 
 			// 선택된 셀이 없는 상태에서 edit 클릭 시 alert창
+			/*
 			if ((modalType === "edit" && !dataContext) || !activeCell || !column) {
 				alert("Please select a cell to edit the data.");
 			return;
-			}
+			} 
 			
 			if (!options.enableCellNavigation) {
 				throw new Error('Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
 			} else if (!activeCell && modalType === "edit") {
 				throw new Error("No records selected for edit operation");
-			}
-			renewOptions(false);
+			} 
+			renewOptions(false); */
 			
 			//var isWithMassUpdate = modalType === "mass-update" || modalType === "mass-selection";
 	
