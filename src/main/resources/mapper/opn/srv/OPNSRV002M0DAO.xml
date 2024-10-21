@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rds.adams.web.opn.srv.dao.OPNSRV002M0DAO">
+    <select id="selectOptList" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV002M0P0DTO" resultType="com.rds.adams.web.opn.srv.dto.OPNSRV002M0R0DTO">
+        /* web.opn.srv.dao.OPNSRV002M0DAO.selectOptList */
+        SELECT
+               ROW_NUMBER() OVER(ORDER BY A.OPT_CD)   AS seqNo
+             , A.OPT_CD                               AS optCd
+             , A.OPT_NM                               AS optNm
+             , B.OPT_UPRC                             AS optUprc
+             , CONVERT(CHAR(10), B.OPT_STR_DTM, 23)   AS optStrDtm
+             , CONVERT(CHAR(10), B.OPT_STR_DTM, 23)   AS oldSrvcStrDtm
+          FROM RDSDB.dbo.TB_OPT_INF                   A
+          LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_HIST] B
+                       ON A.OPT_CD = B.OPT_CD
+                      AND B.SEQ_NO  = ( SELECT MAX(Z.SEQ_NO) FROM [RDSDB].[dbo].[TB_OPT_HIST] Z WHERE 1=1  AND A.OPT_CD = Z.OPT_CD AND GETDATE() BETWEEN B.OPT_STR_DTM AND B.OPT_END_DTM )
+         WHERE 1=1
+        <if test='optCdNm != "" and optCdNm != null'>
+           AND ( A.OPT_CD LIKE '%' + #{optCdNm} + '%' OR A.OPT_NM LIKE '%' + #{optCdNm} + '%' )
+        </if>
+         ORDER BY A.OPT_CD
+    </select>
+    
+    <select id="selectOptHistList" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV002M0P1DTO" resultType="com.rds.adams.web.opn.srv.dto.OPNSRV002M0R1DTO">
+        /* web.opn.srv.dao.OPNSRV002M0DAO.selectOptHistList */
+        SELECT 
+               ROW_NUMBER() OVER(ORDER BY A.OPT_STR_DTM DESC, A.SEQ_NO DESC)   AS seqNoHist
+             , A.OPT_CD                                   AS optCdHist
+			 , A.OPT_NM                                   AS optNmHist
+			 , A.OPT_STR_DTM                              AS optStrDtmHist
+			 , A.OPT_END_DTM                              AS optEndDtmHist
+			 , A.OPT_UPRC                                 AS optUprcHist
+          FROM [RDSDB].[dbo].[TB_OPT_HIST] A
+		 WHERE 1=1
+		   AND A.OPT_CD = #{optCd}
+		 ORDER BY A.OPT_STR_DTM DESC
+		        , A.SEQ_NO DESC
+    </select>
+    <select id="selectOptDtlsList" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV002M0P1DTO" resultType="com.rds.adams.web.opn.srv.dto.OPNSRV002M0R2DTO">
+        /* web.opn.srv.dao.OPNSRV002M0DAO.selectOptDtlsList */
+        SELECT
+               ROW_NUMBER() OVER(ORDER BY A.OPT_DTLS_CD)   AS seqNoDtls
+             , A.OPT_CD                                    AS optCd
+             , A.OPT_DTLS_CD                               AS optDtlsCd
+             , A.OPT_DTLS_NM                               AS optDtlsNm
+             , B.OPT_DTLS_VLU                              AS optDtlsVlu
+             , B.OPT_DTLS_DC_RT                            AS optDtlsDvRt
+             , CONVERT(CHAR(10), B.OPT_DTLS_STR_DTM, 23)   AS optDtlsStrDtm
+             , CONVERT(CHAR(10), B.OPT_DTLS_STR_DTM, 23)   AS oldOptDtlsStrDtm
+          FROM RDSDB.dbo.TB_OPT_DTLS_INF                   A
+          LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_HIST] B
+                       ON A.OPT_CD      = B.OPT_CD
+                      AND A.OPT_DTLS_CD = B.OPT_DTLS_CD
+                      AND B.SEQ_NO      = ( SELECT MAX(Z.SEQ_NO) FROM [RDSDB].[dbo].[TB_OPT_DTLS_HIST] Z WHERE 1=1  AND A.OPT_CD = Z.OPT_CD AND A.OPT_DTLS_CD = Z.OPT_DTLS_CD AND GETDATE() BETWEEN B.OPT_DTLS_STR_DTM AND B.OPT_DTLS_END_DTM )
+         WHERE 1=1
+		   AND A.OPT_CD = #{optCd}
+         ORDER BY A.OPT_CD
+    </select>
+    
+    <select id="selectChkDate" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV002M0R0DTO" resultType="java.lang.String">
+        /* web.opn.srv.dao.OPNSRV002M0DAO.selectChkDate */
+        SELECT 
+               CASE WHEN #{optStrDtm} <![CDATA[<]]> CONVERT(CHAR(10), GETDATE(), 23) THEN '1'
+                    ELSE '0'
+               END  AS cd
+    </select>
+    
+    <select id="selectChkHist" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV002M0R0DTO" resultType="java.lang.String">
+        /* web.opn.srv.dao.OPNSRV002M0DAO.selectChkHist */
+        SELECT 
+               CASE WHEN #{optStrDtm} = CONVERT(CHAR(10), A.OPT_STR_DTM, 23) THEN '1'
+                    ELSE '2'
+               END  AS cd
+          FROM [RDSDB].[dbo].[TB_OPT_HIST] A
+		 WHERE 1=1
+		   AND A.OPT_CD     = #{optCd}
+		   AND #{optStrDtm} BETWEEN A.OPT_STR_DTM AND A.OPT_END_DTM
+    </select>
+    
+    <update id="updateOpt">
+        /* web.opn.srv.dao.OPNSRV002M0DAO.updateOpt */
+        UPDATE RDSDB.dbo.TB_OPT_HIST
+           SET OPT_NM        = #{optNm}
+             , FNL_UPD_EMP_NO = #{usrId}
+             , FNL_UPD_DTM    = GETDATE()
+         WHERE 1=1
+           AND OPT_CD = #{optCd}
+    </update>
+    
+    <update id="updateOptHistDay">
+        /* web.opn.srv.dao.OPNSRV002M0DAO.updateOptHistDay */
+        UPDATE RDSDB.dbo.TB_OPT_HIST
+           SET OPT_NM        = #{optNm}
+             , OPT_UPRC      = #{optUprc}
+             , FNL_UPD_EMP_NO = #{usrId}
+             , FNL_UPD_DTM    = GETDATE()
+         WHERE 1=1
+           AND OPT_CD = #{optCd}
+           AND SEQ_NO  = (
+                           SELECT 
+                                  MAX(A.SEQ_NO) AS SEQ_NO
+                             FROM RDSDB.dbo.TB_OPT_HIST A
+                            WHERE 1=1
+                              AND A.OPT_CD      = #{optCd}
+                              AND A.OPT_STR_DTM = #{optStrDtm}
+                         )
+    </update>
+    
+    <update id="updateOptHistBefor">
+        /* web.opn.srv.dao.OPNSRV002M0DAO.updateOptHistBefor */
+        UPDATE RDSDB.dbo.TB_OPT_HIST
+           SET OPT_END_DTM   = DATEADD(DAY, -1, CAST(#{optStrDtm} AS DATE))
+             , FNL_UPD_EMP_NO = #{usrId}
+             , FNL_UPD_DTM    = GETDATE()
+         WHERE 1=1
+           AND OPT_CD = #{optCd}
+           AND SEQ_NO  = (
+                           SELECT 
+                                  MAX(A.SEQ_NO) AS SEQ_NO
+                             FROM RDSDB.dbo.TB_OPT_HIST A
+                            WHERE 1=1
+                              AND A.OPT_CD    = #{optCd}
+                              AND #{optStrDtm} BETWEEN A.OPT_STR_DTM AND A.OPT_END_DTM
+                         )
+    </update>
+    
+    <insert id="insertOptHist">
+        /* web.opn.srv.dao.OPNSRV002M0DAO.insertOptHist */
+        INSERT INTO [RDSDB].[dbo].[TB_OPT_HIST]
+               (
+                 SEQ_NO
+               , OPT_CD
+               , OPT_NM
+               , OPT_UPRC
+               , OPT_STR_DTM
+               , OPT_END_DTM
+               , FNL_UPD_EMP_NO
+               , FNL_UPD_DTM
+               , FRST_REG_EMP_NO
+               , FRST_REG_DTM
+               )
+        VALUES (
+                 ( SELECT CAST( ISNULL(MAX(SEQ_NO), '0') AS numeric(5,0) ) + 1 FROM [RDSDB].[dbo].[TB_OPT_HIST] WHERE OPT_CD = #{optCd} )
+               , #{optCd}
+               , #{optNm}
+               , #{optUprc}
+               , #{optStrDtm}
+               , ( CASE WHEN ( SELECT COUNT(1) FROM [RDSDB].[dbo].[TB_OPT_HIST] WHERE OPT_CD = #{optCd} AND OPT_STR_DTM > #{optStrDtm} ) = 0 THEN '2999-12-31' 
+                        ELSE  DATEADD(DAY, -1, CAST((SELECT MIN(OPT_STR_DTM) FROM [RDSDB].[dbo].[TB_OPT_HIST] WHERE OPT_CD = #{optCd} AND OPT_STR_DTM > #{optStrDtm} )AS DATE))
+	               END )
+               , #{usrId}
+               , GETDATE()
+               , #{usrId}
+               , GETDATE()
+               )
+    </insert>
+    
+    <insert id="insertOpt">
+        /* web.opn.srv.dao.OPNSRV002M0DAO.insertOpt */
+        INSERT INTO [RDSDB].[dbo].[TB_OPT_INF]
+               (
+                 OPT_CD
+               , OPT_NM
+               , OPT_UPRC
+               , FNL_UPD_EMP_NO
+               , FNL_UPD_DTM
+               , FRST_REG_EMP_NO
+               , FRST_REG_DTM
+               )
+        VALUES (
+                 #{optCd}
+               , #{optNm}
+               , #{optUprc}
+               , #{usrId}
+               , GETDATE()
+               , #{usrId}
+               , GETDATE()
+               )
+    </insert>
+</mapper>

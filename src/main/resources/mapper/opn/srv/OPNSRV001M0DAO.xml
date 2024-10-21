@@ -28,7 +28,7 @@
     <select id="selectSrvcHistList" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV001M0P1DTO" resultType="com.rds.adams.web.opn.srv.dto.OPNSRV001M0R1DTO">
         /* web.opn.srv.dao.OPNSRV001M0DAO.selectSrvcHistList */
         SELECT 
-               ROW_NUMBER() OVER(ORDER BY A.SEQ_NO DESC)   AS seqNoHist
+               ROW_NUMBER() OVER(ORDER BY A.SRVC_STR_DTM DESC, A.SEQ_NO DESC)   AS seqNoHist
              , A.SRVC_CD                                   AS srvcCdHist
 			 , A.SRVC_NM                                   AS srvcNmHist
 			 , A.SRVC_STR_DTM                              AS srvcStrDtmHist
@@ -39,7 +39,8 @@
           FROM [RDSDB].[dbo].[TB_SVRC_HIST] A
 		 WHERE 1=1
 		   AND A.SRVC_CD = #{srvcCd}
-		 ORDER BY A.SEQ_NO DESC
+		 ORDER BY A.SRVC_STR_DTM DESC
+		        , A.SEQ_NO DESC
     </select>
     
     <select id="selectChkDate" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV001M0R0DTO" resultType="java.lang.String">
