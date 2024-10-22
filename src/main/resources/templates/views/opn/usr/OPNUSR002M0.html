@@ -51,8 +51,7 @@
 					</div>
 				</div>
 				<div style="padding-top: 2em"></div>
-				<div id="divMyGrid">
-					<table align="center" class="table"></table>
+				<div class="card card-md" id="divMyGrid">
 				</div>
 			</div>
 			<div class="popupDataForm">
@@ -178,10 +177,10 @@
 			var columns = [
 							{ id: unqId,		name: "Seq",							field: unqId,							width: 80, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "csNo",		 	name: "Customer number",				field: "csNo",		 	sortable: true, width: 0,	editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "compNoDvCd",	name: "Type of company identification", field: "compNoDvCd",	sortable: true, width: 200, editor: function (args) { return new ComboBoxEditor(args, [ { key: "DUNS Number", value: "1" }, { key: "Corporation Number", value: "2" }, { key: "Business Registration Number", value: "3" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "compNo",		name: "Company identification number",	field: "compNo",		sortable: true, width: 200, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
+						, { id: "compNoDvCd",	name: "Type of company identification", field: "compNoDvCd",	sortable: true, width: 220, editor: function (args) { return new ComboBoxEditor(args, [ { key: "DUNS Number", value: "1" }, { key: "Corporation Number", value: "2" }, { key: "Business Registration Number", value: "3" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "compNo",		name: "Company identification number",	field: "compNo",		sortable: true, width: 220, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
 						, { id: "compNm",		name: "Company name",					field: "compNm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "repPhNo",		name: "Representative phone number",	field: "repPhNo",		sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "repPhNo",		name: "Representative phone number",	field: "repPhNo",		sortable: true, width: 220, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "reperNm",		name: "Representative person name",	 	field: "reperNm",		sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 						, { id: "ptbNm",		name: "Manager name",					field: "ptbNm",			sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 						, { id: "ptbPhNo",		name: "Manager phone number",			field: "ptbPhNo",		sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
@@ -195,7 +194,7 @@
 						, { id: "useEndDtm",	name: "Use end date/time",				field: "useEndDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "countryCd",	name: "Country code",					field: "countryCd",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "countryNmKor", name: "Country Name(Korea)",			field: "countryNmKor", 	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "countryNmEng", name: "Country Name(English)",			field: "countryNmEng", 	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "countryNmEng", name: "Country Name(English)",			field: "countryNmEng", 	sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 						, { id: "frstRegDtm",	name: "First registration date/time",	field: "frstRegDtm",	sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						];
 	
