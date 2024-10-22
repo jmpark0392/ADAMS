@@ -82,7 +82,7 @@ public class ADMSRV001M0Controller {
      * Retrieves a all the options
      * @return list of the options 
      */
-    @RequestMapping(value="/ADMSRV001M0SelectAllOptions", method=RequestMethod.GET) 
+    @RequestMapping(value="/ADMSRV001M0SelectAllOptions", method=RequestMethod.POST) 
     public ResponseEntity <List<ADMSRV001M0P2DTO>> selectAllOptions() {
         try {
             List<ADMSRV001M0P2DTO> result = admSrv001M0Service.selectAllOptions();
@@ -264,7 +264,7 @@ public class ADMSRV001M0Controller {
    * @return User's subscription info.
    */
 
-@GetMapping("/getUserSubscriptionInfo")
+@RequestMapping(value="/getUserSubscriptionInfo", method=RequestMethod.POST)
 public ResponseEntity<List<ADMSRV001M0R0DTO>> getUserSubscriptionInfo(HttpServletRequest request) {
     try {
         // get the user info from the session
