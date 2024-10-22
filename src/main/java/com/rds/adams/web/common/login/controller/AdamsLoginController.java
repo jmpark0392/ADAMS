@@ -31,6 +31,7 @@ import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
 import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.common.login.dto.AdamsResultDTO;
 import com.rds.adams.web.common.login.service.AdamsLoginService;
+import com.rds.adams.web.core.utils.StringUtil;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.ResponseCode;
@@ -143,7 +144,7 @@ public class AdamsLoginController {
 		// 1. 일반 로그인 처리
 		AdamsLoginDTO adamsLoginResultDTO = adamsLoginService.selectLoginInfo(adamsLoginDTO);
 
-		if (adamsLoginResultDTO != null && adamsLoginResultDTO.getUsrId() != null && !adamsLoginResultDTO.getUsrId().equals("")) {
+		if (adamsLoginResultDTO != null && !StringUtil.isEmpty(adamsLoginResultDTO.getCsNo()) && !StringUtil.isEmpty(adamsLoginResultDTO.getUsrId())) {
 
 			//log.debug("===>>> adamsLoginDTO.getCsNo()  = "+adamsLoginDTO.getCsNo());
 			log.debug("===>>> adamsLoginDTO.getUsrId() = "+adamsLoginDTO.getUsrId());
