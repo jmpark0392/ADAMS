@@ -15,8 +15,8 @@
 			, B.USR_NM                                AS subEmpNo     /* 부담당자 */ 
 			, A.ETC_DESC                              AS etcDesc      /* 비고 */ 
 			, A.USE_YN                                AS useYn        /* 사용여부 */
-			, B.USR_NM                                AS frstRegEmpNo /* 등록사용자명 */
-			, CONVERT(CHAR(10), A.FRST_REG_DTM, 23)   AS frstRegDtm   /* 등록일 */
+			, B.USR_NM                                AS frstRegEmpNo /* 최초등록사원번호 */
+			, CONVERT(CHAR(10), A.FRST_REG_DTM, 23)   AS frstRegDtm   /* 최초등록일시 */
 		 FROM TB_BAT_MNG_LST A 
 		 LEFT OUTER JOIN TB_USR_MNG_LST B 
 		   ON A.FNL_UPD_EMP_NO = B.USR_ID
