@@ -52,10 +52,10 @@ public class BIZINS001M0Controller {
 	@RequestMapping(value="/BIZINS001M0ExecuteList", method=RequestMethod.POST, consumes="application/json")
 	public void execute(@RequestBody ExecuteDTO inVo, HttpServletRequest request) {
 		
-		inVo.setStdYymm(inVo.getStdYymm());
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		inVo.setUsrId(sAdamsLoginDTO.getUsrId());
+		
 		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
+		inVo.setUsrId(sAdamsLoginDTO.getUsrId());
 		
 		log.info(inVo.toString());
 		try {
