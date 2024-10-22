@@ -320,4 +320,27 @@ public class AdamsLoginService {
 
 		return result;
 	}
+
+	
+	/**
+	 * 회사번호(CS_NO)로 회사명(COMP_NM)
+	 * @param csNo
+	 * @return
+	 */
+	public AdamsCsNoDTO getCsNmByCsNo(String csNo) {
+		
+		AdamsCsNoDTO inVO = new AdamsCsNoDTO();
+		AdamsCsNoDTO outVO = new AdamsCsNoDTO();
+		
+		inVO.setCsNo(csNo);
+		
+		outVO = adamsLoginDAO.selectCsNm(inVO);
+		
+		if (outVO == null) {
+			return new AdamsCsNoDTO();
+		} else {
+			return outVO;
+		}
+
+	}
 }

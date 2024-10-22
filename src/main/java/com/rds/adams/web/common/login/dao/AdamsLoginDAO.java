@@ -106,4 +106,11 @@ public interface AdamsLoginDAO {
 	 */
 	public void insertNewCs(AdamsNewCsDTO vo) ;
 	
+	/**
+	 * 신규 고객 저장을 처리한다
+	 * @param vo AdamsNewCsDTO
+	 * @exception Exception
+	 */
+	public AdamsCsNoDTO selectCsNm(AdamsCsNoDTO vo) ;
+	
 }

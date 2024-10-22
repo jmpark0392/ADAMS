@@ -137,12 +137,23 @@
 				    },
 					success: function (data) {
 						console.log("AJAX request successful. Data received:", data);
+						
 						var sMsg = data.loginMsg;
+						var sCode = data.resultCode;
+						
 						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
 							alert(sMsg);
 						}
-						$("#pageName").val(data.redirectUrl);
-						$("#form").submit();
+						
+						if (sCode == "200") {
+							$("#pageName").val(data.redirectUrl);
+							$("#form").submit();
+						} else {
+							$("#csNo").val("");
+							$("#inpUsrId").val("");
+							$("#inpUsrPassword").val("");
+							$("#csNo").focus();
+						}
 					},
 					error: function (xhr, status, error) {
 						errorHandler(xhr);
