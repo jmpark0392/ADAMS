@@ -3,14 +3,14 @@
 <mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL003M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0R0DTO">
              SELECT
-                    ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS ROW_NUMBER
-                  , A.JRNL_NO                               AS JRNL_NO
-                  , A.ATIT_CD                               AS ATIT_CD
-                  , B.ATIT_ENG_NM                           AS ATIT_NM
-                  , A.DR_CR_DV_CD                           AS DR_CR_DV_CD
-                  , A.JRNL_AMT                              AS JRNL_AMT
-                  , C.USR_NM                                AS FRST_REG_EMP_NO
-                  , CONVERT(CHAR(10), A.FRST_REG_DTM, 23)   AS FRST_REG_DTM
+                    ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS rowNumber     /* 행번호 */
+                  , A.JRNL_NO                               AS jrnlNo        /* 분개번호 */
+                  , A.ATIT_CD                               AS atitCd        /* 계정과목코드 */
+                  , B.ATIT_ENG_NM                           AS atitNm        /* 계정과목명 */
+                  , A.DR_CR_DV_CD                           AS drCrDvCd      /* 차대구분 */
+                  , A.JRNL_AMT                              AS jrnlAmt       /* 분개금액 */
+                  , C.USR_NM                                AS frstRegEmpNo  /* 최초등록사원번호 */
+                  , CONVERT(CHAR(10), A.FRST_REG_DTM, 23)   AS frstRegDtm    /* 최초등록일시 */
                FROM TB_JNL_RST_LST AS A
               INNER JOIN TB_ATIT_MNG_LST AS B
                 ON A.ATIT_CD = B.ATIT_CD

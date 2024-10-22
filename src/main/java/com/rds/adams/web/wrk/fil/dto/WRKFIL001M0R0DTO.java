@@ -49,13 +49,13 @@ public class WRKFIL001M0R0DTO {
 	@Schema(description = "화면조회여부")
 	private String uiSelYn;
 	
-	@Schema(description = "검증사용여부")
+	@Schema(description = "사용여부")
 	private String useYn;
 	
-	@Schema(description = "최종변경사원번호")
+	@Schema(description = "검증사용여부")
 	private String vrfUseYn;
 	
-	@Schema(description = "사용자 이름")
+	@Schema(description = "사용자명")
 	private String usrNm;
 	
 	@Schema(description = "최종변경사원번호")

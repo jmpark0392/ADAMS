@@ -3,21 +3,21 @@
 <mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL002M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0R0DTO">
         SELECT
-               ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-             , AA.CS_NO                               AS CS_NO
-             , AA.INSC_DV_CD                          AS INSC_DV_CD
-             , AA.VALU_METD_CD                        AS VALU_METD_CD
-             , AA.LVL_1_CD                            AS LVL_1_CD
-             , AA.LVL_2_CD                            AS LVL_2_CD
-             , AA.LVL_3_CD                            AS LVL_3_CD
-             , AA.DR_AC_SUBJ_CD                       AS DR_AC_SUBJ_CD
-             , AA.ATIT_ENG_NM                         AS DR_AC_SUBJ_NM
-             , AA.CR_AC_SUBJ_CD                       AS CR_AC_SUBJ_CD
-             , BB.ATIT_ENG_NM                         AS CR_AC_SUBJ_NM
-             , AA.ETC_DESC                            AS ETC_DESC
-             , AA.USE_YN                              AS USE_YN
-             , CC.USR_NM                              AS FRST_REG_EMP_NO
-             , CONVERT(CHAR(10), AA.FRST_REG_DTM, 23) AS FRST_REG_DTM
+               ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS rowNumber     /* 행번호 */
+             , AA.CS_NO                               AS csNo          /* 고객사번호 */
+             , AA.INSC_DV_CD                          AS inscDvCd      /* 보험계약구분코드 */
+             , AA.VALU_METD_CD                        AS valuMetdCd    /* 평가방법코드 */
+             , AA.LVL_1_CD                            AS lvl1Cd        /* 레벨1 */
+             , AA.LVL_2_CD                            AS lvl2Cd        /* 레벨2 */
+             , AA.LVL_3_CD                            AS lvl3Cd        /* 레벨3 */
+             , AA.DR_AC_SUBJ_CD                       AS drAcSubjCd    /* 차변계정코드 */
+             , AA.ATIT_ENG_NM                         AS drAcSubjNm    /* 차변계정명 */
+             , AA.CR_AC_SUBJ_CD                       AS crAcSubjCd    /* 대변계정코드 */
+             , BB.ATIT_ENG_NM                         AS crAcSubjNm    /* 대변계정명 */
+             , AA.ETC_DESC                            AS etcDesc       /* 기타내용 */
+             , AA.USE_YN                              AS useYn         /* 사용여부 */
+             , CC.USR_NM                              AS frstRegEmpNo  /* 최초등록사원번호 */
+             , CONVERT(CHAR(10), AA.FRST_REG_DTM, 23) AS frstRegDtm    /* 최초등록일시 */
           FROM (
                  SELECT
                         A.CS_NO           AS CS_NO

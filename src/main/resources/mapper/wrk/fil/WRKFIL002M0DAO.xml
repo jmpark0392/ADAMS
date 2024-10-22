@@ -5,10 +5,10 @@
 <mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL002M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M0R0DTO">
         SELECT /*TODO 추후 공통으로 빼놓기*/
-               A.SEQ_NO
-             , A.FILE_NM
-             , A.DB_ID
-             , A.TBL_ID
+               A.SEQ_NO   AS seqNo   /* 순번 */
+             , A.FILE_NM  AS fileNm  /* 파일명 */
+             , A.DB_ID    AS dbId    /* 데이터베이스ID */
+             , A.TBL_ID   AS tblId   /* 테이블ID */
           FROM TB_UPL_FILE_LST A
          WHERE 1=1
          <if test= 'csNo != "999"'>
