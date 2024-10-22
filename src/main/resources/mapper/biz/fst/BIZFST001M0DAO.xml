@@ -132,10 +132,10 @@
              , 0                                                                 AS BAS_AMT
              , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' THEN A.JRNL_AMT ELSE 0 END )  AS DR_AMT
              , SUM( CASE WHEN A.DR_CR_DV_CD = 'CR' THEN A.JRNL_AMT ELSE 0 END )  AS CR_AMT
-             , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' AND  B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT 
-                         WHEN A.DR_CR_DV_CD = 'DR' AND  B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT * - 1 
-                         WHEN A.DR_CR_DV_CD = 'CR' AND  B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT * - 1 
-                         WHEN A.DR_CR_DV_CD = 'CR' AND  B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT 
+             , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_DV_CD IN ('Assets','Profit')     THEN JRNL_AMT 
+                         WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_DV_CD IN ('Liabilities','Capitals','Loss') THEN JRNL_AMT * - 1 
+                         WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_DV_CD IN ('Assets','Profit')     THEN JRNL_AMT * - 1 
+                         WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_DV_CD IN ('Liabilities','Capitals','Loss') THEN JRNL_AMT 
                          ELSE JRNL_AMT  END 
                    )                                                             AS ENTM_AMT
              , #{usrId}                                                          AS FRST_REG_EMP_NO
