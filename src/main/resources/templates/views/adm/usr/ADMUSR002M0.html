@@ -38,8 +38,7 @@
 					</div>
 				</div>
 				<div style="padding-top: 2em"></div>
-				<div id="divMyGrid">
-					<table align="center" class="table"></table>
+				<div class="card card-md" id="divMyGrid">
 				</div>
 			</div>
 			<div class="popupDataForm">
@@ -177,17 +176,17 @@
 			
 			var columns = [
 							{ id: unqId,			name: "Seq",					field: "unqId",								width: 60, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "usrDvCd",			name: "user identifier code",	field: "usrDvCd",			sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: usrDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "usrId",			name: "user email",	 			field: "usrId",				sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "oldUsrId",			name: "user email",	 			field: "oldUsrId",			sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, hidden:true, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "usrNm",			name: "user name",	 			field: "usrNm",				sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "usrEmail",			name: "user email",				field: "usrEmail",			sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "usrPhNo",			name: "user phone number",		field: "usrPhNo",			sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "statDvCd",	 		name: "status",					field: "statDvCd",	 		sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: statDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "oldStatDvCd",		name: "status",					field: "oldStatDvCd",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "useStrDtm",		name: "use start date",			field: "useStrDtm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "useEndDtm",		name: "use end date",			field: "useEndDtm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "passwordUpdDtm",	name: "password update date",	field: "passwordUpdDtm",	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "usrDvCd",			name: "User identifier code",	field: "usrDvCd",			sortable: true, width: 160, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: usrDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "usrId",			name: "User email",	 			field: "usrId",				sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "oldUsrId",			name: "User email",	 			field: "oldUsrId",			sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, hidden:true, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "usrNm",			name: "User name",	 			field: "usrNm",				sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "usrEmail",			name: "User email",				field: "usrEmail",			sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, hidden:true, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "usrPhNo",			name: "User phone number",		field: "usrPhNo",			sortable: true, width: 160, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "statDvCd",	 		name: "Status",					field: "statDvCd",	 		sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: statDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "oldStatDvCd",		name: "Status",					field: "oldStatDvCd",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "useStrDtm",		name: "Use start date",			field: "useStrDtm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "useEndDtm",		name: "Use end date",			field: "useEndDtm",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "passwordUpdDtm",	name: "Password update date",	field: "passwordUpdDtm",	sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						];
 	
 			var options = {
