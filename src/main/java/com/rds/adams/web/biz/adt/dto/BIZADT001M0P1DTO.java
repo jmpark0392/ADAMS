@@ -1,5 +1,7 @@
 package com.rds.adams.web.biz.adt.dto;
 
+import java.math.BigDecimal;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,13 +46,13 @@ public class BIZADT001M0P1DTO {
 	private String insuPlItmCd;
 	
 	@Schema(description = "계정금액")
-	private int acntAmt;
+	private BigDecimal acntAmt;
 	
 	@Schema(description = "보험손익항목금액")
-	private int insuPlItmAmt;
+	private BigDecimal insuPlItmAmt;
 	
 	@Schema(description = "차이금액")
-	private int diffAmt;
+	private BigDecimal diffAmt;
 	
 	@Schema(description = "최초등록사원번호")
 	private String frstRegEmpNo;

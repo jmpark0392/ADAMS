@@ -1,5 +1,7 @@
 package com.rds.adams.web.biz.jnl.dto;
 
+import java.math.BigDecimal;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,7 +46,7 @@ public class BIZJNL003M0R0DTO {
 	private String drCrDvCd;
 	
 	@Schema(description = "분개금액")
-	private String jrnlAmt;
+	private BigDecimal jrnlAmt;
 	
 	@Schema(description = "최초등록사원번호")
 	private String frstRegEmpNo;
