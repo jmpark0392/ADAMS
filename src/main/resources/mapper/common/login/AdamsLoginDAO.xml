@@ -59,7 +59,7 @@
     <!-- 일반 로그인 -->
     <select id="actionLogin" resultMap="login">
         SELECT
-               CASE WHEN #{csNo} = '' THEN A.CS_NO ELSE #{csNo} END AS csNo
+               CASE WHEN ISNULL(#{csNo}, '') = '' THEN A.CS_NO ELSE #{csNo} END AS csNo
              , B.COMP_NO_DV_CD     AS compNoDvCd     /* 회사번호구분코드 */
              , B.COMP_NO           AS compNo         /* 회사번호 */
              , B.COMP_NM           AS compNm         /* 회사명 */
