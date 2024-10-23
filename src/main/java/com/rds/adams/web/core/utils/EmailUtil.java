@@ -28,7 +28,7 @@ public class EmailUtil {
 	private static final String CONNECTION_URL = "https://rds-prod-sns.korea.communication.azure.com/";
 	private static final String ACCESS_KEY = "Em8Hm3Jut22EUbbdFX7ZYPKBzemFe2qwMIkxyFmxzmaE6lsP3424JQQJ99AHACULyCpVgJAtAAAAAZCSW5L6"; 
 	private static final String CONNECTION_STRING = "endpoint="+CONNECTION_URL+";accesskey="+ACCESS_KEY;
-    private static final String SENDER_ADDRESS = "DoNotReply@actuarialds.com";
+    private static final String SENDER_ADDRESS = "DoNotReply@rnadatasystem.com";
 
     public static void sendEmail(EmailDTO emailDTO) throws Exception {
 
