@@ -6,7 +6,7 @@
 	<insert id="insertBatHist" parameterType="com.rds.adams.web.core.utils.dto.ExecuteDTO">
 		<selectKey keyProperty="newBatExeId" resultType="String" order="BEFORE">
             SELECT TOP (1)
-                   CAST( ISNULL(MAX( BAT_EXE_ID ), '0') AS numeric(5,0) ) + 1  AS newBatExeId
+                    ISNULL( MAX( CAST( BAT_EXE_ID AS numeric(5,0) )), 0) + 1  AS newBatExeId
               FROM [RDSDB].[dbo].[TB_BAT_RST_LST]
              WHERE 1=1
         </selectKey>
