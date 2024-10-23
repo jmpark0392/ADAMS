@@ -11,9 +11,10 @@ import org.springframework.context.annotation.Import;
 import egovframework.com.config.EgovConfigAppMapper;
 import egovframework.com.config.EgovWebApplicationInitializer;
 
+//@Import({EgovWebApplicationInitializer.class, EgovConfigAppMapper.class})
 @SpringBootApplication(scanBasePackages={"com.rds.adams.web", "egovframework.com.config"}, exclude = SecurityAutoConfiguration.class)
 @MapperScan(basePackages={"com.rds.adams.web", "egovframework.com.config"})
-@Import({EgovWebApplicationInitializer.class, EgovConfigAppMapper.class})
+@Import({EgovConfigAppMapper.class})
 public class RsfWebApplication extends SpringBootServletInitializer  {
 	
 	@Override
