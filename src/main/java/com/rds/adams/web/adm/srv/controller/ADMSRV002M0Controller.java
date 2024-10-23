@@ -27,7 +27,7 @@ public class ADMSRV002M0Controller {
       * @return 
      */
 
-     @RequestMapping(value="/ADMSRV002M0GetUserDataAndCost", method=RequestMethod.GET)
+     @RequestMapping(value="/ADMSRV002M0GetUserDataAndCost", method=RequestMethod.POST)
      public ResponseEntity<List<ADMSRV002M0R0DTO>> fetchUserUsageDataAndCost(
         @RequestParam("year") String year,
         @RequestParam("month") String month

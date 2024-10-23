@@ -320,11 +320,20 @@
               // Update the chart
               initlaizedChart.update();
             }
+
+            function getCurrMonthAndYear() {
+              let currentDate = new Date();
+              return {
+                month: (currentDate.getMonth() + 1).toString().padStart(2, '0'),
+                year: currentDate.getFullYear().toString()
+              }
+            }
+
             // search function to make a fetch call to the server
-            function searchFunction() {
-              // Get the selected month and year values
-              var month = $('select[name="user[month]"]').val();
-              var year = $('select[name="user[year]"]').val();
+            function searchFunction( ) {
+              
+              let month = $('select[name="user[month]"]').val();
+              let year = $('select[name="user[year]"]').val();
 
               // Validate that both month and year are selected
               if (!month || !year) {
@@ -332,14 +341,9 @@
                 return;
               }
 
-              // Pad the month with a leading zero if necessary
-              if (month.length === 1) {
-                month = "0" + month;
-              }
-
-              // Send an AJAX GET request to the endpoint
+              // Send an AJAX POST request to the endpoint
               $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/ADMSRV002M0GetUserDataAndCost",
                 data: {
                   month: month,
@@ -368,24 +372,24 @@
                     if (estimatedUsage > 0 || totalCostUsage > 0) {
                       $("#estimatedUsage")
                         .text(
-                          "+ " + estimatedCostUsage.toLocaleString() + " (KRW)"
+                          "+ " + estimatedCostUsage.toLocaleString() + " USD"
                         )
                         .css("font-weight", "bold");
                       $("#totalUsage")
-                        .text("+ " + totalCostUsage.toLocaleString() + " (KRW)")
+                        .text("+ " + totalCostUsage.toLocaleString() + " USD")
                         .css("font-weight", "bold");
                     } else {
                       // No positive values found
-                      $("#estimatedUsage").text("0 (KRW)");
+                      $("#estimatedUsage").text("0 USD");
                       $("#estimatedUsage").css("font-weight", "bold");
-                      $("#totalUsage").text("0 (KRW)");
+                      $("#totalUsage").text("0 USD");
                       $("#totalUsage").css("font-weight", "bold");
                     }
                   } else if (data && data.length === 0) {
                     // No subscription info found
-                    $("#estimatedUsage").text("0 (KRW)");
+                    $("#estimatedUsage").text("0 USD");
                     $("#estimatedUsage").css("font-weight", "bold");
-                    $("#totalUsage").text("0 (KRW)");
+                    $("#totalUsage").text("0 USD");
                     $("#totalUsage").css("font-weight", "bold");
                   }
                 },
@@ -468,9 +472,10 @@
             }
 
             $(document).ready(function () {
+              const currMonthAndYear = getCurrMonthAndYear();
             	
-              $('select[name="user[month]"]').val(gv_month);
-              $('select[name="user[year]"]').val(gv_year);
+              $('select[name="user[month]"]').val(getCurrMonthAndYear().month);
+              $('select[name="user[year]"]').val(getCurrMonthAndYear().year);
     			
               fetchSubscriptionList();
               // we fetch the user subcrioption info
