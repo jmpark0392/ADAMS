@@ -331,7 +331,7 @@
 
             // search function to make a fetch call to the server
             function searchFunction( ) {
-              
+
               let month = $('select[name="user[month]"]').val();
               let year = $('select[name="user[year]"]').val();
 
@@ -406,7 +406,7 @@
             // Function to fetch the subscription list
             function fetchSubscriptionList() {
               $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/selectSubscriptionList",
                 async: true,
                 dataType: "json",
@@ -434,7 +434,7 @@
             // Function to fetch and display the user's current subscription info
             function getUserSubscriptionInfo() {
               $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/getUserSubscriptionInfo",
                 async: true,
                 dataType: "json",
