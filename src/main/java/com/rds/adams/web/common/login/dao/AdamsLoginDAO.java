@@ -39,6 +39,14 @@ public interface AdamsLoginDAO {
 	public AdamsLoginDTO actionLogin(AdamsLoginDTO vo) ;
 
 	/**
+	 * 일반 로그인을 처리한다
+	 * @param vo AdamsLoginDAO
+	 * @return String
+	 * @exception Exception
+	 */
+	public String checkUserUse(AdamsLoginDTO vo) ;
+
+	/**
 	 * 사용자 메뉴를 처리한다
 	 * @param vo AdamsLoginDAO
 	 * @return List<AdamsMenuDTO>

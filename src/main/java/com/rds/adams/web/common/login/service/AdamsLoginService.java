@@ -72,6 +72,16 @@ public class AdamsLoginService {
 	}
 
 	/**
+	 * 사용자 사용 가는 여부를 조회한다.
+	 * @param vo AdamsLoginDTO
+	 * @return String
+	 * @exception Exception
+	 */
+	public String checkUserUse(AdamsLoginDTO vo) throws Exception {
+		return adamsLoginDAO.checkUserUse(vo);
+	}
+
+	/**
 	 * 사용자 메뉴를 처리한다
 	 * @param vo AdamsLoginDTO
 	 * @return List<AdamsMenuDTO>

@@ -129,7 +129,12 @@ public class AdamsLoginController {
 	    	
 	        resultMap.put("redirectUrl", nextPage);
 	    } else {
-	        resultMap.put("loginMsg", "Please check your ID or password.");
+	    	if ("400".equals(resultMap.get("resultCode"))) {
+	    		// "구독이 만료되었습니다."
+		        resultMap.put("loginMsg", "Your subscription has expired.");
+	    	} else {
+		        resultMap.put("loginMsg", "Please check your ID or password.");
+	    	}
 	        resultMap.put("redirectUrl", "login");
 	    }
 	    
@@ -140,11 +145,20 @@ public class AdamsLoginController {
 		HashMap<String,Object>  resultMap         = new HashMap<String,Object>();
 		List<AdamsMenuDTO>      adamsMenuDTOs     = new ArrayList<>();
 		List<AdamsMenuDTO>      adamsMenuTreeDTOs = new ArrayList<>();
+		String                  sChkCd            = "";
 
 		// 1. 일반 로그인 처리
 		AdamsLoginDTO adamsLoginResultDTO = adamsLoginService.selectLoginInfo(adamsLoginDTO);
 
 		if (adamsLoginResultDTO != null && !StringUtil.isEmpty(adamsLoginResultDTO.getCsNo()) && !StringUtil.isEmpty(adamsLoginResultDTO.getUsrId())) {
+			
+			sChkCd = adamsLoginService.checkUserUse(adamsLoginResultDTO);
+			
+			if ( "1".equals(sChkCd) ) {
+				resultMap.put("resultCode"   , "400");
+				resultMap.put("resultMessage", egovMessageSource.getMessage("fail.common.login"));
+				return resultMap;
+			}
 			
 			/*
 			 * form data의 csNo가 empty가 아니고 (어드민 로그인이면)

@@ -94,12 +94,26 @@
            AND 1        = PWDCOMPARE(#{usrPassword}, A.USR_PASSWORD)
     </select>
     
+    <!-- 사용자 사용가능 여부 체크 -->
+    <select id="checkUserUse" resultType="java.lang.String">
+        SELECT
+               CASE WHEN A.STAT_DV_CD = '9' AND A.USE_END_DTM <![CDATA[ < ]]> GETDATE() THEN '1'
+			        WHEN B.STAT_DV_CD = '9' AND B.USE_END_DTM <![CDATA[ < ]]> GETDATE() THEN '1'
+					ELSE '0'
+			   END
+          FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
+          LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_MNG_LST] B
+                       ON A.CS_NO = B.CS_NO
+         WHERE 1=1
+           AND A.USR_ID = #{usrId}
+    </select>
+    
     <!-- 로그인 사용자 메뉴 정보 -->
     <select id="actionMenu" resultMap="menu">
         WITH TMP_AUTH AS
              (
                 SELECT
-                       CASE WHEN A.USR_DV_CD = '1' AND '' <![CDATA[ <> ]]> B.CS_NO THEN '8'
+                       CASE WHEN A.USR_DV_CD = '1' AND #{csNo} != B.CS_NO THEN '8'
                             WHEN A.USR_DV_CD = '1' THEN '9'
                             WHEN A.USR_DV_CD = '2' THEN '8'
                             ELSE '1'
