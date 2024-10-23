@@ -202,7 +202,7 @@
 		function getFileList(input) {
 			console.log("getFileList input : " + input);
 			var option = {
-							id          : "SelectFileList"
+						  id          : "SelectFileList"
 						, type        : "post"
 						, url         : "/WRKFIL003M0SelectFileList"
 						, async       : false
@@ -217,18 +217,18 @@
 		function getList(input) {
 			console.log("getList input : " + input);
 			var option = {
-							id          : "SelectList"
+						  id          : "SelectList"
 						, type        : "post"
 						, url         : "/WRKFIL004M0SelectList"
 						, async       : false
 						, dataType    : "json"
 						, contentType : "application/json; charset=utf-8"
 						, data        : input = JSON.stringify({
-																 uploadFile: $("#cmbUploadFileList").val(),
-																 startLoadDate: inputStartLoadDate,
-																 endLoadDate: inputEndLoadDate,
-																 startStdYymm: clearedinptStartYm,
-																 endStdYymm: clearedinptEndYm,
+																 uploadFile    : $("#cmbUploadFileList").val(),
+																 startLoadDate : inputStartLoadDate,
+																 endLoadDate   : inputEndLoadDate,
+																 startStdYymm  : clearedinptStartYm,
+																 endStdYymm    : clearedinptEndYm,
 																}),
 			};
 	
@@ -260,23 +260,23 @@
 		
 	
 
-			var grid;
-			var dataView;
-			var data;
-			var unqId = "seqNo";
-			var xcpt_cols = [ ];
-			var check_cols = [ ];
-			var columns = [
+		var grid;
+		var dataView;
+		var data;
+		var unqId = "seqNo";
+		var xcpt_cols = [ ];
+		var check_cols = [ ];
+		var columns = [
 				{ id: "seqNo",			name: "Seq",				field: "seqNo",			width:80,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
 				{ id: "tblId",			name: "Table ID",			field: "tblId",			width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
 				{ id: "fileNm",			name: "File Name",			field: "fileNm",		width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
 				{ id: "loadCnt",		name: "Load Count",			field: "loadCnt",		width:100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
-				{ id: "stdYymm",		name: "Standard YYYY/MM",	field: "stdYymm",		width:140,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
+				{ id: "stdYymm",		name: "Standard YYYY/MM",	field: "stdYymm",		width:150,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
 				{ id: "frstRegEmpNo",	name: "registrant",			field: "frstRegEmpNo",	width:120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
-				{ id: "loadStrDt",		name: "Load Start Date",	field: "loadStrDt",		width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
-				{ id: "loadEndDt",		name: "Load End Date",		field: "loadEndDt",		width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
+				{ id: "loadStrDtm",		name: "Load Start Date",	field: "loadStrDtm",	width:150,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
+				{ id: "loadEndDtm",		name: "Load End Date",		field: "loadEndDtm",	width:150,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
 				{ id: "loadSuccYn",		name: "Load Success",		field: "loadSuccYn",	width:120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
-			];
+		];
 	
 	         /*
 	             var keys    = Object.keys(grdData[0]);
@@ -285,97 +285,97 @@
 	             }
 	           */
 	
-			// 그리드 옵션
-			var options = {
-				enableCellNavigation: true,
-				enableColumnReorder: false,
-				forceFitColumns: false,
-				multiColumnSort: true,
-				numberedMultiColumnSort: true,
-				tristateMultiColumnSort: true,
-				sortColNumberInSeparateSpan: true,
-				enableAutoSizeColumns: true,
-				editable: false,
-				enableAddRow: false,
-				asyncEditorLoading: false,
-				autoEdit: false,
-				autoEditNewRow: false,
-				enableAutoSizeColumns: true,
-				rowHeight: 35,
-			};
-
-	   		var newRowIds = 0;
-
-			var pluginOptions = {
-				clipboardCommandHandler: function (editCommand) {
-					undoRedoBuffer.queueAndExecuteCommand.call( undoRedoBuffer, editCommand);
-				},
-				readOnlyMode: false,
-				includeHeaderWhenCopying: false,
-				newRowCreator: function (count) {
-					for (var i = 0; i < count; i++) {
-						var item = { id: "newRow_" + newRowIds++, };
-						grid.getData().addItem(item);
-					}
-				},
-			};
-
-			function getSearchList() {
-				console.log("Sending AJAX request...");
-
-				   // 이후 getList() 호출
-			    getList();
-			}
-			/**
-			 * Transaction callback 함수
-			 **/
-			function fn_callback(result){
-				console.log("fn_callback : " + result.id);
-				if( result.resultCd == "S" ){
-					switch (result.id){
-						case "SelectFileList" :
-							console.log("selectFileList");
-							populateDropdown(result.data);
-							break;
-						case "SelectList" :
-							console.log("selectList grid");
-							fn_setGrid(result.data);
-							break;
-					}	  
-				} else if( result.resultCd == "E") {
-				} else {
-					console.log("fn_callback result : ", result);
+		// 그리드 옵션
+		var options = {
+			enableCellNavigation: true,
+			enableColumnReorder: false,
+			forceFitColumns: false,
+			multiColumnSort: true,
+			numberedMultiColumnSort: true,
+			tristateMultiColumnSort: true,
+			sortColNumberInSeparateSpan: true,
+			enableAutoSizeColumns: true,
+			editable: false,
+			enableAddRow: false,
+			asyncEditorLoading: false,
+			autoEdit: false,
+			autoEditNewRow: false,
+			enableAutoSizeColumns: true,
+			rowHeight: 35,
+		};
+	
+		var newRowIds = 0;
+	
+		var pluginOptions = {
+			clipboardCommandHandler: function (editCommand) {
+				undoRedoBuffer.queueAndExecuteCommand.call( undoRedoBuffer, editCommand);
+			},
+			readOnlyMode: false,
+			includeHeaderWhenCopying: false,
+			newRowCreator: function (count) {
+				for (var i = 0; i < count; i++) {
+					var item = { id: "newRow_" + newRowIds++, };
+					grid.getData().addItem(item);
 				}
+			},
+		};
+	
+		function getSearchList() {
+			console.log("Sending AJAX request...");
+	
+			   // 이후 getList() 호출
+		    getList();
+		}
+		/**
+		 * Transaction callback 함수
+		 **/
+		function fn_callback(result){
+			console.log("fn_callback : " + result.id);
+			if( result.resultCd == "S" ){
+				switch (result.id){
+					case "SelectFileList" :
+						console.log("selectFileList");
+						populateDropdown(result.data);
+						break;
+					case "SelectList" :
+						console.log("selectList grid");
+						fn_setGrid(result.data);
+						break;
+				}	  
+			} else if( result.resultCd == "E") {
+			} else {
+				console.log("fn_callback result : ", result);
 			}
+		}
 
-			function fn_setGrid(data){
-				//dataView = new Slick.Data.DataView( { idField: unqId });
-				dataView = new Slick.Data.DataView();
-				grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
+		function fn_setGrid(data){
+			//dataView = new Slick.Data.DataView( { idField: unqId });
+			dataView = new Slick.Data.DataView();
+			grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
 
-				// Make the grid respond to DataView change events.
-				dataView.onRowCountChanged.subscribe(function (e, args) {
-					grid.updateRowCount();
-					grid.render();
-				});
+			// Make the grid respond to DataView change events.
+			dataView.onRowCountChanged.subscribe(function (e, args) {
+				grid.updateRowCount();
+				grid.render();
+			});
 
-				dataView.onRowsChanged.subscribe(function (e, args) {
-					grid.invalidate();
-					grid.render();
-				});
+			dataView.onRowsChanged.subscribe(function (e, args) {
+				grid.invalidate();
+				grid.render();
+			});
 
-				// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
-				dataView.setItems(data, unqId);
+			// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
+			dataView.setItems(data, unqId);
 
-				// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
-				grid.onBeforeSort.subscribe(function (e, args) {
-				return true;
-				});                   
+			// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
+			grid.onBeforeSort.subscribe(function (e, args) {
+			return true;
+			});                   
 
-				// 정렬
-				grid.onSort.subscribe(function (e, args) {
+			// 정렬
+			grid.onSort.subscribe(function (e, args) {
 				var cols = args.sortCols;
-
+	
 				data.sort(function (dataRow1, dataRow2) {
 					for (var i = 0, l = cols.length; i < l; i++) {
 						var field  = cols[i].sortCol.field;
@@ -398,7 +398,7 @@
 			// set keyboard focus on the grid
 			//grid.getCanvasNode().focus();
 			grid.registerPlugin(new Slick.CellExternalCopyManager(pluginOptions));
-
+	
 			grid.onAddNewRow.subscribe(function (e, args) {
 				var newItem = args.item;
 				var column = args.column;
@@ -439,10 +439,9 @@
 					alert(errorMessages);
 				}
 			});
-
 			//grid.setActiveCell(0, 0);
 			console.log("SlickGrid initialized.");
-			}
+		}
 		</script>
 	</th:block>
 </html>

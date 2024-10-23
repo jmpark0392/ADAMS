@@ -112,15 +112,15 @@
 			var inputMonth = $("#inputMonth").val();
 
 			// inputYear나 inputMonth가 비어있는지 체크
-		    if (!inputYear || !inputMonth) {
-		        return null; // 년도나 월이 비어 있으면 null을 반환
-		    }
+			if (!inputYear || !inputMonth) {
+			return null; // 년도나 월이 비어 있으면 null을 반환
+			}
 
 			var inputStdYymm = inputYear + ((inputMonth.length != 0) ? inputMonth.padStart(2, "0"): "");
 			if (inputStdYymm.length != 6){
 				inputStdYymm = null;
 			}
-			return inputStdYymm
+		return inputStdYymm
 		}
 		
 		function getList(input) {
@@ -169,15 +169,18 @@
 			{ id: "batExeRstCd",	name: "Result",					field: "batExeRstCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "batExeErrCd",	name: "Error Code",				field: "batExeErrCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "stdYymm",		name: "Standard Year/Month",	field: "stdYymm",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "batStrDtm",		name: "Start Time",				field: "batStrDtm",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "batEndDtm",		name: "End Time",				field: "batEndDtm",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "batLoadStatCd",	name: "Run Status",				field: "batLoadStatCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "mainEmpNo",		name: "Main User",				field: "mainEmpNo",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "frstRegEmpNo",	name: "Executor",				field: "frstRegEmpNo",	width: 100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "frstRegDtm",		name: "Execution Date",			field: "frstRegDtm",	width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "frstRegDtm",		name: "Execution Date",			field: "frstRegDtm",	width: 150,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		];
 	
 		var options = {
 				enableCellNavigation: true,
 				enableColumnReorder: false,
-				forceFitColumns: true,
+				forceFitColumns: false,
 				multiColumnSort: true,
 				numberedMultiColumnSort: true,
 				tristateMultiColumnSort: true,
@@ -212,8 +215,8 @@
 			console.log("Initializing SlickGrid...");
 			getList(
 						(input	=	JSON.stringify({ 
-									searchTxt: $("#inpSearchTxt").val()
-								,	stdYymm: getStdYymm()
+									searchTxt : $("#inpSearchTxt").val()
+								,	stdYymm   : getStdYymm()
 								}))
 					);
 		}
@@ -224,13 +227,13 @@
 
 			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "") {
 				alert("Please select a year, month!");
-				return;
+			return;
 			} else if ($("#inputYear").val() === "") {
 				alert("Please select a year to continue!");
-				return;
+			return;
 			} else if ($("#inputMonth").val() === "") {
 				alert("Please select a month to continue!");
-				return;
+			return;
 			} 
 			
 			const element = document.getElementById("divMyGrid");
@@ -238,69 +241,69 @@
 			
 			getList(
 						(input	=	JSON.stringify({ 
-									searchTxt: $("#inpSearchTxt").val()
-								,	stdYymm: getStdYymm()
+									searchTxt : $("#inpSearchTxt").val()
+								,	stdYymm   : getStdYymm()
 								}))
 					);
 		}
 
-			/**
-			* Transaction callback 함수
-			**/
-			function fn_callback(result){
-				//console.log("fn_callback : " + result.id);
-				if( result.resultCd == "S" ){
-					switch (result.id){
-						case "SelectList" :
-							fn_setGrid(result.data);
-							break;
-						case "insertList" :
-							alert("Successfully Insert");
-							main();
-							break;
-						case "updateList" :
-							alert("Successfully Updated");
-							main();
-							break;
-						case "deleteList" :
-							alert("Successfully Deleted");
-							main();
-							break;
-					}
-				} else if( result.resultCd == "E") {
-				} else {
-					console.log("fn_callback result : ", result);
+		/**
+		* Transaction callback 함수
+		**/
+		function fn_callback(result){
+			//console.log("fn_callback : " + result.id);
+			if( result.resultCd == "S" ){
+				switch (result.id){
+					case "SelectList" :
+						fn_setGrid(result.data);
+						break;
+					case "insertList" :
+						alert("Successfully Insert");
+						main();
+						break;
+					case "updateList" :
+						alert("Successfully Updated");
+						main();
+						break;
+					case "deleteList" :
+						alert("Successfully Deleted");
+						main();
+						break;
 				}
+			} else if( result.resultCd == "E") {
+			} else {
+				console.log("fn_callback result : ", result);
 			}
+		}
 
-			function fn_setGrid(data){
-				//dataView = new Slick.Data.DataView( { idField: unqId });
-				dataView = new Slick.Data.DataView();
-				grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
+		function fn_setGrid(data){
+			//dataView = new Slick.Data.DataView( { idField: unqId });
+			dataView = new Slick.Data.DataView();
+			grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
 
-				// Make the grid respond to DataView change events.
-				dataView.onRowCountChanged.subscribe(function (e, args) {
-					grid.updateRowCount();
-					grid.render();
-				});
+			// Make the grid respond to DataView change events.
+			dataView.onRowCountChanged.subscribe(function (e, args) {
+				grid.updateRowCount();
+				grid.render();
+			});
 
-				dataView.onRowsChanged.subscribe(function (e, args) {
-					grid.invalidate();
-					grid.render();
-				});
+			dataView.onRowsChanged.subscribe(function (e, args) {
+				grid.invalidate();
+				grid.render();
+			});
 
-				// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
-				dataView.setItems(data, unqId);
+			// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
+			dataView.setItems(data, unqId);
 
-				// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
-				grid.onBeforeSort.subscribe(function (e, args) {
-				return true;
-				});                   
+			// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
+			grid.onBeforeSort.subscribe(function (e, args) {
+			return true;
+			});                   
 
-				// 정렬
-				grid.onSort.subscribe(function (e, args) {
+			// 정렬
+			grid.onSort.subscribe(function (e, args) {
 				var cols = args.sortCols;
-
+	
 				data.sort(function (dataRow1, dataRow2) {
 					for (var i = 0, l = cols.length; i < l; i++) {
 						var field  = cols[i].sortCol.field;

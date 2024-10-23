@@ -46,6 +46,15 @@ public class WRKBAT003M0R0DTO {
 	@Schema(description = "배치실행에러코드")
 	private String batExeErrCd;
 	
+	@Schema(description = "배치시작일시")
+	private String batStrDtm;
+	
+	@Schema(description = "배치종료일시")
+	private String batEndDtm;
+	
+	@Schema(description = "배치상태코드")
+	private String batLoadStatCd;
+	
 	@Schema(description = "주담당자")
 	private String mainEmpNo;
 	

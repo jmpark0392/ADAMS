@@ -103,7 +103,7 @@
 			if (inputStdYymm.length != 6){
 				inputStdYymm = null;
 			}
-			return inputStdYymm
+		return inputStdYymm
 		}
 
 		function getList(input) {
@@ -123,9 +123,9 @@
 		
 		// settle 함수에 보낼 데이터를 가져오는 함수
 		function getSettle(){
-			var input	=	JSON.stringify({ 
-							searchTxt: $("#inpSearchTxt").val()
-						,	stdYymm: getStdYymm()
+			var input = JSON.stringify({ 
+										 searchTxt : $("#inpSearchTxt").val()
+									   , stdYymm   : getStdYymm()
 						});
 			//console.log("getSettle input : " + input);
 			
@@ -138,13 +138,13 @@
 			
 			//console.log("settle input : " + input);
 			var option = {
-						 id		: "ExecuteList"
-						 , type		: "post"
-						 , url		 : "/BIZFST002M0ExecuteList"
-						 , async	 : false
-						 , dataType	: "text"
-						 , contentType : "application/json; charset=utf-8"
-						 , data		: input
+						   id			: "ExecuteList"
+						 , type			: "post"
+						 , url			: "/BIZFST002M0ExecuteList"
+						 , async		: false
+						 , dataType		: "text"
+						 , contentType	: "application/json; charset=utf-8"
+						 , data			: input
 						 };
 			
 			gf_Transaction(option, fn_callback);
@@ -154,24 +154,23 @@
 	<script>
 		$(document).ready(function () {
 			
-		console.log("Document is ready.");
-		
-		$("#inputYear").val(gv_year);
-		$("#inputMonth").val(gv_month);
-		
-		//화면 접속시 바로 조회
-		main();
-		
-		//send버튼 누르면, 조건적용하여 검색
-		$("#send").click(main);
-		
-		//엔터키누르면, 조건적용하여 검색
-		$("input").on("keyup", function (key) {
-			if (key.keyCode == 13) {
+			console.log("Document is ready.");
+			
+			$("#inputYear").val(gv_year);
+			$("#inputMonth").val(gv_month);
+			
+			//화면 접속시 바로 조회
 			main();
-			}
-		});
-		
+			
+			//send버튼 누르면, 조건적용하여 검색
+			$("#send").click(main);
+			
+			//엔터키누르면, 조건적용하여 검색
+			$("input").on("keyup", function (key) {
+				if (key.keyCode == 13) {
+				main();
+				}
+			});
 		});
 
 		var grid;
@@ -187,7 +186,7 @@
 			,	{id: "drAmt", 			name: "Dr", 					field: "drAmt", 			width: 150,	sortable: true,	editor: Slick.Editors.Text, 	validator: createValidator, 			formatter: currencyFormatter, 			headerCssClass: "slick-header-columns", 			cssClass: "slick-column-right" 		}
 			,	{id: "crAmt", 			name: "Cr", 					field: "crAmt", 			width: 150,	sortable: true,	editor: Slick.Editors.Text, 	validator: createValidator, 			formatter: currencyFormatter, 			headerCssClass: "slick-header-columns", 			cssClass: "slick-column-right" 		}
 			,	{id: "entmAmt", 		name: "End of Term", 			field: "entmAmt", 			width: 150,	sortable: true,	editor: Slick.Editors.Text, 	validator: createValidator, 			headerCssClass: "slick-header-columns", 			formatter: currencyFormatter, 			headerCssClass: "slick-header-columns", 			cssClass: "slick-column-right" 		}
-			,	{id: "frstRegEmpNo", 	name: "Registrant", 			field: "frstRegEmpNo", 		width: 160,	sortable: true,	editor: Slick.Editors.Text, 	headerCssClass: "slick-header-columns", 			cssClass: "slick-column-center" 		}
+			,	{id: "frstRegEmpNo", 	name: "Registrant", 			field: "frstRegEmpNo", 		width: 100,	sortable: true,	editor: Slick.Editors.Text, 	headerCssClass: "slick-header-columns", 			cssClass: "slick-column-center" 		}
 			,	{id: "frstRegDtm", 		name: "Registration Date", 		field: "frstRegDtm", 		width: 120,	sortable: true,	editor: Slick.Editors.Text, 	headerCssClass: "slick-header-columns", 			cssClass: "slick-column-center" 		}
 		];
 
@@ -211,35 +210,32 @@
 		var newRowIds = 0;
 
 		var pluginOptions = {
-		clipboardCommandHandler: function (editCommand) {
-			undoRedoBuffer.queueAndExecuteCommand.call(
-			undoRedoBuffer,
-			editCommand
-			);
-		},
-		readOnlyMode: false,
-		includeHeaderWhenCopying: false,
-		newRowCreator: function (count) {
-			for (var i = 0; i < count; i++) {
-				var item = {
-					id: "newRow_" + newRowIds++,
-				};
-				grid.getData().addItem(item);
-			}
-		},
+			clipboardCommandHandler: function (editCommand) {
+				undoRedoBuffer.queueAndExecuteCommand.call(undoRedoBuffer, editCommand);
+			},
+			readOnlyMode: false,
+			includeHeaderWhenCopying: false,
+			newRowCreator: function (count) {
+				for (var i = 0; i < count; i++) {
+					var item = {
+						id: "newRow_" + newRowIds++,
+					};
+					grid.getData().addItem(item);
+				}
+			},
 		};
 		
 		function main() {
 			// 그리드 초기화 및 데이터 로드
 			console.log("Initializing SlickGrid...");
 			getList(
-						(input	=	JSON.stringify({ 
-									searchTxt: $("#inpSearchTxt").val()
-								,	stdYymm: getStdYymm()
-						}))
-				 );
+						( input	=	JSON.stringify({ 
+													 searchTxt : $("#inpSearchTxt").val()
+												,	 stdYymm   : getStdYymm()
+									})
+						)
+					);
 		}
-		
 		
 		function getSearch() {
 			// 그리드 초기화 및 데이터 로드
@@ -247,13 +243,13 @@
 			
 			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "") {
 				alert("Please select a year, month!");
-				return;
+			return;
 			} else if ($("#inputYear").val() === "") {
 				alert("Please select a year to continue!");
-				return;
+			return;
 			} else if ($("#inputMonth").val() === "") {
 				alert("Please select a month to continue!");
-				return;
+			return;
 			} 
 			
 			const element = document.getElementById("divMyGrid");
@@ -261,10 +257,11 @@
 			
 			getList(
 						(input	=	JSON.stringify({ 
-									searchTxt: $("#inpSearchTxt").val()
-								,	stdYymm: getStdYymm()
-						}))
-				 );
+													 searchTxt : $("#inpSearchTxt").val()
+												,	 stdYymm   : getStdYymm()
+									})
+						)
+					);
 		}
 			
 		/**
@@ -286,7 +283,6 @@
 						main();
 					break;
 				}
-
 			} else if( result.resultCd == "E") {
 			} else {
 				console.log("fn_callback result : ", result);

@@ -40,10 +40,10 @@ public class WRKFIL004M0R0DTO {
 	private String stdYymm;
 	
 	@Schema(description = "적재시작일시")
-	private String loadStrDt;
+	private String loadStrDtm;
 	
 	@Schema(description = "적재종료일시")
-	private String loadEndDt;
+	private String loadEndDtm;
 	
 	@Schema(description = "적재성공여부")
 	private String loadSuccYn;
