@@ -254,6 +254,7 @@
                 field: sCd,
                 sortable: true,
                 editor: Slick.Editors.Text,
+                width:100,
                 headerCssClass: "slick-header-columns",
                 cssClass: "slick-column-left",
               });
@@ -263,7 +264,7 @@
             var options = {
               enableCellNavigation: true,
               enableColumnReorder: false,
-              forceFitColumns: true,
+              forceFitColumns: false,
               multiColumnSort: true,
               numberedMultiColumnSort: true,
               tristateMultiColumnSort: true,
