@@ -59,10 +59,10 @@ public class BIZJNL001M0P1DTO {
 	private String acKindCd;
 	
 	@Schema(description = "적용시작일자")
-	private String appStDt;
+	private String appStrDt;
 	
 	@Schema(description = "적용종료일자")
-	private String appEdDt;
+	private String appEndDt;
 	
 	@Schema(description = "정렬순서")
 	private int ordSeq;

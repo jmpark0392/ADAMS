@@ -52,6 +52,7 @@ public class AuthenticInterceptor extends WebContentInterceptor {
 		
 		// 패턴으로 예외처리 안되는 페이지들은 exceptPageNameList로 리스트를 관리
 		exceptPageNameList.add("/login");
+		exceptPageNameList.add("/adminLogin");
 		exceptPageNameList.add("/subscription");
 		exceptPageNameList.add("/views/user/myPage");
 		

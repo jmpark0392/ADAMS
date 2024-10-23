@@ -128,19 +128,11 @@
 							</div>
 						</form>
 					</div>
-					<div class="row mt-3"></div>
 				</div>
-				<div style="padding-top: 2em">
-					<!-- <p>
-          ►&nbsp;<label for="lblGrdTitle">Grid Content</label>
-        </p> -->
-					<div class="card card-md">
-						<form name="divData">
-							<div align="center">
-								<table id=divMyGrid style="width: 1284px; height: 500px"></table>
-							</div>
-						</form>
-					</div>
+				<div style="padding-bottom: 25px;"></div>
+			</div>
+			<div class="card card-md">
+				<div align="center" id="divMyGrid">
 				</div>
 			</div>
 		</div>
@@ -275,15 +267,15 @@
 			var xcpt_cols = [ ];
 			var check_cols = [ ];
 			var columns = [
-				{ id: "seqNo",			name: "Seq",				field: "seqNo",			sortable: true, editor: Slick.Editors.Text },
-				{ id: "tblId",			name: "Table ID",			field: "tblId",			sortable: true, editor: Slick.Editors.Text },
-				{ id: "fileNm",			name: "File Name",			field: "fileNm",		sortable: true, editor: Slick.Editors.Text },
-				{ id: "loadCnt",		name: "Load Count",			field: "loadCnt",		sortable: true, editor: Slick.Editors.Text },
-				{ id: "stdYymm",		name: "Standard YYYY/MM",	field: "stdYymm",		sortable: true, editor: Slick.Editors.Text },
-				{ id: "frstRegEmpNo",	name: "registrant",			field: "frstRegEmpNo",	sortable: true, editor: Slick.Editors.Text },
-				{ id: "loadStrDt",		name: "Load Start Date",	field: "loadStrDt",		sortable: true, editor: Slick.Editors.Text },
-				{ id: "loadEndDt",		name: "Load End Date",		field: "loadEndDt",		sortable: true, editor: Slick.Editors.Text },
-				{ id: "loadSuccYn",		name: "Load Success",		field: "loadSuccYn",	sortable: true, editor: Slick.Editors.Text },
+				{ id: "seqNo",			name: "Seq",				field: "seqNo",			width:80,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
+				{ id: "tblId",			name: "Table ID",			field: "tblId",			width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
+				{ id: "fileNm",			name: "File Name",			field: "fileNm",		width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
+				{ id: "loadCnt",		name: "Load Count",			field: "loadCnt",		width:100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
+				{ id: "stdYymm",		name: "Standard YYYY/MM",	field: "stdYymm",		width:140,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
+				{ id: "frstRegEmpNo",	name: "registrant",			field: "frstRegEmpNo",	width:120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
+				{ id: "loadStrDt",		name: "Load Start Date",	field: "loadStrDt",		width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
+				{ id: "loadEndDt",		name: "Load End Date",		field: "loadEndDt",		width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
+				{ id: "loadSuccYn",		name: "Load Success",		field: "loadSuccYn",	width:120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
 			];
 	
 	         /*
@@ -297,7 +289,7 @@
 			var options = {
 				enableCellNavigation: true,
 				enableColumnReorder: false,
-				forceFitColumns: true,
+				forceFitColumns: false,
 				multiColumnSort: true,
 				numberedMultiColumnSort: true,
 				tristateMultiColumnSort: true,
@@ -309,6 +301,7 @@
 				autoEdit: false,
 				autoEditNewRow: false,
 				enableAutoSizeColumns: true,
+				rowHeight: 35,
 			};
 
 	   		var newRowIds = 0;

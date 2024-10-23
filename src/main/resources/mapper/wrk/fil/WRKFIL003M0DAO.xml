@@ -5,18 +5,18 @@
 <mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL003M0DAO">
     <select id="selectTableInfoList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0R0DTO">
         SELECT 
-               A.TBL_ID
-             , A.CLMN_ID
-             , A.ITM_NM
-             , A.ORD_SEQ
-             , A.PK_YN
-             , A.DATA_TP_CD
-             , A.ITM_DSC
-             , A.VLVL_VRF_YN
-             , A.VLVL_CD
-             , A.SEL_BAS_YN
-             , B.DB_ID
-             , B.UI_SEL_YN
+               A.TBL_ID       AS tblId      /* 테이블ID */
+             , A.CLMN_ID      AS clmnId     /* 컬럼ID */
+             , A.ITM_NM       AS itmNm      /* 칼럼명 */
+             , A.ORD_SEQ      AS ordSeq     /* 정렬순서 */
+             , A.PK_YN        AS pkYn       /* PK여부 */
+             , A.DATA_TP_CD   AS dataTpCd   /* 데이터타입ID */
+             , A.ITM_DSC      AS itmDsc     /* 항목설명 */
+             , A.VLVL_VRF_YN  AS vlvlVrfYn  /* 유효값검증여부 */
+             , A.VLVL_CD      AS vlvlCd     /* 유효값코드 */
+             , A.SEL_BAS_YN   AS selBasYn   /* 조회기준여부 */
+             , B.DB_ID        AS dbId       /* 데이터베이스ID */
+             , B.UI_SEL_YN    AS uiSelYn    /* 화면조회여부 */
           FROM RDSDB.dbo.TB_UPL_ITM_LST A
          INNER JOIN RDSDB.dbo.TB_UPL_FILE_LST B
                  ON A.TBL_ID = B.TBL_ID

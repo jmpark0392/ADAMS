@@ -34,8 +34,6 @@
 			</div>
 			<div class="card card-md">
 				<div align="center" id="divMyGrid">
-					<table class="table" style="width: 1284px; height: 500px">
-					</table>
 				</div>
 			</div>
 		</div>
@@ -207,6 +205,9 @@
 	          }
 	
 	          $(document).ready(function () {
+	        	  
+	        	main();
+	        	
 	            // 버튼 클릭 시 선택된 값을 가져오는 이벤트 핸들러
 	            $("#fileDropdown").change(function () {
 	              selectedValue = $(this).val(); // 선택된 값 가져오기

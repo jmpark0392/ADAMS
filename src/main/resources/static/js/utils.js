@@ -328,7 +328,21 @@ function focusOnFirstCellWithEditor(columns, rowIndex, isWithMassUpdate) {
 
 // grid options 수정 함수
 function renewOptions(isEdit = true) {
-  grid.setOptions({ editable: isEdit }, true, true, true);
+    grid.setOptions({ editable: isEdit }, true, true, true);
+}
+
+function renewOptionsGrids(grid, isEdit = true) {
+  if(grid === grid1){
+    grid1.setOptions({ editable: isEdit }, true, true, true);
+  } else if (grid === gridHist){
+    gridHist.setOptions({ editable: isEdit }, true, true, true);
+  } else if (grid === grid3){
+    grid3.setOptions({ editable: isEdit }, true, true, true);
+  } else if (grid === grid4){
+    grid4.setOptions({ editable: isEdit }, true, true, true);
+  } else {
+    console.error("Invalid grid selected.");
+  }
 }
 
 // exportToExcel 함수 정의

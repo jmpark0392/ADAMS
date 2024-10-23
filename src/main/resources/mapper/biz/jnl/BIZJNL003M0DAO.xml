@@ -3,14 +3,14 @@
 <mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL003M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL003M0R0DTO">
              SELECT
-                    ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS ROW_NUMBER
-                  , A.JRNL_NO                               AS JRNL_NO
-                  , A.ATIT_CD                               AS ATIT_CD
-                  , B.ATIT_ENG_NM                           AS ATIT_NM
-                  , A.DR_CR_DV_CD                           AS DR_CR_DV_CD
-                  , A.JRNL_AMT                              AS JRNL_AMT
-                  , C.USR_NM                                AS FRST_REG_EMP_NO
-                  , A.FRST_REG_DTM                          AS FRST_REG_DTM
+                    ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS rowNumber     /* 행번호 */
+                  , A.JRNL_NO                               AS jrnlNo        /* 분개번호 */
+                  , A.ATIT_CD                               AS atitCd        /* 계정과목코드 */
+                  , B.ATIT_ENG_NM                           AS atitNm        /* 계정과목명 */
+                  , A.DR_CR_DV_CD                           AS drCrDvCd      /* 차대구분 */
+                  , A.JRNL_AMT                              AS jrnlAmt       /* 분개금액 */
+                  , C.USR_NM                                AS frstRegEmpNo  /* 최초등록사원번호 */
+                  , CONVERT(CHAR(10), A.FRST_REG_DTM, 23)   AS frstRegDtm    /* 최초등록일시 */
                FROM TB_JNL_RST_LST AS A
               INNER JOIN TB_ATIT_MNG_LST AS B
                 ON A.ATIT_CD = B.ATIT_CD
@@ -62,257 +62,27 @@
                           , 'DR'              AS DR_CR_DV_CD
                        FROM TB_JNL_RUL_MNG_LST AA
                       INNER JOIN (
-                                   SELECT 
-                                          BAS_AMT AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC 
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003'
-                                                          AND VLVL_CD = '001'
-                                                     ) B
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL 
-                                   SELECT
-                                          OCI_AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003'
-                                                          AND VLVL_CD = '002'
-                                                     ) B
-                                                   ON 1 = 1
-                                                WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT
-                                          NEW_CONT_AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003'
-                                                          AND VLVL_CD = '003'
-                                                     ) B 
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT
-                                          INT_EFFT_AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003'
-                                                          AND VLVL_CD = '004'
-                                                     ) B
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT
-                                          ESTM_PRM
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003'
-                                                          AND VLVL_CD = '005'
-                                                      ) B
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT
-                                          ESTM_FEE
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003'
-                                                          AND VLVL_CD = '006'
-                                                     ) B 
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT
-                                          ESTM_NEW_CONT_CCLS_AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003'
-                                                          AND VLVL_CD = '007'
-                                                      ) B
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT
-                                          ESTM_FEE_RFND_AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003'
-                                                          AND VLVL_CD = '008'
-                                                     ) B
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT 
-                                          ESTM_CONT_MTN_AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003'
-                                                          AND VLVL_CD = '009'
-                                                     ) B
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT 
-                                          ESTM_IVSG_EXP_AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC 
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT 
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003'
-                                                          AND VLVL_CD = '010'
-                                                     ) B 
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT 
-                                          ATS_ASSM_UPD_AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC 
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT 
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003' 
-                                                          AND VLVL_CD = '011'
-                                                     ) B
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT 
-                                          EXRT_EFFT_AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT 
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1 
-                                                          AND CD_ID   = 'C0003' 
-                                                          AND VLVL_CD = '012'
-                                                     ) B 
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                   UNION ALL
-                                   SELECT 
-                                          ENTM_AMT
-                                        , ETC_1_DESC
-                                        , ETC_2_DESC
-                                        , ETC_3_DESC 
-                                     FROM TB_INSU_PL_TTL_LST  A
-                                     LEFT OUTER JOIN (
-                                                       SELECT 
-                                                              ETC_1_DESC
-                                                            , ETC_2_DESC
-                                                            , ETC_3_DESC  
-                                                         FROM TB_CO_CD_DTLS_LST
-                                                        WHERE 1=1
-                                                          AND CD_ID   = 'C0003' 
-                                                          AND VLVL_CD = '013'
-                                                     ) B 
-                                                  ON 1 = 1
-                                               WHERE A.STD_YYMM = #{stdYymm}
-                                 ) BB
-                              ON AA.LVL_1_CD  = BB.ETC_1_DESC
-                             AND AA.LVL_2_CD  = BB.ETC_2_DESC
-                             AND AA.LVL_3_CD  = BB.ETC_3_DESC
-                             WHERE AA.CS_NO = #{csNo}  
+									SELECT BAS_AMT AMT			 , INSU_PL_CHNG_DV_CD, '001' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+									SELECT OCI_AMT    			 , INSU_PL_CHNG_DV_CD, '002' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+									SELECT NEW_CONT_AMT		     , INSU_PL_CHNG_DV_CD, '003' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+									SELECT INT_EFFT_AMT    		 , INSU_PL_CHNG_DV_CD, '004' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+									SELECT ESTM_PRM 		     , INSU_PL_CHNG_DV_CD, '005' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+									SELECT ESTM_FEE    			 , INSU_PL_CHNG_DV_CD, '006' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+									SELECT ESTM_NEW_CONT_CCLS_AMT, INSU_PL_CHNG_DV_CD, '007' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+									SELECT ESTM_FEE_RFND_AMT     , INSU_PL_CHNG_DV_CD, '008' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+									SELECT ESTM_CONT_MTN_AMT 	 , INSU_PL_CHNG_DV_CD, '009' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+									SELECT ESTM_IVSG_EXP_AMT     , INSU_PL_CHNG_DV_CD, '010' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+									SELECT ATS_ASSM_UPD_AMT 	 , INSU_PL_CHNG_DV_CD, '011' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+									SELECT EXRT_EFFT_AMT    	 , INSU_PL_CHNG_DV_CD, '012' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+									SELECT ENTM_AMT    			 , INSU_PL_CHNG_DV_CD, '013' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm}
+						) BB
+						ON AA.LVL_2_CD  = ( CASE WHEN BB.INSU_PL_CHNG_DV_CD = 'BEL' THEN '001'
+												 WHEN BB.INSU_PL_CHNG_DV_CD = 'RA'  THEN '002'
+												 WHEN BB.INSU_PL_CHNG_DV_CD = 'CSM' THEN '003'
+												 ELSE '-' END
+										  )
+					   AND AA.LVL_3_CD  = BB.DV
+					 WHERE AA.CS_NO = #{csNo}  
                  UNION ALL
                  SELECT 
                         AA.CS_NO
@@ -328,259 +98,29 @@
                       , 'CR' DR_CR_DV_CD
                    FROM TB_JNL_RUL_MNG_LST AA
                    INNER JOIN (
-                                SELECT 
-                                       BAS_AMT AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST
-                                                     WHERE 1=1
-                                                       AND CD_ID   = 'C0003'
-                                                       AND VLVL_CD = '001'
-                                                  ) B
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL 
-                                SELECT 
-                                       OCI_AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST
-                                                     WHERE 1=1
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '002'
-                                                   ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       NEW_CONT_AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST
-                                                     WHERE 1=1
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '003'
-                                                  ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       INT_EFFT_AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST
-                                                     WHERE 1=1
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '004'
-                                                  ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       ESTM_PRM
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST
-                                                     WHERE 1=1
-                                                       AND CD_ID   = 'C0003'
-                                                       AND VLVL_CD = '005'
-                                                  ) B
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       ESTM_FEE
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST
-                                                     WHERE 1=1
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '006'
-                                                  ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       ESTM_NEW_CONT_CCLS_AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST
-                                                     WHERE 1=1 
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '007'
-                                                  ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       ESTM_FEE_RFND_AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST
-                                                     WHERE 1=1 
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '008'
-                                                  ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       ESTM_CONT_MTN_AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST
-                                                     WHERE 1=1 
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '009'
-                                                  ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       ESTM_IVSG_EXP_AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST  
-                                                     WHERE 1=1 
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '010'
-                                                  ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       ATS_ASSM_UPD_AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST  
-                                                     WHERE 1=1
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '011'
-                                                  ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       EXRT_EFFT_AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST  
-                                                     WHERE 1=1 
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '012'
-                                                  ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                                UNION ALL
-                                SELECT 
-                                       ENTM_AMT
-                                     , ETC_1_DESC
-                                     , ETC_2_DESC
-                                     , ETC_3_DESC 
-                                  FROM TB_INSU_PL_TTL_LST  A
-                                  LEFT OUTER JOIN (
-                                                    SELECT 
-                                                           ETC_1_DESC
-                                                         , ETC_2_DESC
-                                                         , ETC_3_DESC  
-                                                      FROM TB_CO_CD_DTLS_LST  
-                                                     WHERE 1=1 
-                                                       AND CD_ID   = 'C0003' 
-                                                       AND VLVL_CD = '013'
-                                                   ) B 
-                                               ON 1 = 1
-                                            WHERE A.STD_YYMM = #{stdYymm}
-                             ) BB
-                           ON AA.LVL_1_CD  = BB.ETC_1_DESC
-                          AND AA.LVL_2_CD  = BB.ETC_2_DESC
-                          AND AA.LVL_3_CD  = BB.ETC_3_DESC   
-                          WHERE AA.CS_NO = #{csNo}                         
-                    ) AAA
-             WHERE 1=1
-               AND AAA.CS_NO    = #{csNo}
-    </insert>
+								SELECT BAS_AMT AMT			 , INSU_PL_CHNG_DV_CD, '001' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+								SELECT OCI_AMT    			 , INSU_PL_CHNG_DV_CD, '002' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+								SELECT NEW_CONT_AMT		     , INSU_PL_CHNG_DV_CD, '003' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+								SELECT INT_EFFT_AMT    		 , INSU_PL_CHNG_DV_CD, '004' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+								SELECT ESTM_PRM 		     , INSU_PL_CHNG_DV_CD, '005' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+								SELECT ESTM_FEE    			 , INSU_PL_CHNG_DV_CD, '006' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+								SELECT ESTM_NEW_CONT_CCLS_AMT, INSU_PL_CHNG_DV_CD, '007' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+								SELECT ESTM_FEE_RFND_AMT     , INSU_PL_CHNG_DV_CD, '008' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+								SELECT ESTM_CONT_MTN_AMT 	 , INSU_PL_CHNG_DV_CD, '009' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+								SELECT ESTM_IVSG_EXP_AMT     , INSU_PL_CHNG_DV_CD, '010' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+								SELECT ATS_ASSM_UPD_AMT 	 , INSU_PL_CHNG_DV_CD, '011' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL 
+								SELECT EXRT_EFFT_AMT    	 , INSU_PL_CHNG_DV_CD, '012' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm} UNION ALL
+								SELECT ENTM_AMT    			 , INSU_PL_CHNG_DV_CD, '013' AS DV FROM TB_INSU_PL_TTL_LST WHERE STD_YYMM = #{stdYymm}
+					) BB
+					ON AA.LVL_2_CD  = ( CASE WHEN BB.INSU_PL_CHNG_DV_CD = 'BEL' THEN '001'
+											 WHEN BB.INSU_PL_CHNG_DV_CD = 'RA'  THEN '002'
+											 WHEN BB.INSU_PL_CHNG_DV_CD = 'CSM' THEN '003'
+											 ELSE '-' END
+									  )
+				   AND AA.LVL_3_CD  = BB.DV  
+				 WHERE AA.CS_NO = #{csNo}                         
+			) AAA
+			WHERE AAA.AMT != 0
+			ORDER BY AAA.JRNL_NO, AAA.DR_CR_DV_CD DESC
+	</insert>
 </mapper>

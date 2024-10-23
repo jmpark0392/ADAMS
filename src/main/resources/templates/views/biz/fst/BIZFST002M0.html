@@ -63,8 +63,7 @@
 					</div>
 				</div>
 				<div style="padding-top: 2em"></div>
-				<div id="divMyGrid">
-					<table align="center" class="table"></table>
+				<div class="card card-md" id="divMyGrid">
 				</div>
 			</div>
 			<div class="popupDataForm">
@@ -179,23 +178,23 @@
 		var dataView;
 		var data;
 		var unqId = "rowNumber";
-		var xcpt_cols = [unqId, "regUsrid", "regDt"];
+		var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
 		var check_cols = [unqId, "atitNm"];
 		var	columns	=	[
-						{ id: "atitCd", 		name: "Account Title", 		field: "atitCd", 			width: 240,		sortable: true,		editor: Slick.Editors.Text,		formatter: TreeArchFormatter,			validator: createValidator, 				headerCssClass: "slick-header-columns",	cssClass: "slick-column-left" }
-					,	{ id: "atitNm", 		name: "Account Name", 		field: "atitNm", 			width: 400,		sortable: true,		editor: Slick.Editors.Text,		validator: createValidator,				headerCssClass: "slick-header-columns",		cssClass: "slick-column-left" }
-					,	{ id: "basAmt", 		name: "Basis of Term", 		field: "basAmt", 			width: 80,		sortable: true,		editor: Slick.Editors.Text,		validator: createValidator,				formatter: currencyFormatter, 				headerCssClass: "slick-header-columns",	cssClass: "slick-column-right" }
-					,	{ id: "drAmt", 			name: "Dr", 				field: "drAmt", 			width: 100,		sortable: true,		editor: Slick.Editors.Text,		validator: createValidator,				formatter: currencyFormatter, 				headerCssClass: "slick-header-columns",	cssClass: "slick-column-right" }
-					,	{ id: "crAmt", 			name: "Cr", 				field: "crAmt", 			width: 100,		sortable: true,		editor: Slick.Editors.Text,		validator: createValidator,				formatter: currencyFormatter, 				headerCssClass: "slick-header-columns",	cssClass: "slick-column-right" }
-					,	{ id: "entmAmt", 		name: "End of Term", 		field: "entmAmt", 			width: 100,		sortable: true,		editor: Slick.Editors.Text,		validator: createValidator,				headerCssClass: "slick-header-columns",		formatter: currencyFormatter,			headerCssClass: "slick-header-columns",	cssClass: "slick-column-right" }
-					,	{ id: "frstRegEmpNo", 	name: "Registrant", 		field: "frstRegEmpNo", 		width: 100,		sortable: true,		editor: Slick.Editors.Text,		headerCssClass: "slick-header-columns",	cssClass: "slick-column-center" }
-					,	{ id: "frstRegDtm", 	name: "Registration Date", 	field: "frstRegDtm", 		width: 120,		sortable: true,		editor: Slick.Editors.Text,		headerCssClass: "slick-header-columns",	cssClass: "slick-column-center" }
-					];
+				{id: "atitCd", 			name: "Account Title", 			field: "atitCd",			width: 240,	sortable: true,	editor: Slick.Editors.Text, 	formatter: TreeArchFormatter,	validator: createValidator, 			headerCssClass: "slick-header-columns", 			cssClass: "slick-column-left" 	}
+			,	{id: "atitNm", 			name: "Account Name", 			field: "atitNm", 			width: 400,	sortable: true,	editor: Slick.Editors.Text, 	validator: createValidator, 			headerCssClass: "slick-header-columns", 			cssClass: "slick-column-left" 		}
+			,	{id: "basAmt", 			name: "Basis of Term", 			field: "basAmt", 			width: 160,	sortable: true,	editor: Slick.Editors.Text, 	validator: createValidator, 			formatter: currencyFormatter, 			headerCssClass: "slick-header-columns", 			cssClass: "slick-column-right" 		}
+			,	{id: "drAmt", 			name: "Dr", 					field: "drAmt", 			width: 150,	sortable: true,	editor: Slick.Editors.Text, 	validator: createValidator, 			formatter: currencyFormatter, 			headerCssClass: "slick-header-columns", 			cssClass: "slick-column-right" 		}
+			,	{id: "crAmt", 			name: "Cr", 					field: "crAmt", 			width: 150,	sortable: true,	editor: Slick.Editors.Text, 	validator: createValidator, 			formatter: currencyFormatter, 			headerCssClass: "slick-header-columns", 			cssClass: "slick-column-right" 		}
+			,	{id: "entmAmt", 		name: "End of Term", 			field: "entmAmt", 			width: 150,	sortable: true,	editor: Slick.Editors.Text, 	validator: createValidator, 			headerCssClass: "slick-header-columns", 			formatter: currencyFormatter, 			headerCssClass: "slick-header-columns", 			cssClass: "slick-column-right" 		}
+			,	{id: "frstRegEmpNo", 	name: "Registrant", 			field: "frstRegEmpNo", 		width: 160,	sortable: true,	editor: Slick.Editors.Text, 	headerCssClass: "slick-header-columns", 			cssClass: "slick-column-center" 		}
+			,	{id: "frstRegDtm", 		name: "Registration Date", 		field: "frstRegDtm", 		width: 120,	sortable: true,	editor: Slick.Editors.Text, 	headerCssClass: "slick-header-columns", 			cssClass: "slick-column-center" 		}
+		];
 
 		var options = {
 			enableCellNavigation: true,
 			enableColumnReorder: false,
-			forceFitColumns: true,
+			forceFitColumns: false,
 			multiColumnSort: true,
 			numberedMultiColumnSort: true,
 			tristateMultiColumnSort: true,

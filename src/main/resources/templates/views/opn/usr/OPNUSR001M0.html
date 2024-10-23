@@ -37,8 +37,7 @@
 					</div>
 				</div>
 				<div style="padding-top: 2em"></div>
-				<div id="divMyGrid">
-					<table align="center" class="table"></table>
+				<div class="card card-md" id="divMyGrid">
 				</div>
 			</div>
 			<div class="popupDataForm">
@@ -179,7 +178,7 @@
 						{ id: "menuId", name: "Menu ID", field: "menuId", width: 200, sortable: true, editor: Slick.Editors.Text, formatter: TreeArchFormatter, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 					,	{ id: "menuNmKor", name: "Menu Name Korean", field: "menuNmKor", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"}
 					,	{ id: "menuNmEng", name: "Menu Name English", field: "menuNmEng", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"}
-					,	{ id: "upprMenuId", name: "Upper Menu ID", field: "upprMenuId", width: 100, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+					,	{ id: "upprMenuId", name: "Upper Menu ID", field: "upprMenuId", width: 200, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 					,	{ id: "menuSrtOrd", name: "Menu Sorted Order", field: "menuSrtOrd", width: 140, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 					,	{ id: "menuDesc", name: "Menu Description", field: "menuDesc", width: 200, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"}
 					,	{ id: "pgmNm", name: "Program Name", field: "pgmNm", width: 150, sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator,]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }

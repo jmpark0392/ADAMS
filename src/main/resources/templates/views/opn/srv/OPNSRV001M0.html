@@ -53,18 +53,10 @@
 		<!-- Page content -->
 		<div class="page-body">
 			<div class="container-xl">
-				<div class="card card-md d-flex flex-column h-100">
-					<div id="divMyGrid">
-						<table align="center" class="table"></table>
-					</div>
+				<div class="card card-md" id="divMyGrid" style="height:200px;">
 				</div>
 				<div style="padding-top: 2em"></div>
-				<div class="card card-md ">
-					<div class="container my-3">
-						<div id="divMyGridBackup">
-							<table align="center" class="table"></table>
-						</div>
-					</div>
+				<div class="card card-md" id="divMyGridBackup" style="height:300px;">
 				</div>
 			</div>
 		</div>
@@ -185,24 +177,24 @@
 			var xcpt_cols  = ["seqNo", "srvcCd", "oldSrvcStrDtm"];
 			var check_cols = ["srvcCd"];
 			var columns = [
-							{ id: unqId,			name: "Seq",					field: unqId,							width: 40, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "srvcCd",			name: "service code",			field: "srvcCd",		sortable: true, width: 100,	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "srvcNm",			name: "service name", 			field: "srvcNm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "srvcDesc",			name: "service description",	field: "srvcDesc",		sortable: true, width: 500, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "srvcStrDtm",		name: "service start date",		field: "srvcStrDtm",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true, cssClass: "slick-column-center" }
-						, { id: "oldSrvcStrDtm",	name: "service start date",		field: "oldSrvcStrDtm",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true, cssClass: "slick-column-center" }
-						, { id: "srvcUprc",			name: "service unit price",		field: "srvcUprc",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true, formatter: currencyFormatter, cssClass: "slick-column-right" }
+							{ id: unqId,			name: "Seq",					field: unqId,							width: 60, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "srvcCd",			name: "Service code",			field: "srvcCd",		sortable: true, width: 100,	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "srvcNm",			name: "Service name", 			field: "srvcNm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "srvcDesc",			name: "Service description",	field: "srvcDesc",		sortable: true, width: 500, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "srvcStrDtm",		name: "Service start date",		field: "srvcStrDtm",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true, cssClass: "slick-column-center" }
+						, { id: "oldSrvcStrDtm",	name: "Service start date",		field: "oldSrvcStrDtm",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true, cssClass: "slick-column-center" }
+						, { id: "srvcUprc",			name: "Service unit price",		field: "srvcUprc",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true, formatter: currencyFormatter, cssClass: "slick-column-right" }
 						, { id: "basicsUsrCnt",		name: "Users",					field: "basicsUsrCnt",	sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", hidden:true, formatter: currencyFormatter, cssClass: "slick-column-right" }
 						];
 			var columnsHist = [
-								{ id: unqIdHist,		name: "Seq",					field: unqIdHist,							width: 40, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
-							, { id: "srvcCdHist",		name: "service code",			field: "srvcCdHist",		sortable: true, width: 100,	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
-							, { id: "srvcNmHist",		name: "service name", 			field: "srvcNmHist",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
-							, { id: "srvcStrDtmHist",	name: "service start date",		field: "srvcStrDtmHist",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
-							, { id: "srvcEndDtmHist",	name: "service end date",		field: "srvcEndDtmHist",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
-							, { id: "srvcUprcHist",		name: "service unit price",		field: "srvcUprcHist",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", formatter: currencyFormatter, cssClass: "slick-column-right" }
-							, { id: "basicsUsrCntHist",	name: "Users",					field: "basicsUsrCntHist",	sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", formatter: currencyFormatter, cssClass: "slick-column-right" }
-							, { id: "srvcDescHist",		name: "service description",	field: "srvcDescHist",		sortable: true, width: 500, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns" }
+								{ id: unqIdHist,		name: "Seq",					field: unqIdHist,							width: 80,	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns",	cssClass: "slick-column-center" }
+							, { id: "srvcCdHist",		name: "Service code",			field: "srvcCdHist",		sortable: true, width: 100,	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns",	cssClass: "slick-column-center" }
+							, { id: "srvcNmHist",		name: "Service name", 			field: "srvcNmHist",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns",	cssClass: "slick-column-left" }
+							, { id: "srvcStrDtmHist",	name: "Service start date",		field: "srvcStrDtmHist",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns",	cssClass: "slick-column-center" }
+							, { id: "srvcEndDtmHist",	name: "Service end date",		field: "srvcEndDtmHist",	sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns",	cssClass: "slick-column-center" }
+							, { id: "srvcUprcHist",		name: "Service unit price",		field: "srvcUprcHist",		sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-right", formatter: currencyFormatter, }
+							, { id: "basicsUsrCntHist",	name: "Users",					field: "basicsUsrCntHist",	sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-right", formatter: currencyFormatter, }
+							, { id: "srvcDescHist",		name: "Service description",	field: "srvcDescHist",		sortable: true, width: 380, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns",	cssClass: "slick-column-left" }
 							];
 	
 			var options = {

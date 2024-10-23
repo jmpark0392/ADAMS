@@ -5,16 +5,16 @@
 <mapper namespace="com.rds.adams.web.wrk.bat.dao.WRKBAT003M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT003M0P0DTO" resultType="com.rds.adams.web.wrk.bat.dto.WRKBAT003M0R0DTO">
 		SELECT
-		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-		     , A.BAT_EXE_ID                           AS BAT_EXE_ID
-		     , A.BAT_PROG_ID                          AS BAT_PROG_ID
-		     , B.BAT_PROG_NM                          AS BAT_PROG_NM
-		     , A.BAT_EXE_RST_CD                       AS BAT_EXE_RST_CD
-		     , A.BAT_EXE_ERR_CD                       AS BAT_EXE_ERR_CD
-		     , A.STD_YYMM                             AS STD_YYMM
-		     , C.USR_NM                               AS MAIN_EMP_NO
-		     , C.USR_NM                               AS FRST_REG_EMP_NO
-		     , A.FRST_REG_DTM                         AS FRST_REG_DTM
+		       ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS rowNumber    /* 행번호 */
+		     , A.BAT_EXE_ID                           AS batExeId     /* 배치실행ID */
+		     , A.BAT_PROG_ID                          AS batProgId    /* 배치프로그램ID */
+		     , B.BAT_PROG_NM                          AS batProgNm    /* 배치프로그램명 */
+		     , A.BAT_EXE_RST_CD                       AS batExeRstCd  /* 배치실행결과코드 */
+		     , A.BAT_EXE_ERR_CD                       AS batExeErrCd  /* 배치실행에러코드 */
+		     , A.STD_YYMM                             AS stdYymm      /* 기준년월 */
+		     , C.USR_NM                               AS mainEmpNo    /* 주담당자 */
+		     , C.USR_NM                               AS frstRegEmpNo /* 최초등록사원번호 */
+		     , A.FRST_REG_DTM                         AS frstRegDtm   /* 최초등록일시 */
 		  FROM TB_BAT_RST_LST AS A
 		 INNER JOIN TB_BAT_MNG_LST AS B
 		    ON A.BAT_PROG_ID = B.BAT_PROG_ID
@@ -30,5 +30,6 @@
                 )
          </if>
            AND A.STD_YYMM = #{stdYymm}
+           ORDER BY CAST( A.BAT_EXE_ID AS numeric(5,0) )
     </select>
 </mapper>

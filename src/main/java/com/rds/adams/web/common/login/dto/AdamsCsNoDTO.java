@@ -34,6 +34,9 @@ public class AdamsCsNoDTO implements Serializable{
 
     @Schema(description = "회사명")
     private String compNm;
+    
+    @Schema(description = "회사번호구분코드")
+    private String compNoDvCd;
 	
 	
 }

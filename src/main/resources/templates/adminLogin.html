@@ -31,22 +31,28 @@
 						<span style="font-style: italic; font-size: 2em; font-family: Times New Roman; color: #0054a6;">i</span><span style="font-size: 2em; color: #0054a6;">Frame 2.0</span></span>
 					</div>
 					<div class="text-center mb-4">
-						<span style="font-size: 1em;">Please login to your account.</span>
+						<span style="font-size: 1em;">Please login to administrator account.</span>
 					</div>
 					<form id="loginForm" name="loginForm" method="post" action="/auth/adamsLogin" autocomplete="off" onsubmit="return false;">
 						<input type="hidden" th:name="${csrfParameterName}" th:value="${csrfToken}" />
 						<div class="form-floating mb-2">
+							<select class="form-select" id="csNo" style="padding: 3px">
+								<option value="">- TENANT LIST -</option>
+							</select>
+						</div>
+						<div class="form-floating mb-2">
 							<input type="email" class="form-control" id="inpUsrId" name="inpUsrId" minLength="8" maxLength="50" placeholder="your@email.com" autocomplete="off" required>
-							<label for="inpUsrId">your@email.com</label>
+							<label for="inpUsrId">Administrator account</label>
 						</div>
 						<div class="form-floating">
 							<input type="password" class="form-control" id="inpUsrPassword" name="inpUsrPassword" minLength="6" maxLength="20" placeholder="your password" autocomplete="off" required>
-							<label for="inpUsrPassword">your password</label>
+							<label for="inpUsrPassword">Administrator password</label>
 						</div>
 						<div class="form-footer">
-							<button type="submit" class="btn btn-primary w-100" onclick="login()">Sign in</button>
+							<button type="submit" class="btn btn-primary w-100" id="signIn">Sign in</button>
 						</div>
 					</form>
+					<!--
 					<div class="text-center text-secondary mt-4">
 						<a href="javascript:register();" tabindex="-1" class="navbar-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Sign up for a new contract" style="text-decoration: none;">
 						<span style="font-size: 1em;">I don't have an account.</span></a>
@@ -54,6 +60,7 @@
 						<a href="javascript:resetPassword();" tabindex="-1" class="navbar-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Request to reset" style="text-decoration: none;">
 						<span style="font-size: 1em;">I forgot my password.</span></a>
 					</div>
+					-->
 				</div>
 				<div class="text-center text-secondary mb-7">
 					<span style="font-size: 0.7em;">Copyright © 2024 RNA Data System. All Rights Reserved.</span>
@@ -69,20 +76,41 @@
 			<input type="hidden" th:name="${csrfParameterName}" th:value="${csrfToken}" />
 		</form>
 		<script>
+			var csrfToken = "";
+        	var csrfHeader = "";
+        
+			$(document).ready(function () {
+				csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        csrfHeader = "X-CSRF-Token";
+		        
+				console.log("Document is ready.");
+				getCsNoList();
+				
+				$("#signIn").click(login);
+				
+			});
+
 			function login() {
+				var vCsNo		 = $("#csNo").val(); 
 				var vUsrId       = $("#inpUsrId").val();
 				var vUsrPassword = $("#inpUsrPassword").val();
+				
+				if ( isNull(vCsNo) == "" ) {
+		            alert("Choose TENANT LIST.");
+		            $("#csNo").focus();
+		    		return false;
+		    	}
 
 		    	if ( isNull(vUsrId) == "" ) {
 		            alert("Enter your e-mail.");
 		            $("#inpUsrId").focus();
-		    		return;
+		    		return false;
 		    	}
 
 		    	if ( isNull(vUsrPassword) == "" ) {
 		            alert("Enter your password.");
 		            $("#inpUsrPassword").focus();
-		    		return;
+		    		return false;
 		    	}
 				
 		        // 이메일 형식이 올바르지 않은 경우
@@ -90,13 +118,9 @@
 		            alert("Incorrect e-mail address. Please enter it again."); // 오류 메시지 표시
 		            $("#inpUsrId").focus();
 		            // TO-DO : 테스트 ID 사용 안할 시 주석해제
-		            return;
+		            //return;
 		        }
-				
-		     	// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-		        				
+
 				$.ajax({
 					type: "post",
 					url: "/auth/adamsLogin",
@@ -104,6 +128,7 @@
 					dataType: "json",
 					contentType: "application/json; charset=utf-8",
 					data: JSON.stringify({
+						csNo: vCsNo,
 						usrId: vUsrId,
 						usrPassword: vUsrPassword
 					}),
@@ -112,18 +137,30 @@
 				    },
 					success: function (data) {
 						console.log("AJAX request successful. Data received:", data);
+						
 						var sMsg = data.loginMsg;
+						var sCode = data.resultCode;
+						
 						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
 							alert(sMsg);
 						}
-						$("#pageName").val(data.redirectUrl);
-						$("#form").submit();
+						
+						if (sCode == "200") {
+							$("#pageName").val(data.redirectUrl);
+							$("#form").submit();
+						} else {
+							$("#csNo").val("");
+							$("#inpUsrId").val("");
+							$("#inpUsrPassword").val("");
+							$("#csNo").focus();
+						}
 					},
 					error: function (xhr, status, error) {
 						errorHandler(xhr);
 					},
 				});
 			}
+			/*
 			function register() {
 				$("#pageName").val("newReq");
 				$("#form").submit();
@@ -131,6 +168,29 @@
 			function resetPassword() {
 				$("#pageName").val("pwReset");
 				$("#form").submit();
+			}
+			*/
+			function getCsNoList() {
+				$.ajax({
+					type: "post",
+					url: "/auth/adamsLoginCs",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						var csNoList = data.resultVO;
+						for (var cnt = 0; cnt < csNoList.length; cnt++) {
+							$("#csNo").append("<option value=\"" + csNoList[cnt].csNo + "\">" + csNoList[cnt].compNm + "</option>");
+						}
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
 			}
 	</script>
 	</body>

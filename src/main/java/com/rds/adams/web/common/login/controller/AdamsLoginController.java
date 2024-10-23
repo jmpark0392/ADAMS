@@ -31,6 +31,7 @@ import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
 import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.common.login.dto.AdamsResultDTO;
 import com.rds.adams.web.common.login.service.AdamsLoginService;
+import com.rds.adams.web.core.utils.StringUtil;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.ResponseCode;
@@ -143,7 +144,27 @@ public class AdamsLoginController {
 		// 1. 일반 로그인 처리
 		AdamsLoginDTO adamsLoginResultDTO = adamsLoginService.selectLoginInfo(adamsLoginDTO);
 
-		if (adamsLoginResultDTO != null && adamsLoginResultDTO.getUsrId() != null && !adamsLoginResultDTO.getUsrId().equals("")) {
+		if (adamsLoginResultDTO != null && !StringUtil.isEmpty(adamsLoginResultDTO.getCsNo()) && !StringUtil.isEmpty(adamsLoginResultDTO.getUsrId())) {
+			
+			/*
+			 * form data의 csNo가 empty가 아니고 (어드민 로그인이면)
+			 * 로그인 계정의 소속이 '999' 이면 form data의 csNo를 바탕으로 회사 정보 업데이트
+			 * 로그인 계정의 소속이 '999' 가 아니면 form data의 csNo와 동일해야 정상 로그인 가능
+			 */
+			if (!StringUtil.isEmpty(adamsLoginDTO.getCsNo())) {
+				if ("999".equals(adamsLoginResultDTO.getCsNo())) {
+					AdamsCsNoDTO csDTO = adamsLoginService.getCsNmByCsNo(adamsLoginDTO.getCsNo());
+					adamsLoginResultDTO.setCsNo(csDTO.getCsNo());
+					adamsLoginResultDTO.setCompNm(csDTO.getCompNm());
+					adamsLoginResultDTO.setCompNoDvCd(csDTO.getCompNoDvCd());
+				} else {
+					if (!adamsLoginResultDTO.getCsNo().equals(adamsLoginDTO.getCsNo())) {
+						resultMap.put("resultCode"   , "300");
+						resultMap.put("resultMessage", egovMessageSource.getMessage("fail.common.login"));
+						return resultMap;
+					}
+				}
+			}
 
 			//log.debug("===>>> adamsLoginDTO.getCsNo()  = "+adamsLoginDTO.getCsNo());
 			log.debug("===>>> adamsLoginDTO.getUsrId() = "+adamsLoginDTO.getUsrId());
@@ -429,4 +450,5 @@ public class AdamsLoginController {
 
 		return resultMap;
 	}
+
 }

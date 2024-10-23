@@ -1,5 +1,7 @@
 package com.rds.adams.web.biz.fst.dto;
 
+import java.math.BigDecimal;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,16 +46,16 @@ public class BIZFST002M0R0DTO {
 	private String fsDvCd;
 	
 	@Schema(description = "기초금액")
-	private int basAmt;
+	private BigDecimal basAmt;
 	
 	@Schema(description = "차변금액")
-	private int drAmt;
+	private BigDecimal drAmt;
 	
 	@Schema(description = "대변금액")
-	private int crAmt;
+	private BigDecimal crAmt;
 	
 	@Schema(description = "기말금액")
-	private int entmAmt;
+	private BigDecimal entmAmt;
 	
 	@Schema(description = "최초등록사원번호")
 	private String frstRegEmpNo;

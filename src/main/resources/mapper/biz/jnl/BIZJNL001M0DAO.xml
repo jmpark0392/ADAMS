@@ -5,29 +5,29 @@
 <mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL001M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0R0DTO">	
 		SELECT
-				ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-             , A.ATIT_CD                               AS atitCd
-             , A.ATIT_KOR_NM                           AS atitKorNm
-             , A.ATIT_ENG_NM                           AS atitEngNm
-             , A.HGRK_ATIT_CD                          AS hgrkAtitCd
-             , A.AC_LVL_CD                             AS acLvlCd       
-             , A.BKG_AC_YN                             AS bkgAcYn
-             , A.FS_DV_CD                              AS fsDvCd
-             , A.AC_DV_CD                              AS acDvCd
-             , A.AC_KIND_CD                            AS acKindCd
-             , CONVERT(CHAR(10), CONVERT(DATE, A.APP_ST_DT, 112), 23)    AS appStDt
-             , CONVERT(CHAR(10), CONVERT(DATE, A.APP_ED_DT, 112), 23)       AS appEdDt
-             , A.ORD_SEQ                               AS ordSeq
-             , A.ETC_DESC                              AS etcDesc
-             , A.USE_YN                                AS useYn
-             , B.USR_NM                                AS frstRegEmpNo
-             , A.FRST_REG_DTM                          AS frstRegDtm
+				ROW_NUMBER() OVER(ORDER BY (SELECT 1))                  AS rowNumber     /* 행번호 */
+             , A.ATIT_CD                                                AS atitCd        /* 계정과목코드 */
+             , A.ATIT_KOR_NM                                            AS atitKorNm     /* 계정과목한글명 */
+             , A.ATIT_ENG_NM                                            AS atitEngNm     /* 계정과목영문명 */
+             , A.HGRK_ATIT_CD                                           AS hgrkAtitCd    /* 상위계정과목코드 */
+             , A.AC_LVL_CD                                              AS acLvlCd       /* 계정레벨코드 */
+             , A.BKG_AC_YN                                              AS bkgAcYn       /* 기표계정여부 */
+             , A.FS_DV_CD                                               AS fsDvCd        /* 재무제표구분코드 */
+             , A.AC_DV_CD                                               AS acDvCd        /* 계정구분코드 */
+             , A.AC_KIND_CD                                             AS acKindCd      /* 계정종류코드 */
+             , CONVERT(CHAR(10), CONVERT(DATE, A.APP_STR_DT, 112), 23)  AS appStrDt      /* 적용시작일자 */
+             , CONVERT(CHAR(10), CONVERT(DATE, A.APP_END_DT, 112), 23)  AS appEndDt      /* 적용종료일자 */
+             , A.ORD_SEQ                                                AS ordSeq        /* 정렬순서 */
+             , A.ETC_DESC                                               AS etcDesc       /* 기타내용 */
+             , A.USE_YN                                                 AS useYn         /* 사용여부 */
+             , B.USR_NM                                                 AS frstRegEmpNo  /* 최초등록사원번호 */
+             , CONVERT(CHAR(10), A.FRST_REG_DTM, 23)                    AS frstRegDtm    /* 최초등록일시 */
 		  FROM TB_ATIT_MNG_LST A 
 		  LEFT OUTER JOIN TB_USR_MNG_LST B 
           ON A.FNL_UPD_EMP_NO = B.USR_ID
 		 WHERE 1=1
-		   AND A.APP_ST_DT IS NOT NULL
-		   AND A.APP_ED_DT IS NOT NULL
+		   AND A.APP_STR_DT IS NOT NULL
+		   AND A.APP_END_DT IS NOT NULL
 		<if test= 'csNo != "999"'>	
 			AND A.CS_NO        = #{csNo}
 		</if>
@@ -51,8 +51,8 @@
 			, [FS_DV_CD]
 			, [AC_DV_CD]
 			, [AC_KIND_CD]
-			, [APP_ST_DT]
-			, [APP_ED_DT]
+			, [APP_STR_DT]
+			, [APP_END_DT]
 			, [ORD_SEQ]
 			, [ETC_DESC]
 			, [USE_YN]
@@ -72,8 +72,8 @@
             , #{fsDvCd}
             , #{acDvCd}
             , #{acKindCd}
-            , REPLACE(#{appStDt}, '-', '')
-            , REPLACE(#{appEdDt}, '-', '')
+            , REPLACE(#{appStrDt}, '-', '')
+            , REPLACE(#{appEndDt}, '-', '')
             , #{ordSeq}
             , #{etcDesc}
             , #{useYn}
@@ -94,8 +94,8 @@
                FS_DV_CD = #{fsDvCd},
                AC_DV_CD = #{acDvCd},
 			   AC_KIND_CD = #{acKindCd},
-			   APP_ST_DT = REPLACE(#{appStDt}, '-', ''),
-			   APP_ED_DT = REPLACE(#{appEdDt}, '-', ''),
+			   APP_STR_DT = REPLACE(#{appStrDt}, '-', ''),
+			   APP_END_DT = REPLACE(#{appEndDt}, '-', ''),
 			   ORD_SEQ = #{ordSeq},
 			   ETC_DESC = #{etcDesc},
                USE_YN = #{useYn},

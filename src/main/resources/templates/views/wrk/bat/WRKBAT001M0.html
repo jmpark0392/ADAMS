@@ -28,7 +28,6 @@
 				</div>
 				<div style="padding-top: 2em"></div>
 				<div class="card card-md" id="divMyGrid">
-					<table class="table" align="center" style="width: 1284px; height: 500px"></table>
 				</div>
 			</div>
 			<div class="popupDataForm">
@@ -170,23 +169,23 @@
 		var xcpt_cols = [unqId, "regUsrid", "regDt"];
 		var check_cols = [unqId, "batProgNm"];
 		var columns = [
-			{ id: "batProgId",		name: "Program ID",			field: "batProgId",		width: 65,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "batProgNm",		name: "Program Name",		field: "batProgNm",		width: 250,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
-			{ id: "upProgId",		name: "Group Name",			field: "upProgId",		width: 120,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "lwstProgYn",		name: "Program",			field: "lwstProgYn",	width: 50,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "exePrd",			name: "Cycle",				field: "exePrd",		width: 60,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "Q", value: "Q" }, { key: "M", value: "M" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "mainEmpNo",		name: "Main User",			field: "mainEmpNo",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "subEmpNo",		name: "Sub User",			field: "subEmpNo",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "etcDesc",		name: "Desc",				field: "etcDesc",		width: 60,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "useYn",			name: "Use YN",				field: "useYn",			width: 50,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" } ]); }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "batProgId",		name: "Program ID",			field: "batProgId",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "batProgNm",		name: "Program Name",		field: "batProgNm",		width: 280,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
+			{ id: "upProgId",		name: "Group Name",			field: "upProgId",		width: 140,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "lwstProgYn",		name: "Program",			field: "lwstProgYn",	width: 120,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "exePrd",			name: "Cycle",				field: "exePrd",		width: 120,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "Q", value: "Q" }, { key: "M", value: "M" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "mainEmpNo",		name: "Main User",			field: "mainEmpNo",		width: 120,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "subEmpNo",		name: "Sub User",			field: "subEmpNo",		width: 120,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "etcDesc",		name: "Desc",				field: "etcDesc",		width: 260,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "useYn",			name: "Use YN",				field: "useYn",			width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" } ]); }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "frstRegDtm",		name: "Registration Date",	field: "frstRegDtm",	width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		];
 
 		var options = {
 			enableCellNavigation: true,
 			enableColumnReorder: false,
-			forceFitColumns: true,
+			forceFitColumns: false,
 			multiColumnSort: true,
 			numberedMultiColumnSort: true,
 			tristateMultiColumnSort: true,

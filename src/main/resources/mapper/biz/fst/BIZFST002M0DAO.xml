@@ -77,7 +77,7 @@
              , CR_AMT                                 AS CR_AMT
              , ENTM_AMT                               AS ENTM_AMT
              , CC.USR_NM                              AS FRST_REG_EMP_NO
-             , AA.FNL_UPD_DTM                         AS FRST_REG_DTM
+             , CONVERT(CHAR(10), AA.FNL_UPD_DTM, 23)  AS FRST_REG_DTM
              , BB.AC_LVL_CD                           AS LEVEL_CD
           FROM (
                            SELECT * FROM LVL4
@@ -119,28 +119,28 @@
             , [FNL_UPD_DTM]
         ) 
         SELECT
-               A.CS_NO                                                         AS CS_NO
-             , A.STD_YYMM                                                      AS STD_YYMM
-             , A.ATIT_CD                                                       AS ATIT_CD
-             , B.FS_DV_CD                                                      AS FS_DV_CD
-             , 0                                                               AS BAS_AMT
-             , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' THEN JRNL_AMT ELSE 0 END )  AS DR_AMT
-             , SUM( CASE WHEN A.DR_CR_DV_CD = 'CR' THEN JRNL_AMT ELSE 0 END )  AS CR_AMT
-             , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT 
-                         WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT * - 1 
-                         WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_KIND_CD IN ('1','5')     THEN JRNL_AMT * - 1 
-                         WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_KIND_CD IN ('2','3','4') THEN JRNL_AMT 
+               A.CS_NO                                                           AS CS_NO
+             , A.STD_YYMM                                                        AS STD_YYMM
+             , A.ATIT_CD                                                         AS ATIT_CD
+             , B.FS_DV_CD                                                        AS FS_DV_CD
+             , 0                                                                 AS BAS_AMT
+             , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' THEN A.JRNL_AMT ELSE 0 END )  AS DR_AMT
+             , SUM( CASE WHEN A.DR_CR_DV_CD = 'CR' THEN A.JRNL_AMT ELSE 0 END )  AS CR_AMT
+             , SUM( CASE WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_DV_CD IN ('Assets','Profit')     THEN JRNL_AMT 
+                         WHEN A.DR_CR_DV_CD = 'DR' AND B.AC_DV_CD IN ('Liabilities','Capitals','Loss') THEN JRNL_AMT * - 1 
+                         WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_DV_CD IN ('Assets','Profit')     THEN JRNL_AMT * - 1 
+                         WHEN A.DR_CR_DV_CD = 'CR' AND B.AC_DV_CD IN ('Liabilities','Capitals','Loss') THEN JRNL_AMT 
                          ELSE JRNL_AMT  END 
-                   )                                                           AS  ENTM_AMT
-             , #{usrId}                                                        AS FRST_REG_EMP_NO
-             , GETDATE()                                                       AS FRST_REG_DTM
-             , #{usrId}                                                        AS FNL_UPD_EMP_NO
-             , GETDATE()                                                       AS FNL_UPD_DTM
+                   )                                                             AS ENTM_AMT
+             , #{usrId}                                                          AS FRST_REG_EMP_NO
+             , GETDATE()                                                         AS FRST_REG_DTM
+             , #{usrId}                                                          AS FNL_UPD_EMP_NO
+             , GETDATE()                                                         AS FNL_UPD_DTM
           FROM TB_JNL_RST_LST A
           LEFT OUTER JOIN TB_ATIT_MNG_LST B
             ON A.ATIT_CD = B.ATIT_CD 
          WHERE A.STD_YYMM  = #{stdYymm}
            AND A.CS_NO     = #{csNo}
-         GROUP BY A.CS_NO, A.STD_YYMM, A.ATIT_CD, B.FS_DV_CD
+         GROUP BY A.CS_NO, A.STD_YYMM, A.ATIT_CD, B.FS_DV_CD     
     </insert>    
 </mapper>

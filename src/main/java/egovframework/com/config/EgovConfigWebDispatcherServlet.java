@@ -89,6 +89,7 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 		// 인증 예외대상
 		commonExcludePathList.add("/");
 		commonExcludePathList.add("/login");
+		commonExcludePathList.add("/adminLogin");
 		commonExcludePathList.add("/auth/**");
 		commonExcludePathList.add("/logout");
 		commonExcludePathList.add("/TokenRefresh");

@@ -56,7 +56,7 @@ public class BIZINS002M0Controller {
 
 		
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		inVo.setStdYymm(inVo.getStdYymm());
+		
 		inVo.setUsrId(sAdamsLoginDTO.getUsrId());
 		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
@@ -65,6 +65,8 @@ public class BIZINS002M0Controller {
 		try {
 			bIZINS002M0Service.executeList(inVo);
 			log.info("success");
+			Thread.sleep(1000);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("fail");

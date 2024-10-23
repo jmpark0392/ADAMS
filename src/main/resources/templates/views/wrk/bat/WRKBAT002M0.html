@@ -62,8 +62,7 @@
 					</div>
 				</div>
 				<div style="padding-top: 2em"></div>
-				<div id="divMyGrid">
-					<table align="center" class="table"></table>
+				<div class="card card-md" id="divMyGrid">
 				</div>
 			</div>
 			<div class="popupDataForm">
@@ -133,7 +132,7 @@
 		var dataView;
 		var data;
 		var unqId = "batProgId";
-		var xcpt_cols = ["regUsrid", "regDt"];
+		var xcpt_cols = ["frstRegEmpNo", "frstRegDtm"];
 		var check_cols = [unqId, "batProgNm"];
 		
 		// CheckBox Selector
@@ -421,6 +420,9 @@
 					urls.push("/BIZFST001M0ExecuteList");
 					urls.push("/BIZFST002M0ExecuteList");
 				break;
+				case "B0006":
+					urls.push("/BIZADT001M0ExecuteList");
+				break;				
 			}
 			
 			urls.forEach((url)=>{

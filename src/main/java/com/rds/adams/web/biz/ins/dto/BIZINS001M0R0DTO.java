@@ -1,5 +1,7 @@
 package com.rds.adams.web.biz.ins.dto;
 
+import java.math.BigDecimal;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,43 +43,43 @@ public class BIZINS001M0R0DTO {
 	private String ptfCd;
 	
 	@Schema(description = "기초금액")
-	private int basAmt;
+	private BigDecimal basAmt;
 	
 	@Schema(description = "OCI금액")
-	private int ociAmt;
+	private BigDecimal ociAmt;
 	
 	@Schema(description = "신계약금액")
-	private int newContAmt;
+	private BigDecimal newContAmt;
 	
 	@Schema(description = "이자효과금액")
-	private int intEfftAmt;
+	private BigDecimal intEfftAmt;
 	
 	@Schema(description = "예상보험료")
-	private int estmPrm;
+	private BigDecimal estmPrm;
 	
 	@Schema(description = "예상수수료")
-	private int estmFee;
+	private BigDecimal estmFee;
 	
 	@Schema(description = "예상신계약체결금액")
-	private int estmNewContCclsAmt;
+	private BigDecimal estmNewContCclsAmt;
 	
 	@Schema(description = "예상수수료환입금액")
-	private int estmFeeRfndAmt;
+	private BigDecimal estmFeeRfndAmt;
 	
 	@Schema(description = "예상계약유지금액")
-	private int estmContMtnAmt;
+	private BigDecimal estmContMtnAmt;
 	
 	@Schema(description = "예상손해조사금액")
-	private int estmIvsgExpAmt;
+	private BigDecimal estmIvsgExpAmt;
 	
 	@Schema(description = "계리적가정변경금액")
-	private int atsAssmUpdAmt;
+	private BigDecimal atsAssmUpdAmt;
 	
 	@Schema(description = "환율효과금액")
-	private int exrtEfftAmt;
+	private BigDecimal exrtEfftAmt;
 	
 	@Schema(description = "기말금액")
-	private int entmAmt;
+	private BigDecimal entmAmt;
 	
 	@Schema(description = "최초등록사원번호")
 	private String frstRegEmpNo;

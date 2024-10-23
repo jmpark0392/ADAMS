@@ -54,6 +54,17 @@ public class MenuLinkController {
         return "login";
     }
     
+    @GetMapping("/adminLogin")
+    public String showAdminLoginPage(HttpServletRequest request, Model model) {
+        // CSRF 토큰을 세션에서 가져오거나 없으면 생성
+    	HttpSession session = request.getSession(true);
+    	String _token = csrfGenerate(session);
+    	csrfEnroll(model, _token);
+        
+        // login.html로 이동
+        return "adminLogin";
+    }
+    
     
     @GetMapping("/TokenRefresh")
     @ResponseBody

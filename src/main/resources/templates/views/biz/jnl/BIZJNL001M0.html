@@ -29,7 +29,6 @@
 				</div>
 				<div style="padding-top: 2em"></div>
 				<div class="card card-md" id="divMyGrid">
-					<table class="table" align="center" style="width: 1284px; height: 500px"></table>
 				</div>
 			</div>
 			<div class="popupDataForm">
@@ -184,8 +183,8 @@
 			{ id: "acKindCd",		name: "Account Kind",		field: "acKindCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "001", value: "자산집계" }, { key: "002", value: "부채집계" }, { key: "003", value: "자본집계" }, { key: "004", value: "수익집계" }, { key: "005", value: "비용집계" }, { key: "006", value: "당기순이익" }, { key: "007", value: "이익잉여금" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "ordSeq",			name: "Order",				field: "ordSeq",					sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "etcDesc",		name: "Etc",				field: "etcDesc",					sortable: true, editor: Slick.Editors.Text, validator: createValidator,  headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{ id: "appStDt",		name: "Apply Start Date",	field: "appStDt",		width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{ id: "appEdDt",		name: "Apply End Date",		field: "appEdDt",		width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{ id: "appStrDt",		name: "Apply Start Date",	field: "appStrDt",		width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{ id: "appEndDt",		name: "Apply End Date",		field: "appEndDt",		width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "useYn",			name: "Use YN",				field: "useYn",						sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }, ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 100, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "frstRegDtm",		name: "Registration Date",	field: "frstRegDtm",	width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
@@ -560,7 +559,7 @@
 				formGroupElem.appendChild(detailLabelitem);
 
 
-				if(column.id === "appStDt" || column.id === "appEdDt"){
+				if(column.id === "appStrDt" || column.id === "appEndDt"){
 					// this is the date input field
 					const dateInputContainer = document.createElement('div');
 					dateInputContainer.className = "input-icon mb-2";
