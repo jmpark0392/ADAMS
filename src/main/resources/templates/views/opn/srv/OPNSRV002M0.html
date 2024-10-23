@@ -443,7 +443,7 @@
 		{ id: "optDtlsCd",             	name: "Option Details Code",    			field: "optDtlsCd",         		sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator,]), width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", }, // no hidden
 		{ id: "optDtlsNm",             	name: "Option Name Details",    			field: "optDtlsNm",         		sortable: true,    editor: function (args) {  return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },  ]);},width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", }, // no hidden
 		{ id: "optDtlsVlu",				name: "Option Price Details",				field: "optDtlsVlu",    			sortable: true,	   editor: Slick.Editors.Text,  validator: createValidator  ,width: 120,headerCssClass: "slick-header-columns",cssClass: "slick-column-right",formatter: numberFormatter,  hidden: true },
-		{ id: "optDtlsDcRt",      		name: "Option Start Date Details",  		field: "optDtlsDcRt", 				sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
+		{ id: "optDtlsDcRt",      		name: "Option Discount Rate",  		field: "optDtlsDcRt", 				sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
 		{ id: "useYn",      			name: "Usage Status ",    					field: "useYn", 					sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 40,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter }, // no hidden
 		{ id: "delYn",      			name: "Delete Status ",    					field: "delYn", 					sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
 		{ id: "optDtlsStrDtm",      	name: "Option Start Date ",    				field: "optDtlsStrDtm", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
@@ -452,13 +452,13 @@
 
 	var optionDetailsHistList = [
 		{ id: uniqueIdDetailsHist,  	name: "ID",											field: uniqueIdDetailsHist,		width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
-		{ id: "optCdDtlsHist",			name: "Option Code Details History",				field: "optCdDtlsHist",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left", hidden: true },
+		{ id: "optCdDtlsHist",			name: "Option Code Details History",				field: "optCdDtlsHist",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 		{ id: "optDtlsCdHist",			name: "Option Code",								field: "optDtlsCdHist",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "optDtlsNmHist",			name: "Option Name Details History",				field: "optDtlsNmHist",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-		{ id: "optDtlsVluHist",			name: "Option Price History",						field: "optDtlsVluHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
+		{ id: "optDtlsVluHist",			name: "Option Price History",						field: "optDtlsVluHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "optDtlsDcRtHist",		name: "Option Details Rate History ",				field: "optDtlsDcRtHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-		{ id: "useYnHist",				name: "Usage Status History ",						field: "useYnHist",				width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
-		{ id: "delYnHist",				name: "Delete Status History",						field: "delYnHist",				width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
+		{ id: "useYnHist",				name: "Usage Status History ",						field: "useYnHist",				width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+		{ id: "delYnHist",				name: "Delete Status History",						field: "delYnHist",				width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "optDtlsStrDtmHist",		name: "Option Start Date History",					field: "optDtlsStrDtmHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "optDtlsEndDtmHist",		name: "Option Details End Date History",			field: "optDtlsEndDtmHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
 		{ id: "fnlUpdEmpNoDtlsHist",	name: "File Upload Employee Details History",		field: "fnlUpdEmpNoDtlsHist",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
@@ -1132,7 +1132,7 @@
 		} else if (gridName === "divMyGridThird") {
 			uniqueId = "seqNoDtls";
 			if (modalType === "create") {
-				hiddenColumns = ['seqNoDtls', 'delYn', 'optDtlsEndDtm','optDtlsVlu', 'optDtlsStrDtm'];
+				hiddenColumns = ['seqNoDtls', 'delYn', 'optDtlsEndDtm'];
 			} else if (modalType === "edit") {
 				hiddenColumns = ['seqNoDtls', 'delYn', 'optDtlsEndDtm'];
 			}
@@ -1286,7 +1286,55 @@
 
 			formGroupElem.appendChild(detailLabelitem);
 
-			if ( column.id === "fileDelYn" || column.id === "uiSelYn" || column.id === "useYn" || column.id === "vrfUseYn") {
+			if ( column.id === "oldSrvcStrDtm" ) {
+				// this is the date input field
+				const dateInputContainer = document.createElement('div');
+				dateInputContainer.className = "input-icon mb-2";
+				const dateInput = document.createElement('input');
+				dateInput.type = "date";
+				dateInput.className = "form-control";
+				dateInput.dataset.editorid = column.id;
+				dateInput.id = "datepicker-icon";
+
+				// here we split the date string and take the first 8 characters 
+				if(modalType === "edit" && dataContext && dataContext[column.field]){
+					const dateValue = dataContext[column.field].split(" ")[0];
+					dateInput.value = dateValue;
+				} else {
+					dateInput.value = "";
+					// const today = new Date();
+					// const formattedDate = today.toISOString().split("T")[0];
+					// dateInput.value = formattedDate;
+				}
+
+				const dateInputAddon = document.createElement('span');
+				dateInputAddon.className = "input-icon-addon";
+				const svgElement = document.createElement('svg');
+				svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+				svgElement.setAttribute("class", "icon");
+				svgElement.setAttribute("width", "24");
+				svgElement.setAttribute("height", "24");
+				svgElement.setAttribute("viewBox", "0 0 24 24");
+				svgElement.setAttribute("stroke-width", "2");
+				svgElement.setAttribute("stroke", "currentColor");
+				svgElement.setAttribute("fill", "none");
+				svgElement.setAttribute("stroke-linecap", "round");
+				svgElement.setAttribute("stroke-linejoin", "round");
+
+				const pathElement1 = document.createElement('path');
+				pathElement1.setAttribute("stroke", "none");
+				pathElement1.setAttribute("d", "M0 0h24v24H0z");
+				pathElement1.setAttribute("fill", "none");
+
+				svgElement.appendChild(pathElement1);
+
+				dateInputContainer.appendChild(dateInput);
+				dateInputContainer.appendChild(dateInputAddon);
+				dateInputAddon.appendChild(svgElement);
+
+				formGroupElem.appendChild(dateInputContainer);
+
+			} else if ( column.id === "useYn") {
 				const selectInput = document.createElement("select");
 				selectInput.className = "form-select";
 				selectInput.dataset.editorid = column.id;
