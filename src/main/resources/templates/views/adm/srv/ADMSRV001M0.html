@@ -250,6 +250,21 @@
 				
 				gf_Transaction(option, fn_callback );
 			}
+		
+			function getSrvcUprcInfo(input) {
+				console.log("getUsrSubScrpInfo input : " + input);
+				var option = {
+							   id          : "SelectSrvcUprcInfo"
+						     , type        : "POST"
+							 , url         : "/ADMSRV001M0SelectSrvcUprcInfo"
+							 , async       : true
+							 , dataType    : "json"
+							 , contentType : "application/json; charset=utf-8"
+							 , data        : input
+				             };
+				
+				gf_Transaction(option, fn_callback );
+			}
 			
 			/**
 			 * Transaction callback 함수
@@ -370,6 +385,27 @@
 								$("#selectedOption").text("None");
 							}
 						break;
+						case "SelectSrvcUprcInfo":
+							console.log(" Service Price info:", result.data);
+							
+							if (result.data.data && result.data.data.length > 0) {
+								
+								for( var i=0; i<result.data.data.length; i++ ) {
+									if( result.data.data[i].srvcCd == "01" ){
+										console.log(" Service Name/Price : " + result.data.data[i].srvcNm + " / " + result.data.data[i].srvcUprc );
+										// TO-DO : Basic 가격 Label 변경. 
+									}
+									if( result.data.data[i].srvcCd == "02" ){
+										console.log(" Service Name/Price : " + result.data.data[i].srvcNm + " / " + result.data.data[i].srvcUprc );
+										// TO-DO : Premium 가격 Label 변경. 
+									}
+								}
+								
+								selectAllOpt(JSON.stringify({  }));
+							} else {
+								updateSubscriptionButtons(null);
+							}
+						break;
 					}
 					
 				} else if( result.resultCd == "E" ) {
@@ -462,6 +498,13 @@
 				selectAllOpt(JSON.stringify({  }));
 				
 			}
+			
+			// function to fetcht the options and compare with the user subscription info
+			function main() {
+				
+				getSrvcUprcInfo(JSON.stringify({  }));
+				
+			}
 		
 			// button update function based on the service code 
 			function updateSubscriptionButtons(srvcCd) {
@@ -495,7 +538,7 @@
 		
 			// Call this function when the page loads
 			$(document).ready(function () {
-			  fetchOptionsAndCompare();
+				main();
 			});
 	
 		</script>

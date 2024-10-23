@@ -1,33 +1,34 @@
 package com.rds.adams.web.adm.srv.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO;
 import com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO;
 import com.rds.adams.web.adm.srv.dto.ADMSRV001M0P2DTO;
 import com.rds.adams.web.adm.srv.dto.ADMSRV001M0R0DTO;
+import com.rds.adams.web.adm.srv.dto.ADMSRV001M0R3DTO;
 import com.rds.adams.web.adm.srv.service.ADMSRV001M0Service;
 import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @Slf4j
 @RestController
@@ -322,6 +323,44 @@ public ResponseEntity<List<ADMSRV001M0R0DTO>> getUserSubscriptionInfo(HttpServle
         }
             // return ResponseEntity.status(500).build();
         }
+    /**
+     * Search for prices for the services you will use
+     * @param inVo
+     * @return Map containing the options and the subscription info
+     */
+     @RequestMapping(value="/ADMSRV001M0SelectSrvcUprcInfo", method=RequestMethod.POST) 
+     public ResponseEntity<Map<String, Object>>selectSrvcUprcInfo(HttpServletRequest request) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            // get the user information from session
+            AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+            if(sAdamsLoginDTO == null){
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("message", "User not logged in");
+                return ResponseEntity.status(401).body(errorResponse);
+            }
+
+          
+            String csNo = sAdamsLoginDTO.getCsNo();
+
+            // fetch the user's content subscription info
+            ADMSRV001M0P0DTO inVo = new ADMSRV001M0P0DTO();
+            inVo.setCsNo(csNo);
+            
+            List<ADMSRV001M0R3DTO> srvcUprcInfo = admSrv001M0Service.selectSrvcUprcInfo(inVo);
+
+            response.put("data", srvcUprcInfo);
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "User not logged in");
+            return ResponseEntity.status(401).body(errorResponse);
+        }
+     }
     
 }
 

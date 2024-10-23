@@ -87,7 +87,7 @@
            AND SRVC_CD = #{srvcCd}
            AND SEQ_NO  = (
                            SELECT 
-                                  MAX(A.SEQ_NO) AS SEQ_NO
+                                  MAX( CAST( A.SEQ_NO AS numeric(5, 0) ) ) AS SEQ_NO
                              FROM RDSDB.dbo.TB_SVRC_HIST A
                             WHERE 1=1
                               AND A.SRVC_CD      = #{srvcCd}
@@ -105,7 +105,7 @@
            AND SRVC_CD = #{srvcCd}
            AND SEQ_NO  = (
                            SELECT 
-                                  MAX(A.SEQ_NO) AS SEQ_NO
+                                  MAX( CAST( A.SEQ_NO AS numeric(5, 0) ) ) AS SEQ_NO
                              FROM RDSDB.dbo.TB_SVRC_HIST A
                             WHERE 1=1
                               AND A.SRVC_CD    = #{srvcCd}
@@ -131,7 +131,7 @@
                , FRST_REG_DTM
                )
         VALUES (
-                 ( SELECT CAST( ISNULL(MAX(SEQ_NO), '0') AS numeric(5,0) ) + 1 FROM [RDSDB].[dbo].[TB_SVRC_HIST] WHERE SRVC_CD = #{srvcCd} )
+                 ( SELECT ISNULL(MAX(CAST(SEQ_NO AS numeric(5,0) )), 0)  + 1 FROM [RDSDB].[dbo].[TB_SVRC_HIST] WHERE SRVC_CD = #{srvcCd} )
                , #{srvcCd}
                , #{srvcNm}
                , #{srvcUprc}

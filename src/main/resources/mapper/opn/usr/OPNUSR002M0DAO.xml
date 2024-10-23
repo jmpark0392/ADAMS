@@ -49,7 +49,7 @@
     <update id="updateCsNo">
         <selectKey keyProperty="newCsNo" resultType="String" order="BEFORE">
             SELECT TOP (1)
-                   FORMAT( CAST( ISNULL(MAX(CS_NO), '0') AS numeric(5,0) ) + 1, '000') AS newCsNo
+                   FORMAT( ISNULL(MAX( CAST( CS_NO  AS numeric(5,0) )), 0) + 1, '000') AS newCsNo
               FROM [RDSDB].[dbo].[TB_CS_MNG_LST]
              WHERE 1=1
                AND CS_NO <![CDATA[<>]]> '999'

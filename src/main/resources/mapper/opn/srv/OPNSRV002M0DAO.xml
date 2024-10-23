@@ -65,7 +65,7 @@
     <select id="selectOptDtlsHistList" parameterType="com.rds.adams.web.opn.srv.dto.OPNSRV002M0P2DTO" resultType="com.rds.adams.web.opn.srv.dto.OPNSRV002M0R3DTO">
         /* web.opn.srv.dao.OPNSRV002M0DAO.selectOptDtlsHistList */
         SELECT 
-               ROW_NUMBER() OVER(ORDER BY A.OPT_STR_DTM DESC, A.SEQ_NO DESC)   AS seqNoHist
+               ROW_NUMBER() OVER(ORDER BY A.OPT_DTLS_STR_DTM DESC, A.SEQ_NO DESC)   AS seqNoHist
              , A.OPT_CD                                        AS optCdDtlsHist
              , A.OPT_DTLS_CD                                   AS optDtlsCdHist
 			 , A.OPT_DTLS_NM                                   AS optDtlsNmHist
@@ -74,11 +74,11 @@
 			 , A.OPT_DTLS_VLU                                  AS optDtlsVluHist
 			 , A.OPT_DTLS_DC_RT                                AS optDtlsDcRtHist
 			 , A.USE_YN                                        AS useYnHist
-          FROM [RDSDB].[dbo].[TB_OPT_HIST] A
+          FROM [RDSDB].[dbo].[TB_OPT_DTLS_HIST] A
 		 WHERE 1=1
 		   AND A.OPT_CD      = #{optCd}
 		   AND A.OPT_DTLS_CD = #{optDtlsCd}
-		 ORDER BY A.OPT_STR_DTM DESC
+		 ORDER BY A.OPT_DTLS_STR_DTM DESC
 		        , A.SEQ_NO DESC
     </select>
     
@@ -157,7 +157,7 @@
            AND OPT_CD = #{optCd}
            AND SEQ_NO  = (
                            SELECT 
-                                  MAX(A.SEQ_NO) AS SEQ_NO
+                                  MAX( CAST( A.SEQ_NO AS numeric(5, 0) ) ) AS SEQ_NO
                              FROM RDSDB.dbo.TB_OPT_HIST A
                             WHERE 1=1
                               AND A.OPT_CD      = #{optCd}
@@ -178,7 +178,7 @@
            AND OPT_DTLS_CD = #{optDtlsCd}
            AND SEQ_NO  = (
                            SELECT 
-                                  MAX(A.SEQ_NO) AS SEQ_NO
+                                  MAX( CAST( A.SEQ_NO AS numeric(5, 0) ) ) AS SEQ_NO
                              FROM RDSDB.dbo.TB_OPT_DTLS_HIST A
                             WHERE 1=1
                               AND A.OPT_CD           = #{optCd}
@@ -197,7 +197,7 @@
            AND OPT_CD = #{optCd}
            AND SEQ_NO  = (
                            SELECT 
-                                  MAX(A.SEQ_NO) AS SEQ_NO
+                                  MAX( CAST( A.SEQ_NO AS numeric(5, 0) ) ) AS SEQ_NO
                              FROM RDSDB.dbo.TB_OPT_HIST A
                             WHERE 1=1
                               AND A.OPT_CD    = #{optCd}
@@ -207,7 +207,7 @@
     
     <update id="updateOptDtlsHistBefor">
         /* web.opn.srv.dao.OPNSRV002M0DAO.updateOptDtlsHistBefor */
-        UPDATE RDSDB.dbo.TB_OPT_HIST
+        UPDATE RDSDB.dbo.TB_OPT_DTLS_HIST
            SET OPT_DTLS_END_DTM = DATEADD(DAY, -1, CAST(#{optDtlsStrDtm} AS DATE))
              , FNL_UPD_EMP_NO   = #{usrId}
              , FNL_UPD_DTM      = GETDATE()
@@ -216,7 +216,7 @@
            AND OPT_DTLS_CD = #{optDtlsCd}
            AND SEQ_NO  = (
                            SELECT 
-                                  MAX(A.SEQ_NO) AS SEQ_NO
+                                  MAX( CAST( A.SEQ_NO AS numeric(5, 0) ) ) AS SEQ_NO
                              FROM RDSDB.dbo.TB_OPT_DTLS_HIST A
                             WHERE 1=1
                               AND A.OPT_CD         = #{optCd}
@@ -241,7 +241,7 @@
                , FRST_REG_DTM
                )
         VALUES (
-                 ( SELECT CAST( ISNULL(MAX(SEQ_NO), '0') AS numeric(5,0) ) + 1 FROM [RDSDB].[dbo].[TB_OPT_HIST] WHERE OPT_CD = #{optCd} )
+                 ( SELECT ISNULL(MAX(CAST(SEQ_NO AS numeric(5,0) )), 0)  + 1 FROM [RDSDB].[dbo].[TB_OPT_HIST] WHERE OPT_CD = #{optCd} )
                , #{optCd}
                , #{optNm}
                , #{optUprc}
@@ -276,7 +276,7 @@
                , FRST_REG_DTM
                )
         VALUES (
-                 ( SELECT CAST( ISNULL(MAX(SEQ_NO), '0') AS numeric(5,0) ) + 1 FROM [RDSDB].[dbo].[TB_OPT_DTLS_HIST] WHERE OPT_CD = #{optCd} AND OPT_DTLS_CD = #{optDtlsCd} )
+                 ( SELECT ISNULL(MAX(CAST(SEQ_NO AS numeric(5,0) )), 0)  + 1 FROM [RDSDB].[dbo].[TB_OPT_DTLS_HIST] WHERE OPT_CD = #{optCd} AND OPT_DTLS_CD = #{optDtlsCd} )
                , #{optCd}
                , #{optDtlsCd}
                , #{optDtlsNm}
