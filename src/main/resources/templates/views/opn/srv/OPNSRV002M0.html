@@ -249,6 +249,22 @@
 		gf_Transaction(option, fn_callback);
 	}
 
+	// 4th grid data reuqest to server
+	function fn_getOptionDetailsHistList(input) {
+		console.log("fn_getOptionDetailsHistList input : " + input);
+		var option = {
+						id: "getOptionDetailsHistList"
+					, type: "POST"
+					, url: "/OPNSRV002M0SelectDetailHistList"
+					, async: false
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+		};
+
+		gf_Transaction(option, fn_callback);
+	}
+
 	// // OPNSRV002M0UpdateList
 	// function fn_updateOptionDetailsList(input) {
 	// 	console.log("fn_updateOptionDetailsList input : " + input);
@@ -264,7 +280,6 @@
 
 	// 	gf_Transaction(option, fn_callback);
 	// }
-
 
 	// 1st grid update button
 	function fn_updateGetCsListOption(input) {
@@ -395,25 +410,23 @@
 	let uniqueIdDetails = "seqNoDtls";
 	let uniqueIdDetailsHist = "seqNoDtlsHist";
 
+	let firstSelectedGridRow = null;
+	let selectedFirstGridRow = null;
+	let thirdGridSelectedRow = null;
+
 	var columns = [
 		{ id: unqId,			name: "ID",				    			field: unqId,			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",  hidden:true },
-		// { id: "usrId",			name: "User ID",				    	field: "usrId",			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",  hidden:true },
 		{ id: "optCd",			name: "Option Code",					field: "optCd",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "optNm",			name: "Option Name",					field: "optNm",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "optUprc",		name: "Option Price",					field: "optUprc",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
 		{ id: "optStrDtm",		name: "Option Start Date",				field: "optStrDtm",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
 		{ id: "oldSrvcStrDtm",	name: "Option Service Start",			field: "oldSrvcStrDtm",	width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden:true },
-		{ id: "fnlUpdEmpNo",	name: "File Upload Employee Number",	field: "fnlUpdEmpNo",	width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden:true },
-		{ id: "fnlUpdDtm",		name: "File Upload Date",				field: "fnlUpdDtm",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden:true },
-		{ id: "frstRegEmpNo",	name: "First Register Emp Number",		field: "frstRegEmpNo",	width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden:true },
-		{ id: "frstRegDtm",		name: "First Register Date",			field: "frstRegDtm",	width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden:true }
 	];
 
 
 	var optionSelectHistList = [
 		{ id: uniqueIdSelect,    	name: "ID",		    					field: uniqueIdSelect,		width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",  hidden:true },
 		{ id: "usrIdHist",			name: "User ID",						field: "usrIdHist",		    width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
-		// { id: "seqNoHist",			name: "Sequence No",					field: "seqNoHist",		    width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }, // no hidden
 		{ id: "optCdHist",			name: "Option Code",					field: "optCdHist",		    width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }, // no hidden
 		{ id: "optUprcHist",		name: "Option Price",					field: "optUprcHist",	    width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }, // no hidden
 		{ id: "optStrDtmHist",		name: "Option Start Date",				field: "optStrDtmHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }, // no hidden
@@ -425,11 +438,9 @@
 	];
 
 	var optionSelectDetailsList = [
-		{ id: uniqueIdDetails, 			name: "ID",				    				field: uniqueIdDetails,	    		width: 40,		   editor: Slick.Editors.Text,   validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
-		{ id: "usrId",             		name: "User ID",           					field: "usrId",         			sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator, ]), width: 150,headerCssClass: "slick-header-columns", cssClass: "slick-column-center",formatter: companyNameFormatter, hidden: true  },
-		// { id: "seqNoDtls",             	name: "Sequence No Details",    			field: "seqNoDtls",         		sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator, ]), width: 150,headerCssClass: "slick-header-columns", cssClass: "slick-column-center",formatter: companyNameFormatter, hidden: true  },
-		{ id: "optCdDtls",             	name: "Option Code Details ",    					field: "optCdDtls",         		sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator,]), width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true  }, 
-		{ id: "optDtlsCd",             	name: "Option Code",    					field: "optDtlsCd",         		sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator,]), width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", }, // no hidden
+		{ id: uniqueIdDetails, 			name: "Sequence ID",				    	field: uniqueIdDetails,	    		width: 40,		   editor: Slick.Editors.Text,   validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
+		{ id: "optCdDtls",             	name: "Option Code",    					field: "optCdDtls",         		sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator,]), width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true  }, 
+		{ id: "optDtlsCd",             	name: "Option Details Code",    			field: "optDtlsCd",         		sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator,]), width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", }, // no hidden
 		{ id: "optDtlsNm",             	name: "Option Name Details",    			field: "optDtlsNm",         		sortable: true,    editor: function (args) {  return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },  ]);},width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", }, // no hidden
 		{ id: "optDtlsVlu",				name: "Option Price Details",				field: "optDtlsVlu",    			sortable: true,	   editor: Slick.Editors.Text,  validator: createValidator  ,width: 120,headerCssClass: "slick-header-columns",cssClass: "slick-column-right",formatter: numberFormatter,  hidden: true },
 		{ id: "optDtlsDcRt",      		name: "Option Start Date Details",  		field: "optDtlsDcRt", 				sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
@@ -437,11 +448,6 @@
 		{ id: "delYn",      			name: "Delete Status ",    					field: "delYn", 					sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
 		{ id: "optDtlsStrDtm",      	name: "Option Start Date ",    				field: "optDtlsStrDtm", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
 		{ id: "optDtlsEndDtm",      	name: "Option End Date",    				field: "optDtlsEndDtm", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
-		{ id: "fnlUpdEmpNoDtls",      	name: "File Upload Employee Details ",    	field: "fnlUpdEmpNoDtls", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
-		{ id: "fnlUpdDtmDtls",      	name: "File Upload Date Details ",    		field: "fnlUpdDtmDtls", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
-		{ id: "frstRegEmpNoDtls",      	name: "First Register Employee Details ",   field: "frstRegEmpNoDtls", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
-		{ id: "frstRegDtmDtls",      	name: "First Register Date Details ",    	field: "frstRegDtmDtls", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
-
 	];
 
 	var optionDetailsHistList = [
@@ -689,8 +695,18 @@
 
 		grid1.onClick.subscribe(function (e, args) {
 
-			let optCd = "01";
+			firstSelectedGridRow = grid1.getDataItem(args.row);
+			console.log("firstSelectedGridRow:", firstSelectedGridRow);
+
+			let optCd = firstSelectedGridRow.optCd || '';
+			console.log(" optCd from the 1st grid:", optCd);
+
 			let jsonData = JSON.stringify({optCd: optCd});
+			console.log("jsonData from the 1st  grid iside the jsonData:", jsonData);
+
+			 // Store the selected row data
+			 selectedFirstGridRow = grid1.getDataItem(args.row);
+			 console.log("selectedFirstGridRow inside the 1st grid:", selectedFirstGridRow);
 
  			// call to the 2nd grid on the right side
 			fn_getSrvcHistList(jsonData);
@@ -916,35 +932,24 @@
 		});
 
 		grid3.onClick.subscribe(function (e, args) {
-			console.log("Click event triggered");
-			console.log("Event object:", e);
-			console.log("Args object:", args);
-		
-			var cell = grid3.getCellFromEvent(e);
-			if (cell) {
-				var row = cell.row;
-				var dataItem = grid3.getDataItem(row);
-				console.log("Clicked row data inside the 3rd grid:", dataItem);
-				
-				if (dataItem) {
-					let optCd = dataItem.optCdDtls || '01';
-					let optDtlsCode = dataItem.optDtlsCd || '';
-					let jsonData = JSON.stringify({optCd: optCd, optDtlsCd: optDtlsCode});
-					console.log("jsonData:", jsonData);
 
-					// call to the 4th grid on the right side
-					fn_getOptionDetailsHistList(jsonData);
+			thirdGridSelectedRow = grid3.getDataItem(args.row);
+			console.log("thirdGridSelectedRow:", thirdGridSelectedRow);
 
-					console.log("dataItem from the 3rd grid:", grid3, dataItem);
-					// Open edit modal for the third grid with delete button
-					// openDetails('edit', grid3, optionSelectDetailsList, dataView3, dataItem, "divMyGridThird");
-				}
-			} else {
-				console.log("We could not get the cell from click event");
-			}
+			let optCdDtls = thirdGridSelectedRow.optCdDtls || '01';
+			console.log("optCdDtls:", optCdDtls);
+			let optDtlsCd = thirdGridSelectedRow.optDtlsCd || '';
+			console.log("optDtlsCd:", optDtlsCd);
 		
+			let jsonData4th = JSON.stringify({optCd: optCdDtls, optDtlsCd: optDtlsCd});
+			console.log("jsonData4th in the 3rd grid:", jsonData4th);
+
+			// call to the 4th grid on the right side
+			fn_getOptionDetailsHistList(jsonData4th);
+
+			// Open edit modal for the third grid with delete button
+			// openDetails('edit', grid3, optionSelectDetailsList, dataView3, dataItem, "divMyGridThird");
 		});
-
 		grid3.setActiveCell(0, 0);
 		console.log("Fourth SlickGrid initialized.");
 	}
@@ -1107,7 +1112,6 @@
 		openDetails("create", grid3, optionSelectDetailsList, dataView3, null, "divMyGridThird");
 	});
 
-
 	// console.log("checkBtn is clicked:", checkBtn);
 	function openDetails(modalType, gridToUse, columnsToUse, dataViewToUse, dataContext, gridName) {
 
@@ -1118,27 +1122,19 @@
 			
 		let uniqueId = "seqNo"; // Default unique ID
 
-		// if (!gridToUse || !gridToUse.id) {
-		// 	console.error("Invalid grid provided.");
-		// 	return;
-		// }
-
-		// const grid1 = document.querySelector("#divMyGrid");
-		// const grid3 = document.querySelector("#divMyGridThird");
-
 		if (gridName === "divMyGrid") {
 			uniqueId = "seqNo";
 			if (modalType === "create") {
-				hiddenColumns = ["seqNo", "optUprc", "optStrDtm"];
+				hiddenColumns = ["seqNo", "optStrDtm"];
 			} else if (modalType === "edit") {
-				hiddenColumns = ['seqNo', 'oldSrvcStrDtm', 'fnlUpdEmpNo', 'fnlUpdDtm', 'frstRegEmpNo', 'frstRegDtm'];
+				hiddenColumns = ['seqNo', 'oldSrvcStrDtm'];
 			}
 		} else if (gridName === "divMyGridThird") {
 			uniqueId = "seqNoDtls";
 			if (modalType === "create") {
-				hiddenColumns = ["seqNoDtls", "optDtlsVlu", "optDtlsStrDtm"];
+				hiddenColumns = ['seqNoDtls', 'delYn', 'optDtlsEndDtm','optDtlsVlu', 'optDtlsStrDtm'];
 			} else if (modalType === "edit") {
-				hiddenColumns = ['seqNoDtls', 'usrId', 'fnlUpdEmpNoDtls', 'fnlUpdDtmDtls', 'frstRegEmpNoDtls', 'frstRegDtmDtls'];
+				hiddenColumns = ['seqNoDtls', 'delYn', 'optDtlsEndDtm'];
 			}
 		} else {
 			console.error("Invalid grid provided.");
@@ -1173,35 +1169,6 @@
 			}
 		} 
 
-		// if(modalType === "edit" && !dataContext){
-		// 	alert("Please select a cell to edit the data.");
-		// 	return;
-		// }
-
-		// if (modalType === "edit") {
-		// 	activeCell = gridToUse.getActiveCell();
-		// 	if (!activeCell) {
-		// 		alert("Please select a cell to edit the data.");
-		// 		return;
-		// 	}
-
-		// 	let activeCellIndex = activeCell.cell;
-		// 	column = gridToUse.getColumns()[activeCellIndex];
-		// 	dataContext = gridToUse.getDataItem(activeCell.row);
-			
-		// }
-
-		// if(modalType === "edit" && !dataContext){
-		// 	alert("Please select a cell to edit the data.");
-		// 	return;
-		// }
-
-		// if ((modalType === "edit" && !dataContext) || !activeCell || !column) {
-       	// 	alert("Please select a cell to edit the data.");
-		// 	return;
-		// }
-
-
 		if (!options.enableCellNavigation) {
 			throw new Error('Composite Editor requires the flag "enableCellNavigation" to be set to True in your Grid Options.');
 		} else {
@@ -1224,6 +1191,7 @@
 				if (existingDeleteButton) {
 					existingDeleteButton.remove();
 				}
+
 				// modalTitleElem.className = "mb-3";
 			} else if (modalType === "edit") {
 
@@ -1292,76 +1260,84 @@
 		let currentRow;
 
 		// take the modal body
-
 		modalColumns.forEach((column, index) => {
-		// we create new row after 6 columms,
-		if (index % columnsPerShow === 0) {
-			currentRow = document.createElement("div");
-			currentRow.className = "row";
-			modalBodyElem.appendChild(currentRow);
-		}
-
-		const colElem = document.createElement("div");
-		colElem.className = "col-lg-6";
-
-		const formGroupElem = document.createElement("div");
-		formGroupElem.className = "mb-3";
-
-		const detailLabelitem = document.createElement("div");
-		detailLabelitem.className = "form-label";
-		detailLabelitem.textContent = column.name;
-
-		const inputElem = document.createElement("input");
-		inputElem.className = "form-control";
-		inputElem.dataset.editorid = column.id;
-		inputElem.value =
-		modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
-
-		formGroupElem.appendChild(detailLabelitem);
-
-		if ( column.id === "fileDelYn" || column.id === "uiSelYn" || column.id === "useYn" || column.id === "vrfUseYn") {
-			const selectInput = document.createElement("select");
-			selectInput.className = "form-select";
-			selectInput.dataset.editorid = column.id;
-
-			const defaultOption = document.createElement("option");
-			defaultOption.value = "Y";
-			defaultOption.textContent = "-options-";
-			selectInput.appendChild(defaultOption);
-
-			let optionsData = [];
-			optionsData = options6;
-
-			optionsData.forEach((option) => {
-				const optionElem = document.createElement("option");
-				optionElem.value = option.value;
-				optionElem.textContent = option.text;
-				selectInput.appendChild(optionElem);
-			});
-
-			if (modalType === "edit") {
-				selectInput.value = dataContext[column.field] || "";
+			// we create new row after 6 columms,
+			if (index % columnsPerShow === 0) {
+				currentRow = document.createElement("div");
+				currentRow.className = "row";
+				modalBodyElem.appendChild(currentRow);
 			}
 
-			formGroupElem.appendChild(selectInput);
-		} else {
+			const colElem = document.createElement("div");
+			colElem.className = "col-lg-6";
+
+			const formGroupElem = document.createElement("div");
+			formGroupElem.className = "mb-3";
+
+			const detailLabelitem = document.createElement("div");
+			detailLabelitem.className = "form-label";
+			detailLabelitem.textContent = column.name;
 
 			const inputElem = document.createElement("input");
 			inputElem.className = "form-control";
 			inputElem.dataset.editorid = column.id;
-			inputElem.value = modalType === "edit" && dataContext ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+			inputElem.value =
+			modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 
-			if(column.id === "optCd"){
-				inputElem.disabled = true;
+			formGroupElem.appendChild(detailLabelitem);
+
+			if ( column.id === "fileDelYn" || column.id === "uiSelYn" || column.id === "useYn" || column.id === "vrfUseYn") {
+				const selectInput = document.createElement("select");
+				selectInput.className = "form-select";
+				selectInput.dataset.editorid = column.id;
+
+				const defaultOption = document.createElement("option");
+				defaultOption.value = "Y";
+				defaultOption.textContent = "-options-";
+				selectInput.appendChild(defaultOption);
+
+				let optionsData = [];
+				optionsData = options6;
+
+				optionsData.forEach((option) => {
+					const optionElem = document.createElement("option");
+					optionElem.value = option.value;
+					optionElem.textContent = option.text;
+					selectInput.appendChild(optionElem);
+				});
+
+				if (modalType === "edit") {
+					selectInput.value = dataContext[column.field] || "";
+				}
+
+				formGroupElem.appendChild(selectInput);
+			} else {
+				const inputElem = document.createElement("input");
+				inputElem.className = "form-control";
+				inputElem.dataset.editorid = column.id;
+				inputElem.value = modalType === "edit" && dataContext ? dataContext[column.field] : ""; // pre-filling in the edit mode;
+
+				if(modalType === "edit"){
+					// optCdDtls
+					// optDtlsCd
+					if(column.id === "optCd" || column.id === "optDtlsCd" || column.id === "optCdDtls"){
+						inputElem.disabled = true;
+					}
+				} else if (gridName === "divMyGridThird" && modalType === "create"){
+					if(column.id === "optCdDtls" && selectedFirstGridRow){
+						const selectedRowOptionCode = selectedFirstGridRow.optCd;
+						inputElem.value = selectedRowOptionCode;
+						console.log("selectedRowOptionCode:", selectedRowOptionCode);
+						console.log("InputElem Value:", inputElem.value);
+						inputElem.disabled = true;
+					}
+				}
+				formGroupElem.appendChild(inputElem);
 			}
 
-			formGroupElem.appendChild(inputElem);
-		}
-
-		//formGroupElem.appendChild(inputElem);
-
-		colElem.appendChild(formGroupElem);
-		currentRow.appendChild(colElem);
+			//formGroupElem.appendChild(inputElem);
+			colElem.appendChild(formGroupElem);
+			currentRow.appendChild(colElem);
 		});
 
 		if (modalColumns.length % columnsPerShow !== 0) {
@@ -1392,13 +1368,24 @@
 
 				console.log("input테스트");
 			});
-
-			if (modalType === "edit") {
-			// 숨겨진 컬럼의 데이터도 수집
+			if (modalType === "edit" || modalType === "create") {
+				// we collect the data from the hidden columns
 				hiddenColumns.forEach(hiddenColId => {
-					formData[hiddenColId] = dataContext[hiddenColId]; // 숨겨진 컬럼의 값을 기존 데이터에서 가져옴
+					if (dataContext && dataContext[hiddenColId] !== undefined) {
+						formData[hiddenColId] = dataContext[hiddenColId];
+					}
 				});
+
+				// if it's a create operation, we initialize the hidden fields
+				if (modalType === "create") {
+					hiddenColumns.forEach(hiddenColId => {
+						if (formData[hiddenColId] === undefined) {
+							formData[hiddenColId] = '';
+						}
+					});
+				}
 			}
+
 			
 			// Save the data
 			if (modalType === "create") {
