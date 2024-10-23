@@ -99,7 +99,8 @@
         WITH TMP_AUTH AS
              (
                 SELECT
-                       CASE WHEN A.USR_DV_CD = '1' THEN '9'
+                       CASE WHEN A.USR_DV_CD = '1' AND '' <![CDATA[ <> ]]> B.CS_NO THEN '8'
+                            WHEN A.USR_DV_CD = '1' THEN '9'
                             WHEN A.USR_DV_CD = '2' THEN '8'
                             ELSE '1'
                        END AS USR_DV_CD
@@ -124,24 +125,47 @@
                      , MM.PGM_PATH_NM + '/' + MM.PGM_NM AS PGM_URL
                   FROM [RDSDB].[DBO].[TB_MENU_MNG_LST] MM
                  WHERE 1=1
-                   AND MM.USE_YN = 'Y'
-                   AND MM.DEL_YN = 'N'
-                   AND CASE WHEN MM.SYSOP_AUTH_YN = 'Y' THEN '9'
-                            WHEN MM.ADMIN_AUTH_YN = 'Y' THEN '8'
-                            ELSE '1'
-                       END <![CDATA[<=]]> (
-                                SELECT
-                                       USR_DV_CD
-                                  FROM TMP_AUTH
-                                 WHERE 1=1
-                              )
+                   AND MM.USE_YN        = 'Y'
+                   AND MM.DEL_YN        = 'N'
+				   AND MM.ADMIN_AUTH_YN = 'N'
+				   AND MM.SYSOP_AUTH_YN = 'N'
                        -- [2024.09.23]SRVC_CD를 숫자로 변환 후 두자리로 포맷팅, DB에서 데이터 수정 필요해보임.
-                   AND FORMAT(CAST(MM.SRVC_CD AS INT), 'D2') <![CDATA[<=]]> (
+                   AND FORMAT(CAST(MM.SRVC_CD AS INT), 'D2') <![CDATA[ <= ]]> (
                                         SELECT
                                                SRVC_CD
                                           FROM TMP_AUTH
                                          WHERE 1=1
                                       )
+                UNION ALL
+                SELECT
+                       MM.MENU_ID
+                     , MM.MENU_NM_KOR
+                     , MM.MENU_NM_ENG
+                     , MM.UPPR_MENU_ID
+                     , MM.MENU_SRT_ORD
+                     , MM.MENU_DESC
+                     , MM.PGM_PATH_NM + '/' + MM.PGM_NM AS PGM_URL
+                  FROM [RDSDB].[DBO].[TB_MENU_MNG_LST] MM
+                 WHERE 1=1
+                   AND MM.USE_YN = 'Y'
+                   AND MM.DEL_YN = 'N'
+				   AND MM.ADMIN_AUTH_YN = 'Y'
+                   AND '8' = ( SELECT  USR_DV_CD FROM TMP_AUTH WHERE 1=1 )
+                UNION ALL
+                SELECT
+                       MM.MENU_ID
+                     , MM.MENU_NM_KOR
+                     , MM.MENU_NM_ENG
+                     , MM.UPPR_MENU_ID
+                     , MM.MENU_SRT_ORD
+                     , MM.MENU_DESC
+                     , MM.PGM_PATH_NM + '/' + MM.PGM_NM AS PGM_URL
+                  FROM [RDSDB].[DBO].[TB_MENU_MNG_LST] MM
+                 WHERE 1=1
+                   AND MM.USE_YN = 'Y'
+                   AND MM.DEL_YN = 'N'
+				   AND MM.SYSOP_AUTH_YN = 'Y'
+                   AND '9' = ( SELECT  USR_DV_CD FROM TMP_AUTH WHERE 1=1 )
              )
         ,    MENUHIERARCHY AS
              (
