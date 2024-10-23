@@ -174,10 +174,10 @@
 			{ id: "dbId",			name: "Database ID",		field: "dbId",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 			{ id: "tblId",			name: "Table ID",			field: "tblId",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 			{ id: "fileDsc",		name: "File Info",			field: "fileDsc",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
-			{ id: "fileDelYn",		name: "File Del YN",		field: "fileDelYn",		width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "uiSelYn",		name: "UI View YN",			field: "uiSelYn",		width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "fileDelYn",		name: "File Del YN",		field: "fileDelYn",		width: 100,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "uiSelYn",		name: "UI View YN",			field: "uiSelYn",		width: 100,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "useYn",			name: "Use YN",				field: "useYn",			width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "vrfUseYn",		name: "Validation YN",		field: "vrfUseYn",		width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "vrfUseYn",		name: "Validation YN",		field: "vrfUseYn",		width: 110,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "usrNm",			name: "Registrant",			field: "usrNm",			width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "frstRegDtm",		name: "Registration Date",	field: "frstRegDtm",	width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		];
@@ -185,7 +185,7 @@
 		var options = {
 				enableCellNavigation: true,
 				enableColumnReorder: false,
-				forceFitColumns: true,
+				forceFitColumns: false,
 				multiColumnSort: true,
 				numberedMultiColumnSort: true,
 				tristateMultiColumnSort: true,

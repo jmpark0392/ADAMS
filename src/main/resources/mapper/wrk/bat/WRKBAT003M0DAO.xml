@@ -33,6 +33,6 @@
                 )
          </if>
            AND A.STD_YYMM = #{stdYymm}
-           ORDER BY CAST( A.BAT_EXE_ID AS numeric(5,0) )
+           ORDER BY CAST( A.BAT_EXE_ID AS numeric(5,0) ) DESC
     </select>
 </mapper>
