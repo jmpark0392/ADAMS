@@ -51,7 +51,7 @@
 								</div>
 								<div class="col text-end">
 									<p style="height:27px;">&nbsp;</p>
-									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="getSummarize()" data-test="create-button" onsubmit="return false;">Summarize</button>
+									<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="getSummarize()" data-test="create-button" onsubmit="return false;">Calculation</button>
 									<button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">Download</button>
 								</div>
 							</div>
@@ -121,7 +121,7 @@
         	var inputStdYymm = getStdYymm();
             var input = JSON.stringify({ stdYymm: inputStdYymm });
             //console.log("getsummarize input : " + input);
-			if(confirm("Do you want to summarize Insurance movement?") == true){
+			if(confirm("Do you want to calculate Insurance movement?") == true){
 				summarize(input);
 			}
         }
@@ -277,7 +277,7 @@
 					 break;
 					 case "ExecuteList" :
 						 console.log("executeList case");
-						 alert("Successfully Summarized");
+						 alert("Successfully Calculated!");
 						 main();
 					 break;
 				 }	  

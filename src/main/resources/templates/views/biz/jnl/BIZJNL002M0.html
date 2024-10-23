@@ -138,7 +138,7 @@
 			};
 
 			gf_Transaction(option, fn_callback);
-		}      
+		}
 	</script>
 	<script>
 		$(document).ready(function () {
@@ -155,7 +155,7 @@
 			});
 		});
 
-     // this method will trigger the popup modal to be draggle by mouse click
+		// this method will trigger the popup modal to be draggle by mouse click
 		$(document).ready(function (){
 			// we initialize draggable when the modal is shown
 			$('#exampleModal').on('shown.bs.modal', function () {
@@ -188,12 +188,32 @@
 		var unqId = "rowNumber";
 		var xcpt_cols = [unqId, "regUsrid", "regDt"];
 		var check_cols = [unqId];
+		
+		var lvl1CdList  = { E:"Expected"
+				          , A:"Actual" };
+		var lvl2CdList  = { "001":"BEL"
+				          , "002":"RA"
+				          , "003":"CSM"};		
+		var lvl3CdList  = { "001":"base"
+						  , "002":"oci"
+						  , "003":"new contract"
+						  , "004":"interest effect"
+						  , "005":"estimated premium"
+						  , "006":"estimated fee"
+						  , "007": "estimated new contract"
+						  , "008": "estimated fee refund"
+						  , "009": "estimated contract maintain"
+						  , "010":"estimated new contract"
+						  , "011":"actuarial assumption update"
+						  , "012":"exchange rate effect"
+						  , "013":"end of term" };
+		
 		var columns = [
 			{id: "inscDvCd",		name: "Contract Div",		field: "inscDvCd",		width: 100,	sortable: true, editor: function(args){ return new ComboBoxEditor(args, [{ key: 'O', value: '원수'}, { key: 'C', value: '수재'}, { key: 'R', value: '출재'} ])}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{id: "valuMetdCd",		name: "Valuation",			field: "valuMetdCd",	width: 80,	sortable: true, editor: function(args){ return new ComboBoxEditor(args, [ { key: 'GMM', value: 'GMM'}, { key: 'PAA', value: 'PAA'} ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{id: "lvl1Cd",			name: "Level1",				field: "lvl1Cd",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{id: "lvl2Cd",			name: "Level2",				field: "lvl2Cd",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{id: "lvl3Cd",			name: "Level3",				field: "lvl3Cd",		width: 70,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "lvl1Cd",			name: "Level1",				field: "lvl1Cd",		width: 70,	sortable: true, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: lvl1CdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "lvl2Cd",			name: "Level2",				field: "lvl2Cd",		width: 70,	sortable: true, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: lvl2CdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "lvl3Cd",			name: "Level3",				field: "lvl3Cd",		width: 200,	sortable: true, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: lvl3CdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{id: "drAcSubjCd",		name: "Dr Code",			field: "drAcSubjCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{id: "drAcSubjNm",		name: "Dr Name",			field: "drAcSubjNm",	width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{id: "crAcSubjCd",		name: "Cr Code",			field: "crAcSubjCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
@@ -238,69 +258,69 @@
 			},
 		};
 
-			function main() {
-				// 그리드 초기화 및 데이터 로드
-				console.log("Initializing SlickGrid...");
-				getList(
-							(input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
-						);
-			}
+		function main() {
+			// 그리드 초기화 및 데이터 로드
+			console.log("Initializing SlickGrid...");
+			getList(
+						(input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
+					);
+		}
 
-			/**
-			* Transaction callback 함수
-			**/
-			function fn_callback(result){
-				//console.log("fn_callback : " + result.id);
-				if( result.resultCd == "S" ){
-					switch (result.id){
-						case "SelectList" :
-							fn_setGrid(result.data);
-							break;
-						case "insertList" :
-							alert("Successfully Insert");
-							main();
-							break;
-						case "updateList" :
-							alert("Successfully Updated");
-							main();
-							break;
-						case "deleteList" :
-							alert("Successfully Deleted");
-							main();
-							break;
-					}
-				} else if( result.resultCd == "E") {
-				} else {
-					console.log("fn_callback result : ", result);
+		/**
+		* Transaction callback 함수
+		**/
+		function fn_callback(result){
+			//console.log("fn_callback : " + result.id);
+			if( result.resultCd == "S" ){
+				switch (result.id){
+					case "SelectList" :
+						fn_setGrid(result.data);
+						break;
+					case "insertList" :
+						alert("Successfully Insert");
+						main();
+						break;
+					case "updateList" :
+						alert("Successfully Updated");
+						main();
+						break;
+					case "deleteList" :
+						alert("Successfully Deleted");
+						main();
+						break;
 				}
+			} else if( result.resultCd == "E") {
+			} else {
+				console.log("fn_callback result : ", result);
 			}
+		}
 
-			function fn_setGrid(data){
-				//dataView = new Slick.Data.DataView( { idField: unqId });
-				dataView = new Slick.Data.DataView();
-				grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
+		function fn_setGrid(data){
+			//dataView = new Slick.Data.DataView( { idField: unqId });
+			dataView = new Slick.Data.DataView();
+			grid     = new Slick.Grid("#divMyGrid", dataView, columns, options);
 
-				// Make the grid respond to DataView change events.
-				dataView.onRowCountChanged.subscribe(function (e, args) {
-					grid.updateRowCount();
-					grid.render();
-				});
+			// Make the grid respond to DataView change events.
+			dataView.onRowCountChanged.subscribe(function (e, args) {
+				grid.updateRowCount();
+				grid.render();
+			});
 
-				dataView.onRowsChanged.subscribe(function (e, args) {
-					grid.invalidate();
-					grid.render();
-				});
+			dataView.onRowsChanged.subscribe(function (e, args) {
+				grid.invalidate();
+				grid.render();
+			});
 
-				// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
-				dataView.setItems(data, unqId);
+			// setItems의 두번째 argument를 통해 unique id에 해당하는 컬럼 지정가능
+			dataView.setItems(data, unqId);
 
-				// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
-				grid.onBeforeSort.subscribe(function (e, args) {
-				return true;
-				});                   
+			// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
+			grid.onBeforeSort.subscribe(function (e, args) {
+			return true;
+			});                   
 
-								// 정렬
-				grid.onSort.subscribe(function (e, args) {
+			// 정렬
+			grid.onSort.subscribe(function (e, args) {
 				var cols = args.sortCols;
 
 				data.sort(function (dataRow1, dataRow2) {
@@ -369,17 +389,17 @@
 
 			//grid.setActiveCell(0, 0);
 			console.log("SlickGrid initialized.");
-			}
+		}
 
 			// Download Excel functionality
-			document.getElementById("downloadExcel").addEventListener("click", function () {
-				const currDate = getCurrentDateTime();
-				const fileName = "BIZJNL002_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
-				const sheetName = "분개룰관리"; // 시트 이름
-				const gridColumns = columns; // SlickGrid의 컬럼 배열
-				const gridData = dataView.getItems(); // SlickGrid의 데이터 배열
-				exportToExcel(fileName, sheetName, gridColumns, gridData);
-			});
+		document.getElementById("downloadExcel").addEventListener("click", function () {
+			const currDate = getCurrentDateTime();
+			const fileName = "BIZJNL002_FM_" + currDate; // 원하는 파일 이름으로 변경 가능
+			const sheetName = "분개룰관리"; // 시트 이름
+			const gridColumns = columns; // SlickGrid의 컬럼 배열
+			const gridData = dataView.getItems(); // SlickGrid의 데이터 배열
+			exportToExcel(fileName, sheetName, gridColumns, gridData);
+		});
 
 		// 신규버튼 누르면 동작하는 함수
 		function openDetails(modalType) {
@@ -389,21 +409,48 @@
 			if (modalType === "create") {
 				hiddenColumns = ["frstRegEmpNo", "frstRegDtm"];
 			} else {
-				hiddenColumns = ["inscDvCd", "valuMetdCd", "lvl1Cd", "lvl2Cd", "lvl3Cd", "frstRegEmpNo", "frstRegDtm"];  // 컬럼 숨기기
+				hiddenColumns = ["frstRegEmpNo", "frstRegDtm"];  // 컬럼 숨기기
 			}
 
-			let options1 = [
+			let selInscDvCd = [
 				{ value: "ORGIN", text: "ORGIN", column: "inscDvCd"},
 				{ value: "CEDED", text: "CEDED", column: "inscDvCd"},
 				{ value: "REINS", text: "REINS", column: "inscDvCd"}
 			];
 
-			let options2 = [
+			let selValuMetdCd = [
 				{ value: "GMM", text: "GMM", column: "valuMetdCd"},
 				{ value: "PAA", text: "PAA", column: "valuMetdCd"}
 			];
+			
+			let selLvl1Cd = [
+				{ value: "E", text: "Expected", column: "lvl1Cd"},
+				{ value: "A", text: "Actual",   column: "lvl1Cd"}
+			];
+			
+			let selLvl2Cd = [
+				{ value: "001", text: "BEL", column: "lvl2Cd"},
+				{ value: "002", text: "RA",  column: "lvl2Cd"},
+				{ value: "003", text: "CSM", column: "lvl2Cd"}
+			];
+			
+			let selLvl3Cd = [
+				{ value: "001",	text: "base",							column: "lvl3Cd"},
+				{ value: "002",	text: "oci",							column: "lvl3Cd"},
+				{ value: "003",	text: "new contract",					column: "lvl3Cd"},
+				{ value: "004",	text: "interest effect",				column: "lvl3Cd"},
+				{ value: "005",	text: "estimated premium",				column: "lvl3Cd"},
+				{ value: "006",	text: "estimated fee",					column: "lvl3Cd"},
+				{ value: "007",	text: "estimated new contract",			column: "lvl3Cd"},
+				{ value: "008",	text: "estimated fee refund",			column: "lvl3Cd"},
+				{ value: "009",	text: "estimated contract maintain",	column: "lvl3Cd"},
+				{ value: "010",	text: "estimated new contract",			column: "lvl3Cd"},
+				{ value: "011",	text: "actuarial assumption update",	column: "lvl3Cd"},
+				{ value: "012",	text: "exchange rate effect",			column: "lvl3Cd"},
+				{ value: "013",	text: "end of term",					column: "lvl3Cd"}
+			];
 		
-			let options11 = [
+			let selUseYn = [
 				{ value: "Y", text: "Y", column: "useYn"},
 				{ value: "N", text: "N", column: "useYn"}
 			];
@@ -528,15 +575,17 @@
 				detailLabelitem.className = "form-label";
 				detailLabelitem.textContent = column.name;
 		
+				/*
 				const inputElem = document.createElement("input");
 				inputElem.className = "form-control";
 				inputElem.dataset.editorid = column.id;
 				inputElem.value = modalType == "edit" ? dataContext[column.field] : ""; // pre-filling in the edit mode;
-		
+		*/
 				formGroupElem.appendChild(detailLabelitem);
 	
 	
-				if(column.id === "inscDvCd" || column.id === "valuMetdCd" || column.id === "useYn"){
+				if( column.id === "inscDvCd" || column.id === "valuMetdCd" || column.id === "lvl1Cd" ||
+				    column.id === "lvl2Cd"	|| column.id === "lvl3Cd"      || column.id === "useYn" ) {
 		
 					const selectInput = document.createElement('select');
 					selectInput.className = "form-select";
@@ -551,11 +600,17 @@
 					let optionsData = [];
 					
 					if(column.id === "inscDvCd"){
-						optionsData = options1;
+						optionsData = selInscDvCd;
 					} else if (column.id === "valuMetdCd") {
-						optionsData = options2; 
+						optionsData = selValuMetdCd; 
+					} else if (column.id === "lvl1Cd"){
+						optionsData = selLvl1Cd;
+					} else if (column.id === "lvl2Cd"){
+						optionsData = selLvl2Cd;
+					} else if (column.id === "lvl3Cd"){
+						optionsData = selLvl3Cd;
 					} else {
-						optionsData = options11;   
+						optionsData = selUseYn;  
 					}
 					
 					optionsData.forEach(option => {
@@ -570,13 +625,20 @@
 					}
 		
 					formGroupElem.appendChild(selectInput);
-		
+					
+					if(modalType === "edit"){
+						if( column.id === "inscDvCd" || column.id === "valuMetdCd" || column.id === "lvl1Cd" 
+							|| column.id === "lvl2Cd" || column.id === "lvl3Cd" ){
+							selectInput.disabled = true;
+						}
+					}
 				} else {
 					const inputElem = document.createElement('input');
 					inputElem.className = "form-control";
 					inputElem.dataset.editorid = column.id;
 					inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
 					formGroupElem.appendChild(inputElem);
+
 				}
 	
 				colElem.appendChild(formGroupElem);

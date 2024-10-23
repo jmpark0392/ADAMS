@@ -362,14 +362,8 @@
 		// 신규버튼 누르면 동작하는 함수
 		function openDetails(modalType) {
 
-			let hiddenColumns;
-			
-			if (modalType === "create") {
-				hiddenColumns = ["frstRegEmpNo","frstRegDtm"];
-			} else {
-				hiddenColumns = ["batProgId","usrNm","frstRegDtm"];  // 컬럼 숨기기
-			}
-			
+			let hiddenColumns = ["frstRegEmpNo","frstRegDtm"];
+
 			let options4 = [
 				{ value: "Y", text: "Y", column: " "},
 				{ value: "N", text: "N", column: " "}
@@ -541,13 +535,17 @@
 					}
 		
 					formGroupElem.appendChild(selectInput);
-	
+					
 				} else {
 					const inputElem = document.createElement('input');
 		 			inputElem.className = "form-control";
 		 			inputElem.dataset.editorid = column.id;
 		 			inputElem.value = (modalType === "edit" && dataContext) ? dataContext[column.field] : ""; // pre-filling in the edit mode;
-		 			formGroupElem.appendChild(inputElem); 
+		 			formGroupElem.appendChild(inputElem);
+		 			
+					if(modalType === "edit" && column.id === "batProgId"){
+						inputElem.disabled = true;
+					}
 				}
 
 				colElem.appendChild(formGroupElem);
