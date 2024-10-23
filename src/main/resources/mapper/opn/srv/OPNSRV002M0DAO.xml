@@ -43,7 +43,7 @@
         /* web.opn.srv.dao.OPNSRV002M0DAO.selectOptDtlsList */
         SELECT
                ROW_NUMBER() OVER(ORDER BY A.OPT_DTLS_CD)   AS seqNoDtls
-             , A.OPT_CD                                    AS optCd
+             , A.OPT_CD                                    AS optCdDtls
              , A.OPT_DTLS_CD                               AS optDtlsCd
              , A.OPT_DTLS_NM                               AS optDtlsNm
              , B.OPT_DTLS_VLU                              AS optDtlsVlu
