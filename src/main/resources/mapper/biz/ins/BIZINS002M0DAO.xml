@@ -22,7 +22,10 @@
 			 , A.ESTM_IVSG_EXP_AMT                    AS estmIvsgExpAmt      /* 예상손해조사금액 */
 			 , A.ATS_ASSM_UPD_AMT                     AS atsAssmUpdAmt       /* 계리적가정변경금액 */
 			 , A.EXRT_EFFT_AMT                        AS exrtEfftAmt         /* 환율효과금액 */
-			 , A.ENTM_AMT                             AS entmAmt             /* 기말금액 */
+			 , A.BAS_AMT + A.OCI_AMT + A.NEW_CONT_AMT - A.INT_EFFT_AMT
+			 + A.ESTM_PRM + A.ESTM_FEE + A.ESTM_NEW_CONT_CCLS_AMT 
+			 + A.ESTM_FEE_RFND_AMT + A.ESTM_CONT_MTN_AMT + A.ESTM_IVSG_EXP_AMT 
+			 + A.ATS_ASSM_UPD_AMT + A.EXRT_EFFT_AMT   AS entmAmt             /* 기말금액 */
 			 , B.USR_NM                               AS frstRegEmpNo        /* 최초등록사원번호 */
 			 , CONVERT(CHAR(10), A.FRST_REG_DTM, 23)  AS frstRegDtm          /* 최초등록일시 */
 		  FROM TB_INSU_PL_TTL_LST A
