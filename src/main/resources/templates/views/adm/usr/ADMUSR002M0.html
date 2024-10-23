@@ -175,7 +175,7 @@
 					           , 9:"Suspension of use" };
 			
 			var columns = [
-							{ id: unqId,			name: "Seq",					field: "unqId",								width: 60, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+							{ id: unqId,			name: "Seq",					field: unqId,								width: 60, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "usrDvCd",			name: "User identifier code",	field: "usrDvCd",			sortable: true, width: 160, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: usrDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "usrId",			name: "User email",	 			field: "usrId",				sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 						, { id: "oldUsrId",			name: "User email",	 			field: "oldUsrId",			sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, hidden:true, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }

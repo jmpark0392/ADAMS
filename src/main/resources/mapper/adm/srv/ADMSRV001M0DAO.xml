@@ -66,7 +66,7 @@
                    FROM RDSDB.dbo.TB_USR_MNG_LST
                   WHERE 1=1
                     AND CS_NO       = #{csNo}
-                    AND USR_DV_CD   = '3'
+                    AND USR_DV_CD   IN ( '2', '3' )
                     AND STAT_DV_CD  <![CDATA[ <> ]]> '9'
                  UNION ALL
                  SELECT
@@ -91,7 +91,7 @@
                         0             AS USE_USR_CNT
                       , OPT_DTLS_VLU  AS MAX_USR_CNT
                    FROM RDSDB.dbo.TB_OPT_DTLS_HIST
-                  WHERE 1 = CASE WHEN #{optDtlsCd} IS NOT NULL AND #{optDtlsCd} != '' THEN 1 ELSE 2 END
+                  WHERE 1 = CASE WHEN #{optDtlsCd} IS NOT NULL THEN 1 ELSE 2 END
                     AND GETDATE() BETWEEN OPT_DTLS_STR_DTM AND OPT_DTLS_END_DTM
                     AND OPT_CD      = #{optCd}
                     AND OPT_DTLS_CD = #{optDtlsCd}
@@ -104,7 +104,7 @@
                           ON A.OPT_CD      = B.OPT_CD
                          AND A.OPT_DTLS_CD = B.OPT_DTLS_CD
                          AND B.CS_NO       = #{csNo}
-                  WHERE 1 = CASE WHEN #{optDtlsCd} IS NULL OR #{optDtlsCd} = '' THEN 1 ELSE 2 END
+                  WHERE 1 = CASE WHEN #{optDtlsCd} IS NULL THEN 1 ELSE 2 END
                     AND GETDATE() BETWEEN OPT_DTLS_STR_DTM AND OPT_DTLS_END_DTM
                ) A
          WHERE 1=1

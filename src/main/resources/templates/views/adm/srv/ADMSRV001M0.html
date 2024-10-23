@@ -276,7 +276,7 @@
 					switch (result.id) {
 						case "MergeServiceOptionBasic":
 							console.log("Response data:", result);
-							if (result.data.status === "success") {
+							if (result.data.resultCode == "200") {
 								console.log("Basic Subscription activation successful:", result.data);
 								// will update the ui accordingly
 								$("#basicSubscriptionButton")
@@ -293,13 +293,13 @@
 								//.prop("disabled", false);
 								alert("Your company is currently subscribing to Basic Plan.");
 							} else {
-								alert("Failed to activate the Basic Subscription service.");
+								alert("Failed to activate the Basic Subscription service. error : " + result.data.resultMessage);
 							}
 							
 						break;
 						case "MergeServiceOptionPremium":
 							console.log("Response data:", result);
-							if (result.data.status === "success") {
+							if (result.data.resultCode == "200") {
 								console.log("Premium Subscription activation successful:", result.data);
 								// will update the ui to show the ui accordingly
 								$("#premiumSubscriptionButton")
@@ -316,17 +316,17 @@
 									//.prop("disabled", false);
 							  	alert("Your company is currently subscribing to Premium Plan.");
 							} else {
-							  alert("Failed to activate the Premium Subscription service.");
+							  alert("Failed to activate the Premium Subscription service. error : " + result.data.resultMessage);
 							}
 						break;
 						case "UpdateOptionDetails":
 							console.log("Respopnse data from the option addition: ", result.data);
-							if (result.data.status === "success") {
+							if (result.data.resultCode == "200") {
 								console.log("Option addition successful:", result.data);
 								$("#selectedOption").text(lv_optDtlsDesc);
 								alert("You can add users from now on.");
 							} else {
-								alert("Failed to add option.");
+								alert("Failed to add option. error : " + result.data.resultMessage);
 							}
 						break;
 						case "SelectAllOptions":
@@ -464,24 +464,35 @@
 				var res_cfm = confirm("The selected option will be applied immediately. Shall we proceed?");
 				
 				if (res_cfm) {
+					var optCd       = "";
+					let optDtlsCd   = "";
+					let optDtlsDesc = "";
+					let valuOfSlctedVal;
+					
 					var selectedValue = $("#optionSelect").val();
+					
+					/*//추가인원을 0으로 할수있게 주석처리
 					if (selectedValue === "") {
 						alert("Please select an option to add.");
 						return;
 					}
-				
+					*/
+
+					if (selectedValue != "") {
 					// get the optDtlsCd from the selectedValue
-					let valuOfSlctedVal = selectedValue.split("|")
-		
-					console.log("Console logging the valuOfSlctedVale: ", valuOfSlctedVal);  
-		
-					var optCd       = valuOfSlctedVal[0];
-					let optDtlsCd   = valuOfSlctedVal[1];
-					let optDtlsDesc = valuOfSlctedVal[2] + " " + valuOfSlctedVal[3];
-		
-					console.log("Console logging the optCd: "      , optCd);
-					console.log("Console logging the optDtlsCd: "  , optDtlsCd);
-					console.log("Console logging the optDtlsDesc: ", optDtlsDesc);
+						valuOfSlctedVal = selectedValue.split("|")
+			
+						console.log("Console logging the valuOfSlctedVale: ", valuOfSlctedVal);  
+			
+						optCd       = valuOfSlctedVal[0];
+						optDtlsCd   = valuOfSlctedVal[1];
+						optDtlsDesc = valuOfSlctedVal[2] + " " + valuOfSlctedVal[3];
+			
+						console.log("Console logging the optCd: "      , optCd);
+						console.log("Console logging the optDtlsCd: "  , optDtlsCd);
+						console.log("Console logging the optDtlsDesc: ", optDtlsDesc);
+
+					}
 					
 					lv_optDtlsDesc = optDtlsDesc;
 					

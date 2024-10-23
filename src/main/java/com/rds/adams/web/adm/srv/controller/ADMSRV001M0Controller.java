@@ -143,12 +143,26 @@ public class ADMSRV001M0Controller {
 
             if(inVo.getSrvcCd() == null){
                 log.warn("Service code is null");
-                result.put("status", "error");
-                result.put("message", "Service code is required");
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                //result.put("status", "error");
+                //result.put("message", "Service code is required");
+    			result.put("resultCode"   , "300");
+    			result.put("resultMessage", "Service code is required");
+                //response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return result;
             }
-
+            
+            String sChkCd = admSrv001M0Service.selectUsrCntChk(inVo);
+            
+            if ( "1".equals(sChkCd) ) {
+                log.warn("Excess Users");
+                //result.put("status", "error");
+                //result.put("message", "Excess Users");
+    			result.put("resultCode"   , "300");
+    			result.put("resultMessage", "Excess Users");
+                //response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return result;
+            }
+            
             // udpate the service info table with the service subcription code
             admSrv001M0Service.mergeServiceOption(inVo);
 
@@ -157,15 +171,18 @@ public class ADMSRV001M0Controller {
                 admSrv001M0Service.updateCustomerOptionHistory(inVo);
             }
 
-            result.put("status", "success");
+			result.put("resultCode"   , "200");
+			result.put("resultMessage", "Success !!!");
             log.debug("Service option merged successfully: {}", result);
             return result;
 
         } catch (Exception e) {
             log.error("Error merging service option", e);
-            result.put("status", "error");
-            result.put("message", e.getMessage());
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            //result.put("status", "error");
+            //result.put("message", e.getMessage());
+			result.put("resultCode"   , "300");
+			result.put("resultMessage", e.getMessage());
+            //response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             log.debug("Service option merge failed: {}", result);
             return result;
         }
@@ -198,9 +215,23 @@ public class ADMSRV001M0Controller {
             inVo.setFrstRegEmpNo(userId);
 
             if (inVo.getOptCd() == null || inVo.getOptDtlsCd() == null) {
-                result.put("status", "error");
-                result.put("message", "Option Code and Option Details Code are required.");
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                //result.put("status", "error");
+                //result.put("message", "Option Code and Option Details Code are required.");
+    			result.put("resultCode"   , "300");
+    			result.put("resultMessage", "Option Code and Option Details Code are required.");
+                //response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return result;
+            }
+            
+            String sChkCd = admSrv001M0Service.selectUsrCntChk(inVo);
+            
+            if ( "1".equals(sChkCd) ) {
+                log.warn("Excess Users");
+                //result.put("status", "error");
+                //result.put("message", "Excess Users");
+    			result.put("resultCode"   , "300");
+    			result.put("resultMessage", "Excess Users.");
+                //response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return result;
             }
             
@@ -210,14 +241,18 @@ public class ADMSRV001M0Controller {
             // then update the service option table
             admSrv001M0Service.mergeOptionDetails(inVo);
 
-            result.put("status","success");
+            //result.put("status","success");
+			result.put("resultCode"   , "200");
+			result.put("resultMessage", "Success !!!");
             log.debug("Service Option Adding sunccessfully done: {}", result);
             return result;
         }
         catch(Exception e) {
             log.error("Error merging the service option");
-            result.put("status", "error");
-            result.put("message", e.getMessage());
+            //result.put("status", "error");
+            //result.put("message", e.getMessage());
+			result.put("resultCode"   , "300");
+			result.put("resultMessage", e.getMessage());
             return result;
         }
       }
@@ -248,13 +283,17 @@ public class ADMSRV001M0Controller {
 
             admSrv001M0Service.updateCustomerOptionHistory(inVo);
 
-            result.put("status", "success");
+            //result.put("status", "success");
+			result.put("resultCode"   , "200");
+			result.put("resultMessage", "Success !!!");
             return result;
         } catch (Exception e) {
             log.error("Error updating customer option history", e);
-            result.put("status", "error");
-            result.put("message", e.getMessage());
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            //result.put("status", "error");
+            //result.put("message", e.getMessage());
+			result.put("resultCode"   , "300");
+			result.put("resultMessage", e.getMessage());
+            //response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return result;
         }
       }

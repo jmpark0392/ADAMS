@@ -13,7 +13,7 @@ import com.rds.adams.web.adm.srv.dto.ADMSRV001M0R0DTO;
 import com.rds.adams.web.adm.srv.dto.ADMSRV001M0R3DTO;
 
 @Service
-public class ADMSRV001M0Service implements ADMSRV001M0DAO {
+public class ADMSRV001M0Service {
     @Autowired
     private ADMSRV001M0DAO admsrv001m0dao;
 
@@ -32,8 +32,13 @@ public class ADMSRV001M0Service implements ADMSRV001M0DAO {
     public List<ADMSRV001M0R0DTO> getUserSubscriptionInfo(ADMSRV001M0P0DTO inVo){
         return admsrv001m0dao.getUserSubscriptionInfo(inVo);
     }
+    
     public List<ADMSRV001M0R3DTO> selectSrvcUprcInfo(ADMSRV001M0P0DTO inVo){
         return admsrv001m0dao.selectSrvcUprcInfo(inVo);
+    }
+    
+    public String selectUsrCntChk(ADMSRV001M0P1DTO inVo){
+        return admsrv001m0dao.selectUsrCntChk(inVo);
     }
 
     public void  mergeServiceOption(ADMSRV001M0P1DTO inVo) {
