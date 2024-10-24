@@ -1,5 +1,8 @@
 package egovframework.com.cmm.interceptor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,10 +29,27 @@ public class CSRFInterceptor implements HandlerInterceptor {
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    	
+    	List<String> exceptPageNameList = new ArrayList<>();
+    	
+    	exceptPageNameList.add("/error/error_400");
+		exceptPageNameList.add("/error/error_500");
+		exceptPageNameList.add("/error/error_auth");
+		exceptPageNameList.add("/error/error");
+		
+		exceptPageNameList.add("/FailAuthentic");
+		exceptPageNameList.add("/FailCsrfCertificattion");
+		
+		String pageName = request.getParameter("pageName");
+		String reqUri = request.getRequestURI();
 
         // GET 요청은 검증하지 않음
         if ("GET".equalsIgnoreCase(request.getMethod())) {
             return true;
+        } else {
+        	if (exceptPageNameList.contains(pageName) || exceptPageNameList.contains(reqUri)) {
+        		return true;
+        	} 
         }
         
         log.info("========================================================");
