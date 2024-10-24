@@ -42,10 +42,10 @@ public interface ADMUSR002M0DAO {
 
 	/**
 	 * 사용자 목록 조회를 처리한다
-	 * @param vo String
+	 * @param vo ADMUSR002M0R0DTO
 	 * @return String
 	 * @exception Exception
 	 */
-	public String selectUsrCntChk(@Param("sCsNo") String sCsNo);
+	public String selectUsrCntChk(ADMUSR002M0R0DTO inVo);
 
 }

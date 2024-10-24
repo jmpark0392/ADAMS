@@ -23,13 +23,13 @@
              A.OPT_CD                   -- Option Code
            , B.OPT_DTLS_CD              -- Optional Details Code
            , B.OPT_DTLS_NM              -- Options Details Name
-		   , B.OPT_DTLS_NM + ' | $ ' + FORMAT(A.OPT_UPRC * B.OPT_DTLS_VLU, '#,###') + ' per month' AS OPT_DTLS_DESC
+           , B.OPT_DTLS_NM + ' | $ ' + FORMAT(A.OPT_UPRC * B.OPT_DTLS_VLU, '#,###') + ' per month' AS OPT_DTLS_DESC
         FROM TB_OPT_INF      A
-		   , TB_OPT_DTLS_INF B
-	   WHERE 1=1
-	     AND A.OPT_CD = B.OPT_CD
-		 AND A.OPT_CD = '01'
-		 AND B.USE_YN = 'Y'
+           , TB_OPT_DTLS_INF B
+       WHERE 1=1
+         AND A.OPT_CD = B.OPT_CD
+         AND A.OPT_CD = '01'
+         AND B.USE_YN = 'Y'
     </select>
     <select id="selectOptionInfoByCustomer" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0R0DTO">
         SELECT 
@@ -46,14 +46,15 @@
     </select>
     <select id="selectSrvcUprcInfo" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0R3DTO">
         /* web.adm.srv.dao.ADMSRV001M0DAO.selectSrvcUprcInfo */
-		SELECT
-		       SRVC_CD                      AS srvcCd     /* 서비스코드 */
-			 , SRVC_NM                      AS srvcNm     /* 서비스명 */
-			 , FORMAT( SRVC_UPRC, '#,###' ) AS srvcUprc   /* 서비스단가 */
-		  FROM RDSDB.dbo.TB_SVRC_HIST
-		 WHERE 1=1
-		   AND GETDATE() BETWEEN SRVC_STR_DTM AND SRVC_END_DTM
-		 ORDER BY SRVC_CD
+        SELECT
+               SRVC_CD                           AS srvcCd         /* 서비스코드 */
+             , SRVC_NM                           AS srvcNm         /* 서비스명 */
+             , FORMAT( SRVC_UPRC     , '#,###' ) AS srvcUprc       /* 서비스단가 */
+             , FORMAT( BASICS_USR_CNT, '#,###' ) AS basicsUsrCnt   /* 서비스단가 */
+          FROM RDSDB.dbo.TB_SVRC_HIST
+         WHERE 1=1
+           AND GETDATE() BETWEEN SRVC_STR_DTM AND SRVC_END_DTM
+         ORDER BY SRVC_CD
     </select>
     <select id="selectUsrCntChk" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P1DTO" resultType="java.lang.String">
         /* web.adm.srv.dao.ADMSRV001M0DAO.selectUsrCntChk */
@@ -62,7 +63,7 @@
           FROM (
                  SELECT
                         COUNT(1) AS USE_USR_CNT
-                 	 , 0        AS MAX_USR_CNT
+                      , 0        AS MAX_USR_CNT
                    FROM RDSDB.dbo.TB_USR_MNG_LST
                   WHERE 1=1
                     AND CS_NO       = #{csNo}
@@ -71,7 +72,7 @@
                  UNION ALL
                  SELECT
                         0               AS USE_USR_CNT
-                 	 , BASICS_USR_CNT  AS MAX_USR_CNT
+                      , BASICS_USR_CNT  AS MAX_USR_CNT
                    FROM RDSDB.dbo.TB_SVRC_HIST
                   WHERE 1 = CASE WHEN #{srvcCd} IS NOT NULL AND #{srvcCd} != '' THEN 1 ELSE 2 END
                     AND GETDATE() BETWEEN SRVC_STR_DTM AND SRVC_END_DTM
@@ -79,11 +80,11 @@
                  UNION ALL
                  SELECT
                         0               AS USE_USR_CNT
-                 	 , BASICS_USR_CNT  AS MAX_USR_CNT
+                      , BASICS_USR_CNT  AS MAX_USR_CNT
                    FROM RDSDB.dbo.TB_SVRC_HIST            A
                   INNER JOIN RDSDB.dbo.TB_CS_SRVC_OPT_INF B
                           ON A.SRVC_CD = B.SRVC_CD
-                 		AND B.CS_NO   = #{csNo}
+                         AND B.CS_NO   = #{csNo}
                   WHERE 1 = CASE WHEN #{srvcCd} IS NULL OR #{srvcCd} = '' THEN 1 ELSE 2 END
                     AND GETDATE() BETWEEN SRVC_STR_DTM AND SRVC_END_DTM
                  UNION ALL

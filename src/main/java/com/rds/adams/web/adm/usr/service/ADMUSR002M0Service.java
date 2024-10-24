@@ -72,11 +72,11 @@ public class ADMUSR002M0Service {
 			// 2. 관리자 비밀번호 공백 시 임시 비밀번호를 생성한다.(영+영+숫+영+영+숫=6자리)
 			if ( inVo.getOldUsrId() == null || "".equals(inVo.getOldUsrId()) ) {
 				
-				sMaxUsrCntYn = aDMUSR002M0DAO.selectUsrCntChk(inVo.getCsNo());
+				sMaxUsrCntYn = aDMUSR002M0DAO.selectUsrCntChk(inVo);
 				
 				if( "N".equals(sMaxUsrCntYn) ) {
-					// 최대 인원보다 많은 인원을 등록할 수 없습니다.
-					throw new Exception("ADMUSR002M0Service.saveUsr Error : You cannot register more people than the maximum number.");
+					// 최대 사용 사용자보다 더 많은 사람을 등록 할 수 없습니다. 일부 사용자를 추가하려면 '서비스 옵션'메뉴에서 옵션을 변경하십시오.
+					throw new Exception("You cannot register more people than the maximum use users. To add some users, change the option from the 'Service Options' menu.");
 				}
 				
 				for (int i = 1; i <= 6; i++) {
@@ -116,28 +116,6 @@ public class ADMUSR002M0Service {
 		}
 		
 		return true;
-		
-	}
-	
-	/**
-	 * 고객사의 사용자 사용수 체크를 처리한다
-	 * @param String
-	 * @return boolean
-	 * @exception Exception
-	 */
-	public boolean selectUsrCntChk(String sCsNo) {
-		
-		boolean bResult = false;
-		
-		String sResult = aDMUSR002M0DAO.selectUsrCntChk(sCsNo);	// 조회 대상 테이블 정보 DTO
-		
-		log.debug(" selectUsrCntChk : " + sResult);
-		
-		if ( "Y".equals(sResult) ) {
-			bResult = true;
-		}
-		
-		return bResult;
 		
 	}
 	

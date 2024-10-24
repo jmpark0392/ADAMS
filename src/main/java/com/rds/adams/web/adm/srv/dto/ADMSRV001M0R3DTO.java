@@ -1,7 +1,5 @@
 package com.rds.adams.web.adm.srv.dto;
 
-import java.math.BigDecimal;
-
 import groovy.transform.ToString;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -35,5 +33,8 @@ public class ADMSRV001M0R3DTO {
 
     @Schema(description = "서비스단가")
     private String srvcUprc;
+
+    @Schema(description = "기본사용자수")
+    private String basicsUsrCnt;
     
 }
