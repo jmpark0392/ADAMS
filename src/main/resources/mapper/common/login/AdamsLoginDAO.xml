@@ -492,7 +492,7 @@
     <!-- 마이페이지 - 계정 생성 누적일 수 조회 -->
     <select id="selectRegDtmTotal" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="regDtmTotal">
         SELECT
-               ISNULL(DATEDIFF(DAY, FRST_REG_DTM, GETDATE()), 0) AS regDtmTotal
+               ISNULL(DATEDIFF(DAY, FRST_REG_DTM, GETDATE())+1, 1) AS regDtmTotal
           FROM RDSDB.[dbo].[TB_USR_MNG_LST]
          WHERE 1=1
            AND USR_ID = #{usrId}

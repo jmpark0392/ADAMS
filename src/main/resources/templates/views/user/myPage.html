@@ -7,7 +7,6 @@
 				<div class="ptag-container mb-2">
 					<span>Today is the</span> 
 					<span id="accuDate" class="text-primary"><b>
-					125th
 					</b></span>
 					<span>day since you subscribed to iFrame2.0.</span>
 				</div>
@@ -29,16 +28,14 @@
 										<span>
 											Last login time :
 										</span>
-										<span class="text-primary"><b>
-											2024-10-18 10:23:45
+										<span id="lastLoginDtm" class="text-primary"><b>
 										</b></span>
 									</div>
 									<div class="col align-items-center mb-5">
 										<span>
 											You've logged in 
 										</span>
-										<span class="text-primary"><b>
-											132
+										<span id="loginCntTotal" class="text-primary"><b>
 										</b></span>
 										<span>
 											times so far.
@@ -62,16 +59,14 @@
 										<span>
 											Last upload time :
 										</span>
-										<span class="text-primary"><b>
-											2024-10-16 14:11:04
+										<span id="lastUploadDtm" class="text-primary"><b>
 										</b></span>
 									</div>
 									<div class="col align-items-center mb-5">
 										<span>
 											You've uploaded 
 										</span>
-										<span class="text-primary"><b>
-											24
+										<span id="uploadCntTotal" class="text-primary"><b>
 										</b></span>
 										<span>
 											times so far.
@@ -96,16 +91,14 @@
 										<span>
 											Last run time :
 										</span>
-										<span class="text-primary"><b>
-											2024-10-13 08:58:29
+										<span id="lastBatDtm" class="text-primary"><b>
 										</b></span>
 									</div>
 									<div class="col align-items-center mb-5">
 										<span>
 											You've run 
 										</span>
-										<span class="text-primary"><b>
-											68
+										<span id="batCntTotal" class="text-primary"><b>
 										</b></span>
 										<span>
 											times so far.
@@ -193,10 +186,13 @@
 			</div>
 
 		<script>
+		
+			/* var chart01; */			
 			// @formatter:off
 			document.addEventListener("DOMContentLoaded", function () {
 				window.ApexCharts && (new ApexCharts(document.getElementById('chart-01'), {
 					chart: {
+						id: "chartId-01",
 						type: "bar",
 						fontFamily: 'inherit',
 						height: 80.0,
@@ -220,7 +216,7 @@
 					},
 					series: [{
 						name: "count",
-						data: [37, 35, 44, 28, 36, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19, 46, 39, 62, 51, 35, 41, 67]
+						data: []
 					}],
 					tooltip: {
 						theme: 'dark'
@@ -246,7 +242,6 @@
 						},
 					},
 					labels: [
-						'2020-06-21', '2020-06-22', '2020-06-23', '2020-06-24', '2020-06-25', '2020-06-26', '2020-06-27', '2020-06-28', '2020-06-29', '2020-06-30', '2020-07-01', '2020-07-02', '2020-07-03', '2020-07-04', '2020-07-05', '2020-07-06', '2020-07-07', '2020-07-08', '2020-07-09', '2020-07-10', '2020-07-11', '2020-07-12', '2020-07-13', '2020-07-14', '2020-07-15', '2020-07-16', '2020-07-17', '2020-07-18', '2020-07-19', '2020-07-20'
 					],
 					colors: [tabler.getColor("secondary")],
 					legend: {
@@ -263,6 +258,7 @@
 			document.addEventListener("DOMContentLoaded", function () {
 				window.ApexCharts && (new ApexCharts(document.getElementById('chart-02'), {
 					chart: {
+						id: "chartId-02",
 						type: "bar",
 						fontFamily: 'inherit',
 						height: 80.0,
@@ -328,6 +324,7 @@
 			document.addEventListener("DOMContentLoaded", function () {
 				window.ApexCharts && (new ApexCharts(document.getElementById('chart-03'), {
 					chart: {
+						id: "chartId-03",
 						type: "bar",
 						fontFamily: 'inherit',
 						height: 80.0,
@@ -389,9 +386,24 @@
 		</script>
 
 		<script>
+			let formattedDate; // date 초기화 배열
+			
+			function setFormattedDate() {
+			    let now = new Date();
+			    formattedDate = now.getFullYear() + '-' +
+			                    ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
+			                    ('0' + now.getDate()).slice(-2) + ' ' +
+			                    ('0' + now.getHours()).slice(-2) + ':' +
+			                    ('0' + now.getMinutes()).slice(-2) + ':' +
+			                    ('0' + now.getSeconds()).slice(-2);
+			}
+
+		
 			$(document).ready(function () {
 				console.log("Document is ready.");
+				
 				//화면 접속시 바로 조회
+				setFormattedDate();
 				main();
 			});
 			
@@ -399,326 +411,434 @@
 				// 그리드 초기화 및 데이터 로드
 				console.log("Initializing SlickGrid...");
 				
-				// Controller에서 호출 테스트 - 콘솔 확인
-				//getAdamsRegDtmTotal(); // 계정 생성 누적일 수
-				//getAdamsLastLoginDtm(); // 가장 최근에 로그인한 날짜
-				//getAdamsLoginCntTotal(); // 로그인 총 횟수
-				getAdamsMonthLoginCnt(); // (전날 기준) 30일간 일별 로그인 횟수
+				// 그래프 초기화 및 데이터 로드 - ajax 공통 함수
+				getAdamsRegDtmTotal((input = JSON.stringify({usrId: ""})));
+				getAdamsLastLoginDtm((input = JSON.stringify({usrId: ""})));
+				getAdamsLoginCntTotal((input = JSON.stringify({usrId: ""})));
+				getAdamsMonthLoginCnt((input = JSON.stringify({usrId: ""})));
 				
-				//getAdamsLastUploadDtm(); // 가장 최근에 파일 업로드 했던 날짜
-				//getAdamsUploadCntTotal(); // 파일 업로드 총 횟수
-				//getAdamsMonthUploadCnt(); // (전날 기준)30일간 일별 파일 업로드 횟수
+				getAdamsLastUploadDtm((input = JSON.stringify({usrId: ""})));
+				getAdamsUploadCntTotal((input = JSON.stringify({usrId: ""})));
+				getAdamsMonthUploadCnt((input = JSON.stringify({usrId: ""})));
 				
-				//getAdamsLastBatDtm(); // 가장 최근에 배치를 실행했던 날짜
-				//getAdamsBatCntTotal(); // 배치 실행 총 횟수
-				//getAdamsMonthBatCnt(); // (전날 기준) 30일간 일별 배치 실행 횟수
+				getAdamsLastBatDtm((input = JSON.stringify({usrId: ""})));
+				getAdamsBatCntTotal((input = JSON.stringify({usrId: ""})));
+				getAdamsMonthBatCnt((input = JSON.stringify({usrId: ""})));
+			}
+			
+			/**
+			* Transaction callback 함수
+			**/
+			function fn_callback(result){
+				//console.log("fn_callback : " + result.id);
+				if( result.resultCd == "S" ){
+					switch (result.id){
+						case "getAdamsRegDtmTotal" :
+							fn_regDtmTotal(result.data);
+							break;
+						case "getAdamsLastLoginDtm" :
+							fn_lastLoginDtm(result.data);
+							break;
+						case "getAdamsLoginCntTotal" :
+							fn_loginCntTotal(result.data);
+							break;
+						case "getAdamsMonthLoginCnt" :
+							fn_monthLoginCnt(result.data);
+							break;
+							
+						case "getAdamsLastUploadDtm" :
+							fn_lastUploadDtm(result.data);
+							break;
+						case "getAdamsUploadCntTotal" :
+							fn_uploadCntTotal(result.data);
+							break;
+						case "getAdamsMonthUploadCnt" :
+							fn_monthUploadCnt(result.data);
+							break;
+							
+						case "getAdamsLastBatDtm" :
+							fn_lastBatDtm(result.data);
+							break;
+						case "getAdamsBatCntTotal" :
+							fn_batCntTotal(result.data);
+							break;
+						case "getAdamsMonthBatCnt" :
+							fn_monthBatCnt(result.data);
+							break;
+					}
+				} else if( result.resultCd == "E") {
+				} else {
+					console.log("fn_callback result : ", result);
+				}
+			}
+			
+			function getAdamsRegDtmTotal(input) {
+				// 계정 누적일 생성 수
+				var option = {
+					id: "getAdamsRegDtmTotal"
+					, type: "post"
+					, url: "/mypage/adamsRegDtmTotal"
+					, async: true
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+				};
 
+				gf_Transaction(option, fn_callback);
 			}
 			
-			function getAdamsRegDtmTotal() {
-				// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-				$.ajax({
-					type: "post",
-					url: "/mypage/adamsRegDtmTotal",
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify({
-						usrId: ""
-					}),
-					beforeSend: function(xhr){
-				        xhr.setRequestHeader(csrfHeader, csrfToken);
-				    },
-					success: function (data) {
-						console.log("AJAX RegDtmTotal request successful. Data received:", data);
-						var sMsg = data.loginMsg;
-						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
-							alert(sMsg);
-						}
-					},
-					error: function (xhr, status, error) {
-						errorHandler(xhr);
-					},
-				});
+			function fn_regDtmTotal(data) {
+				
+				if (data && data.regDtmTotal > 0){
+					let regDtmTotal = data.regDtmTotal;
+					
+					if(regDtmTotal > 0){
+						$("#accuDate").text(regDtmTotal.toLocaleString()).css("font-weight", "bold");
+					}else {
+						// No subscription info found
+						$("#accuDate").text("1").css("font-weight", "bold"); // accuDate 초기값은 1
+					}
+				}else if (data && data.regDtmTotal === 0) {
+                    // No subscription info found
+                    $("#accuDate").text("1").css("font-weight", "bold");
+                }
 			}
 			
-			function getAdamsLastLoginDtm() {
-				// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-				$.ajax({
-					type: "post",
-					url: "/mypage/adamsLastLoginDtm",
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify({
-						usrId: ""
-					}),
-					beforeSend: function(xhr){
-				        xhr.setRequestHeader(csrfHeader, csrfToken);
-				    },
-					success: function (data) {
-						console.log("AJAX LastLoginDtm request successful. Data received:", data);
-						var sMsg = data.loginMsg;
-						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
-							alert(sMsg);
-						}
-					},
-					error: function (xhr, status, error) {
-						errorHandler(xhr);
-					},
-				});
-			}
-			
-			function getAdamsLoginCntTotal() {
-				// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-				$.ajax({
-					type: "post",
-					url: "/mypage/adamsLoginCntTotal",
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify({
-						usrId: ""
-					}),
-					beforeSend: function(xhr){
-				        xhr.setRequestHeader(csrfHeader, csrfToken);
-				    },
-					success: function (data) {
-						console.log("AJAX LoginCntTotal request successful. Data received:", data);
-						var sMsg = data.loginMsg;
-						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
-							alert(sMsg);
-						}
-					},
-					error: function (xhr, status, error) {
-						errorHandler(xhr);
-					},
-				});
-			}
-			
-			function getAdamsMonthLoginCnt() {
-				// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-				$.ajax({
-					type: "post",
-					url: "/mypage/adamsMonthLoginCnt",
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify({
-						usrId: ""
-					}),
-					beforeSend: function(xhr){
-				        xhr.setRequestHeader(csrfHeader, csrfToken);
-				    },
-					success: function (data) {
-						console.log("AJAX MonthLoginCnt request successful. Data received:", data);
-						// 주석처리 검토
-						var sMsg = data.loginMsg;
-						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
-							alert(sMsg);
-						}
-						
-						// 차트를 위한 리스트 변환
-						/*
-						loginDtm = [], loginCnt = []
-						
-						loginDtm.forEach(function(data){
-							loginDtm.push(data.accDtm);
-						});
-						loginCnt.forEach(function(data){
-							loginCnt.push(data.loginCnt);
-						});
+			function getAdamsLastLoginDtm(input) {
+				// 가장 최근에 로그인한 날짜
+				var option = {
+					id: "getAdamsLastLoginDtm"
+					, type: "post"
+					, url: "/mypage/adamsLastLoginDtm"
+					, async: true
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+				};
 
-						console.log("loginDtm : ", loginDtm);
-						console.log("loginCnt : ", loginCnt);
-						*/
-					},
-					error: function (xhr, status, error) {
-						errorHandler(xhr);
-					},
-				});
+				gf_Transaction(option, fn_callback);
 			}
 			
-			function getAdamsLastUploadDtm() {
+			function fn_lastLoginDtm(data) {
+			    
+				if (data && data.lastLoginDtm){
+					let lastLoginDtm = data.lastLoginDtm;
+					
+					if(lastLoginDtm){
+						$("#lastLoginDtm").text(lastLoginDtm).css("font-weight", "bold");
+					}else {
+						// No subscription info found
+						$("#lastLoginDtm").text(formattedDate).css("font-weight", "bold");
+					}
+				}else {
+                    // No subscription info found
+                    $("#lastLoginDtm").text(formattedDate).css("font-weight", "bold");
+                }
+			} 
+			
+			function getAdamsLoginCntTotal(input) {
+				// 로그인 총 횟수
+				var option = {
+					id: "getAdamsLoginCntTotal"
+					, type: "post"
+					, url: "/mypage/adamsLoginCntTotal"
+					, async: true
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+				};
+
+				gf_Transaction(option, fn_callback);
+			}
+			
+			function fn_loginCntTotal(data){
+				
+				if (data && data.loginCntTotal > 0){
+					let loginCntTotal = data.loginCntTotal;
+					
+					if(loginCntTotal > 0){
+						$("#loginCntTotal").text(loginCntTotal.toLocaleString()).css("font-weight", "bold");
+					}else {
+						// No subscription info found
+						$("#loginCntTotal").text("0").css("font-weight", "bold");
+					}
+				}else if (data && data.loginCntTotal === 0) {
+                    // No subscription info found
+                    $("#loginCntTotal").text("0").css("font-weight", "bold");
+                }
+			}
+			
+			function getAdamsMonthLoginCnt(input) {
+				// (전날 기준) 30일간 일별 로그인 횟수
+				var option = {
+					id: "getAdamsMonthLoginCnt"
+					, type: "post"
+					, url: "/mypage/adamsMonthLoginCnt"
+					, async: true
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+				};
+
+				gf_Transaction(option, fn_callback);
+			}
+			
+			function fn_monthLoginCnt(data){
+				
+				if (data && data.length > 0) {
+                    let accDtm = data[0].accDtm;
+                    let loginCnt = data[0].loginCnt;
+                    
+                    if (accDtm && typeof loginCnt === 'number' && loginCnt >= 0) {
+                    	// 차트를 위한 리스트 변환
+						loginDtms = [], loginCnts = []
+						
+						data.forEach(item =>{
+							loginDtms.push(item.accDtm);
+							loginCnts.push(item.loginCnt);
+						});
+						
+						// 차트 정보 업데이트							
+						ApexCharts.exec('chartId-01', 'updateOptions', {
+							series: [{
+								name: "count",
+								data: loginCnts
+							}],
+							labels: loginDtms,
+						}, true, true);
+						
+					} else {
+						// No positive values found
+						console.error("Invalid month login count");
+					}
+				} else if (data && data.length === 0) {
+                	// No subscription info found
+                	console.error("Invalid month login count")
+                }
+			}
+			
+			function getAdamsLastUploadDtm(input) {
 				// 가장 최근에 파일 업로드 했던 날짜
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-				$.ajax({
-					type: "post",
-					url: "/mypage/adamsLastUploadDtm",
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify({
-						usrId: ""
-					}),
-					beforeSend: function(xhr){
-				        xhr.setRequestHeader(csrfHeader, csrfToken);
-				    },
-					success: function (data) {
-						console.log("AJAX LastUploadDtm request successful. Data received:", data);
-						var sMsg = data.loginMsg;
-						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
-							alert(sMsg);
-						}
-					},
-					error: function (xhr, status, error) {
-						errorHandler(xhr);
-					},
-				});
+				var option = {
+					id: "getAdamsLastUploadDtm"
+					, type: "post"
+					, url: "/mypage/adamsLastUploadDtm"
+					, async: true
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+				};
+
+				gf_Transaction(option, fn_callback);
 			}
 			
-			function getAdamsUploadCntTotal() {
+			function fn_lastUploadDtm(data){
+				
+				if (data && data.lastUploadDtm){
+					let lastUploadDtm = data.lastUploadDtm;
+					
+					if(lastUploadDtm){
+						$("#lastUploadDtm").text(lastUploadDtm).css("font-weight", "bold");
+					}else {
+						// No subscription info found
+						$("#lastUploadDtm").text(formattedDate).css("font-weight", "bold");
+					}
+				}else {
+                    // No subscription info found
+                    $("#lastUploadDtm").text(formattedDate).css("font-weight", "bold");
+                }
+			}
+			
+			function getAdamsUploadCntTotal(input) {
 				// 파일 업로드 총 횟수
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-				$.ajax({
-					type: "post",
-					url: "/mypage/adamsUploadCntTotal",
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify({
-						usrId: ""
-					}),
-					beforeSend: function(xhr){
-				        xhr.setRequestHeader(csrfHeader, csrfToken);
-				    },
-					success: function (data) {
-						console.log("AJAX UploadCntTotal request successful. Data received:", data);
-						var sMsg = data.loginMsg;
-						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
-							alert(sMsg);
-						}
-					},
-					error: function (xhr, status, error) {
-						errorHandler(xhr);
-					},
-				});
+				var option = {
+					id: "getAdamsUploadCntTotal"
+					, type: "post"
+					, url: "/mypage/adamsUploadCntTotal"
+					, async: true
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+				};
+				
+				gf_Transaction(option, fn_callback);
 			}
 			
-			function getAdamsMonthUploadCnt() {
+			function fn_uploadCntTotal(data){
+				
+				if (data && data.uploadCntTotal > 0){
+					let uploadCntTotal = data.uploadCntTotal;
+					
+					if(uploadCntTotal > 0){
+						$("#uploadCntTotal").text(uploadCntTotal.toLocaleString()).css("font-weight", "bold");
+					}else {
+						// No subscription info found
+						$("#uploadCntTotal").text("0").css("font-weight", "bold");
+					}
+				}else if (data && data.uploadCntTotal === 0) {
+                    // No subscription info found
+                    $("#uploadCntTotal").text("0").css("font-weight", "bold");
+                }
+			}
+			
+			function getAdamsMonthUploadCnt(input) {
 				// (전날 기준)30일간 일별 파일 업로드 횟수
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-				$.ajax({
-					type: "post",
-					url: "/mypage/adamsMonthUploadCnt",
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify({
-						usrId: ""
-					}),
-					beforeSend: function(xhr){
-				        xhr.setRequestHeader(csrfHeader, csrfToken);
-				    },
-					success: function (data) {
-						console.log("AJAX MonthUploadCnt request successful. Data received:", data);
-						var sMsg = data.loginMsg;
-						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
-							alert(sMsg);
-						}
-					},
-					error: function (xhr, status, error) {
-						errorHandler(xhr);
-					},
-				});
+				var option = {
+					id: "getAdamsMonthUploadCnt"
+					, type: "post"
+					, url: "/mypage/adamsMonthUploadCnt"
+					, async: true
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+				};
+
+				gf_Transaction(option, fn_callback);
 			}
 			
-			function getAdamsLastBatDtm() {
+			function fn_monthUploadCnt(data){
+				
+				if (data && data.length > 0) {
+                    let uploadStrDtm = data[0].uploadStrDtm;
+                    let uploadCnt = data[0].uploadCnt;
+                    
+                    if (uploadStrDtm && typeof uploadCnt === 'number' && uploadCnt >= 0) {
+                    	// 차트를 위한 리스트 변환
+						uploadDtms = [], uploadCnts = []
+						
+						data.forEach(item =>{
+							uploadDtms.push(item.uploadStrDtm);
+							uploadCnts.push(item.uploadCnt);
+						});
+						
+						// 차트 정보 업데이트							
+						ApexCharts.exec('chartId-02', 'updateOptions', {
+							series: [{
+								name: "count",
+								data: uploadCnts
+							}],
+							labels: uploadDtms,
+						}, true, true);
+						
+					} else {
+						// No positive values found
+						console.error("Invalid month upload count graph");
+					}
+				} else if (data && data.length === 0) {
+                	// No subscription info found
+					console.error("Invalid month upload count graph");
+                }
+			}
+			
+			function getAdamsLastBatDtm(input) {
 				// 가장 최근에 배치를 실행 했던 날짜
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-				$.ajax({
-					type: "post",
-					url: "/mypage/adamsLastBatDtm",
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify({
-						usrId: ""
-					}),
-					beforeSend: function(xhr){
-				        xhr.setRequestHeader(csrfHeader, csrfToken);
-				    },
-					success: function (data) {
-						console.log("AJAX LastBatDtm request successful. Data received:", data);
-						var sMsg = data.loginMsg;
-						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
-							alert(sMsg);
-						}
-					},
-					error: function (xhr, status, error) {
-						errorHandler(xhr);
-					},
-				});
+				var option = {
+					id: "getAdamsLastBatDtm"
+					, type: "post"
+					, url: "/mypage/adamsLastBatDtm"
+					, async: true
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+				};
+
+				gf_Transaction(option, fn_callback);
 			}
 			
-			function getAdamsBatCntTotal() {
+			function fn_lastBatDtm(data){
+			    
+				if (data && data.lastBatDtm){
+					let lastBatDtm = data.lastBatDtm;
+					
+					if(lastBatDtm){
+						$("#lastBatDtm").text(lastBatDtm).css("font-weight", "bold");
+					}else {
+						// No subscription info found
+						$("#lastBatDtm").text(formattedDate).css("font-weight", "bold");
+					}
+				}else {
+                    // No subscription info found
+                    $("#lastBatDtm").text(formattedDate).css("font-weight", "bold");
+                }
+			}
+			
+			function getAdamsBatCntTotal(input) {
 				// 배치 실행 총 횟수
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-				$.ajax({
-					type: "post",
-					url: "/mypage/adamsBatCntTotal",
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify({
-						usrId: ""
-					}),
-					beforeSend: function(xhr){
-				        xhr.setRequestHeader(csrfHeader, csrfToken);
-				    },
-					success: function (data) {
-						console.log("AJAX BatCntTotal request successful. Data received:", data);
-						var sMsg = data.loginMsg;
-						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
-							alert(sMsg);
-						}
-					},
-					error: function (xhr, status, error) {
-						errorHandler(xhr);
-					},
-				});
+				var option = {
+					id: "getAdamsBatCntTotal"
+					, type: "post"
+					, url: "/mypage/adamsBatCntTotal"
+					, async: true
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+				};
+
+				gf_Transaction(option, fn_callback);
 			}
 			
-			function getAdamsMonthBatCnt() {
+			function fn_batCntTotal(data) {
+				if (data && data.batCntTotal > 0){
+					let batCntTotal = data.batCntTotal;
+					
+					if(batCntTotal > 0){
+						$("#batCntTotal").text(batCntTotal.toLocaleString()).css("font-weight", "bold");
+					}else {
+						// No subscription info found
+						$("#batCntTotal").text("0").css("font-weight", "bold");
+					}
+				}else if (data && data.uploadCntTotal === 0) {
+                    // No subscription info found
+                    $("#batCntTotal").text("0").css("font-weight", "bold");
+                }
+			}
+			
+			function getAdamsMonthBatCnt(input) {
 				// (전날 기준)30일간 일별 배치를 실행한 횟수
-		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
-		        var csrfHeader = "X-CSRF-Token";
-				$.ajax({
-					type: "post",
-					url: "/mypage/adamsMonthBatCnt",
-					async: true,
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify({
-						usrId: ""
-					}),
-					beforeSend: function(xhr){
-				        xhr.setRequestHeader(csrfHeader, csrfToken);
-				    },
-					success: function (data) {
-						console.log("AJAX MonthBatCnt request successful. Data received:", data);
-						var sMsg = data.loginMsg;
-						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
-							alert(sMsg);
-						}
-					},
-					error: function (xhr, status, error) {
-						errorHandler(xhr);
-					},
-				});
+				var option = {
+					id: "getAdamsMonthBatCnt"
+					, type: "post"
+					, url: "/mypage/adamsMonthBatCnt"
+					, async: true
+					, dataType: "json"
+					, contentType: "application/json; charset=utf-8"
+					, data: input,
+				};
+
+				gf_Transaction(option, fn_callback);
+			}
+			
+			function fn_monthBatCnt(data) {
+				if (data && data.length > 0) {
+                    let batStrDtm = data[0].batStrDtm;
+                    let batCnt = data[0].batCnt;
+                    
+                    if (batStrDtm && typeof batCnt === 'number' && batCnt >= 0) {
+                    	// 차트를 위한 리스트 변환
+						batDtms = [], batCnts = []
+						
+						data.forEach(item =>{
+							batDtms.push(item.batStrDtm);
+							batCnts.push(item.batCnt);
+						});
+						
+						// 차트 정보 업데이트							
+						ApexCharts.exec('chartId-03', 'updateOptions', {
+							series: [{
+								name: "count",
+								data: batCnts
+							}],
+							labels: batDtms,
+						}, true, true);
+						
+					} else {
+						// No positive values found
+						console.error("Invalid month batch count graph");
+					}
+				} else if (data && data.length === 0) {
+                	// No subscription info found
+					console.error("Invalid month batch count graph");
+                }
 			}
 		</script>
 	</th:block>
