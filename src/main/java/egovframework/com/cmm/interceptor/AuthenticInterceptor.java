@@ -10,6 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
@@ -89,12 +92,37 @@ public class AuthenticInterceptor extends WebContentInterceptor {
         		log.debug("Authentication Fail!!!!!!!!!!!!================== ");
         		
         		new SecurityContextLogoutHandler().logout(request, response, null);
-            	
-        		ModelAndView modelAndView = new ModelAndView("/error/error_auth");
-        		modelAndView.addObject("errorTitle", "Session Expired!");
-        		modelAndView.addObject("errorMessage", "We're sorry, but your session has expired. Please log in again to continue.");
         		
-        		throw new ModelAndViewDefiningException(modelAndView);
+        		// handler가 HandlerMethod의 인스턴스인지 확인
+                if (handler instanceof HandlerMethod) {
+                    HandlerMethod handlerMethod = (HandlerMethod) handler;
+
+                    // 컨트롤러 클래스 가져오기
+                    Class<?> controllerClass = handlerMethod.getBeanType();
+
+                    // 컨트롤러 클래스가 @RestController로 어노테이션되어 있는지 확인
+                    if (controllerClass.isAnnotationPresent(RestController.class)) {
+                    	
+                    	try {
+        	        		response.setContentType("application/json");
+        	                response.getOutputStream().write("FAIL_AUTHENTIC".getBytes());
+                		} catch (Exception e) {
+                			throw new ServletException(e);
+                		}
+                    
+                    // 컨트롤러 클래스가 @Controller로 어노테이션되어 있는지 확인	
+                    } else if (controllerClass.isAnnotationPresent(Controller.class)) {
+                        
+                    	ModelAndView modelAndView = new ModelAndView("/error/error_auth");
+                		modelAndView.addObject("errorTitle", "Session Expired!");
+                		modelAndView.addObject("errorMessage", "We're sorry, but your session has expired. Please log in again to continue.");
+                		
+                		throw new ModelAndViewDefiningException(modelAndView);
+                    	
+                    }
+                }
+
+        		return false;
         		
         	} else {
         		

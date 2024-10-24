@@ -94,6 +94,7 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 		commonExcludePathList.add("/logout");
 		commonExcludePathList.add("/TokenRefresh");
 		commonExcludePathList.add("/error");
+		commonExcludePathList.add("/FailAuthentic");
 		
 		// 웹자원
 		resourceExcludePathList.add("/css/**");

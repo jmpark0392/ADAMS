@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.com.cmm.interceptor.CSRFTokenManager;
 import lombok.extern.slf4j.Slf4j;
@@ -122,5 +123,27 @@ public class MenuLinkController {
         return Base64.getEncoder().encodeToString(nonceBytes);
 
     }
+	
+	@PostMapping("/FailAuthentic")
+	public ModelAndView failAuthentic() {
+		
+		ModelAndView modelAndView = new ModelAndView("error/error_auth");
+		modelAndView.addObject("errorTitle", "Session Expired!");
+		modelAndView.addObject("errorMessage", "We're sorry, but your session has expired. Please log in again to continue.");
+		
+		return modelAndView;
+		
+	}
+	
+	@PostMapping("/FailCsrfCertificattion")
+	public ModelAndView failCsrfCertificattion() {
+		
+		ModelAndView modelAndView = new ModelAndView("error/error_auth");
+		modelAndView.addObject("errorTitle", "Fail CSRF Certification!!");
+		modelAndView.addObject("errorMessage", "CSRF authentication failed. Please contact the administrator.");
+		
+		return modelAndView;
+		
+	}
 
 }
