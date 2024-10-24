@@ -1,32 +1,25 @@
 
 <!DOCTYPE html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}"
->
-	<th:block layout:fragment="content">
-		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-		<div class="page-wrapper" id="page-wrapper">
-			<div class="container" id="container">
-				<h2>[[${menuNm}]]</h2>
-				<div class="ptag-container">
-					<!-- <span><a href="#"> Home ></a></span> -->
-					<span>[[${navigator}]]</span>
-					<div class="form-container">
-						<div class="form-box">
-							<form id="filter-form" name="form" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
-								<div class="row">
-									<div class="col-auto">
-										<div class="input-group">
-											<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control search-button-file" placeholder="File Name/Table ID"/>
-											<button type="button"class="btn btn-primary"style="padding: 4px 10px; color: white; font-size: 13px"onclick="main()">
-												Search
-					 						</button>
-										</div>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<th:block layout:fragment="content">
+	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="container">
+			<h2>[[${menuNm}]]</h2>
+			<div class="ptag-container">
+				<!-- <span><a href="#"> Home ></a></span> -->
+				<span>[[${navigator}]]</span>
+				<div class="form-container">
+					<div class="form-box">
+						<form id="filter-form" name="form" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
+							<div class="row">
+								<div class="col-auto">
+									<div class="input-group">
+										<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control search-button-file" placeholder="File Name/Table ID" />
+										<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
 									</div>
-									<!-- <div class="col text-end">
+								</div>
+								<!-- <div class="col text-end">
 										<button form="new-form" type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px"
 												onclick="renewOptions(true);openDetails('create');{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">
 											Create
@@ -39,122 +32,93 @@
 											Edit
 										</button>
 									</div> -->
-								</div>
-							</form>
-						</div>
-	 				</div>
-				</div>
-				<div class="popupDataForm">
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">
-						Launch modal with form
-					</button>
-					<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
-						<div class="modal-dialog modal-small" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title">New report</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<div class="row"></div>
-								</div>
-								<div class="modal-footer">
-									<div class="col flex-start">
-										<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
-									</div>
-									<div class="col-auto me-0 p-1"></div>
-									<div class="col-auto m-0">
-										<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">
-											Save changes
-										</a>
-									</div>
-								</div>
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>
-			</div>	
-			<div class="page-body mt-1">
-				<div class="container-xl">
-					<div class="row row-cards">
-						<!-- first row side by side -->
-						<div class="col-12 mb-3">
-							<div class="row">
-								<!-- first grid -->
-								<div class="col-md-4 mb-3 mb-md-0">
-									<h4 class="mb-3">Option Main</h4>
-									<div class="card card-md">
-										<div id="divMyGrid" style="width: 100%; height: 300px;">
-											<table align="center" class="table"></table>
-										</div>
-									</div>
-									<div class="d-flex justify-content-end mt-3">
-										<button form="new-form" type="button" class="btn btn-primary me-2" style="padding: 4px 10px; color: white; font-size: 13px" id="mainCreate" 
-												onclick="renewOptionsGrids(grid1, true);{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">
-											Create
-										</button>
-										<!-- <button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">
-											Download
-										</button> -->
-										<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" id = "mainEdit"
-												onclick="renewOptionsGrids(grid1, true);{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">
-											Edit
-										</button>
-									</div>
-								</div>
-								<!-- second grid -->
-								<div class="col-md-8">
-									<h4 class="mb-3">Option Main History</h4>
-									<div class="card card-md">
-										<div id="divMyGridBackup" style="width: 100%; height: 350px;">
-											<table align="center" class="table"></table>
-										</div>
-									</div>
-								</div>
+			</div>
+			<div class="popupDataForm">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">Launch modal with form</button>
+				<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
+					<div class="modal-dialog modal-small" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">New report</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
-						</div>
-						<!-- second row side by side -->
-						<div class="col-12">
-							<div class="row">
-								<!-- third grid (smaller) -->
-								<div class="col-md-4 mb-3 mb-md-0">
-									<h4 class="mb-3">Option Details</h4>
-									<div class="card card-md">
-										
-										<div id="divMyGridThird" style="width: 100%; height: 300px;">
-											<table align="center" class="table"></table>
-										</div>
-									</div>
-									<div class="d-flex justify-content-end mt-3">
-										
-										<button form="new-form" type="button" class="btn btn-primary me-2" style="padding: 4px 10px; color: white; font-size: 13px" id="detailsCreate"
-												onclick="renewOptionsGrids(grid3, true);{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">
-											Create
-										</button>
-										<!-- <button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">
-											Download
-										</button> -->
-										<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" id = "detailsEdit"
-												onclick="renewOptionsGrids(grid3, true); {(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">
-											Edit
-										</button>
-									</div>
+							<div class="modal-body">
+								<div class="row"></div>
+							</div>
+							<div class="modal-footer">
+								<div class="col flex-start">
+									<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
 								</div>
-								<!-- fourth grid (longer) -->
-								<div class="col-md-8">
-									<h4 class="mb-3">Option Details History</h4>
-									<div class="card card-md">
-										<div id="divMyGridHist" style="width: 100%; height: 350px;">
-											<table align="center" class="table"></table>
-										</div>
-									</div>
+								<div class="col-auto me-0 p-1"></div>
+								<div class="col-auto m-0">
+									<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px"> Save changes </a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-	  	</div>
+		</div>
+		<div class="page-body mt-1">
+			<div class="container-xl">
+				<div class="row row-cards">
+					<!-- first row side by side -->
+					<div class="col-12 mb-3">
+						<div class="row">
+							<!-- first grid -->
+							<div class="col-md-4 mb-3 mb-md-0">
+								<h4 class="mb-3">Option Main</h4>
+								<div id="divMyGrid" class="card card-md" style="width: 100%; height: 300px;">
+								</div>
+								<div class="d-flex justify-content-end mt-3">
+									<button form="new-form" type="button" class="btn btn-primary me-2" style="padding: 4px 10px; color: white; font-size: 13px" id="mainCreate" onclick="renewOptionsGrids(grid1, true);{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">Create</button>
+									<!-- <button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">
+											Download
+										</button> -->
+									<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" id="mainEdit" onclick="renewOptionsGrids(grid1, true);{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
+								</div>
+							</div>
+							<!-- second grid -->
+							<div class="col-md-8">
+								<h4 class="mb-3">Option Main History</h4>
+								<div id="divMyGridBackup" class="card card-md" style="width: 100%; height: 350px;">
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- second row side by side -->
+					<div class="col-12">
+						<div class="row">
+							<!-- third grid (smaller) -->
+							<div class="col-md-4 mb-3 mb-md-0">
+								<h4 class="mb-3">Option Details</h4>
+								<div id="divMyGridThird" class="card card-md" style="width: 100%; height: 300px;">
+								</div>
+								<div class="d-flex justify-content-end mt-3">
+
+									<button form="new-form" type="button" class="btn btn-primary me-2" style="padding: 4px 10px; color: white; font-size: 13px" id="detailsCreate" onclick="renewOptionsGrids(grid3, true);{(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="create-button" onsubmit="return false;">Create</button>
+									<!-- <button type="button" class="btn btn-lime" style="padding: 4px 10px; color: white; font-size: 13px" id="downloadExcel">
+											Download
+										</button> -->
+									<button form="new-form" type="button" class="btn btn-secondary" style="padding: 4px 10px; color: white; font-size: 13px" id="detailsEdit" onclick="renewOptionsGrids(grid3, true); {(ev) => {if (ev.detail === 0) {ev.preventDefault();}}}" data-test="edit-button" onsubmit="return false;">Edit</button>
+								</div>
+							</div>
+							<!-- fourth grid (longer) -->
+							<div class="col-md-8">
+								<h4 class="mb-3">Option Details History</h4>
+								<div id="divMyGridHist" class="card card-md" style="width: 100%; height: 350px;">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script>
 	function checkData(data) {
 	return parentCheckData(data, check_cols);
@@ -348,8 +312,8 @@
 
 	
 </script>
-<script src="js/utils.js"></script>
-<script>
+	<script src="js/utils.js"></script>
+	<script>
 	$(document).ready(function () {
 		console.log("Document is ready.");
 		//화면 접속시 바로 조회
@@ -506,7 +470,8 @@
 			enableAddRow: true,
 			asyncEditorLoading: false,
 			autoEdit: false,
-			autoEditNewRow: false
+			autoEditNewRow: false,
+			rowHeight: 35,
 	};
 
 	var newRowIds = 0;
@@ -1516,5 +1481,5 @@
 		}); 
 	}
 	</script>
-  </th:block>
+</th:block>
 </html>
