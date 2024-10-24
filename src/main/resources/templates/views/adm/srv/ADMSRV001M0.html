@@ -25,7 +25,7 @@
 										<div class="card-body text-center">
 											<span class="fs-1 fw-bold" id="basicSrvc"></span>&nbsp;&nbsp;&nbsp;<span>per month</span>
 											<br><br>
-											<span class="fs-2" id="basicSrvcUser"> 5 &nbsp;Users</span>
+											<span class="fs-2" id="basicSrvcUser">  &nbsp;</span>
 											<br><br>
 											<ul class="list-unstyled lh-lg">
 												<li>
@@ -93,7 +93,7 @@
 										<div class="card-body text-center">
 											<span class="fs-1 fw-bold" id="premiumSrvc"></span>&nbsp;&nbsp;&nbsp;<span>per month</span>
 											<br><br>
-											<span class="fs-2" id="premiumSrvcUser">10&nbsp;Users</span>
+											<span class="fs-2" id="premiumSrvcUser">&nbsp;</span>
 											<br><br>
 											<ul class="list-unstyled lh-lg">
 												<li>
@@ -400,16 +400,20 @@
 										// TO-DO : Basic 가격 Label 변경. 
 										let basicSrvc = $("#basicSrvc");
 										let basicSrvcName = $("#basicSrvcName");
+										let basicSrvcUser = $("#basicSrvcUser");
 										basicSrvc.text("$ " + result.data.data[i].srvcUprc) 
 										basicSrvcName.text(result.data.data[i].srvcNm);
+										basicSrvcUser.text(result.data.data[i].basicsUsrCnt + " Users");
 									}
 									if( result.data.data[i].srvcCd == "02" ){
 										console.log(" Service Name/Price : " + result.data.data[i].srvcNm + " / " + result.data.data[i].srvcUprc );
 										// TO-DO : Premium 가격 Label 변경. 
 										let premiumSrvc = $("#premiumSrvc");
 										let premiumSrvcName = $("#premiumSrvcName");
+										let premiumSrvcUser = $("#premiumSrvcUser");
 										premiumSrvc.text("$ " +  result.data.data[i].srvcUprc);
 										premiumSrvcName.text(result.data.data[i].srvcNm);
+										premiumSrvcUser.text(result.data.data[i].basicsUsrCnt + " Users");
 									}
 								}
 								
