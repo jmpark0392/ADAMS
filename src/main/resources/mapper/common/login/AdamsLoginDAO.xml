@@ -56,6 +56,59 @@
         <result property="usrPassword" column="usrPassword"/>
     </resultMap>
     
+       <!-- 마이페이지 - 계정 생성 누적일 수 조회를 위한 resultMap -->
+    <resultMap id="regDtmTotal" type="com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO">
+        <result property="regDtmTotal" column="regDtmTotal"/>
+    </resultMap>
+    
+    <!-- 마이페이지 - 가장 최근에 로그인 했던 날짜 조회를 위한 resultMap -->
+    <resultMap id="lastLoginDtm" type="com.rds.adams.web.common.login.dto.AdamsLastLoginDtmDTO">
+        <result property="lastLoginDtm" column="lastLoginDtm"/>
+    </resultMap>
+    
+    <!-- 마이페이지 - 로그인 총 횟수 조회를 위한 resultMap -->
+    <resultMap id="loginCntTotal" type="com.rds.adams.web.common.login.dto.AdamsLoginCntTotalDTO">
+        <result property="loginCntTotal" column="loginCntTotal"/>
+    </resultMap>
+    
+    <!-- 마이페이지 - (전날 기준)30일간 일별 로그인 횟수 조회를 위한 resultMap -->
+    <resultMap id="monthLoginCnt" type="com.rds.adams.web.common.login.dto.AdamsMonthLoginCntDTO">
+        <result property="accDtm" column="accDtm"/>
+        <result property="loginCnt" column="loginCnt"/>
+    </resultMap>
+    
+    <!-- 마이페이지 - 가장 최근에 파일 업로드 했던 날짜 조회를 위한 resultMap -->
+    <resultMap id="lastUploadDtm" type="com.rds.adams.web.common.login.dto.AdamsLastUploadDtmDTO">
+        <result property="lastUploadDtm" column="lastUploadDtm"/>
+    </resultMap>
+    
+    <!-- 마이페이지 - 파일 업로드 총 횟수 조회를 위한 resultMap -->
+    <resultMap id="uploadCntTotal" type="com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO">
+        <result property="uploadCntTotal" column="uploadCntTotal"/>
+    </resultMap>
+    
+    <!-- 마이페이지 - (전날 기준)30일간 일별 파일 업로드 횟수 조회를 위한 resultMap -->
+    <resultMap id="monthUploadCnt" type="com.rds.adams.web.common.login.dto.AdamsMonthUploadCntDTO">
+        <result property="uploadStrDtm" column="uploadStrDtm"/>
+        <result property="uploadCnt" column="uploadCnt"/>
+    </resultMap>
+    
+    <!-- 마이페이지 - 가장 최근에 배치를 실행했던 날짜 조회를 위한 resultMap -->
+    <resultMap id="lastBatDtm" type="com.rds.adams.web.common.login.dto.AdamsLastBatDtmDTO">
+        <result property="lastBatDtm" column="lastBatDtm"/>
+    </resultMap>
+    
+    <!-- 마이페이지 - 배치를 실행한 총 횟수 조회를 위한 resultMap -->
+    <resultMap id="batCntTotal" type="com.rds.adams.web.common.login.dto.AdamsBatCntTotalDTO">
+        <result property="batCntTotal" column="batCntTotal"/>
+    </resultMap>
+    
+    <!-- 마이페이지 - (전날 기준)30일간 일별 배치를 실행한 횟수 조회를 위한 resultMap -->
+    <resultMap id="monthBatCnt" type="com.rds.adams.web.common.login.dto.AdamsMonthBatCntDTO">
+        <result property="batStrDtm" column="batStrDtm"/>
+        <result property="batCnt" column="batCnt"/>
+    </resultMap>
+    
     <!-- 일반 로그인 -->
     <select id="actionLogin" resultMap="login">
         SELECT
@@ -436,4 +489,163 @@
            AND A.CS_NO = #{csNo}
     </select>
     
+    <!-- 마이페이지 - 계정 생성 누적일 수 조회 -->
+    <select id="selectRegDtmTotal" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="regDtmTotal">
+        SELECT
+               ISNULL(DATEDIFF(DAY, FRST_REG_DTM, GETDATE()), 0) AS regDtmTotal
+          FROM RDSDB.[dbo].[TB_USR_MNG_LST]
+         WHERE 1=1
+           AND USR_ID = #{usrId}
+    </select>
+    
+    <!-- 마이페이지 - 가장 최근에 로그인 했던 날짜 조회 -->
+    <select id="selectLastLoginDtm" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="lastLoginDtm">
+        SELECT
+               ISNULL(CONVERT(CHAR(19), FRST_REG_DTM, 20), CONVERT(CHAR(19), GETDATE(), 20)) AS lastLoginDtm
+          FROM RDSDB.[dbo].[TB_USR_LOGIN_HIST]
+         WHERE 1=1
+           AND USR_ID = #{usrId}
+		 ORDER BY FRST_REG_DTM DESC
+		OFFSET 1 ROWS
+		 FETCH NEXT 1 ROWS ONLY
+    </select>
+    
+    <!-- 마이페이지 - 로그인 총 횟수 조회 -->
+    <select id="selectLoginCntTotal" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="loginCntTotal">
+        SELECT
+               ISNULL(COUNT(*), 1) AS loginCntTotal
+          FROM RDSDB.[dbo].[TB_USR_LOGIN_HIST]
+         WHERE 1=1
+           AND USR_ID = #{usrId}
+    </select>
+    
+    <!-- 마이페이지 - (전날 기준)30일간 일별 로그인 횟수 조회 -->
+    <select id="selectMonthLoginCnt" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="monthLoginCnt">
+    <![CDATA[
+     WITH TB_LOGIN_CNT AS 
+	        (
+	        SELECT 
+	        	   COUNT(SEQ_NO) AS LOGIN_CNT
+	        	  ,ACC_DTM
+	         FROM  [dbo].TB_USR_LOGIN_HIST
+			 WHERE USR_ID = #{usrId}
+			   AND GETDATE()-30 <= ACC_DTM
+		  	 GROUP BY ACC_DTM
+		  ) 
+		, TB_ALL_DTM AS (
+			SELECT   
+				  	 CONVERT(char(10), DATEADD(d, -number, GETDATE()), 23) AS ACC_DTM
+			   FROM  master..spt_values
+			   WHERE type = 'P' and number <= 30
+		)
+		SELECT 
+			TOP(30) 
+		   	A.ACC_DTM AS accDtm
+		  	,ISNULL(LOGIN_CNT, 0) AS loginCnt
+		FROM TB_ALL_DTM A
+		LEFT OUTER JOIN TB_LOGIN_CNT B
+					ON A.ACC_DTM=B.ACC_DTM
+		ORDER BY A.ACC_DTM
+    ]]>
+    </select>
+    
+    <!-- 마이페이지 - 가장 최근에 파일 업로드 했던 날짜 조회-->
+    <select id="selectLastUploadDtm" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="lastUploadDtm">
+        SELECT
+        	   TOP(1)
+               ISNULL(CONVERT(CHAR(19), LOAD_STR_DTM, 20), CONVERT(CHAR(19), GETDATE(), 20)) AS lastUploadDtm
+          FROM RDSDB.[dbo].[TB_UPL_HIST]
+         WHERE 1=1
+           AND FNL_UPD_EMP_NO = #{usrId}
+		 ORDER BY LOAD_STR_DTM DESC
+    </select>
+    
+    <!-- 마이페이지 - 파일 업로드 총 횟수 조회-->
+    <select id="selectUploadCntTotal" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="uploadCntTotal">
+        SELECT
+               ISNULL(COUNT(*), 0) AS uploadCntTotal
+          FROM RDSDB.[dbo].[TB_UPL_HIST]
+         WHERE 1=1
+           AND FNL_UPD_EMP_NO = #{usrId}
+    </select>
+    
+    <!-- 마이페이지 - (전날 기준)30일간 일별 파일 업로드 횟수 조회-->
+    <select id="selectMonthUploadCnt" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="monthUploadCnt">
+    <![CDATA[
+     WITH TB_UPLOAD_CNT AS 
+	        (
+	        SELECT 
+	        	   COUNT(SEQ_NO) AS UPLOAD_CNT
+	        	  ,CONVERT(char(10), LOAD_STR_DTM, 23) AS LOAD_STR_DTM
+	         FROM  [dbo].TB_UPL_HIST
+			 WHERE FNL_UPD_EMP_NO = #{usrId}
+			   AND GETDATE()-30 <= LOAD_STR_DTM
+		  	 GROUP BY CONVERT(CHAR(10), LOAD_STR_DTM, 23)
+		  ) 
+		, TB_ALL_DTM AS (
+			SELECT   
+				  	 CONVERT(char(10), DATEADD(d, -number, GETDATE()), 23) AS LOAD_STR_DTM
+			   FROM  master..spt_values
+			   WHERE type = 'P' and number <= 30
+		)
+		SELECT 
+			TOP(30) 
+		   	A.LOAD_STR_DTM AS uploadStrDtm
+		  	,ISNULL(UPLOAD_CNT, 0) AS uploadCnt
+		FROM TB_ALL_DTM A
+		LEFT OUTER JOIN TB_UPLOAD_CNT B
+					ON A.LOAD_STR_DTM=B.LOAD_STR_DTM
+		ORDER BY A.LOAD_STR_DTM
+    ]]>
+    </select>
+    
+    <!-- 마이페이지 - 가장 최근에 배치 실행 했던 날짜 조회-->
+    <select id="selectLastBatDtm" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="lastBatDtm">
+        SELECT
+        	   TOP(1)
+               ISNULL(CONVERT(CHAR(19), BAT_STR_DTM, 20), CONVERT(CHAR(19), GETDATE(), 20)) AS lastBatDtm
+          FROM RDSDB.[dbo].[TB_BAT_RST_LST]
+         WHERE 1=1
+           AND FNL_UPD_EMP_NO = #{usrId}
+		 ORDER BY BAT_STR_DTM DESC
+    </select>
+    
+    <!-- 마이페이지 - 배치 실행 총 횟수 조회-->
+    <select id="selectBatCntTotal" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="batCntTotal">
+        SELECT
+               ISNULL(COUNT(BAT_EXE_ID), 0) AS batCntTotal
+          FROM RDSDB.[dbo].[TB_BAT_RST_LST]
+         WHERE 1=1
+           AND FNL_UPD_EMP_NO = #{usrId}
+    </select>
+    
+    <!-- 마이페이지 - (전날 기준)30일간 일별 배치 실행 횟수 조회-->
+    <select id="selectMonthBatCnt" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="monthBatCnt">
+    <![CDATA[
+     WITH TB_BAT_CNT AS 
+	        (
+	        SELECT 
+	        	   COUNT(BAT_EXE_ID) AS BAT_CNT
+	        	  ,CONVERT(char(10), BAT_STR_DTM, 23) AS BAT_STR_DTM
+	         FROM  [dbo].TB_BAT_RST_LST
+			 WHERE FNL_UPD_EMP_NO = #{usrId}
+			   AND GETDATE()-30 <= BAT_STR_DTM
+		  	 GROUP BY CONVERT(CHAR(10), BAT_STR_DTM, 23)
+		  ) 
+		, TB_ALL_DTM AS (
+			SELECT   
+				  	 CONVERT(char(10), DATEADD(d, -number, GETDATE()), 23) AS BAT_STR_DTM
+			   FROM  master..spt_values
+			   WHERE type = 'P' and number <= 30
+		)
+		SELECT 
+			TOP(30) 
+		   	A.BAT_STR_DTM AS batStrDtm
+		  	,ISNULL(BAT_CNT, 0) AS batCnt
+		FROM TB_ALL_DTM A
+		LEFT OUTER JOIN TB_BAT_CNT B
+					ON A.BAT_STR_DTM=B.BAT_STR_DTM
+		ORDER BY A.BAT_STR_DTM
+    ]]>
+    </select>   
 </mapper>

@@ -4,11 +4,22 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.rds.adams.web.common.login.dto.AdamsBatCntTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.common.login.dto.AdamsFindPwDTO;
+import com.rds.adams.web.common.login.dto.AdamsLastBatDtmDTO;
+import com.rds.adams.web.common.login.dto.AdamsLastLoginDtmDTO;
+import com.rds.adams.web.common.login.dto.AdamsLastUploadDtmDTO;
+import com.rds.adams.web.common.login.dto.AdamsLoginCntTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.common.login.dto.AdamsMonthBatCntDTO;
+import com.rds.adams.web.common.login.dto.AdamsMonthLoginCntDTO;
+import com.rds.adams.web.common.login.dto.AdamsMonthUploadCntDTO;
+import com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO;
 import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
+import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
+import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 
 /**
  * 일반 로그인을 처리하는 비즈니스 구현 클래스
@@ -121,4 +132,83 @@ public interface AdamsLoginDAO {
 	 */
 	public AdamsCsNoDTO selectCsNm(AdamsCsNoDTO vo) ;
 	
+	/**
+	 * 마이페이지에서 계정을 생성한 후 누적일 수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsRegDtmTotalDTO
+	 * @exception Exception
+	 */
+	public AdamsRegDtmTotalDTO selectRegDtmTotal(AdamsMypageUsrIdDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 오늘을 제외하고 가장 최근에 로그인 했던 날짜를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsLastLoginDtmDTO
+	 * @exception Exception
+	 */
+	public AdamsLastLoginDtmDTO selectLastLoginDtm(AdamsMypageUsrIdDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 로그인 총 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsLoginCntTotalDTO
+	 * @exception Exception
+	 */
+	public AdamsLoginCntTotalDTO selectLoginCntTotal(AdamsMypageUsrIdDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 (전날 기준)30일간 일별 로그인 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return List<AdamsMonthLoginCntDTO>
+	 * @exception Exception
+	 */
+	public List<AdamsMonthLoginCntDTO> selectMonthLoginCnt(AdamsMypageUsrIdDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 오늘을 제외하고 가장 최근에 파일 업로드 했던 날짜를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsLastUploadDtmDTO
+	 * @exception Exception
+	 */
+	public AdamsLastUploadDtmDTO selectLastUploadDtm(AdamsMypageUsrIdDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 파일 업로드 총 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsUploadCntTotalDTO
+	 * @exception Exception
+	 */
+	public AdamsUploadCntTotalDTO selectUploadCntTotal(AdamsMypageUsrIdDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 (전날 기준)30일간 일별 파일 업로드 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return List<AdamsMonthUploadCntDTO>
+	 * @exception Exception
+	 */
+	public List<AdamsMonthUploadCntDTO> selectMonthUploadCnt(AdamsMypageUsrIdDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 오늘을 제외하고 가장 최근에 배치 실행 했던 날짜 를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsLastBatDtmDTO
+	 * @exception Exception
+	 */
+	public AdamsLastBatDtmDTO selectLastBatDtm(AdamsMypageUsrIdDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 배치 실행 총 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsBatCntTotalDTO
+	 * @exception Exception
+	 */
+	public AdamsBatCntTotalDTO selectBatCntTotal(AdamsMypageUsrIdDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 (전날 기준)30일간 일별 배치를 실행한 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return List<AdamsMonthBatCntDTO>
+	 * @exception Exception
+	 */
+	public List<AdamsMonthBatCntDTO> selectMonthBatCnt(AdamsMypageUsrIdDTO vo) ;
 }

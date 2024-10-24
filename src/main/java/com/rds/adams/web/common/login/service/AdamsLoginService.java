@@ -16,6 +16,17 @@ import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
 import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.core.utils.EmailUtil;
 import com.rds.adams.web.core.utils.dto.EmailDTO;
+import com.rds.adams.web.common.login.dto.AdamsBatCntTotalDTO;
+import com.rds.adams.web.common.login.dto.AdamsLastBatDtmDTO;
+import com.rds.adams.web.common.login.dto.AdamsLastLoginDtmDTO;
+import com.rds.adams.web.common.login.dto.AdamsLastUploadDtmDTO;
+import com.rds.adams.web.common.login.dto.AdamsLoginCntTotalDTO;
+import com.rds.adams.web.common.login.dto.AdamsMonthBatCntDTO;
+import com.rds.adams.web.common.login.dto.AdamsMonthLoginCntDTO;
+import com.rds.adams.web.common.login.dto.AdamsMonthUploadCntDTO;
+import com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO;
+import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
+import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 
 import egovframework.let.utl.fcc.service.EgovNumberUtil;
 import egovframework.let.utl.fcc.service.EgovStringUtil;
@@ -352,5 +363,208 @@ public class AdamsLoginService {
 			return outVO;
 		}
 
+	}
+	
+	/**
+	 * 마이페이지에서 계정을 생성한 후 누적일 수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsRegDtmTotalDTO
+	 * @exception Exception
+	 */
+	public AdamsRegDtmTotalDTO selectRegDtmTotal(AdamsMypageUsrIdDTO vo) {
+		
+		log.debug(" AdamsMypageUsrIdDTO : " + vo.getUsrId() );
+		
+		// 1. 사용자 아이디를 이용해 계정을 생성한 후부터 오늘까지의 누적일을 계산한다.
+		AdamsRegDtmTotalDTO adamsRegDtmTotalDTO = adamsLoginDAO.selectRegDtmTotal(vo);		
+		
+		// 2. 결과를 리턴한다.
+		if (adamsRegDtmTotalDTO != null ) {
+			return adamsRegDtmTotalDTO;
+		} else {
+			adamsRegDtmTotalDTO = new AdamsRegDtmTotalDTO();
+		}
+		return adamsRegDtmTotalDTO;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 오늘을 제외하고 가장 최근에 로그인 했던 날짜를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsLastLoginDtmDTO
+	 * @exception Exception
+	 */
+	public AdamsLastLoginDtmDTO selectLastLoginDtm (AdamsMypageUsrIdDTO vo) {
+				
+		// 1. 사용자 아이디를 이용해 사용자가 오늘을 제외하고 가장 최근에 로그인 했던 날짜를 조회한다.
+		AdamsLastLoginDtmDTO adamsLastLoginDtmDTO = adamsLoginDAO.selectLastLoginDtm(vo);
+		
+		// 2. 결과를 리턴한다.		
+		if (adamsLastLoginDtmDTO != null && !adamsLastLoginDtmDTO.getLastLoginDtm().equals("")) {
+			return adamsLastLoginDtmDTO;
+		} else {
+			adamsLastLoginDtmDTO = new AdamsLastLoginDtmDTO();
+		}
+		return adamsLastLoginDtmDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 로그인 총 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsLoginCntTotalDTO
+	 * @exception Exception
+	 */
+	public AdamsLoginCntTotalDTO selectLoginCntTotal (AdamsMypageUsrIdDTO vo) {
+		
+		// 1. 사용자 아이디를 이용해 로그인 한 총 횟수를 조회한다.
+		AdamsLoginCntTotalDTO adamsLoginCntTotalDTO = adamsLoginDAO.selectLoginCntTotal(vo);
+		
+		// 2. 결과를 리턴한다.	
+		if (adamsLoginCntTotalDTO != null ) {
+			return adamsLoginCntTotalDTO;
+		} else {
+			adamsLoginCntTotalDTO = new AdamsLoginCntTotalDTO();
+		}
+		return adamsLoginCntTotalDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 (전날 기준)30일간 일별 로그인 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return List<AdamsMonthLoginCntDTO>
+	 * @exception Exception
+	 */
+	public List<AdamsMonthLoginCntDTO> selectMonthLoginCnt (AdamsMypageUsrIdDTO vo) {
+		
+		// 1. 사용자 아이디를 이용해 마이페이지에서 30일간 일별 로그인 횟수 리스트를 조회한다.
+		List<AdamsMonthLoginCntDTO> adamsMonthLoginCntDTOs = adamsLoginDAO.selectMonthLoginCnt(vo);
+
+		// 2. 결과를 리턴한다.
+		if (adamsMonthLoginCntDTOs != null ) {
+			return adamsMonthLoginCntDTOs;
+		} else {
+			adamsMonthLoginCntDTOs = new ArrayList<>();
+		}
+		return adamsMonthLoginCntDTOs;
+	}
+	
+	/**
+	 * 마이페이지에서 오늘을 제외하고 가장 최근에 파일 업로드 했던 날짜를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsLastUploadDtmDTO
+	 * @exception Exception
+	 */
+	public AdamsLastUploadDtmDTO selectLastUploadDtm(AdamsMypageUsrIdDTO vo) {
+
+		// 1. 사용자 아이디를 이용해 사용자가 오늘을 제외하고 가장 최근에 파일 업로드 했던 날짜를 조회한다.
+		AdamsLastUploadDtmDTO adamsLastUploadDtmDTO = adamsLoginDAO.selectLastUploadDtm(vo);
+				
+		// 2. 결과를 리턴한다.		
+		if (adamsLastUploadDtmDTO != null && !adamsLastUploadDtmDTO.getLastUploadDtm().equals("")) {
+			return adamsLastUploadDtmDTO;
+		} else {
+			adamsLastUploadDtmDTO = new AdamsLastUploadDtmDTO();
+		}
+		return adamsLastUploadDtmDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 파일 업로드 총 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsUploadCntTotalDTO
+	 * @exception Exception
+	 */
+	public AdamsUploadCntTotalDTO selectUploadCntTotal(AdamsMypageUsrIdDTO vo) {
+		
+		// 1. 사용자 아이디를 이용해 파일 업로드 한 총 횟수를 조회한다.
+		AdamsUploadCntTotalDTO adamsUploadCntTotalDTO = adamsLoginDAO.selectUploadCntTotal(vo);
+				
+		// 2. 결과를 리턴한다.	
+		if (adamsUploadCntTotalDTO != null ) {
+			return adamsUploadCntTotalDTO;
+		} else {
+			adamsUploadCntTotalDTO = new AdamsUploadCntTotalDTO();
+		}
+		return adamsUploadCntTotalDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 (전날 기준)30일간 일별 파일 업로드 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return List<AdamsMonthUploadCntDTO>
+	 * @exception Exception
+	 */
+	public List<AdamsMonthUploadCntDTO> selectMonthUploadCnt(AdamsMypageUsrIdDTO vo){
+		
+		// 1. 사용자 아이디를 이용해 마이페이지에서 30일간 일별 파일업로드 횟수 리스트를 조회한다.
+		List<AdamsMonthUploadCntDTO> adamsMonthUploadCntDTOs = adamsLoginDAO.selectMonthUploadCnt(vo);
+
+		// 2. 결과를 리턴한다.
+		if (adamsMonthUploadCntDTOs != null ) {
+			return adamsMonthUploadCntDTOs;
+		} else {
+			adamsMonthUploadCntDTOs = new ArrayList<>();
+		}
+		return adamsMonthUploadCntDTOs;
+	}
+	
+	/**
+	 * 마이페이지에서 오늘을 제외하고 가장 최근에 배치 실행 했던 날짜를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsLastBatDtmDTO
+	 * @exception Exception
+	 */
+	public AdamsLastBatDtmDTO selectLastBatDtm(AdamsMypageUsrIdDTO vo) {
+
+		// 1. 사용자 아이디를 이용해 사용자가 오늘을 제외하고 가장 최근에 배치를 실행 했던 날짜를 조회한다.
+		AdamsLastBatDtmDTO adamsLastBatDtmDTO = adamsLoginDAO.selectLastBatDtm(vo);
+				
+		// 2. 결과를 리턴한다.		
+		if (adamsLastBatDtmDTO != null && !adamsLastBatDtmDTO.getLastBatDtm().equals("")) {
+			return adamsLastBatDtmDTO;
+		} else {
+			adamsLastBatDtmDTO = new AdamsLastBatDtmDTO();
+		}
+		return adamsLastBatDtmDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 배치 실행 총 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return AdamsBatCntTotalDTO
+	 * @exception Exception
+	 */
+	public AdamsBatCntTotalDTO selectBatCntTotal(AdamsMypageUsrIdDTO vo) {
+		
+		// 1. 사용자 아이디를 이용해 배치를 실행한 총 횟수를 조회한다.
+		AdamsBatCntTotalDTO adamsBatCntTotalDTO = adamsLoginDAO.selectBatCntTotal(vo);
+						
+		// 2. 결과를 리턴한다.	
+		if (adamsBatCntTotalDTO != null ) {
+			return adamsBatCntTotalDTO;
+		} else {
+			adamsBatCntTotalDTO = new AdamsBatCntTotalDTO();
+		}
+		return adamsBatCntTotalDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 (전날 기준)30일간 일별 배치를 실행한 횟수를 조회한다
+	 * @param vo AdamsMypageUsrIdDTO
+	 * @return List<AdamsMonthBatCntDTO>
+	 * @exception Exception
+	 */
+	public List<AdamsMonthBatCntDTO> selectMonthBatCnt(AdamsMypageUsrIdDTO vo){
+		
+		// 1. 사용자 아이디를 이용해 마이페이지에서 30일간 일별 배치를 실행한 횟수 리스트를 조회한다.
+		List<AdamsMonthBatCntDTO> adamsMonthBatCntDTOs = adamsLoginDAO.selectMonthBatCnt(vo);
+
+		// 2. 결과를 리턴한다.
+		if (adamsMonthBatCntDTOs != null ) {
+				return adamsMonthBatCntDTOs;
+		} else {
+			adamsMonthBatCntDTOs = new ArrayList<>();
+		}
+		return adamsMonthBatCntDTOs;
 	}
 }

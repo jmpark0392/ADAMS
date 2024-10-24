@@ -24,12 +24,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.jwt.AdamsJwtTokenUtil;
+import com.rds.adams.web.common.login.dto.AdamsBatCntTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.common.login.dto.AdamsFindPwDTO;
+import com.rds.adams.web.common.login.dto.AdamsLastBatDtmDTO;
+import com.rds.adams.web.common.login.dto.AdamsLastLoginDtmDTO;
+import com.rds.adams.web.common.login.dto.AdamsLastUploadDtmDTO;
+import com.rds.adams.web.common.login.dto.AdamsLoginCntTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsMenuDTO;
+import com.rds.adams.web.common.login.dto.AdamsMonthBatCntDTO;
+import com.rds.adams.web.common.login.dto.AdamsMonthLoginCntDTO;
+import com.rds.adams.web.common.login.dto.AdamsMonthUploadCntDTO;
+import com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO;
 import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
+import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsResultDTO;
+import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 import com.rds.adams.web.common.login.service.AdamsLoginService;
 import com.rds.adams.web.core.utils.StringUtil;
 
@@ -465,4 +476,265 @@ public class AdamsLoginController {
 		return resultMap;
 	}
 
+
+	
+	/**
+	 * 마이페이지에서 계정을 생성한 후 누적일 수를 조회한다
+	 * @param 
+	 * @return result - 마이페이지에서 계정을 생성한 후 누적일 수
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/mypage/adamsRegDtmTotal", method=RequestMethod.POST, consumes="application/json")
+	public AdamsRegDtmTotalDTO selectRegDtmTotal(@RequestBody AdamsMypageUsrIdDTO adamsMypageUsrIdDTO, HttpServletRequest request) throws Exception {
+		
+		// 1. 세션에서 사용자 정보 가져오기
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String usrEmail = sAdamsLoginDTO.getUsrId();
+		
+		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		
+		// 2. 계정을 생성한 후 누적일 수 가져오기
+		AdamsRegDtmTotalDTO adamsRegDtmTotalDTO = adamsLoginService.selectRegDtmTotal(adamsMypageUsrIdDTO);
+		
+		if(adamsRegDtmTotalDTO != null) {
+			log.info(adamsRegDtmTotalDTO.toString());
+		}else {
+			log.info("adamsRegDtmTotalDTO is null");
+		}
+		return adamsRegDtmTotalDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 오늘을 제외하고 가장 최근에 로그인 했던 날짜를 조회한다
+	 * @param 
+	 * @return result - 오늘을 제외하고 가장 최근에 로그인 했던 날짜
+	 * @exception Exception
+	 */	
+	@RequestMapping(value = "/mypage/adamsLastLoginDtm", method=RequestMethod.POST, consumes="application/json")
+	public AdamsLastLoginDtmDTO selectLastLoginDtm(@RequestBody AdamsMypageUsrIdDTO adamsMypageUsrIdDTO, HttpServletRequest request) throws Exception {
+		
+		// 1. 세션에서 사용자 정보 가져오기
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String usrEmail = sAdamsLoginDTO.getUsrId();
+		
+		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		
+		// 2. 계정을 생성한 후 가장 최근에 로그인 했던 날짜 가져오기
+		AdamsLastLoginDtmDTO adamsLastLoginDtmDTO = adamsLoginService.selectLastLoginDtm(adamsMypageUsrIdDTO);
+		
+		if(adamsLastLoginDtmDTO != null) {
+			log.info(adamsLastLoginDtmDTO.toString());
+		}else {
+			log.info("adamsLastLoginDtmDTO is null");
+		}
+		return adamsLastLoginDtmDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 로그인 총 횟수를 조회한다
+	 * @param 
+	 * @return result - 로그인 총 횟수
+	 * @exception Exception
+	 */	
+	@RequestMapping(value = "/mypage/adamsLoginCntTotal", method=RequestMethod.POST, consumes="application/json")
+	public AdamsLoginCntTotalDTO selectLoginCntTotal(@RequestBody AdamsMypageUsrIdDTO adamsMypageUsrIdDTO, HttpServletRequest request) throws Exception {
+		
+		// 1. 세션에서 사용자 정보 가져오기
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String usrEmail = sAdamsLoginDTO.getUsrId();
+		
+		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		
+		// 2. 계정을 생성한 후 로그인 총 횟수 가져오기
+		AdamsLoginCntTotalDTO adamsLoginCntTotalDTO = adamsLoginService.selectLoginCntTotal(adamsMypageUsrIdDTO);
+		
+		if(adamsLoginCntTotalDTO != null) {
+			log.info(adamsLoginCntTotalDTO.toString());
+		}else {
+			log.info("adamsLoginCntTotalDTO is null");
+		}
+		return adamsLoginCntTotalDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 (전날 기준)30일간 일별 로그인 횟수를 조회한다
+	 * @param 
+	 * @return result - (전날 기준)30일간 일별 로그인 횟수
+	 * @exception Exception
+	 */	
+	@RequestMapping(value = "/mypage/adamsMonthLoginCnt", method=RequestMethod.POST, consumes="application/json")
+	public List<AdamsMonthLoginCntDTO> selectMonthLoginCnt(@RequestBody AdamsMypageUsrIdDTO adamsMypageUsrIdDTO, HttpServletRequest request) throws Exception {
+		
+		// 1. 세션에서 사용자 정보 가져오기
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String usrEmail = sAdamsLoginDTO.getUsrId();
+		
+		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		
+		// 2. 계정을 생성한 후 누적일 수 가져오기
+		List<AdamsMonthLoginCntDTO> adamsMonthLoginCntDTOs = adamsLoginService.selectMonthLoginCnt(adamsMypageUsrIdDTO);
+		
+		if(adamsMonthLoginCntDTOs != null) {
+			log.info(adamsMonthLoginCntDTOs.toString());
+		}else {
+			log.info("adamsMonthLoginCntDTO is null");
+		}
+		return adamsMonthLoginCntDTOs;
+	}
+	
+	/**
+	 * 마이페이지에서 오늘을 제외하고 가장 최근에 파일 업로드 했던 날짜를 조회한다
+	 * @param 
+	 * @return result - 오늘을 제외하고 가장 최근에 파일 업로드 했던 날짜
+	 * @exception Exception
+	 */	
+	@RequestMapping(value = "/mypage/adamsLastUploadDtm", method=RequestMethod.POST, consumes="application/json")
+	public AdamsLastUploadDtmDTO selectLastUploadDtm(@RequestBody AdamsMypageUsrIdDTO adamsMypageUsrIdDTO, HttpServletRequest request) throws Exception {
+		
+		// 1. 세션에서 사용자 정보 가져오기
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String usrEmail = sAdamsLoginDTO.getUsrId();
+		
+		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		
+		// 2. 계정을 생성한 후 가장 최근에 파일 업로드 했던 날짜 가져오기
+		AdamsLastUploadDtmDTO adamsLastUploadDtmDTO = adamsLoginService.selectLastUploadDtm(adamsMypageUsrIdDTO);
+		
+		if(adamsLastUploadDtmDTO != null) {
+			log.info(adamsLastUploadDtmDTO.toString());
+		}else {
+			log.info("adamsLastUploadDtmDTO is null");
+		}
+		return adamsLastUploadDtmDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 파일 업로드 총 횟수를 조회한다
+	 * @param 
+	 * @return result - 파일 업로드 총 횟수
+	 * @exception Exception
+	 */	
+	@RequestMapping(value = "/mypage/adamsUploadCntTotal", method=RequestMethod.POST, consumes="application/json")
+	public AdamsUploadCntTotalDTO selectUploadCntTotal(@RequestBody AdamsMypageUsrIdDTO adamsMypageUsrIdDTO, HttpServletRequest request) throws Exception {
+		
+		// 1. 세션에서 사용자 정보 가져오기
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String usrEmail = sAdamsLoginDTO.getUsrId();
+		
+		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		
+		// 2. 계정을 생성한 후 파일 업로드 총 횟수 가져오기
+		AdamsUploadCntTotalDTO adamsUploadCntTotalDTO = adamsLoginService.selectUploadCntTotal(adamsMypageUsrIdDTO);
+		
+		if(adamsUploadCntTotalDTO != null) {
+			log.info(adamsUploadCntTotalDTO.toString());
+		}else {
+			log.info("adamsUploadCntTotalDTO is null");
+		}
+		return adamsUploadCntTotalDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 (전날 기준)30일간 일별 파일 업로드 횟수를 조회한다
+	 * @param 
+	 * @return result - (전날 기준)30일간 일별 파일 업로드 횟수
+	 * @exception Exception
+	 */	
+	@RequestMapping(value = "/mypage/adamsMonthUploadCnt", method=RequestMethod.POST, consumes="application/json")
+	public List<AdamsMonthUploadCntDTO> selectMonthUploadCnt(@RequestBody AdamsMypageUsrIdDTO adamsMypageUsrIdDTO, HttpServletRequest request) throws Exception {
+		
+		// 1. 세션에서 사용자 정보 가져오기
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String usrEmail = sAdamsLoginDTO.getUsrId();
+		
+		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		
+		// 2. 계정을 생성한 후 (전날 기준)30일간 일별 파일 업로드 수 가져오기
+		List<AdamsMonthUploadCntDTO> adamsMonthUploadCntDTOs = adamsLoginService.selectMonthUploadCnt(adamsMypageUsrIdDTO);
+		
+		if(adamsMonthUploadCntDTOs != null) {
+			log.info(adamsMonthUploadCntDTOs.toString());
+		}else {
+			log.info("adamsMonthUploadCntDTOs is null");
+		}
+		return adamsMonthUploadCntDTOs;
+	}
+	
+	/**
+	 * 마이페이지에서 오늘을 제외하고 가장 최근에 배치 실행 했던 날짜를 조회한다
+	 * @param 
+	 * @return result - 오늘을 제외하고 가장 최근에 배치실행 했던 날짜
+	 * @exception Exception
+	 */	
+	@RequestMapping(value = "/mypage/adamsLastBatDtm", method=RequestMethod.POST, consumes="application/json")
+	public AdamsLastBatDtmDTO selectLastBatDtm(@RequestBody AdamsMypageUsrIdDTO adamsMypageUsrIdDTO, HttpServletRequest request) throws Exception {
+		
+		// 1. 세션에서 사용자 정보 가져오기
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String usrEmail = sAdamsLoginDTO.getUsrId();
+		
+		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		
+		// 2. 계정을 생성한 후 가장 최근에 배치를 실행 했던 날짜 가져오기
+		AdamsLastBatDtmDTO adamsLastBatDtmDTO = adamsLoginService.selectLastBatDtm(adamsMypageUsrIdDTO);
+		
+		if(adamsLastBatDtmDTO != null) {
+			log.info(adamsLastBatDtmDTO.toString());
+		}else {
+			log.info("adamsLastBatDtmDTO is null");
+		}
+		return adamsLastBatDtmDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 배치 실행 총 횟수를 조회한다
+	 * @param 
+	 * @return result - 배치 실행 총 횟수
+	 * @exception Exception
+	 */	
+	@RequestMapping(value = "/mypage/adamsBatCntTotal", method=RequestMethod.POST, consumes="application/json")
+	public AdamsBatCntTotalDTO selectBatCntTotal(@RequestBody AdamsMypageUsrIdDTO adamsMypageUsrIdDTO, HttpServletRequest request) throws Exception {
+		
+		// 1. 세션에서 사용자 정보 가져오기
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String usrEmail = sAdamsLoginDTO.getUsrId();
+		
+		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		
+		// 2. 계정을 생성한 후 배치 실행 총 횟수 가져오기
+		AdamsBatCntTotalDTO adamsBatCntTotalDTO = adamsLoginService.selectBatCntTotal(adamsMypageUsrIdDTO);
+		
+		if(adamsBatCntTotalDTO != null) {
+			log.info(adamsBatCntTotalDTO.toString());
+		}else {
+			log.info("adamsBatCntTotalDTO is null");
+		}
+		return adamsBatCntTotalDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 (전날 기준)30일간 일별 배치를 실행한 횟수를 조회한다
+	 * @param 
+	 * @return result - (전날 기준)30일간 일별 배치를 실행한 횟수
+	 * @exception Exception
+	 */	
+	@RequestMapping(value = "/mypage/adamsMonthBatCnt", method=RequestMethod.POST, consumes="application/json")
+	public List<AdamsMonthBatCntDTO> selectMonthBatCnt(@RequestBody AdamsMypageUsrIdDTO adamsMypageUsrIdDTO, HttpServletRequest request) throws Exception {
+		
+		// 1. 세션에서 사용자 정보 가져오기
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		String usrEmail = sAdamsLoginDTO.getUsrId();
+		
+		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		
+		// 2. 계정을 생성한 후 (전날 기준)30일간 일별 배치를 실행한 횟수 가져오기
+		List<AdamsMonthBatCntDTO> adamsMonthBatCntDTOs = adamsLoginService.selectMonthBatCnt(adamsMypageUsrIdDTO);
+		
+		if(adamsMonthBatCntDTOs != null) {
+			log.info(adamsMonthBatCntDTOs.toString());
+		}else {
+			log.info("adamsMonthBatCntDTOs is null");
+		}
+		return adamsMonthBatCntDTOs;
+	}
 }

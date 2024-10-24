@@ -388,5 +388,338 @@
 			// @formatter:on
 		</script>
 
+		<script>
+			$(document).ready(function () {
+				console.log("Document is ready.");
+				//화면 접속시 바로 조회
+				main();
+			});
+			
+			function main() {
+				// 그리드 초기화 및 데이터 로드
+				console.log("Initializing SlickGrid...");
+				
+				// Controller에서 호출 테스트 - 콘솔 확인
+				//getAdamsRegDtmTotal(); // 계정 생성 누적일 수
+				//getAdamsLastLoginDtm(); // 가장 최근에 로그인한 날짜
+				//getAdamsLoginCntTotal(); // 로그인 총 횟수
+				getAdamsMonthLoginCnt(); // (전날 기준) 30일간 일별 로그인 횟수
+				
+				//getAdamsLastUploadDtm(); // 가장 최근에 파일 업로드 했던 날짜
+				//getAdamsUploadCntTotal(); // 파일 업로드 총 횟수
+				//getAdamsMonthUploadCnt(); // (전날 기준)30일간 일별 파일 업로드 횟수
+				
+				//getAdamsLastBatDtm(); // 가장 최근에 배치를 실행했던 날짜
+				//getAdamsBatCntTotal(); // 배치 실행 총 횟수
+				//getAdamsMonthBatCnt(); // (전날 기준) 30일간 일별 배치 실행 횟수
+
+			}
+			
+			function getAdamsRegDtmTotal() {
+				// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
+				$.ajax({
+					type: "post",
+					url: "/mypage/adamsRegDtmTotal",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({
+						usrId: ""
+					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						console.log("AJAX RegDtmTotal request successful. Data received:", data);
+						var sMsg = data.loginMsg;
+						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+							alert(sMsg);
+						}
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
+			}
+			
+			function getAdamsLastLoginDtm() {
+				// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
+				$.ajax({
+					type: "post",
+					url: "/mypage/adamsLastLoginDtm",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({
+						usrId: ""
+					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						console.log("AJAX LastLoginDtm request successful. Data received:", data);
+						var sMsg = data.loginMsg;
+						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+							alert(sMsg);
+						}
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
+			}
+			
+			function getAdamsLoginCntTotal() {
+				// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
+				$.ajax({
+					type: "post",
+					url: "/mypage/adamsLoginCntTotal",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({
+						usrId: ""
+					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						console.log("AJAX LoginCntTotal request successful. Data received:", data);
+						var sMsg = data.loginMsg;
+						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+							alert(sMsg);
+						}
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
+			}
+			
+			function getAdamsMonthLoginCnt() {
+				// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
+				$.ajax({
+					type: "post",
+					url: "/mypage/adamsMonthLoginCnt",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({
+						usrId: ""
+					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						console.log("AJAX MonthLoginCnt request successful. Data received:", data);
+						// 주석처리 검토
+						var sMsg = data.loginMsg;
+						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+							alert(sMsg);
+						}
+						
+						// 차트를 위한 리스트 변환
+						/*
+						loginDtm = [], loginCnt = []
+						
+						loginDtm.forEach(function(data){
+							loginDtm.push(data.accDtm);
+						});
+						loginCnt.forEach(function(data){
+							loginCnt.push(data.loginCnt);
+						});
+
+						console.log("loginDtm : ", loginDtm);
+						console.log("loginCnt : ", loginCnt);
+						*/
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
+			}
+			
+			function getAdamsLastUploadDtm() {
+				// 가장 최근에 파일 업로드 했던 날짜
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
+				$.ajax({
+					type: "post",
+					url: "/mypage/adamsLastUploadDtm",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({
+						usrId: ""
+					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						console.log("AJAX LastUploadDtm request successful. Data received:", data);
+						var sMsg = data.loginMsg;
+						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+							alert(sMsg);
+						}
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
+			}
+			
+			function getAdamsUploadCntTotal() {
+				// 파일 업로드 총 횟수
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
+				$.ajax({
+					type: "post",
+					url: "/mypage/adamsUploadCntTotal",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({
+						usrId: ""
+					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						console.log("AJAX UploadCntTotal request successful. Data received:", data);
+						var sMsg = data.loginMsg;
+						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+							alert(sMsg);
+						}
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
+			}
+			
+			function getAdamsMonthUploadCnt() {
+				// (전날 기준)30일간 일별 파일 업로드 횟수
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
+				$.ajax({
+					type: "post",
+					url: "/mypage/adamsMonthUploadCnt",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({
+						usrId: ""
+					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						console.log("AJAX MonthUploadCnt request successful. Data received:", data);
+						var sMsg = data.loginMsg;
+						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+							alert(sMsg);
+						}
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
+			}
+			
+			function getAdamsLastBatDtm() {
+				// 가장 최근에 배치를 실행 했던 날짜
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
+				$.ajax({
+					type: "post",
+					url: "/mypage/adamsLastBatDtm",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({
+						usrId: ""
+					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						console.log("AJAX LastBatDtm request successful. Data received:", data);
+						var sMsg = data.loginMsg;
+						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+							alert(sMsg);
+						}
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
+			}
+			
+			function getAdamsBatCntTotal() {
+				// 배치 실행 총 횟수
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
+				$.ajax({
+					type: "post",
+					url: "/mypage/adamsBatCntTotal",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({
+						usrId: ""
+					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						console.log("AJAX BatCntTotal request successful. Data received:", data);
+						var sMsg = data.loginMsg;
+						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+							alert(sMsg);
+						}
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
+			}
+			
+			function getAdamsMonthBatCnt() {
+				// (전날 기준)30일간 일별 배치를 실행한 횟수
+		        var csrfToken = $("meta[name='_csrf_token']").attr("content");
+		        var csrfHeader = "X-CSRF-Token";
+				$.ajax({
+					type: "post",
+					url: "/mypage/adamsMonthBatCnt",
+					async: true,
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({
+						usrId: ""
+					}),
+					beforeSend: function(xhr){
+				        xhr.setRequestHeader(csrfHeader, csrfToken);
+				    },
+					success: function (data) {
+						console.log("AJAX MonthBatCnt request successful. Data received:", data);
+						var sMsg = data.loginMsg;
+						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
+							alert(sMsg);
+						}
+					},
+					error: function (xhr, status, error) {
+						errorHandler(xhr);
+					},
+				});
+			}
+		</script>
 	</th:block>
 </html>
