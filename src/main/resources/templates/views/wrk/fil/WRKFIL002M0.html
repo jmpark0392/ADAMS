@@ -108,139 +108,136 @@
 	</div>
 
 	<script>
-			function checkData(data) {
-				return parentCheckData(data, check_cols);
-			}
-			function getList(input) {
-				console.log("getList input : " + input);
-				var option = {
-				id: "SelectList",
-				type: "post",
-				url: "/WRKFIL002M1SelectList",
-				async: false,
-				dataType: "json",
-				contentType: "application/json; charset=utf-8",
-				data: input,
-				};
+		function checkData(data) {
+		return parentCheckData(data, check_cols);
+		}
 
-				gf_Transaction(option, fn_callback);
-			}
+		function getFileList(input) {
+			console.log("getFileList input : " + input);
+			var option = {
+						  id          : "SelectFileList"
+						, type        : "post"
+						, url         : "/WRKFIL002M0SelectList"
+						, async       : false
+						, dataType    : "json"
+						, contentType : "application/json; charset=utf-8"
+						, data        : JSON.stringify({ dummyStr: "" })
+			};
 
-			function insertList(addedRow) {
-				var option = {
-				id: "insertList",
-				type: "post",
-				url: "/WRKFIL002M0InsertList",
-				async: false,
-				dataType: "text",
-				contentType: "application/json; charset=utf-8",
-				data: addedRow,
-				};
+			gf_Transaction(option, fn_callback);
+		}
+		
+		function getList(input) {
+			console.log("getList input : " + input);
+			var option = {
+						  id          : "SelectList"
+						, type        : "post"
+						, url         : "/WRKFIL002M1SelectList"
+						, async       : false
+						, dataType    : "json"
+						, contentType : "application/json; charset=utf-8"
+						, data: input,
+			};
 
-				gf_Transaction(option, fn_callback);
-			}
+			gf_Transaction(option, fn_callback);
+		}
 
-			function updateList(input) {
-				console.log("updateCs input : " + input);
-				var option = {
-				id: "updateList",
-				type: "post",
-				url: "/WRKFIL002M0UpdateList",
-				async: true,
-				dataType: "text",
-				contentType: "application/json; charset=utf-8",
-				data: input,
-				};
+		function insertList(addedRow) {
+			var option = {
+						  id          : "insertList"
+						, type        : "post"
+						, url         : "/WRKFIL002M0InsertList"
+						, async       : false
+						, dataType    : "text"
+						, contentType : "application/json; charset=utf-8"
+						, data        : addedRow,
+			};
 
-				gf_Transaction(option, fn_callback);
-			}
+			gf_Transaction(option, fn_callback);
+		}
 
-			function deleteList(input) {
-				console.log("deleteCs input : " + input);
-				var option = {
-				id: "deleteList",
-				type: "post",
-				url: "/WRKFIL002M0DeleteList",
-				async: true,
-				dataType: "text",
-				contentType: "application/json; charset=utf-8",
-				data: input,
-				};
-				gf_Transaction(option, fn_callback);
-			}
+		function updateList(input) {
+			console.log("updateList input : " + input);
+			var option = {
+						  id          : "updateList"
+						, type        : "post"
+						, url         : "/WRKFIL002M0UpdateList"
+						, async       : true
+						, dataType    : "text"
+						, contentType : "application/json; charset=utf-8"
+						, data        : input
+			};
+
+			gf_Transaction(option, fn_callback);
+		}
+
+		function deleteList(input) {
+			console.log("deleteList input : " + input);
+			var option = {
+						  id          : "deleteList"
+						, type        : "post"
+						, url         : "/WRKFIL002M0DeleteList"
+						, async       : true
+			 			, dataType    : "text"
+						, contentType : "application/json; charset=utf-8"
+			  			, data        : input
+			};
+
+			gf_Transaction(option, fn_callback);
+		}
 	</script>
 	<script>
 		var selectedValue = "";
 	
 		$(document).ready(function () {
 			console.log("Document is ready.");
-	
-			// MyBatis를 통해 데이터를 가져오는 AJAX 요청
-			$.ajax({
-				type: "post",
-				url: "/WRKFIL002M0SelectList",
-				async: false,
-				dataType: "json",
-				contentType: "application/json; charset=utf-8",
-				data: JSON.stringify({
-				  dummyStr: "",
-				}),
-				success: function (response) {
-				  populateDropdown(response);
-				},
-				error: function (error) {
-				  console.error("Error fetching file names:", error);
-				},
-			  });
-	
-			// DropDown 리스트에 FILE_NM 값을 추가하는 함수
-			function populateDropdown(data) {
-				var dropdown = $("#fileDropdown");
-				data.forEach(function (item) {
-					var option = $("<option></option>").attr("value", item.tblId).text(item.tblId + "(" + item.fileNm + ")");
-					dropdown.append(option);
-				});
-			}
-	
-			$(document).ready(function () {
+			main();
+			// 버튼 클릭 시 선택된 값을 가져오는 이벤트 핸들러
+			$("#fileDropdown").change(function () {
+				selectedValue = $(this).val(); // 선택된 값 가져오기
 				main();
-				
-				// 버튼 클릭 시 선택된 값을 가져오는 이벤트 핸들러
-				$("#fileDropdown").change(function () {
-					selectedValue = $(this).val(); // 선택된 값 가져오기
-					main();
-				});
 			});
 			//main();
 			//화면 접속시 바로 조회
 			//main();
+			getFileList();
+		});
+		
+		
+		// DropDown 리스트에 FILE_NM 값을 추가하는 함수
+		function populateDropdown(data) {
+			var dropdown = $("#fileDropdown");
+			data.forEach(function (item) {
+				var option = $("<option></option>").attr("value", item.tblId).text(item.tblId + "(" + item.fileNm + ")");
+				dropdown.append(option);
+			});
+		}
+
+		// this method will trigger the popup modal to be draggle by mouse click
+		$(document).ready(function () {
+			// we initialize draggable when the modal is shown
+			$('#exampleModal').on('shown.bs.modal', function () {
+				// then we make the modal draggable
+				$(this).find(".modal-dialog").draggable({
+					handle: ".modal-header", // we will restrict dragging to the header
+					// containment: "window"    // we prevent dragging outside the window box for popup container
+				});
 			});
 
-			// this method will trigger the popup modal to be draggle by mouse click
-			$(document).ready(function () {
-				// we initialize draggable when the modal is shown
-				$('#exampleModal').on('shown.bs.modal', function () {
-					// then we make the modal draggable
-					$(this).find(".modal-dialog").draggable({
-						handle: ".modal-header", // we will restrict dragging to the header
-						// containment: "window"    // we prevent dragging outside the window box for popup container
-					});
+			// this will then reset position when the modal is hidden
+			$('#exampleModal').on('hidden.bs.modal', function () {
+				$(this).find(".modal-dialog").css({
+					top: "",
+					left: "",
+					right: "",
+					bottom: ""
 				});
-
-				// this will then reset position when the modal is hidden
-				$('#exampleModal').on('hidden.bs.modal', function () {
-					$(this).find(".modal-dialog").css({
-						top: "",
-						left: "",
-						right: "",
-						bottom: ""
-					});
-				});
+			});
 
 				// // Optional Case:  we can trigger the modal for test pirpose
 				// // this should be romoved when the code is ready for production 
 				// $('.btn-primary').trigger('click');
-			})
+		})
 	
 			var grid;
 			var dataView;
@@ -308,6 +305,10 @@
 				//console.log("fn_callback : " + result.id);
 				if (result.resultCd == "S") {
 					switch (result.id) {
+						case "SelectFileList":
+							console.log("selectFileList");
+							populateDropdown(result.data);
+							break;
 						case "SelectList":
 							
 							fn_setGrid(result.data);
