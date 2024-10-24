@@ -75,13 +75,13 @@
 		    	if ( isNull(vUsrId) == "" ) {
 		            alert("Enter your e-mail.");
 		            $("#inpUsrId").focus();
-		    		return;
+		    		return false;
 		    	}
 
 		    	if ( isNull(vUsrPassword) == "" ) {
 		            alert("Enter your password.");
 		            $("#inpUsrPassword").focus();
-		    		return;
+		    		return false;
 		    	}
 				
 		        // 이메일 형식이 올바르지 않은 경우
@@ -89,7 +89,7 @@
 		            alert("Incorrect e-mail address. Please enter it again."); // 오류 메시지 표시
 		            $("#inpUsrId").focus();
 		            // TO-DO : 테스트 ID 사용 안할 시 주석해제
-		            return;
+		            return false;
 		        }
 				
 		     	// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
@@ -114,6 +114,8 @@
 						var sMsg = data.loginMsg;
 						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
 							alert(sMsg);
+				            $("#inpUsrId").focus();
+				    		return false;
 						}
 						$("#pageName").val(data.redirectUrl);
 						$("#form").submit();
