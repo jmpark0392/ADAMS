@@ -336,7 +336,7 @@ public ResponseEntity<List<ADMSRV001M0R0DTO>> getUserSubscriptionInfo(HttpServle
    * @param inVo User's subscription info.
    * @return User's subscription info list.
    */
-    @RequestMapping(value="/selectSubscriptionList", method=RequestMethod.GET) 
+    @RequestMapping(value="/selectSubscriptionList", method=RequestMethod.POST) 
     public ResponseEntity<List<ADMSRV001M0R0DTO>> selectSubscriptionList(HttpServletRequest request) {
         try {
             // get the user info from the session
@@ -380,7 +380,7 @@ public ResponseEntity<List<ADMSRV001M0R0DTO>> getUserSubscriptionInfo(HttpServle
                 return ResponseEntity.status(401).body(errorResponse);
             }
 
-          
+    
             String csNo = sAdamsLoginDTO.getCsNo();
 
             // fetch the user's content subscription info

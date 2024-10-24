@@ -19,13 +19,13 @@
 									<a class="card card-link card-link-pop h-100">
 										<div class="card-header">
 											<div class="w-100 text-center">
-												<span class="fs-2">Basic Service</span>
+												<span class="fs-2" id="basicSrvcName"> </span>
 											</div>
 										</div>
 										<div class="card-body text-center">
-											<span class="fs-1 fw-bold">$ 3,999</span>&nbsp;&nbsp;&nbsp;<span>per month</span>
+											<span class="fs-1 fw-bold" id="basicSrvc"></span>&nbsp;&nbsp;&nbsp;<span>per month</span>
 											<br><br>
-											<span class="fs-2">5 Users</span>
+											<span class="fs-2" id="basicSrvcUser"> 5 &nbsp;Users</span>
 											<br><br>
 											<ul class="list-unstyled lh-lg">
 												<li>
@@ -87,27 +87,31 @@
 									<a class="card card-link card-link-pop h-100">
 										<div class="card-header">
 											<div class="w-100 text-center">
-												<span class="fs-2">Premium Service</span>
+												<span class="fs-2" id="premiumSrvcName"></span>
 											</div>
 										</div>
 										<div class="card-body text-center">
-											<span class="fs-1 fw-bold">$ 7,999</span>&nbsp;&nbsp;&nbsp;<span>per month</span>
+											<span class="fs-1 fw-bold" id="premiumSrvc"></span>&nbsp;&nbsp;&nbsp;<span>per month</span>
 											<br><br>
-											<span class="fs-2">10 Users</span>
+											<span class="fs-2" id="premiumSrvcUser">20&nbsp;Users</span>
 											<br><br>
 											<ul class="list-unstyled lh-lg">
 												<li>
-													Basic Service
-												</li>
-												<li>
-													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-copy-plus">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-														<path stroke="none" d="M0 0h24v24H0z" />
-														<path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
-														<path d="M4.012 16.737a2 2 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
-														<path d="M11 14h6" />
-														<path d="M14 11v6" />
+													<!-- Check Icon -->
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+														<path d="M5 12l5 5l10 -10" />
 													</svg>
+													Account Journaling
+												</li>
+												
+												<li>
+													<!-- Check Icon -->
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+														<path d="M5 12l5 5l10 -10" />
+													</svg>
+													Account Journaling
 												</li>
 												<li>
 													<!-- Check Icon -->
@@ -168,14 +172,14 @@
 												<div class="text-center mt-5">
 													<span class="fs-3">It will be charged by the number of days as many as you used the option.</span>
 												</div>
-												<div class="p-4 mt-5">
-													<span>Currently Using Option:&nbsp;</span>
-													<span id="selectedOption" style="font-weight: bold;"> None</span>
-												</div>
-												<div class="card-footer card-footer-transparent">
-													<button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">Use Option</button>
-												</div>
 											</form>
+										</div>
+										<div class="p-4 mt-5">
+											<span>Currently Using Option:&nbsp;</span>
+											<span id="selectedOption" style="font-weight: bold;"> None</span>
+										</div>
+										<div class="card-footer card-footer-transparent">
+											<button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">Use Option</button>
 										</div>
 									</a>
 								</div>
@@ -394,10 +398,18 @@
 									if( result.data.data[i].srvcCd == "01" ){
 										console.log(" Service Name/Price : " + result.data.data[i].srvcNm + " / " + result.data.data[i].srvcUprc );
 										// TO-DO : Basic 가격 Label 변경. 
+										let basicSrvc = $("#basicSrvc");
+										let basicSrvcName = $("#basicSrvcName");
+										basicSrvc.text("$ " + result.data.data[i].srvcUprc) 
+										basicSrvcName.text(result.data.data[i].srvcNm);
 									}
 									if( result.data.data[i].srvcCd == "02" ){
 										console.log(" Service Name/Price : " + result.data.data[i].srvcNm + " / " + result.data.data[i].srvcUprc );
 										// TO-DO : Premium 가격 Label 변경. 
+										let premiumSrvc = $("#premiumSrvc");
+										let premiumSrvcName = $("#premiumSrvcName");
+										premiumSrvc.text("$ " +  result.data.data[i].srvcUprc);
+										premiumSrvcName.text(result.data.data[i].srvcNm);
 									}
 								}
 								
