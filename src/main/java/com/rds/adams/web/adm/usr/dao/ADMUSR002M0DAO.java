@@ -47,12 +47,20 @@ public interface ADMUSR002M0DAO {
 	public void updateUsrAdmin(ADMUSR002M0R0DTO inVo);
 
 	/**
-	 * 사용자 목록 조회를 처리한다
+	 * 사용자 명수 체크 조회를 처리한다
 	 * @param vo ADMUSR002M0R0DTO
 	 * @return String
 	 * @exception Exception
 	 */
 	public String selectUsrCntChk(ADMUSR002M0R0DTO inVo);
+
+	/**
+	 * 사용자 관리자 명수 체크 조회를 처리한다
+	 * @param vo ADMUSR002M0R0DTO
+	 * @return String
+	 * @exception Exception
+	 */
+	public String selectUsrAdminCntChk(ADMUSR002M0R0DTO inVo);
 
 	/**
 	 * 사용자 중복 여부 조회를 처리한다
