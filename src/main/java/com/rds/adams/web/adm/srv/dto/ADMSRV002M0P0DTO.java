@@ -1,8 +1,7 @@
 package com.rds.adams.web.adm.srv.dto;
 
-import com.ibm.icu.math.BigDecimal;
-
 import groovy.transform.ToString;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,5 +24,10 @@ import lombok.Setter;
 @Setter
 
 public class ADMSRV002M0P0DTO {
-    private String yearMonth;
+
+    @Schema(description = "년월")
+	private String yearMonth;
+
+    @Schema(description = "고객사번호")
+    private String csNo;
 }
