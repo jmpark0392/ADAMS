@@ -77,7 +77,7 @@ public class ADMUSR002M0Controller {
     	inVo.setUpdId(sAdamsLoginDTO.getUsrId());
     	inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		try {
-			bResult = aDMUSR002M0Service.saveUsr(inVo);
+			bResult = aDMUSR002M0Service.saveUsr(inVo, false);
 			
 			if (bResult) {
 				
@@ -114,7 +114,7 @@ public class ADMUSR002M0Controller {
     	inVo.setUpdId(sAdamsLoginDTO.getUsrId());
     	inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		try {
-			bResult = aDMUSR002M0Service.saveUsr(inVo);
+			bResult = aDMUSR002M0Service.saveUsr(inVo, true);
 			
 			if (bResult) {
 				
