@@ -24,6 +24,7 @@ import egovframework.com.cmm.interceptor.AuthenticInterceptor;
 import egovframework.com.cmm.interceptor.AuthorizInterceptor;
 import egovframework.com.cmm.interceptor.BusinessInterceptor;
 import egovframework.com.cmm.interceptor.CSRFInterceptor;
+import egovframework.com.cmm.interceptor.NonceInterceptor;
 
 /**
  * @ClassName : EgovConfigWebDispatcherServlet.java
@@ -61,6 +62,9 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 	
 	@Autowired
 	CSRFInterceptor csrfInterceptor;
+	
+	@Autowired
+	NonceInterceptor nonceInterceptor;
 
 	//final static String RESOLVER_DEFAULT_ERROR_VIEW = "cmm/error/egovError";
 
@@ -118,6 +122,10 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 			.addPathPatterns("/**/*", "/*")
 			.excludePathPatterns(resourceExcludePathList);
 		
+		//// Nonce 인터셉터 추후 적용을 위한 코멘트 처리
+		//registry.addInterceptor(nonceInterceptor)
+		//	.addPathPatterns("/**/*", "/*")
+		//	.excludePathPatterns(excludePathList);
 	}
 
 	// -------------------------------------------------------------
