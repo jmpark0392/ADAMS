@@ -12,7 +12,6 @@
 		<!-- Javascript file -->
 		<script src="js/js-tabler/tabler.min.js?1692870487" defer></script>
 		<script src="js/jquery-3.7.1.min.js"></script>
-		<script src="js/common.js"></script>
     	<script src="js/utils.js"></script>
 		<style>
 			@import url('css/inter.css');
@@ -606,7 +605,8 @@
             },
             error: function (xhr, status, error) {
                 //alert("오류가 발생했습니다. 다시 시도해주세요.");
-                alert("An error occurred. Please try again.");
+                //alert("An error occurred. Please try again.");
+            	gf_errorHandler(xhr);
             }
         });
     }
