@@ -244,7 +244,7 @@
 			var data;
 			var unqId      = "itmId";
 			var xcpt_cols  = ["tblId", "regUsrid", "regDt"];
-			var check_cols = [unqId];
+			var check_cols = ["itmNm", unqId, "dataTpCd"];
 			var columns = [
 				{id: "tblId",		name: "Table ID",				field: "tblId",		width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 				{ id: "itmNm",		name: "Column Name",			field: "itmNm",		width: 120,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) =>  complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
@@ -819,10 +819,10 @@
 								console.log("formData that is being sent : " + JSON.stringify(formData));
 								// location.reload(true);
 								// dataView.insertItem(grid.getDataLength(), formData);
-							} else {			
-								alert("Please fill out all required fields.");
-							return;
 							}
+						} else {			
+							alert("Please fill out all required fields.");
+						return;
 						}
 					} else if (modalType === "edit") {
 						// Update existing item in grid data

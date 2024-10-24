@@ -362,7 +362,13 @@
 		// 신규버튼 누르면 동작하는 함수
 		function openDetails(modalType) {
 			
-			const hiddenColumns = ["usrNm","frstRegDtm"];
+			let hiddenColumns;
+			
+			if (modalType === "create") {
+				hiddenColumns = [unqId, "usrNm", "frstRegDtm"];
+			} else {
+				hiddenColumns = ["usrNm", "frstRegDtm"];  // 컬럼 숨기기
+			}
 			
 			let selYn = [
 				{ value: "Y", text: "Y", column: " " },
@@ -594,7 +600,7 @@
 					// Add new item to grid data
 					if (checkData(formData)) {
 						console.log(formData);
-						formData[unqId] = grid.getDataLength() + 1;
+						//formData[unqId] = grid.getDataLength() + 1;
 						// dataView.insertItem(grid.getDataLength(), formData);
 
 						if (confirm("Do you want to register?") == true) {
