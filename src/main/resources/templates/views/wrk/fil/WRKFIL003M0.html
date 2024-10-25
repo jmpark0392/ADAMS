@@ -187,10 +187,7 @@
 			rowHeight: 35,
 		};
 
-		
-		function getExcelList() {
-			alert("Excel test");
-		}
+		let grid;
 
 		function getSearchList() {
 			console.log("Sending AJAX request...");
@@ -305,7 +302,7 @@
 			}
 				
 
-			var grid = new Slick.Grid("#divMyGrid", grdData, columns, options);
+			grid = new Slick.Grid("#divMyGrid", grdData, columns, options);
 
 			// when "onBeforeSort" returns false, the "onSort" won't execute (for example a backend server error while calling backend query to sort)
 			grid.onBeforeSort.subscribe(function (e, args) {
@@ -349,6 +346,35 @@
 				grid.updateRowCount();
 				grid.render();
 			});
+		}
+
+			
+		function getExcelList() {
+			let excelData = grid.getData();
+			console.log("excelData", excelData);
+			
+			let columns = grid.getColumns();
+
+			// Create a workbook and worksheet
+			let workbook = XLSX.utils.book_new();
+			let worksheet = XLSX.utils.json_to_sheet(excelData, { header: columns.map(col => col.name) });
+
+			// Add the worksheet to the workbook
+			XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+			// Generate Excel file
+			let excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+			// Create a Blob with the Excel data
+			let blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+			// Create a download link and trigger the download
+			let downloadLink = document.createElement('a');
+			downloadLink.href = URL.createObjectURL(blob);
+			downloadLink.download = 'grid_data.xlsx';
+			document.body.appendChild(downloadLink);
+			downloadLink.click();
+			document.body.removeChild(downloadLink);
 		}
 
 			// i have to change this method to be able to send the file to the server
