@@ -170,7 +170,8 @@
 		var data;
 		var unqId = "rowNumber";
 		var xcpt_cols = ["frstRegEmpNo", "frstRegDtm"];
-		var check_cols = [unqId, "atitKorNm"];
+		var check_cols = ["atitCd", "atitKorNm", "atitEngNm", "acLvlCd", "bkgAcYn"
+			            , "fsDvCd", "acDvCd", "acKindCd", "ordSeq", "appStrDt", "appEndDt", "useYn"];
 		var columns = [
 			{ id: "atitCd",			name: "Account Title",		field: "atitCd",		width: 260, sortable: true, editor: Slick.Editors.Text, formatter: TreeArchFormatter, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{ id: "atitKorNm",		name: "Account Name(Kor)",	field: "atitKorNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left", hidden:true },
@@ -708,8 +709,7 @@
 			modalHeaderElm.className = "modal-header";
 			modalHeaderElm.innerHTML = `<h5>${headerTitle}</h5>
 										<button type="button" class="close" data-action="close" aria-label="Close">
-											<span aria-hidden="true">×</span>
-										</button>`;
+											<span aria-hidden="true">×</span></button>`;
 			modalElm.appendChild(modalHeaderElm);
 
 			const modalBodyElm = document.createElement("div");

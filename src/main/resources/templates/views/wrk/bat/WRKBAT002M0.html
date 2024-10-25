@@ -203,9 +203,9 @@
 			var inputMonth = $("#inputMonth").val();
 			
 			// inputYear나 inputMonth가 비어있는지 체크
-		    if (!inputYear || !inputMonth) {
-		        return null; // 년도나 월이 비어 있으면 null을 반환
-		    }
+			if (!inputYear || !inputMonth) {
+			return null; // 년도나 월이 비어 있으면 null을 반환
+			}
 			
 			var inputStdYymm = inputYear + ((inputMonth.length != 0) ? inputMonth.padStart(2, "0"): "");
 			if (inputStdYymm.length != 6){
@@ -463,7 +463,6 @@
 				alert("Successfully Execution.")
 			}
 		});
-		
 	</script>
 </th:block>
 </html>

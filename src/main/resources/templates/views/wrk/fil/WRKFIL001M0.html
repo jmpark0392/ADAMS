@@ -166,10 +166,10 @@
 		var dataView;
 		var data;
 		var unqId = "seqNo";
-		var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
-		var check_cols = [unqId, "fileNm", "tblId"];
+		var xcpt_cols = [unqId, "usrNm", "frstRegDtm"];
+		var check_cols = ["seqNo", "fileNm", "dbId", "tblId", "fileDsc", "fileDelYn", "uiSelYn", "useYn", "vrfUseYn"];
 		var columns = [
-			{ id: unqId,			name: "Seq",				field: unqId,			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "seqNo",			name: "Seq",				field: "seqNo",			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "fileNm",			name: "File Name",			field: "fileNm",		width: 250,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 			{ id: "dbId",			name: "Database ID",		field: "dbId",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 			{ id: "tblId",			name: "Table ID",			field: "tblId",			width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
