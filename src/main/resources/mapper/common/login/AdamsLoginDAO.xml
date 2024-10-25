@@ -17,6 +17,7 @@
         <result property="usrNewPassword" column="usrNewPassword"/>
         <result property="usrPhNo" column="usrPhNo"/>
         <result property="usrEmail" column="usrEmail"/>
+        <result property="usrDeptNm" column="usrDeptNm"/>
         <result property="empNo" column="empNo"/>
         <result property="statDvCd" column="statDvCd"/>
         <result property="useStrDtm" column="useStrDtm"/>
@@ -124,6 +125,7 @@
                END                 AS usrPassword
              , A.USR_PH_NO         AS usrPhNo
              , A.USR_EMAIL         AS usrEmail
+             , A.USR_DEPT_NM       AS usrDeptNm
              , A.EMP_NO            AS empNo
              , A.STAT_DV_CD        AS statDvCd
              , A.USE_STR_DTM       AS useStrDtm
@@ -307,6 +309,7 @@
              , ''                  AS usrPassword
              , A.USR_PH_NO         AS usrPhNo
              , A.USR_EMAIL         AS usrEmail
+             , A.USR_DEPT_NM       AS usrDeptNm
              , A.EMP_NO            AS empNo
              , A.STAT_DV_CD        AS statDvCd
              , A.USE_STR_DTM       AS useStrDtm
@@ -342,6 +345,7 @@
              , ''                  AS usrPassword
              , A.USR_PH_NO         AS usrPhNo
              , A.USR_EMAIL         AS usrEmail
+             , A.USR_DEPT_NM       AS usrDeptNm
              , A.EMP_NO            AS empNo
              , A.STAT_DV_CD        AS statDvCd
              , A.USE_STR_DTM       AS useStrDtm

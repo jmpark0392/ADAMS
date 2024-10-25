@@ -92,5 +92,6 @@ public class AdamsLoginDTO implements Serializable{
     @Schema(description = "접속IP")
     private String accIp;
 	
-	
+    @Schema(description = "사용자부서명")
+    private String usrDeptNm;
 }
