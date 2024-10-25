@@ -14,6 +14,7 @@
              , A.USR_NM                                    AS usrNm               /* 사용자명 */
              , A.USR_EMAIL                                 AS usrEmail            /* 사용자이메일 */
              , A.USR_PH_NO                                 AS usrPhNo             /* 사용자폰넘버 */
+             , A.USR_DEPT_NM                               AS usrDeptNm           /* 사용자부서명 */
              , A.STAT_DV_CD                                AS statDvCd            /* 상태구분코드 */
              , A.STAT_DV_CD                                AS oldStatDvCd         /* old상태구분코드 */
              , CONVERT(CHAR(10), A.USE_STR_DTM     , 23)   AS useStrDtm           /* 사용시작일시 */
@@ -49,6 +50,7 @@
                      , #{usrId}                         AS USR_ID
                      , #{usrNm}                         AS USR_NM
                      , #{usrPhNo}                       AS USR_PH_NO
+                     , #{usrDeptNm}                     AS USR_DEPT_NM
                      , #{usrId}                         AS USR_EMAIL
                      , #{statDvCd}                      AS STAT_DV_CD
                      , CASE WHEN #{useStrDtm} IS NULL OR #{useStrDtm} = '' THEN NULL ELSE CONVERT(DATE, #{useStrDtm}, 23) END  AS USE_STR_DTM
@@ -63,6 +65,7 @@
                 SET A.USR_DV_CD       = B.USR_DV_CD
                   , A.USR_NM          = B.USR_NM
                   , A.USR_PH_NO       = B.USR_PH_NO
+                  , A.USR_DEPT_NM     = B.USR_DEPT_NM
                   , A.USR_EMAIL       = B.USR_EMAIL
                   , A.STAT_DV_CD      = B.STAT_DV_CD
                   , A.USE_STR_DTM     = B.USE_STR_DTM
@@ -78,6 +81,7 @@
                   , USR_NM
                   , USR_PASSWORD
                   , USR_PH_NO
+                  , USR_DEPT_NM
                   , USR_EMAIL
                   , EMP_NO
                   , STAT_DV_CD
@@ -98,6 +102,7 @@
                   , B.USR_NM
                   , PWDENCRYPT(#{usrPassword})
                   , B.USR_PH_NO
+                  , B.USR_DEPT_NM
                   , B.USR_EMAIL
                   , NULL
                   , B.STAT_DV_CD
@@ -124,6 +129,7 @@
                      , #{usrId}                         AS USR_ID
                      , #{usrNm}                         AS USR_NM
                      , #{usrPhNo}                       AS USR_PH_NO
+                     , #{usrDeptNm}                     AS USR_DEPT_NM
                      , #{usrId}                         AS USR_EMAIL
                      , #{statDvCd}                      AS STAT_DV_CD
                      , CASE WHEN #{useStrDtm} IS NULL OR #{useStrDtm} = '' THEN NULL ELSE CONVERT(DATE, #{useStrDtm}, 23) END  AS USE_STR_DTM
@@ -138,6 +144,7 @@
                 SET A.USR_DV_CD       = B.USR_DV_CD
                   , A.USR_NM          = B.USR_NM
                   , A.USR_PH_NO       = B.USR_PH_NO
+                  , A.USR_DEPT_NM     = B.USR_DEPT_NM
                   , A.USR_EMAIL       = B.USR_EMAIL
                   , A.STAT_DV_CD      = B.STAT_DV_CD
                   , A.USE_STR_DTM     = B.USE_STR_DTM
@@ -153,6 +160,7 @@
                   , USR_NM
                   , USR_PASSWORD
                   , USR_PH_NO
+                  , USR_DEPT_NM
                   , USR_EMAIL
                   , EMP_NO
                   , STAT_DV_CD
@@ -173,6 +181,7 @@
                   , B.USR_NM
                   , PWDENCRYPT(#{usrPassword})
                   , B.USR_PH_NO
+                  , B.USR_DEPT_NM
                   , B.USR_EMAIL
                   , NULL
                   , B.STAT_DV_CD

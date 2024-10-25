@@ -61,6 +61,9 @@ public class OPNUSR003M0R0DTO {
     @Schema(description = "사용자폰넘버")
     private String usrPhNo;
 
+    @Schema(description = "사용자부서명")
+    private String usrDeptNm;
+
     @Schema(description = "상태구분코드")
     private String statDvCd;
 

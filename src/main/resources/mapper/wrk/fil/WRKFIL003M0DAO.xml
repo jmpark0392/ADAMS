@@ -4,7 +4,7 @@
 
 <mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL003M0DAO">
     <select id="selectTableInfoList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0R0DTO">
-        SELECT 
+        SELECT DISTINCT
                A.TBL_ID       AS tblId      /* 테이블ID */
              , A.CLMN_ID      AS clmnId     /* 컬럼ID */
              , A.ITM_NM       AS itmNm      /* 칼럼명 */
@@ -20,17 +20,20 @@
           FROM RDSDB.dbo.TB_UPL_ITM_LST A
          INNER JOIN RDSDB.dbo.TB_UPL_FILE_LST B
                  ON A.TBL_ID = B.TBL_ID
+                AND A.CS_NO  = B.CS_NO
             <if test='uploadFile != ""'>
                 AND B.SEQ_NO = #{uploadFile}
             </if>
          WHERE 1=1
+	     <if test= 'csNo != "999"'>
+	       AND A.CS_NO       = #{csNo}
+	     </if>
          ORDER BY A.ORD_SEQ
     </select>
     
     <select id="selectFileList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0R1DTO">
-        SELECT
-               A.CS_NO 
-             , A.SEQ_NO
+        SELECT DISTINCT
+               A.SEQ_NO
              , A.FILE_NM
              , A.DB_ID
              , A.TBL_ID
@@ -122,5 +125,6 @@
              , FNL_UPD_DTM    = GETDATE()
          WHERE 1=1
            AND SEQ_NO = #{seqNo}
+           AND CS_NO  = #{csNo}
     </update>
 </mapper>

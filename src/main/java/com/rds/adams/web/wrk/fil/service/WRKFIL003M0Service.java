@@ -120,7 +120,8 @@ public class WRKFIL003M0Service {
 		
 		/* UI 조회 대상인 경우 조회 */
 		if ( "Y".equals(sUiSelYn) ) {
-			sQuery = sQuery + " WHERE 1=1 ";
+			sQuery = sQuery + " WHERE 1=1 "
+							+ "   AND CS_NO = '" + inVo.getCsNo() + "' ";
 		} else {
 			sQuery = sQuery + " WHERE 1=2 ";
 		}
@@ -161,6 +162,8 @@ public class WRKFIL003M0Service {
 		List<Map<String, Object>>	mapExcelDataList	= new ArrayList<>();						// 동적 그리드 Head 목록용 List Map
 		
 		WRKFIL003M0P1DTO wRKFIL003M0P1DTO = new WRKFIL003M0P1DTO();									// 이력 저장용 DTO
+		
+		inVo.setCsNo(csNo);
 		
 		List<WRKFIL003M0R0DTO>	wRKFIL003M0P0DTOList = wRKFIL003M0DAO.selectTableInfoList(inVo);	// 조회 대상 테이블 정보 DTO
 

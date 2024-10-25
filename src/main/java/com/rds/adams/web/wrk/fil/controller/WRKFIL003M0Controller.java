@@ -49,7 +49,10 @@ public class WRKFIL003M0Controller {
 	 * @return
 	 */
 	@RequestMapping(value="/WRKFIL003M0SelectList", method=RequestMethod.POST, consumes="application/json")
-	public HashMap<String, Object> select(@RequestBody WRKFIL003M0P0DTO inVo) {
+	public HashMap<String, Object> select(@RequestBody WRKFIL003M0P0DTO inVo, HttpServletRequest request) {
+
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		
