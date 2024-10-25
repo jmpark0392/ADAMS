@@ -71,10 +71,13 @@
 					<div class="row row-cards">
 						<div class="col-sm-6 col-lg-3">
 							<div class="card card-md d-flex flex-column h-100">
+                <div class="ribbon ribbon-top bg-yellow">
+									<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-device-imac-cog"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17h-8a1 1 0 0 1 -1 -1v-12a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v8" /><path d="M3 13h13" /><path d="M8 21h4" /><path d="M10 17l-.5 4" /><path d="M19.001 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M19.001 15.5v1.5" /><path d="M19.001 21v1.5" /><path d="M22.032 17.25l-1.299 .75" /><path d="M17.27 20l-1.3 .75" /><path d="M15.97 17.25l1.3 .75" /><path d="M20.733 20l1.3 .75" /></svg>
+								</div>
 								<div class="card-body text-center flex-grow-1">
-									<div class="text-uppercase text-secondary font-weight-medium">
+									<div class="text-uppercase text-secondary font-weight-medium flex-container">
 										<!-- Basic Service -->
-										<span id="serviceChange"> </span>
+										<span id=""> Currently Using: </span>
 									</div>
 
 									<ul class="list-unstyled lh-lg">
@@ -83,7 +86,7 @@
 										</li>
 										<li>
 											<div class="mt-2 flex-container">
-												<span class="mb-2">User:&nbsp;</span> <span id="userNumber"> </span>
+												<span class="mb-2">Service: &nbsp;</span> <span id="serviceChange"></span>
 											</div> <!-- - Basic User: 5 -->
 										</li>
 										<li></li>
@@ -91,11 +94,14 @@
 								</div>
 							</div>
 						</div>
-
 						<div class="col-sm-6 col-lg-3">
 							<div class="card card-md d-flex flex-column h-100">
+                <div class="ribbon ribbon-top bg-warning">
+                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chart-histogram"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 3v18h18" /><path d="M20 18v3" /><path d="M16 16v5" /><path d="M12 13v8" /><path d="M8 16v5" /><path d="M3 11c6 0 5 -5 9 -5s3 5 9 5" /></svg>								</div>
 								<div class="card-body text-center text-center flex-grow-1">
-									<div class="text-uppercase text-secondary font-weight-medium">Total Usage</div>
+									<div class="text-uppercase text-secondary font-weight-medium flex-container">
+                    <span id=""> Total Usage: </span>
+                  </div>
 									<!-- <div class="display-5 fw-bold my-3">$99</div> -->
 									<ul class="list-unstyled lh-lg">
 										<li>
@@ -112,8 +118,13 @@
 						</div>
 						<div class="col-sm-6 col-lg-3">
 							<div class="card card-md d-flex flex-column h-100">
+                <div class="ribbon ribbon-top bg-success">
+                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-google-analytics"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 9m0 1.105a1.105 1.105 0 0 1 1.105 -1.105h1.79a1.105 1.105 0 0 1 1.105 1.105v9.79a1.105 1.105 0 0 1 -1.105 1.105h-1.79a1.105 1.105 0 0 1 -1.105 -1.105z" /><path d="M17 3m0 1.105a1.105 1.105 0 0 1 1.105 -1.105h1.79a1.105 1.105 0 0 1 1.105 1.105v15.79a1.105 1.105 0 0 1 -1.105 1.105h-1.79a1.105 1.105 0 0 1 -1.105 -1.105z" /><path d="M5 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg>
+								</div>
 								<div class="card-body text-center text-center flex-grow-1">
-									<div class="text-uppercase text-secondary font-weight-medium">Estimated Usage</div>
+									<div class="text-uppercase text-secondary font-weight-medium flex-container">
+                    <span id=""> Estimated Usage: </span>
+                  </div>
 									<!-- <div class="display-5 fw-bold my-3">$139</div> -->
 									<ul class="list-unstyled lh-lg">
 										<li>
@@ -130,15 +141,19 @@
 						</div>
 						<div class="col-sm-6 col-lg-3">
 							<div class="card card-md d-flex flex-column h-100">
+                <div class="ribbon ribbon-top bg-primary">
+                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>
+								</div>
 								<div class="card-body text-center text-center flex-grow-1">
-									<div class="text-uppercase text-secondary font-weight-medium">Option(s) Panel</div>
+									<div class="text-uppercase text-secondary font-weight-medium flex-container">
+                    <span id=""> Option(s) Panel: </span>
+                   </div>
 									<ul class="list-unstyled lh-lg">
 										<li></li>
-										<!-- <li><strong>10</strong> Users</li> -->
 										<!-- <form class="optionForm"> -->
 										<div class="card card-lg">
 											<div class="mt-2 flex-container">
-												<span class="mb-2">User's Option: &nbsp;</span> <span id="selectedOption"> </span>
+												<span class="mb-2">Current Option: &nbsp;</span> <span id="selectedOption"> </span>
 											</div>
 										</div>
 									</ul>
@@ -411,14 +426,16 @@
                 async: true,
                 dataType: "json",
                 success: function (data) {
-                  $("#userNumber").text(data[0].optDtlsCd + " users");
-                  $("#userNumber").css("font-weight", "bold");
+                  // $("#userNumber").text(data[0].optDtlsCd + " users");
+                  // $("#userNumber").css("font-weight", "bold");
                   console.log("Subscription list fetched successfully:", data);
                   // update the ui based on the user subscription
                   if (data[0].srvcCd === "01") {
                     $("#serviceChange").text("Basic Service");
+                    serviceChange.style.fontWeight = "bold";
                   } else {
                     $("#serviceChange").text("Premium Service");
+                    serviceChange.style.fontWeight = "bold";
                   }
                 },
                 error: function (xhr, status, error) {
@@ -444,11 +461,14 @@
                   if (data && data.length > 0) {
                     var subscription = data[0]; // Assuming we hvae only one subscrition
                     // Display the currently selected option data
-                    if (subscription.optDtlsCd) {
+                    if (subscription.optDtlsCd > 0) {
                       $("#selectedOption").text(
                         "+ " + subscription.optDtlsCd + " Users"
                       );
                       // we make the text bold
+                      $("#selectedOption").css("font-weight", "bold");
+                    } else if (subscription.optDtlsCd === 0 || subscription.optDtlsCd === null) {
+                      $("#selectedOption").text("No option selected yet");
                       $("#selectedOption").css("font-weight", "bold");
                     }
                   } else {
