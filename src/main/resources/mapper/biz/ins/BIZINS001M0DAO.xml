@@ -114,8 +114,12 @@
 		     , GETDATE()                 AS FRST_REG_DTM
 		     , #{usrId}                  AS FNL_UPD_EMP_NO
 		     , GETDATE()                 AS FNL_UPD_DTM
-		  FROM TB_R3S_OUTPUT_BEL_RST_LST 
-		 WHERE STD_YYMM = #{stdYymm}
+		  FROM TB_R3S_OUTPUT_BEL_RST_LST
+		 WHERE 1=1 
+		      AND STD_YYMM = #{stdYymm}
+		   <if test = 'csNo != "999"'>
+		      AND CS_NO    = #{csNo}
+		   </if>
 		 GROUP BY STD_YYMM, PORTPOLIO
 	</insert>
 </mapper>
