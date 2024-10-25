@@ -360,30 +360,51 @@
 			
 			let columns = grid.getColumns();
 
-			// Create a workbook and worksheet
+			// we filter out unwanted columns 
+			const filteredColumns = columns.filter(col => !["FNL_UPD_DTM", "FRST_REG_DTM", "FNL_UPD_EMP_NO", "FRST_REG_EMP_NO"].includes(col.field));
+
+			// we filter out unwanted data
+			const filteredData = excelData.map(row => {
+				const newRow = {};
+				filteredColumns.forEach(col => {
+					newRow[col.field] = row[col.field];
+				});
+				return newRow;
+			});
+
 			let workbook = XLSX.utils.book_new();
-			let worksheet = XLSX.utils.json_to_sheet(excelData, { header: columns.map(col => col.name) });
+			let worksheet = XLSX.utils.json_to_sheet(filteredData, { header: filteredColumns.map(col => col.field) });
 
-			// Add the worksheet to the workbook
-			XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+			XLSX.utils.book_append_sheet(workbook, worksheet, "File Upload");
 
-			// Generate Excel file
+			// we generate Excel file
 			let excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
-			// Create a Blob with the Excel data
 			let blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
-			// Create a download link and trigger the download
+			const year = document.getElementById("inputYear").value;
+			const month = document.getElementById("inputMonth").value;
+			if (!year || !month) {
+				alert("Please select both year and month before downloading.");
+				return;
+			}
+			const currDate = year + month.padStart(2, "0");
+			const selectedFile = $("#cmbUploadFileList").val();
+			if (!selectedFile) {
+				alert("Please select a file before downloading.");
+				return;
+			}
+			const fileName = `WRKFIL003_FM_${currDate}_${selectedFile}.xlsx`;
+
+			// we create a download link and trigger the download
 			let downloadLink = document.createElement('a');
 			downloadLink.href = URL.createObjectURL(blob);
-			downloadLink.download = 'grid_data.xlsx';
+			downloadLink.download = fileName;
 			document.body.appendChild(downloadLink);
 			downloadLink.click();
 			document.body.removeChild(downloadLink);
 		}
 
-			// i have to change this method to be able to send the file to the server
-			// and firgure out why it is not wotking
 		function setSaveUploadFile() {
 			console.log("Sending AJAX request...");
 			
