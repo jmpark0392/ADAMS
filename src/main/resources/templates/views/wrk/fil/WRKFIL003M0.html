@@ -289,19 +289,19 @@
 			}
 			
 			var columns = [];
-			/*
-			var keys	= Object.keys(grdData[0]);
-
-			for (var i = 0; i < keys.length; i++) {
-				columns.push({ id: keys[i], name: keys[i], field: keys[i], sortable: true, editor: Slick.Editors.Text });
+			var vWidth = 0;
+			
+			if (grdHead.length > 0 && grdHead.length <= 12) {
+				vWidth = 1286 / grdHead.length;
+			} else {
+				vWidth = 100;
 			}
-				*/
 
 			for (var i = 0; i < grdHead.length; i++) {
 				var sCd = grdHead[i].CD;
 				var sNm = grdHead[i].NM;
 
-				columns.push({ id: sCd, name: sNm, field: sCd, sortable: true, editor: Slick.Editors.Text, width:100, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" });
+				columns.push({ id: sCd, name: sNm, field: sCd, sortable: true, editor: Slick.Editors.Text, width:vWidth, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" });
 			}
 				
 
