@@ -110,7 +110,7 @@
     <update id="updateUplHist"  parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P1DTO" >
         UPDATE RDSDB.dbo.TB_UPL_HIST
            SET FILE_NM        = #{fileNm}
-             , LOAD_END_DTM     = GETDATE()
+             , LOAD_END_DTM   = GETDATE()
              , LOAD_CNT       = #{loadCnt}
              , LOAD_SUCC_YN   = #{loadSuccYn}
              , STD_YYMM       = #{stdYymm}

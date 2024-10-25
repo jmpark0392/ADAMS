@@ -62,16 +62,18 @@ public class WRKFIL003M0Controller {
 	}
 
 	/**
-	 * @param model
-	 * @return
+	 * @param MultipartFile[]
+	 * @param String
+	 * @param String
+	 * @return String
 	 */
-	@SuppressWarnings("resource")
 	@RequestMapping(value="/WRKFIL003M0SaveUploadFile", method=RequestMethod.POST)
 	public String saveUploadFile( @RequestPart(name = "uploadFile") MultipartFile[] uploadFile
 			, @RequestParam("uploadFileVal") String uploadFileVal
 			, @RequestParam("inpStdYymm") String inpStdYymm
 			, HttpServletRequest request) throws Exception {
-		
+
+		HashMap<String, Object> resultMap = new HashMap<String,Object>();
 		WRKFIL003M0P0DTO inVo = new WRKFIL003M0P0DTO();
 		inVo.setUploadFile(Integer.parseInt(uploadFileVal));
 		inVo.setStdYymm(inpStdYymm);
@@ -80,12 +82,15 @@ public class WRKFIL003M0Controller {
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) session.getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		String csNo = sAdamsLoginDTO.getCsNo();
 		String usrId = sAdamsLoginDTO.getUsrId();
-		
-		log.info(uploadFile.toString() + "\n" + inVo.toString());
-		
-		wRKFIL003M0Service.saveUploadFile(uploadFile, inVo, csNo, usrId);
-		
-		log.info("");
+		try {
+			//log.debug(uploadFile.toString() + "\n" + inVo.toString());
+			
+			wRKFIL003M0Service.saveUploadFile(uploadFile, inVo, csNo, usrId);
+			
+		} catch (Exception e) {
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", e.getMessage());
+		}
 		
 		return "";
     }
