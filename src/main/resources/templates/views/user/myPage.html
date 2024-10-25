@@ -453,6 +453,8 @@
 						case "getAdamsMonthBatCnt" :
 							fn_monthBatCnt(result.data);
 							break;
+						case "updateMyAccount" :
+							break;
 					}
 				} else if( result.resultCd == "E") {
 				} else {
@@ -847,11 +849,6 @@
                 }
 			}
 
-			
-	
-
-
-
 		    function updateMyAccount() {
 		        
 		    	var vPtbNm        = $("#managerName").val();
@@ -891,7 +888,6 @@
 		            $("#usrPasswordAgain").focus();
 		    		return;
 		    	}
-		    	
 	    	
 		    	const myAccountData = {
 		            ptbNm       : vPtbNm
@@ -900,33 +896,21 @@
 		            , ptbEmail    : vPtbEmail
 		            , usrPassword : vUsrPassword
 		        };
+		    		    
+		    	var option = {
+						id: "updateMyAccount"
+						, type: "post"
+						, url: "/mypage/updateMyAccount"
+						, async: true
+						, dataType: "json"
+						, contentType: "application/json; charset=utf-8"
+						, data: JSON.stringify(myAccountData), // JSON 문자열로 변환
+					};
 
-				$.ajax({
-					type: "POST",
-					url: "/", // API 엔드포인트 주소
-					contentType: "application/json; charset=utf-8",
-					data: JSON.stringify(myAccountData), // JSON 문자열로 변환
-					dataType: "json",
-					success: function (data) {
-						console.log("Response data: ", data);
-						// 성공 응답 처리
-						if (data.resultCode === "200") {
-							alert("Your update request has been applied successfully.");
-							// 추가 작업 필요 시 여기에 작성
-						} else {
-							alert("Failed to save your account information.");
-						}
-					},
-					error: function (xhr, status, error) {
-						// 오류 처리
-
-						console.error("Error occurred: ", status, error);
-						alert("An error occurred while updating the data.");
-					}
-				});
-
+				gf_Transaction(option, fn_callback);
+				
 		    }			
-
+		    
 		</script>
 	</th:block>
 </html>

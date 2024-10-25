@@ -19,6 +19,7 @@ import com.rds.adams.web.common.login.dto.AdamsMonthUploadCntDTO;
 import com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO;
 import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
+import com.rds.adams.web.common.login.dto.AdamsUpdateAccountDTO;
 import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 
 /**
@@ -211,4 +212,11 @@ public interface AdamsLoginDAO {
 	 * @exception Exception
 	 */
 	public List<AdamsMonthBatCntDTO> selectMonthBatCnt(AdamsMypageUsrIdDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 변경된 사용자 정보를 저장한다.
+	 * @param vo AdamsUpdateAccountDTO
+	 * @exception Exception
+	 */
+	public void updateAccount(AdamsUpdateAccountDTO vo) ;
 }

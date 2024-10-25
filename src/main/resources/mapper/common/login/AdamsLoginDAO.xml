@@ -648,4 +648,18 @@
 		ORDER BY A.BAT_STR_DTM
     ]]>
     </select>   
+    
+        
+    <!-- 마이페이지 - 사용자 정보 수정 -->
+    <update id="updateAccount" parameterType="com.rds.adams.web.common.login.dto.AdamsUpdateAccountDTO">
+    	UPDATE RDSDB.[dbo].[TB_USR_MNG_LST]
+           SET 
+               USR_PH_NO 		= #{ptbPhNo}
+           	 , USR_DEPT_NM 		= #{ptbDeptNm}
+           	 , USR_PASSWORD 	= PWDENCRYPT(#{usrPassword})
+             , PASSWORD_UPD_DTM = GETDATE()
+         WHERE 1=1
+           AND CS_NO  = #{csNo}
+           AND USR_ID = #{ptbEmail}
+    </update>
 </mapper>
