@@ -96,7 +96,7 @@
 								</div>
 								<div class="col-auto me-0 p-1"></div>
 								<div class="col-auto m-0">
-									<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px;"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg> Save changes
+									<a href="#" class="btn btn-primary ms-auto" style="padding: 4px 10px; color: white; font-size: 13px;"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg> Save changes
 									</a>
 								</div>
 							</div>
@@ -553,9 +553,7 @@
 						} else {
 							console.error("divColAuto is not found.");
 						}
-						const deleteButton = document.querySelector(
-							".modal-footer .btn-danger"
-						);
+						const deleteButton = document.querySelector(".modal-footer .btn-danger");
 
 						if (deleteButton) {
 						// we remove the existing click event listener
