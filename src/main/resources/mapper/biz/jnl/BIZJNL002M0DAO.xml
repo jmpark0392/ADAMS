@@ -3,7 +3,7 @@
 <mapper namespace="com.rds.adams.web.biz.jnl.dao.BIZJNL002M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P0DTO" resultType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0R0DTO">
         SELECT
-               ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS rowNumber     /* 행번호 */
+               ROW_NUMBER() OVER(ORDER BY AA.INSC_DV_CD, AA.VALU_METD_CD, AA.LVL_1_CD, AA.LVL_2_CD, AA.LVL_3_CD ) AS rowNumber     /* 행번호 */
              , AA.CS_NO                               AS csNo          /* 고객사번호 */
              , AA.INSC_DV_CD                          AS inscDvCd      /* 보험계약구분코드 */
              , AA.VALU_METD_CD                        AS valuMetdCd    /* 평가방법코드 */
@@ -36,9 +36,15 @@
                    FROM TB_JNL_RUL_MNG_LST AS A
                   INNER JOIN TB_ATIT_MNG_LST AS B
                      ON A.DR_AC_SUBJ_CD = B.ATIT_CD
+                    AND A.CS_NO         = B.CS_NO
+                  WHERE 1=1
+				<if test= 'csNo != "999"'>
+					AND A.CS_NO        = #{csNo}
+				</if>
                  ) AA
          INNER JOIN TB_ATIT_MNG_LST AS BB
            ON AA.CR_AC_SUBJ_CD = BB.ATIT_CD
+          AND AA.CS_NO         = BB.CS_NO
          LEFT OUTER JOIN TB_USR_MNG_LST CC 
            ON AA.FNL_UPD_EMP_NO = CC.USR_ID
          WHERE 1=1
@@ -53,6 +59,7 @@
 				OR  AA.ATIT_ENG_NM LIKE '%' + #{searchTxt} + '%'
 				)
 		</if>
+		ORDER BY AA.INSC_DV_CD, AA.VALU_METD_CD, AA.LVL_1_CD, AA.LVL_2_CD, AA.LVL_3_CD
     </select>
     <insert id="insertList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
 		INSERT INTO [dbo].[TB_JNL_RUL_MNG_LST] 

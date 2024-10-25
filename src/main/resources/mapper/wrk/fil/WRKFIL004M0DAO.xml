@@ -42,7 +42,7 @@
                AND A.CS_NO       = #{csNo}
              </if>
              <if test="startLoadDate != null and startLoadDate != '' and endLoadDate != null and endLoadDate != ''">
-               AND A.LOAD_STR_DTM BETWEEN #{startLoadDate} AND #{endLoadDate}
+               AND  CONVERT(CHAR(8), A.LOAD_STR_DTM, 112) BETWEEN #{startLoadDate} AND #{endLoadDate}
              </if>
              <if test="startStdYymm != null and startStdYymm != '' and endStdYymm != null and endStdYymm != ''">
                AND A.STD_YYMM BETWEEN REPLACE(#{startStdYymm}, '-', '') AND REPLACE(#{endStdYymm}, '-', '')
