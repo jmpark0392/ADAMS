@@ -144,9 +144,10 @@
              , GETDATE()                                                         AS FNL_UPD_DTM
           FROM TB_JNL_RST_LST A
           LEFT OUTER JOIN TB_ATIT_MNG_LST B
-            ON A.ATIT_CD = B.ATIT_CD 
+            ON A.ATIT_CD = B.ATIT_CD
          WHERE A.STD_YYMM  = #{stdYymm}
            AND A.CS_NO     = #{csNo}
+           AND A.CS_NO     = B.CS_NO
          GROUP BY A.CS_NO, A.STD_YYMM, A.ATIT_CD, B.FS_DV_CD     
     </insert>
 </mapper>
