@@ -2,12 +2,16 @@ package com.rds.adams.web.wrk.fil.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rds.adams.web.common.AdamsConstant;
+import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL004M0P0DTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL004M0R0DTO;
 import com.rds.adams.web.wrk.fil.service.WRKFIL004M0Service;
@@ -29,8 +33,10 @@ public class WRKFIL004M0Controller {
 	 * @return
 	 */
 	@RequestMapping(value="/WRKFIL004M0SelectList", method=RequestMethod.POST, consumes="application/json")
-	public List<WRKFIL004M0R0DTO> select(@RequestBody WRKFIL004M0P0DTO inVo) {
+	public List<WRKFIL004M0R0DTO> select(@RequestBody WRKFIL004M0P0DTO inVo, HttpServletRequest request) {
 		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		log.info(inVo.toString());
 		
 		List<WRKFIL004M0R0DTO> result = wRKFIL004M0Service.selectList(inVo);

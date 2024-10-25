@@ -40,6 +40,7 @@ import com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO;
 import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsResultDTO;
+import com.rds.adams.web.common.login.dto.AdamsUpdateAccountDTO;
 import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 import com.rds.adams.web.common.login.service.AdamsLoginService;
 import com.rds.adams.web.core.utils.StringUtil;
@@ -736,5 +737,42 @@ public class AdamsLoginController {
 			log.info("adamsMonthBatCntDTOs is null");
 		}
 		return adamsMonthBatCntDTOs;
+	}
+	
+	/**
+	 * 마이페이지에서 사용자 정보를 변경 한다
+	 * @param adamsUpdateAccountDTO - 변경된 사용자 정보가 담긴 AdamsUpdateAccountDTO
+	 * @param request - 세션처리를 위한 HttpServletRequest
+	 * @return result - 고객 목록
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/mypage/updateMyAccount", method=RequestMethod.POST, consumes="application/json")
+	public HashMap<String, Object> updateAccount(@RequestBody AdamsUpdateAccountDTO adamsUpdateAccountDTO, HttpServletRequest request) throws Exception {
+
+		HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	    boolean  bResult = false;
+	    
+	    // 1. 세션에서 사용자 정보 가져오기
+	    AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+
+	    if ( sAdamsLoginDTO != null && sAdamsLoginDTO.getUsrId() != null && !sAdamsLoginDTO.getUsrId().equals("")) {
+		    // 2. 사용자 정보 수정을 세션정보 가져오기 
+	    	adamsUpdateAccountDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+		    
+			// 3. 비밀번호 변경 처리
+		    bResult = adamsLoginService.updateAccount(adamsUpdateAccountDTO);
+	    }
+	    
+	    if (bResult) {
+	    	log.info(adamsUpdateAccountDTO.toString());
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
+		} else {
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "Update Failed !!!");
+		}
+		
+		return resultMap;
+
 	}
 }

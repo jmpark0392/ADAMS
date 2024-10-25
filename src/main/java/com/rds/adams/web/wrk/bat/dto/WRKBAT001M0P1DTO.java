@@ -46,11 +46,11 @@ public class WRKBAT001M0P1DTO {
 	@Schema(description = "실행주기")
 	private String exePrd;
 	
-	@Schema(description = "주담당자")
-	private String mainEmpNo;
+	@Schema(description = "주담당자ID")
+	private String mainEmpId;
 	
-	@Schema(description = "부담당자")
-	private String subEmpNo;
+	@Schema(description = "부담당자ID")
+	private String subEmpId;
 	
 	@Schema(description = "비고")
 	private String etcDesc;

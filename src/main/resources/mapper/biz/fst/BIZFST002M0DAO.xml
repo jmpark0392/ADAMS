@@ -35,6 +35,9 @@
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
                         ON A.ATIT_CD = B.ATIT_CD
                      WHERE B.AC_LVL_CD = '4'
+                     <if test= 'csNo != "999"'>
+                       AND B.CS_NO     = #{csNo}
+                     </if>
                      GROUP BY B.HGRK_ATIT_CD 
                   )
         , LVL2 AS (
@@ -50,6 +53,9 @@
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
                         ON A.ATIT_CD = B.ATIT_CD
                      WHERE B.AC_LVL_CD = '3'
+                     <if test= 'csNo != "999"'>
+                       AND B.CS_NO     = #{csNo}
+                     </if>
                      GROUP BY B.HGRK_ATIT_CD 
                   ) 
         , LVL1 AS (
@@ -65,6 +71,9 @@
                       LEFT OUTER JOIN TB_ATIT_MNG_LST B
                         ON A.ATIT_CD = B.ATIT_CD
                      WHERE B.AC_LVL_CD = '2'
+                     <if test= 'csNo != "999"'>
+                       AND B.CS_NO     = #{csNo}
+                     </if>
                      GROUP BY B.HGRK_ATIT_CD 
                   )
         SELECT 

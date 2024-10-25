@@ -24,6 +24,9 @@ import lombok.ToString;
 @Setter
 public class WRKFIL004M0R0DTO {
 	
+	@Schema(description = "고객사번호")
+	private String csNo;
+	
 	@Schema(description = "순번")
 	private int seqNo;
 	

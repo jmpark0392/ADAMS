@@ -26,6 +26,7 @@ import com.rds.adams.web.common.login.dto.AdamsMonthLoginCntDTO;
 import com.rds.adams.web.common.login.dto.AdamsMonthUploadCntDTO;
 import com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO;
 import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
+import com.rds.adams.web.common.login.dto.AdamsUpdateAccountDTO;
 import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 
 import egovframework.let.utl.fcc.service.EgovNumberUtil;
@@ -566,5 +567,26 @@ public class AdamsLoginService {
 			adamsMonthBatCntDTOs = new ArrayList<>();
 		}
 		return adamsMonthBatCntDTOs;
+	}
+	
+	/**
+	 * 마이페이지에서 변경된 사용자 정보를 저장한다.
+	 * @param vo AdamsUpdateAccountDTO
+	 * @return boolean
+	 * @exception Exception
+	 */
+	public boolean updateAccount(AdamsUpdateAccountDTO vo) throws Exception {
+
+		boolean result = true;
+
+		// 1. 사용자 비밀번호 변경 정보가 있는지 확인한다.
+		if (vo == null || vo.getPtbEmail() == null || "".equals(vo.getPtbEmail()) || vo.getUsrPassword() == null || "".equals(vo.getUsrPassword())) {
+			return false;
+		}
+		
+		// 2. 변경된 사용자 정보를 DB에 저장한다.
+		adamsLoginDAO.updateAccount(vo);
+
+		return result;
 	}
 }
