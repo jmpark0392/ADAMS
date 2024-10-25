@@ -12,47 +12,33 @@
 						<span style="padding-right:30px; font-size: 0.8em;">Copyright © 2024 RNA Data System. All Rights Reserved.</span>
 						<span style="font-size: 0.8em;">v0.3.1 (2024.09.25)</span>
 			</div>
-			<body class="bg-white" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
-				<div class="page">
-					<div class="page-wrapper" id="page-wrapper">
-						<div class="container" id="container">
-							<div class="popupDataForm">
-								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none">Launch modal with form</button>
-								<div class="modal fade" id="exampleModal" tabindex="-1" style="display: none">
-									<div class="modal-dialog modal-small" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title">New report</h5>
-												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-											</div>
-											<div class="modal-body">
-												<div class="row"></div>
-											</div>
-											<div class="modal-footer">
-												<div class="col flex-start">
-													<!-- <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a> -->
-												</div>
-												<div class="col-auto me-0 p-1"></div>
-												<div class="col-auto m-0">
-													<!-- <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px"> Save changes </a> -->
-													<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+			<div class="popupDataForm">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#footerModal" style="display: none">Launch modal with form</button>
+				<div class="modal fade" id="footerModal" tabindex="-1" style="display: none">
+					<div class="modal-dialog modal-small" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">New report</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="row"></div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</body>
+			</div>
 		</div>
 	<script>
 		$(document).ready(function() {
+			
+			var footerModal = $("#footerModal");
+			$("#container").append(footerModal);
+			
 			$("#privacyPolicy, #termsOfService").click(function(e) {
 				e.preventDefault();
 				
-				const modalElement = document.getElementById("exampleModal");
+				const modalElement = document.getElementById("footerModal");
 				const bootstrapModal = new bootstrap.Modal(modalElement);
 				const modalTitleElem = modalElement.querySelector(".modal-title");
 				const modalBodyElem = modalElement.querySelector(".modal-body .row");
@@ -102,19 +88,6 @@
 				modalBodyElem.innerHTML = `<p style="white-space: pre-line;">${contentText}</p>`;
 
 				bootstrapModal.show();
-
-				// Close button logic
-				const closeBtn = modalElement.querySelector(".modal-footer .btn-link");
-				closeBtn.onclick = function(event) {
-					event.preventDefault();
-					event.stopPropagation();
-					bootstrapModal.hide();
-				};
-
-				modalElement.querySelector('.modal-content').addEventListener('click', function(event) {
-					event.stopPropagation();
-				});
-
 
 				// Close modal when clicking outside
 				modalElement.addEventListener('click', function(event) {
