@@ -28,13 +28,17 @@
     </select>
     
     <select id="selectFileList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0R1DTO">
-        SELECT 
-               A.SEQ_NO
+        SELECT
+               A.CS_NO 
+             , A.SEQ_NO
              , A.FILE_NM
              , A.DB_ID
              , A.TBL_ID
           FROM RDSDB.dbo.TB_UPL_FILE_LST A
          WHERE 1=1
+	     <if test= 'csNo != "999"'>
+	       AND A.CS_NO       = #{csNo}
+	     </if>
            AND USE_YN = 'Y'
            AND EXISTS (
                         SELECT 1

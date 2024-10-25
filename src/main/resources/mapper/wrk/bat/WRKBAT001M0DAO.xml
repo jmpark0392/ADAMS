@@ -13,6 +13,8 @@
 			, A.EXE_PRD                               AS exePrd       /* 실행주기 */ 
 			, B.USR_NM                                AS mainEmpNo    /* 주담당자 */
 			, B.USR_NM                                AS subEmpNo     /* 부담당자 */ 
+			, A.MAIN_EMP_NO                           AS mainEmpId    /* 주담당자ID */
+			, A.SUB_EMP_NO                            AS subEmpId     /* 부담당자ID */			
 			, A.ETC_DESC                              AS etcDesc      /* 비고 */ 
 			, A.USE_YN                                AS useYn        /* 사용여부 */
 			, B.USR_NM                                AS frstRegEmpNo /* 최초등록사원번호 */
@@ -55,8 +57,8 @@
             , #{upProgId}
             , #{lwstProgYn}
             , #{exePrd}
-            , #{mainEmpNo}
-            , #{subEmpNo}
+            , #{mainEmpId}
+            , #{subEmpId}
             , #{etcDesc}
             , #{useYn}
 			, #{frstRegEmpNo}
@@ -72,8 +74,8 @@
 				UP_PROG_ID     = #{upProgId},
 				LWST_PROG_YN   = #{lwstProgYn},
 				EXE_PRD        = #{exePrd},
-				MAIN_EMP_NO    = #{mainEmpNo},
-				SUB_EMP_NO     = #{subEmpNo},
+				MAIN_EMP_NO    = #{mainEmpId},
+				SUB_EMP_NO     = #{subEmpId},
 				ETC_DESC       = #{etcDesc},
 				USE_YN         = #{useYn},
 				FNL_UPD_EMP_NO = #{frstRegEmpNo},

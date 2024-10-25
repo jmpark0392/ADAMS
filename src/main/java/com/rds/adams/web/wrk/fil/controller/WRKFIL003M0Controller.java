@@ -103,7 +103,10 @@ public class WRKFIL003M0Controller {
 	 */
 	@SuppressWarnings("resource")
 	@RequestMapping(value="/WRKFIL003M0SelectFileList", method=RequestMethod.POST)
-	public List<WRKFIL003M0R1DTO> selectFileList( WRKFIL003M0P0DTO inVo) throws Exception {
+	public List<WRKFIL003M0R1DTO> selectFileList( WRKFIL003M0P0DTO inVo, HttpServletRequest request) throws Exception {
+		
+		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		log.info(inVo.toString());
 		

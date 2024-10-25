@@ -1,5 +1,6 @@
 package com.rds.adams.web.wrk.fil.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,6 +22,9 @@ import lombok.ToString;
 @Getter
 @Setter
 public class WRKFIL003M0R1DTO {
+	
+	@Schema(description = "고객사번호")
+	private String csNo;
 	
 	private long seqNo;
 	private String fileNm;

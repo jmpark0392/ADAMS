@@ -167,7 +167,7 @@
 		var data;
 		var unqId = "rowNumber";
 		var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
-		var check_cols = ["batProgId", "batProgNm", "upProgId", "lwstProgYn", "exePrd", "mainEmpNo", "subEmpNo", "useYn"];
+		var check_cols = ["batProgId", "batProgNm", "upProgId", "lwstProgYn", "exePrd", "mainEmpId", "subEmpId", "useYn"];
 		var columns = [
 			{ id: "batProgId",		name: "Program ID",			field: "batProgId",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "batProgNm",		name: "Program Name",		field: "batProgNm",		width: 280,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
@@ -176,6 +176,8 @@
 			{ id: "exePrd",			name: "Cycle",				field: "exePrd",		width: 120,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "Q", value: "Q" }, { key: "M", value: "M" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "mainEmpNo",		name: "Main User",			field: "mainEmpNo",		width: 120,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "subEmpNo",		name: "Sub User",			field: "subEmpNo",		width: 120,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+			{ id: "mainEmpId",		name: "Main User ID",		field: "mainEmpId",		width: 120,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden:true },
+			{ id: "subEmpId",		name: "Sub User ID",		field: "subEmpId",		width: 120,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden:true },
 			{ id: "etcDesc",		name: "Desc",				field: "etcDesc",		width: 260,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "useYn",			name: "Use YN",				field: "useYn",			width: 80,	sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" } ]); }, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
@@ -361,7 +363,7 @@
 		// 신규버튼 누르면 동작하는 함수
 		function openDetails(modalType) {
 
-			let hiddenColumns = ["frstRegEmpNo","frstRegDtm"];
+			let hiddenColumns = ["mainEmpNo", "subEmpNo", "frstRegEmpNo","frstRegDtm"];
 
 			let options4 = [
 				{ value: "Y", text: "Y", column: " "},
