@@ -65,7 +65,7 @@
 								</div>
 								<div class="col-auto me-0 p-1"></div>
 								<div class="col-auto m-0">
-									<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px">
+									<a href="#" class="btn btn-primary ms-auto" style="padding: 4px 10px; color: white; font-size: 13px">
 										Save changes
 									</a>
 								</div>
@@ -186,11 +186,11 @@
 		var dataView;
 		var data;
 		var unqId = "rowNumber";
-		var xcpt_cols = [unqId, "regUsrid", "regDt"];
-		var check_cols = [unqId];
+		var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
+		var check_cols = ["inscDvCd", "valuMetdCd", "lvl1Cd", "lvl3Cd", "lvl3Cd"];
 		
-		var lvl1CdList  = { E:"Expected"
-				          , A:"Actual" };
+		var lvl1CdList  = { E    :"Expected"
+				          , A    :"Actual" };
 		var lvl2CdList  = { "001":"BEL"
 				          , "002":"RA"
 				          , "003":"CSM"};		
@@ -404,13 +404,7 @@
 		// 신규버튼 누르면 동작하는 함수
 		function openDetails(modalType) {
 
-			let hiddenColumns;
-			
-			if (modalType === "create") {
-				hiddenColumns = ["frstRegEmpNo", "frstRegDtm"];
-			} else {
-				hiddenColumns = ["frstRegEmpNo", "frstRegDtm"];  // 컬럼 숨기기
-			}
+			let hiddenColumns = ["frstRegEmpNo", "frstRegDtm"];
 
 			let selInscDvCd = [
 				{ value: "ORGIN", text: "ORGIN", column: "inscDvCd"},
@@ -693,7 +687,7 @@
 						}
 					} else {
 						alert("Please fill out all required fields.");
-					return;
+					return false;
 					}
 				} else if (modalType === "edit") {
 					let isChanged = false;

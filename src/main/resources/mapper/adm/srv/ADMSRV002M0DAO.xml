@@ -31,7 +31,7 @@
                 FROM TMP_D AS B
                 LEFT OUTER JOIN [RDSDB].[dbo].[TB_CS_SRVC_HIST]  AS A
                             ON B.YMD BETWEEN CONVERT(CHAR(8),A.SRVC_STR_DTM,112) AND CONVERT(CHAR(8),A.SRVC_END_DTM,112)
-                            AND A.CS_NO = '002'
+                            AND A.CS_NO = #{csNo}
             WHERE 1=1
             GROUP BY B.YMD
             )

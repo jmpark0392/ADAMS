@@ -13,8 +13,14 @@
 		<!-- Javascript file -->
 		<script src="js/js-tabler/tabler.min.js?1692870487" defer></script>
 		<script src="js/jquery-3.7.1.min.js"></script>
-		<script src="js/common.js"></script>
     	<script src="js/utils.js"></script>
+    	<script>
+    		window.addEventListener('pageshow', function(event) {
+				if (event.persisted) {
+					location.reload(true);
+				}
+			});
+    	</script>
 		<style>
 			@import url('css/inter.css');
 			:root {
@@ -76,13 +82,13 @@
 		    	if ( isNull(vUsrId) == "" ) {
 		            alert("Enter your e-mail.");
 		            $("#inpUsrId").focus();
-		    		return;
+		    		return false;
 		    	}
 
 		    	if ( isNull(vUsrPassword) == "" ) {
 		            alert("Enter your password.");
 		            $("#inpUsrPassword").focus();
-		    		return;
+		    		return false;
 		    	}
 				
 		        // 이메일 형식이 올바르지 않은 경우
@@ -90,7 +96,7 @@
 		            alert("Incorrect e-mail address. Please enter it again."); // 오류 메시지 표시
 		            $("#inpUsrId").focus();
 		            // TO-DO : 테스트 ID 사용 안할 시 주석해제
-		            return;
+		            return false;
 		        }
 				
 		     	// CSRF 토큰과 헤더 이름을 메타 태그에서 가져오기
@@ -115,12 +121,14 @@
 						var sMsg = data.loginMsg;
 						if ( sMsg != null && sMsg != undefined && sMsg != "" ) {
 							alert(sMsg);
+				            $("#inpUsrId").focus();
+				    		return false;
 						}
 						$("#pageName").val(data.redirectUrl);
 						$("#form").submit();
 					},
 					error: function (xhr, status, error) {
-						errorHandler(xhr);
+						gf_errorHandler(xhr);
 					},
 				});
 			}

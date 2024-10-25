@@ -60,24 +60,45 @@ public class ADMUSR002M0Service {
 	 * @return boolean
 	 * @exception Exception
 	 */
-	public boolean saveUsr(ADMUSR002M0R0DTO inVo) throws Exception {
+	public boolean saveUsr(ADMUSR002M0R0DTO inVo, boolean bNewYn) throws Exception {
 
-		String sMaxUsrCntYn = "";
-		String newpassword  = "";
-		boolean bMail       = false;
+		String sMaxUsrCntYn   = "";
+		String sUsrAdminCntYn = "";
+		String newpassword    = "";
+		int    iUsrCnt        = 0;
+		boolean bMail         = false;
 		
 		log.debug(" ADMUSR002M0R0DTO : " + inVo.toString());
 
 		try {
+			// 1. 사용자 등록/변경에 따른 적합성 검증
+			// 1-1. 고객사 사용가능한 사용자 수 체크
+			sMaxUsrCntYn = aDMUSR002M0DAO.selectUsrCntChk(inVo);
+
+			if( "N".equals(sMaxUsrCntYn) ) {
+				// 최대 사용 사용자보다 더 많은 사람을 등록 할 수 없습니다. 일부 사용자를 추가하려면 '서비스 옵션'메뉴에서 옵션을 변경하십시오.
+				throw new Exception("You cannot register more people than the maximum use users. To add some users, change the option from the 'Service Options' menu.");
+			}
+			// 1-2. 신규 고객 중복 ID 체크
+			if ( bNewYn ) {
+				iUsrCnt = aDMUSR002M0DAO.selectUsrDupChk(inVo);
+				if ( iUsrCnt > 0 ) {
+					// 중복된 사용자 ID.
+					throw new Exception("Duplicate user ID.");
+				}
+			}
+			// 1-3. 관리자는 항상 1명 체크.
+			if ( "3".equals(inVo.getUsrDvCd()) ) {
+				sUsrAdminCntYn = aDMUSR002M0DAO.selectUsrAdminCntChk(inVo);
+	
+				if( "N".equals(sUsrAdminCntYn) ) {
+					// 항상 관리자는 1명이어야 합니다..
+					throw new Exception("There must always be 1 administrator.");
+				}
+			}
+			
 			// 2. 관리자 비밀번호 공백 시 임시 비밀번호를 생성한다.(영+영+숫+영+영+숫=6자리)
 			if ( inVo.getOldUsrId() == null || "".equals(inVo.getOldUsrId()) ) {
-				
-				sMaxUsrCntYn = aDMUSR002M0DAO.selectUsrCntChk(inVo);
-				
-				if( "N".equals(sMaxUsrCntYn) ) {
-					// 최대 사용 사용자보다 더 많은 사람을 등록 할 수 없습니다. 일부 사용자를 추가하려면 '서비스 옵션'메뉴에서 옵션을 변경하십시오.
-					throw new Exception("You cannot register more people than the maximum use users. To add some users, change the option from the 'Service Options' menu.");
-				}
 				
 				for (int i = 1; i <= 6; i++) {
 					// 영자
@@ -93,7 +114,11 @@ public class ADMUSR002M0Service {
 				bMail = true;
 			}
 			
-			aDMUSR002M0DAO.updateUsr(inVo);	// 조회 대상 테이블 정보 DTO
+			if ( "2".equals(inVo.getUsrDvCd()) ) {
+				aDMUSR002M0DAO.updateUsrAdmin(inVo);	// 조회 대상 테이블 정보 DTO
+			} else {
+				aDMUSR002M0DAO.updateUsr(inVo);	       // 조회 대상 테이블 정보 DTO
+			}
 			
 			// 관리자 임시 비밀번호 발송
 			if ( bMail ) {

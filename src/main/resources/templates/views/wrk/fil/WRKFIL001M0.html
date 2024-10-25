@@ -50,7 +50,7 @@
 								</div>
 								<div class="col-auto me-0 p-1"></div>
 								<div class="col-auto m-0">
-									<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px"> Save changes </a>
+									<a href="#" class="btn btn-primary ms-auto" style="padding: 4px 10px; color: white; font-size: 13px"> Save changes </a>
 								</div>
 							</div>
 						</div>
@@ -64,60 +64,60 @@
 			return parentCheckData(data, check_cols);
 		}
 		
-		function getCsList(input) {
-			console.log("getCsList input : " + input);
+		function getList(input) {
+			console.log("getList input : " + input);
 			var option = {
-				id: "SelectList"
-				, type: "post"
-				, url: "/WRKFIL001M0SelectList"
-				, async: false
-				, dataType: "json"
-				, contentType: "application/json; charset=utf-8"
-				, data: input,
+						  id         : "SelectList"
+						, type        : "post"
+						, url         : "/WRKFIL001M0SelectList"
+						, async       : false
+						, dataType    : "json"
+						, contentType : "application/json; charset=utf-8"
+						, data: input,
 			};
 
 			gf_Transaction(option, fn_callback);
 		}
 
-		function insertCs(addedRow) {
+		function insertList(addedRow) {
 			var option = {
-				id: "insertList"
-				, type: "post"
-				, url: "/WRKFIL001M0InsertList"
-				, async: false
-				, dataType: "text"
-				, contentType: "application/json; charset=utf-8"
-				, data: addedRow,
+						  id          : "insertList"
+						, type        : "post"
+						, url         : "/WRKFIL001M0InsertList"
+						, async       : false
+						, dataType    : "text"
+						, contentType : "application/json; charset=utf-8"
+						, data        : addedRow,
 			};
 
 			gf_Transaction(option, fn_callback);
 		}
 
-		function fn_updateCs(input) {
-			console.log("updateCs input : " + input);
+		function updateList(input) {
+			console.log("updateList input : " + input);
 			var option = {
-				id          : "updateList"
-				, type        : "post"
-				, url         : "/WRKFIL001M0UpdateList"
-				, async       : true
-				, dataType    : "text"
-				, contentType : "application/json; charset=utf-8"
-				, data        : input
+						  id          : "updateList"
+						, type        : "post"
+						, url         : "/WRKFIL001M0UpdateList"
+						, async       : true
+						, dataType    : "text"
+						, contentType : "application/json; charset=utf-8"
+						, data        : input
 			};
 
 			gf_Transaction(option, fn_callback);
 		}
 		
-		function fn_deleteCs(input) {
-			console.log("deleteCs input : " + input);
+		function deleteList(input) {
+			console.log("deleteList input : " + input);
 			var option = {
-				id          : "deleteList"
-				, type        : "post"
-				, url         : "/WRKFIL001M0DeleteList"
-				, async       : true
-	 			, dataType    : "text"
-				, contentType : "application/json; charset=utf-8"
-	  			, data        : input
+						  id          : "deleteList"
+						, type        : "post"
+						, url         : "/WRKFIL001M0DeleteList"
+						, async       : true
+			 			, dataType    : "text"
+						, contentType : "application/json; charset=utf-8"
+			  			, data        : input
 			};
 
 			gf_Transaction(option, fn_callback);
@@ -218,7 +218,7 @@
 		function main() {
 			// 그리드 초기화 및 데이터 로드
 			console.log("Initializing SlickGrid...");
-			getCsList(
+			getList(
 						(input = JSON.stringify({ searchTxt: $("#inpSearchTxt").val() }))
 					);
 		}
@@ -362,7 +362,13 @@
 		// 신규버튼 누르면 동작하는 함수
 		function openDetails(modalType) {
 			
-			const hiddenColumns = ["usrNm","frstRegDtm"];
+			let hiddenColumns;
+			
+			if (modalType === "create") {
+				hiddenColumns = [unqId, "usrNm", "frstRegDtm"];
+			} else {
+				hiddenColumns = ["usrNm", "frstRegDtm"];  // 컬럼 숨기기
+			}
 			
 			let selYn = [
 				{ value: "Y", text: "Y", column: " " },
@@ -463,7 +469,7 @@
 						if (confirm("Do you want to delete?") == true) {
 							// delete the selected row
 							dataView.deleteItem(dataContext[unqId]);
-							fn_deleteCs(JSON.stringify(dataContext));
+							deleteList(JSON.stringify(dataContext));
 							//location.reload(true);
 							modalElement.hide();
 						}
@@ -594,16 +600,18 @@
 					// Add new item to grid data
 					if (checkData(formData)) {
 						console.log(formData);
-						formData[unqId] = grid.getDataLength() + 1;
+						//formData[unqId] = grid.getDataLength() + 1;
 						// dataView.insertItem(grid.getDataLength(), formData);
 
 						if (confirm("Do you want to register?") == true) {
 							console.log("등록테스트");
-							insertCs(JSON.stringify(formData));
+							insertList(JSON.stringify(formData));
+							// 등록 성공 후 모달 숨기기
+							modalElement.hide();
 						}
 					} else {
 						alert("Please fill out all required fields.");
-					return;
+					return false;
 					}
 				} else if (modalType === "edit") {
 					console.log("EDIT 테스트");
@@ -622,7 +630,7 @@
 
 						if (confirm("Do you want to modify?") == true) {
 							// updateFile(formData);
-							fn_updateCs(JSON.stringify(formData));
+							updateList(JSON.stringify(formData));
 						}
 					} else {
 						alert("No changes detected.");

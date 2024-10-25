@@ -33,53 +33,53 @@ public class MenuLinkController {
 	
 	private void csrfEnroll(Model model, String csrfToken) {
 		if (csrfToken != null || model != null) {
-        	model.addAttribute("csrfToken", csrfToken);
-            model.addAttribute("csrfParameterName", CSRF_PARAMETER_NAME);
-            model.addAttribute("csrfHeaderName", CSRF_HEADER_NAME);
-        }
+			model.addAttribute("csrfToken", csrfToken);
+			model.addAttribute("csrfParameterName", CSRF_PARAMETER_NAME);
+			model.addAttribute("csrfHeaderName", CSRF_HEADER_NAME);
+		}
 	}
 	
 	private String csrfGenerate(HttpSession session) {
-        return CSRFTokenManager.getTokenForSession(session, true);
+		return CSRFTokenManager.getTokenForSession(session, true);
 	}
 	
 	// 새로운 메소드: GetMapping("/") 경로로 접근 시 로그인 페이지로 CSRF 토큰 전달
-    @GetMapping("/")
-    public String showLoginPage(HttpServletRequest request, Model model) {
-        // CSRF 토큰을 세션에서 가져오거나 없으면 생성
-    	HttpSession session = request.getSession(true);
-    	String _token = csrfGenerate(session);
-    	csrfEnroll(model, _token);
-        
-        // login.html로 이동
-        return "login";
-    }
-    
-    @GetMapping("/adminLogin")
-    public String showAdminLoginPage(HttpServletRequest request, Model model) {
-        // CSRF 토큰을 세션에서 가져오거나 없으면 생성
-    	HttpSession session = request.getSession(true);
-    	String _token = csrfGenerate(session);
-    	csrfEnroll(model, _token);
-        
-        // login.html로 이동
-        return "adminLogin";
-    }
-    
-    
-    @GetMapping("/TokenRefresh")
-    @ResponseBody
-    public String refreshCsrfToken(HttpServletRequest request, Model model) {
-    	
-    	// 새로운 세션 생성
-        HttpSession newSession = request.getSession(true);  // 새로운 세션을 강제로 생성
-        // 새로운 CSRF 토큰을 발급하여 세션에 추가
-        String newCsrfToken = csrfGenerate(newSession);
-        csrfEnroll(model, newCsrfToken);
-        
-        // 새로 발급된 CSRF 토큰을 클라이언트로 반환
-        return newCsrfToken;
-    }
+	@GetMapping("/")
+	public String showLoginPage(HttpServletRequest request, Model model) {
+		// CSRF 토큰을 세션에서 가져오거나 없으면 생성
+		HttpSession session = request.getSession(true);
+		String _token = csrfGenerate(session);
+		csrfEnroll(model, _token);
+		
+		// login.html로 이동
+		return "login";
+	}
+	
+	@GetMapping("/adminLogin")
+	public String showAdminLoginPage(HttpServletRequest request, Model model) {
+		// CSRF 토큰을 세션에서 가져오거나 없으면 생성
+		HttpSession session = request.getSession(true);
+		String _token = csrfGenerate(session);
+		csrfEnroll(model, _token);
+		
+		// login.html로 이동
+		return "adminLogin";
+	}
+	
+	
+	@GetMapping("/TokenRefresh")
+	@ResponseBody
+	public String refreshCsrfToken(HttpServletRequest request, Model model) {
+		
+		// 새로운 세션 생성
+		HttpSession newSession = request.getSession(true);  // 새로운 세션을 강제로 생성
+		// 새로운 CSRF 토큰을 발급하여 세션에 추가
+		String newCsrfToken = csrfGenerate(newSession);
+		csrfEnroll(model, newCsrfToken);
+		
+		// 새로 발급된 CSRF 토큰을 클라이언트로 반환
+		return newCsrfToken;
+	}
 	
 	@PostMapping("/menuLink")
 	public String goMenuPage(@RequestBody String pageName
@@ -113,16 +113,6 @@ public class MenuLinkController {
 		return newPageName.replaceAll("%2F", "/");
 		
 	}
-	
-	private String generateNonce() {
-		
-        SecureRandom random = new SecureRandom();
-        byte[] nonceBytes = new byte[16];
-        random.nextBytes(nonceBytes);
-        
-        return Base64.getEncoder().encodeToString(nonceBytes);
-
-    }
 	
 	@PostMapping("/FailAuthentic")
 	public ModelAndView failAuthentic() {
