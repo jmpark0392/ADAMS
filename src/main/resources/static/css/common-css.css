@@ -183,6 +183,9 @@ a.nav-link.active {
   padding: 10px;
   font-size: 13px;
 }
+.form-control{
+  font-size: 13px;
+}
 
 .list-unstyled li {
   margin-bottom: 10px;
