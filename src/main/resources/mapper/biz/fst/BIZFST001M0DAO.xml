@@ -36,7 +36,9 @@
                         ON A.ATIT_CD = B.ATIT_CD
                      WHERE 1=1
                        AND B.AC_LVL_CD = '4'
+                     <if test= 'csNo != "999"'>
                        AND B.CS_NO     = #{csNo}
+                     </if>
                  GROUP BY B.HGRK_ATIT_CD 
               )
         , LVL2 AS (
@@ -53,7 +55,9 @@
                         ON A.ATIT_CD = B.ATIT_CD
                      WHERE 1=1
                        AND B.AC_LVL_CD = '3'
+                     <if test= 'csNo != "999"'>
                        AND B.CS_NO     = #{csNo}
+                     </if>
                  GROUP BY B.HGRK_ATIT_CD 
               ) 
         , LVL1 AS (
@@ -70,7 +74,9 @@
                         ON A.ATIT_CD = B.ATIT_CD
                      WHERE 1=1
                        AND B.AC_LVL_CD = '2'
+                     <if test= 'csNo != "999"'>
                        AND B.CS_NO     = #{csNo}
+                     </if>
                      GROUP BY B.HGRK_ATIT_CD 
                   )
         SELECT
