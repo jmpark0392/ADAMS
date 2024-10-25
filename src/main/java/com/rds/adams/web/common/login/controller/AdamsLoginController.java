@@ -41,6 +41,7 @@ import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsResultDTO;
 import com.rds.adams.web.common.login.dto.AdamsUpdateAccountDTO;
+import com.rds.adams.web.common.login.dto.AdamsUpdateLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 import com.rds.adams.web.common.login.service.AdamsLoginService;
 import com.rds.adams.web.core.utils.StringUtil;
@@ -758,9 +759,18 @@ public class AdamsLoginController {
 	    if ( sAdamsLoginDTO != null && sAdamsLoginDTO.getUsrId() != null && !sAdamsLoginDTO.getUsrId().equals("")) {
 		    // 2. 사용자 정보 수정을 세션정보 가져오기 
 	    	adamsUpdateAccountDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+	    	adamsUpdateAccountDTO.setUsrId(sAdamsLoginDTO.getUsrId());
 		    
 			// 3. 비밀번호 변경 처리
 		    bResult = adamsLoginService.updateAccount(adamsUpdateAccountDTO);
+		    
+		    // 4. 변경된 사용자 정보 가져오기
+		    AdamsUpdateLoginDTO newAdamsLoginDTO = new AdamsUpdateLoginDTO();
+		    newAdamsLoginDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+		    newAdamsLoginDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		    
+		    AdamsUpdateLoginDTO newAdamsUpdateLoginDTO = adamsLoginService.actionUpdateLogin(newAdamsLoginDTO);
+		    request.getSession().setAttribute(AdamsConstant.SESSION_LOGIN_INFO, newAdamsUpdateLoginDTO);
 	    }
 	    
 	    if (bResult) {

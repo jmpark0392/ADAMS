@@ -139,7 +139,7 @@
 							</div>
 							<div class="col-md-4">
 								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="managerTeam" name="managerTeam" maxLength="50" placeholder="your team name (or division, department etc.)" autocomplete="off" required>
+									<input type="text" th:value="${loginDTO.usrDeptNm}" class="form-control" id="managerTeam" name="managerTeam" maxLength="50" placeholder="your team name (or division, department etc.)" autocomplete="off" required>
 									<label for="managerTeam">your team name (or division, department etc.)</label>
 								</div>
 							</div>
@@ -177,7 +177,7 @@
 							</div>
 							<div class="col-md-4">
 								<div class="form-footer">
-									<button id="updateButton" class="btn btn-secondary w-100" onclick="updateMyAccount()">Update</button>
+									<button id="updateButton" class="btn btn-secondary w-100" onclick="cfmUpdateMyAccount()">Update</button>
 								</div>
 							</div>
 							<div class="col-md-4">
@@ -454,6 +454,7 @@
 							fn_monthBatCnt(result.data);
 							break;
 						case "updateMyAccount" :
+							/* main(); */
 							break;
 					}
 				} else if( result.resultCd == "E") {
@@ -847,6 +848,18 @@
                 	// No subscription info found
 					console.error("Invalid month batch count graph");
                 }
+			}
+			
+			function cfmUpdateMyAccount() {
+				var cfm_notice = confirm("Your updated account information will be applied immediately. Shall we proceed?");
+				
+				if (cfm_notice) {
+					// 사용자 정보 수정
+					updateMyAccount();
+					
+				} else {
+					return false;
+				}
 			}
 
 		    function updateMyAccount() {
