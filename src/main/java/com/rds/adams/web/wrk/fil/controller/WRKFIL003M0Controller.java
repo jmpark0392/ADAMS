@@ -68,7 +68,7 @@ public class WRKFIL003M0Controller {
 	 * @return String
 	 */
 	@RequestMapping(value="/WRKFIL003M0SaveUploadFile", method=RequestMethod.POST)
-	public String saveUploadFile( @RequestPart(name = "uploadFile") MultipartFile[] uploadFile
+	public HashMap<String, Object> saveUploadFile( @RequestPart(name = "uploadFile") MultipartFile[] uploadFile
 			, @RequestParam("uploadFileVal") String uploadFileVal
 			, @RequestParam("inpStdYymm") String inpStdYymm
 			, HttpServletRequest request) throws Exception {
@@ -86,13 +86,15 @@ public class WRKFIL003M0Controller {
 			//log.debug(uploadFile.toString() + "\n" + inVo.toString());
 			
 			wRKFIL003M0Service.saveUploadFile(uploadFile, inVo, csNo, usrId);
-			
+
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
 		} catch (Exception e) {
 			resultMap.put("resultCode"   , "300");
 			resultMap.put("resultMessage", e.getMessage());
 		}
 		
-		return "";
+		return resultMap;
     }
 	
 	/**

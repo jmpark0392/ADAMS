@@ -241,16 +241,21 @@
 						break;
 					case "SaveUplFileList" :
 						console.log("SaveUplFileList grid");
-						alert("File upload success");
+						//console.log("fn_callback result received:", result);
+						if ( result.data.resultCode == "200" ) {
+							alert("File upload success");
 
-						var agent = navigator.userAgent.toLowerCase();
-						//파일초기화
-						if (( navigator.appName == "Netscape" && navigator.userAgent.search("Trident") != -1) || agent.indexOf("msie") != -1 ) {
-							$("#btnFileUpload").replaceWith($("#btnFileUpload").clone(true));
+							var agent = navigator.userAgent.toLowerCase();
+							//파일초기화
+							if (( navigator.appName == "Netscape" && navigator.userAgent.search("Trident") != -1) || agent.indexOf("msie") != -1 ) {
+								$("#btnFileUpload").replaceWith($("#btnFileUpload").clone(true));
+							} else {
+								$("#btnFileUpload").val("");
+							}
+							getSearchList();
 						} else {
-							$("#btnFileUpload").val("");
+							alert( "File upload Fail Error : " + result.data.resultMessage );
 						}
-						getSearchList();
 						break;
 				}	  
 			} else if( result.resultCd == "E") {
@@ -372,7 +377,11 @@
 	
 			//let form = $('#uploadFrm')[0];
 			//let frmData = new FormData(form);
-	
+			
+			if(confirm("Do you want to upload file?") == false) {
+				return false;
+			}
+			
 			var formData = new FormData();
 			var inputFile = $("input[name='btnFileUpload']");
 			var files = inputFile[0].files;
@@ -388,7 +397,7 @@
 			
 			formData.append("uploadFileVal", $("#cmbUploadFileList").val());
 			formData.append("inpStdYymm", stdYymm);
-	
+			
 			/*
 			  formData.append("param", new Blob([ JSON.stringify({
 															  uploadFile: $("#cmbUploadFileList").val(),
@@ -409,15 +418,13 @@
 					contentType : false,
 					cache       : false,
 					success     : function (data) {
-									//console.log(data);
-						
+									//console.log( "WRKFIL003M0SaveUploadFile success : " + data);
+									
 									result.resultCd = "S";
 									result.id       = "SaveUplFileList";
 									result.data     = data;
 									
-									if(confirm("Do you want to upload file?") == true) {
-										fn_callback(result);
-									}
+									fn_callback(result);
 								}, error    : function (e) {
 									console.log(e);
 									alert("File upload failed");
