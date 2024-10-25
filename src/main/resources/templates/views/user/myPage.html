@@ -388,24 +388,10 @@
 		</script>
 
 		<script>
-			let formattedDate; // date 초기화 배열
-			
-			function setFormattedDate() {
-			    let now = new Date();
-			    formattedDate = now.getFullYear() + '-' +
-			                    ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
-			                    ('0' + now.getDate()).slice(-2) + ' ' +
-			                    ('0' + now.getHours()).slice(-2) + ':' +
-			                    ('0' + now.getMinutes()).slice(-2) + ':' +
-			                    ('0' + now.getSeconds()).slice(-2);
-			}
-
-		
 			$(document).ready(function () {
 				console.log("Document is ready.");
 				
 				//화면 접속시 바로 조회
-				setFormattedDate();
 				main();
 			});
 			
@@ -530,7 +516,17 @@
 			}
 			
 			function fn_lastLoginDtm(data) {
-			    
+				
+				let formattedDate; // date 초기화 배열
+				
+				let now = new Date();
+				formattedDate = now.getFullYear() + '-' +
+								('0' + (now.getMonth() + 1)).slice(-2) + '-' +
+				                ('0' + now.getDate()).slice(-2) + ' ' +
+				                ('0' + now.getHours()).slice(-2) + ':' +
+				                ('0' + now.getMinutes()).slice(-2) + ':' +
+				                ('0' + now.getSeconds()).slice(-2);
+				                
 				if (data && data.lastLoginDtm){
 					let lastLoginDtm = data.lastLoginDtm;
 					
@@ -563,16 +559,16 @@
 			
 			function fn_loginCntTotal(data){
 				
-				if (data && data.loginCntTotal > 0){
+				if (data && typeof data.loginCntTotal === "number"){
 					let loginCntTotal = data.loginCntTotal;
 					
-					if(loginCntTotal > 0){
+					if(loginCntTotal >= 0){
 						$("#loginCntTotal").text(loginCntTotal.toLocaleString()).css("font-weight", "bold");
 					}else {
 						// No subscription info found
 						$("#loginCntTotal").text("0").css("font-weight", "bold");
 					}
-				}else if (data && data.loginCntTotal === 0) {
+				}else {
                     // No subscription info found
                     $("#loginCntTotal").text("0").css("font-weight", "bold");
                 }
@@ -651,11 +647,11 @@
 						$("#lastUploadDtm").text(lastUploadDtm).css("font-weight", "bold");
 					}else {
 						// No subscription info found
-						$("#lastUploadDtm").text(formattedDate).css("font-weight", "bold");
+						$("#lastUploadDtm").text("").css("font-weight", "bold");
 					}
 				}else {
                     // No subscription info found
-                    $("#lastUploadDtm").text(formattedDate).css("font-weight", "bold");
+                    $("#lastUploadDtm").text("").css("font-weight", "bold");
                 }
 			}
 			
@@ -676,16 +672,16 @@
 			
 			function fn_uploadCntTotal(data){
 				
-				if (data && data.uploadCntTotal > 0){
+				if (data && typeof data.uploadCntTotal === "number"){
 					let uploadCntTotal = data.uploadCntTotal;
 					
-					if(uploadCntTotal > 0){
+					if(uploadCntTotal >= 0){
 						$("#uploadCntTotal").text(uploadCntTotal.toLocaleString()).css("font-weight", "bold");
 					}else {
 						// No subscription info found
 						$("#uploadCntTotal").text("0").css("font-weight", "bold");
 					}
-				}else if (data && data.uploadCntTotal === 0) {
+				}else {
                     // No subscription info found
                     $("#uploadCntTotal").text("0").css("font-weight", "bold");
                 }
@@ -764,11 +760,11 @@
 						$("#lastBatDtm").text(lastBatDtm).css("font-weight", "bold");
 					}else {
 						// No subscription info found
-						$("#lastBatDtm").text(formattedDate).css("font-weight", "bold");
+						$("#lastBatDtm").text("").css("font-weight", "bold");
 					}
 				}else {
                     // No subscription info found
-                    $("#lastBatDtm").text(formattedDate).css("font-weight", "bold");
+                    $("#lastBatDtm").text("").css("font-weight", "bold");
                 }
 			}
 			
@@ -788,16 +784,16 @@
 			}
 			
 			function fn_batCntTotal(data) {
-				if (data && data.batCntTotal > 0){
+				if (data && typeof data.batCntTotal === "number"){
 					let batCntTotal = data.batCntTotal;
 					
-					if(batCntTotal > 0){
+					if(batCntTotal >= 0){
 						$("#batCntTotal").text(batCntTotal.toLocaleString()).css("font-weight", "bold");
 					}else {
 						// No subscription info found
 						$("#batCntTotal").text("0").css("font-weight", "bold");
 					}
-				}else if (data && data.uploadCntTotal === 0) {
+				}else {
                     // No subscription info found
                     $("#batCntTotal").text("0").css("font-weight", "bold");
                 }

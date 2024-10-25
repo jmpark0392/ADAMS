@@ -207,7 +207,8 @@ public class WRKFIL003M0Service {
 				
 				sBaseQuery = sBaseQuery + "      " + sDbId + ".dbo." + sTblId + " "
 										+ "   (  "
-										+ "      " + sColId + " ";
+										+ "      CS_NO "
+										+ "   , " + sColId + " ";
 				
 				dBaseQuery = dBaseQuery + "      " + sDbId + ".dbo." + sTblId + " ";
 				
@@ -227,7 +228,7 @@ public class WRKFIL003M0Service {
 		
 		sAddQuery  = sAddQuery  + "   (  ";
 		
-		dBaseQuery = dBaseQuery + "   WHERE 1=1  ";
+		dBaseQuery = dBaseQuery + "   WHERE CS_NO = '" + csNo + "'";
 		
 		// 업로드 이력 Insert
 		wRKFIL003M0P1DTO.setCsNo(csNo);
@@ -246,7 +247,8 @@ public class WRKFIL003M0Service {
 			
 			if ( i == 0) {
 				/*sBaseQuery = sBaseQuery + "     #{item." + sColId + "} ";*/
-				sAddQuery = sAddQuery + "     #{item." + sColId + "} ";
+				sAddQuery = sAddQuery + "     '" + csNo + "' "
+				                      + "   , #{item." + sColId + "} ";
 				
 			} else {
 				/* sBaseQuery = sBaseQuery + "   , #{item." + sColId + "} "; */
