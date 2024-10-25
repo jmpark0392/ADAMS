@@ -553,7 +553,7 @@
     <select id="selectLastUploadDtm" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="lastUploadDtm">
         SELECT
         	   TOP(1)
-               ISNULL(CONVERT(CHAR(19), LOAD_STR_DTM, 20), CONVERT(CHAR(19), GETDATE(), 20)) AS lastUploadDtm
+               ISNULL(CONVERT(CHAR(19), LOAD_STR_DTM, 20), '') AS lastUploadDtm
           FROM RDSDB.[dbo].[TB_UPL_HIST]
          WHERE 1=1
            AND FNL_UPD_EMP_NO = #{usrId}
@@ -603,7 +603,7 @@
     <select id="selectLastBatDtm" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="lastBatDtm">
         SELECT
         	   TOP(1)
-               ISNULL(CONVERT(CHAR(19), BAT_STR_DTM, 20), CONVERT(CHAR(19), GETDATE(), 20)) AS lastBatDtm
+               ISNULL(CONVERT(CHAR(19), BAT_STR_DTM, 20), '') AS lastBatDtm
           FROM RDSDB.[dbo].[TB_BAT_RST_LST]
          WHERE 1=1
            AND FNL_UPD_EMP_NO = #{usrId}
