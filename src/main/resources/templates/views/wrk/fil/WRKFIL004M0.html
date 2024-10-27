@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
 	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 	<div class="page-wrapper" id="page-wrapper">
@@ -13,13 +13,13 @@
 						<form id="divSearch" name="divSearch" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
 							<div class="row align-items-center">
 								<div class="col-auto">
-									<label for="lblUploadFileList" class="form-label">File Title : </label>
+									<label for="lblUploadFileList" class="form-label">File Name : </label>
 									<select id="cmbUploadFileList" name="cmbUploadFileList" required="required" class="form-select select-options p-1">
-										<option selected="selected" value="">- select -</option>
+										<option selected="selected" value="">- File -</option>
 									</select>
 								</div>
 								<div class="col-auto">
-									<label class="form-label">Load Date: </label>
+									<label class="form-label">Load Date : </label>
 									<div class="input-icon">
 										<input class="form-control select-date p-1" placeholder="Select a date" id="datepicker-icon" value="" style="padding: 3px" size=15 />
 											<span class="input-icon-addon "> <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -55,18 +55,12 @@
 									</div>
 								</div>
 								<div class="col-auto">
-									<label class="form-label" style="flex-basis: 100%; margin-bottom: 0.5rem;">Standard Year/Month:</label>
+									<label class="form-label" style="flex-basis: 100%; margin-bottom: 0.5rem;">Standard Year / Month :</label>
 									<div class="form-group">
 										<select name="user[year]" class="form-select select-month-year p-1" id="inpStartStdYr" style="display: flex; width: 100px; margin-right: 10px">
 											<option selected value="">- Year -</option>
 											<!-- Year Options -->
-											<option value="2020">2020</option>
-											<option value="2021">2021</option>
-											<option value="2022">2022</option>
-											<option value="2023">2023</option>
 											<option value="2024">2024</option>
-											<option value="2025">2025</option>
-											<option value="2026">2026</option>
 										</select>
 										<select name="user[month]" class="form-select select-month-year p-1" id="inpStartMnth" style="display: flex; width: 120px;">
 											<option selected value="">- Month -</option>
@@ -95,13 +89,7 @@
 										<select name="user[year]" class="form-select select-month-year p-1" id="inpEndStdYr" style="display: flex; width: 100px; margin-right: 10px">
 											<option selected value="">- Year -</option>
 											<!-- Year Options -->
-											<option value="2020">2020</option>
-											<option value="2021">2021</option>
-											<option value="2022">2022</option>
-											<option value="2023">2023</option>
 											<option value="2024">2024</option>
-											<option value="2025">2025</option>
-											<option value="2026">2026</option>
 										</select>
 										<select name="user[month]" class="form-select select-month-year p-1" id="inpEndMnth" style="display: flex; width: 120px;">
 											<option selected value="">- Month -</option>
@@ -272,7 +260,7 @@
 				{ id: "fileNm",			name: "File Name",			field: "fileNm",		width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
 				{ id: "loadCnt",		name: "Load Count",			field: "loadCnt",		width:100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
 				{ id: "stdYymm",		name: "Standard YYYY/MM",	field: "stdYymm",		width:150,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
-				{ id: "frstRegEmpNo",	name: "registrant",			field: "frstRegEmpNo",	width:120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
+				{ id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width:120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
 				{ id: "loadStrDtm",		name: "Load Start Date",	field: "loadStrDtm",	width:150,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
 				{ id: "loadEndDtm",		name: "Load End Date",		field: "loadEndDtm",	width:150,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
 				{ id: "loadSuccYn",		name: "Load Success",		field: "loadSuccYn",	width:120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},

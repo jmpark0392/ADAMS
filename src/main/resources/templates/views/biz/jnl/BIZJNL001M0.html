@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
 	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 	<div class="page-wrapper" id="page-wrapper">
@@ -13,7 +12,7 @@
 						<form id="filter-form" name="form" method="post" action="BIZJNL001M0SelectList" onsubmit="return false;">
 							<div class="row">
 								<div class="col-sm-6 col-md-3">
-									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Account Title/Name" />
+									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Account Code or Name" />
 								</div>
 								<div class="col-auto">
 									<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>
@@ -173,15 +172,15 @@
 		var check_cols = ["atitCd", "atitKorNm", "atitEngNm", "acLvlCd", "bkgAcYn"
 			            , "fsDvCd", "acDvCd", "acKindCd", "ordSeq", "appStrDt", "appEndDt", "useYn"];
 		var columns = [
-			{ id: "atitCd",			name: "Account Title",		field: "atitCd",		width: 260, sortable: true, editor: Slick.Editors.Text, formatter: TreeArchFormatter, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
+			{ id: "atitCd",			name: "Account Code",		field: "atitCd",		width: 260, sortable: true, editor: Slick.Editors.Text, formatter: TreeArchFormatter, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{ id: "atitKorNm",		name: "Account Name(Kor)",	field: "atitKorNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left", hidden:true },
 			{ id: "atitEngNm",		name: "Account Name",		field: "atitEngNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
-			{ id: "hgrkAtitCd",		name: "High Rank Title",	field: "hgrkAtitCd",	width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{ id: "acLvlCd",		name: "Account Rank",		field: "acLvlCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "1", value: "1" }, { key: "2", value: "2" }, { key: "3", value: "3" }, { key: "4", value: "4" }, { key: "5", value: "5" }, { key: "6", value: "6" }, { key: "7", value: "7" }, { key: "8", value: "8" }, { key: "9", value: "9" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{ id: "hgrkAtitCd",		name: "Parent Code",	field: "hgrkAtitCd",	width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{ id: "acLvlCd",		name: "Account Depth",		field: "acLvlCd",		width: 120, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "1", value: "1" }, { key: "2", value: "2" }, { key: "3", value: "3" }, { key: "4", value: "4" }, { key: "5", value: "5" }, { key: "6", value: "6" }, { key: "7", value: "7" }, { key: "8", value: "8" }, { key: "9", value: "9" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "bkgAcYn",		name: "Booking",			field: "bkgAcYn",					sortable: true, editor: function (args) { return new ComboBoxEditor(args, [ { key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "fsDvCd",			name: "Financial Div",		field: "fsDvCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "BS", value: "BS" }, { key: "PL", value: "PL" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "acDvCd",			name: "Acocunt Div",		field: "acDvCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "1", value: "자산" }, { key: "2", value: "부채" }, { key: "3", value: "자본" }, { key: "4", value: "수익" }, { key: "5", value: "비용" }, { key: "9", value: "난외" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{ id: "acKindCd",		name: "Account Kind",		field: "acKindCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "001", value: "자산집계" }, { key: "002", value: "부채집계" }, { key: "003", value: "자본집계" }, { key: "004", value: "수익집계" }, { key: "005", value: "비용집계" }, { key: "006", value: "당기순이익" }, { key: "007", value: "이익잉여금" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{ id: "acKindCd",		name: "Account Type",		field: "acKindCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "001", value: "자산집계" }, { key: "002", value: "부채집계" }, { key: "003", value: "자본집계" }, { key: "004", value: "수익집계" }, { key: "005", value: "비용집계" }, { key: "006", value: "당기순이익" }, { key: "007", value: "이익잉여금" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "ordSeq",			name: "Order",				field: "ordSeq",					sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "etcDesc",		name: "Etc",				field: "etcDesc",					sortable: true, editor: Slick.Editors.Text, validator: createValidator,  headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "appStrDt",		name: "Apply Start Date",	field: "appStrDt",		width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},

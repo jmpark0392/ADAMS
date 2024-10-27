@@ -2,132 +2,138 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
 	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-		<div class="page-wrapper" id="page-wrapper">
-			<div class="container" id="container">
-				<h2>[[${menuNm}]]</h2>
-				<div class="ptag-container mb-5">
-					<span>[[${navigator}]]</span>
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="container">
+			<h2>[[${menuNm}]]</h2>
+			<div class="ptag-container">
+				<span>[[${navigator}]]</span>
+				<div class="form-container">
+					<div class="form-box">
+						<div class="mb-3">
+							<span>
+								You can change some of your company information, such as location, phone number or website.
+							</span>
+						</div>
+						<form id="companyInfoDetailsForm" name="companyInfoDetailsForm" method="POST" action="/ADMUSR001M0SelectCompList" autocomplete="off" onsubmit="return false;">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="companyName" name="companyName" maxLength="50" value="" autocomplete="off" required placeholder="company name" disabled>
+											<label for="companyName">company name</label>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="companyDivision" name="companyDivision" maxLength="50" value="" autocomplete="off" required placeholder="type of company identification" disabled>
+											<label for="companyDivision">type of company identification</label>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="companyNo" name="companyNo" maxLength="30" value="" autocomplete="off" required placeholder="company identification number" disabled>
+											<label for="companyNo">company identification number</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="countryName" name="countryName" value="" autocomplete="off" required placeholder="country" disabled>
+											<label for="countryName">country</label>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="basicAddress" name="basicAddress" maxLength="100" value="" autocomplete="off" required placeholder="company address 1 (State, City, Building, Road etc.)">
+											<label for="basicAddress">company address 1 (State, City, Building, Road etc.)</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="postalCode" name="postalCode" maxLength="10" value="" autocomplete="off" required placeholder="postal code">
+											<label for="postalCode">postal code</label>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="detailedAddress" name="detailedAddress" maxLength="100" value="" autocomplete="off" required placeholder="company address 2">
+											<label for="detailedAddress">company address 2</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="representativeName" name="representativeName" maxLength="50" value="" autocomplete="off" required placeholder="representative person name (President, CEO etc.)">
+											<label for="representativeName">representative person name (President, CEO etc.)</label>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="companyHomepage" name="companyHomepage" maxLength="30" value="" autocomplete="off" required placeholder="company homepage">
+											<label for="companyHomepage">company homepage</label>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="representativePhone" name="representativePhone" maxLength="30" value="" autocomplete="off" required placeholder="representative phone number">
+											<label for="representativePhone">representative phone number</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="firstRegDatetime" name="firstRegDatetime" maxLength="30" value="" autocomplete="off" required placeholder="registration request date" disabled>
+											<label for="firstRegDatetime">registration request date</label>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control text-red" id="useEndDatetime" name="useEndDatetime" maxLength="50" value="" autocomplete="off" required placeholder="subscription end date" disabled>
+											<label for="useEndDatetime">subscription end date</label>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-floating mb-2">
+											<input type="text" class="form-control" id="lastUpdateDatetime" name="lastUpdateDatetime" maxLength="50" value="" autocomplete="off" required placeholder="last update date" disabled>
+											<label for="lastUpdateDatetime">last update date</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-footer">
+											<button id="resetButton" class="btn btn-secondary w-100" onclick="main()">
+												Reset
+											</button>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-footer">
+											<button id="saveButton" class="btn btn-primary w-100" onclick="saveCompanyInfo()">
+												update
+											</button>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-footer">
+											<button id="unsubscribeButton" class="btn btn-warning w-100" onclick="updateServiceCode()">
+												Request to unsubscribe
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
-			<div class="container-xl mb-6">
-				<form id="companyInfoDetailsForm" name="companyInfoDetailsForm" method="POST" action="/ADMUSR001M0SelectCompList" autocomplete="off" onsubmit="return false;">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="companyName" name="companyName" maxLength="50" value="" autocomplete="off" required placeholder="company name" disabled>
-									<label for="companyName">company name</label>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="companyDivision" name="companyDivision" maxLength="50" value="" autocomplete="off" required placeholder="type of company identification" disabled>
-									<label for="companyDivision">type of company identification</label>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="companyNo" name="companyNo" maxLength="30" value="" autocomplete="off" required placeholder="company identification number" disabled>
-									<label for="companyNo">company identification number</label>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="countryName" name="countryName" value="" autocomplete="off" required placeholder="country" disabled>
-									<label for="countryName">country</label>
-								</div>
-							</div>
-							<div class="col-md-8">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="basicAddress" name="basicAddress" maxLength="100" value="" autocomplete="off" required placeholder="company address 1 (State, City, Building, Road etc.)">
-									<label for="basicAddress">company address 1 (State, City, Building, Road etc.)</label>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="postalCode" name="postalCode" maxLength="10" value="" autocomplete="off" required placeholder="postal code">
-									<label for="postalCode">postal code</label>
-								</div>
-							</div>
-							<div class="col-md-8">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="detailedAddress" name="detailedAddress" maxLength="100" value="" autocomplete="off" required placeholder="company address 2">
-									<label for="detailedAddress">company address 2</label>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="representativeName" name="representativeName" maxLength="50" value="" autocomplete="off" required placeholder="representative person name (President, CEO etc.)">
-									<label for="representativeName">representative person name (President, CEO etc.)</label>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="companyHomepage" name="companyHomepage" maxLength="30" value="" autocomplete="off" required placeholder="company homepage">
-									<label for="companyHomepage">company homepage</label>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="representativePhone" name="representativePhone" maxLength="30" value="" autocomplete="off" required placeholder="representative phone number">
-									<label for="representativePhone">representative phone number</label>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="firstRegDatetime" name="firstRegDatetime" maxLength="30" value="" autocomplete="off" required placeholder="registration request date" disabled>
-									<label for="firstRegDatetime">registration request date</label>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control text-red" id="useEndDatetime" name="useEndDatetime" maxLength="50" value="" autocomplete="off" required placeholder="subscription end date" disabled>
-									<label for="useEndDatetime">subscription end date</label>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-floating mb-2">
-									<input type="text" class="form-control" id="lastUpdateDatetime" name="lastUpdateDatetime" maxLength="50" value="" autocomplete="off" required placeholder="last update date" disabled>
-									<label for="lastUpdateDatetime">last update date</label>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-footer">
-									<button id="resetButton" class="btn btn-secondary w-100" onclick="main()">
-										Reset
-									</button>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-footer">
-									<button id="saveButton" class="btn btn-primary w-100" onclick="saveCompanyInfo()">
-										Save
-									</button>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-footer">
-									<button id="unsubscribeButton" class="btn btn-warning w-100" onclick="updateServiceCode()">
-										Request to unsubscribe
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
 		</div>
-
+	</div>
 
 	<script src="js/utils.js"></script>
 	<script>
@@ -242,7 +248,7 @@
 				            $("#saveButton")
 				              .removeClass("btn btn-light w-0")
 				              .addClass("btn btn-primary w-100")
-				              .text("Save")
+				              .text("Update")
 				              .attr("onclick","saveCompanyInfo()");
 						            
 				            $("#unsubscribeButton")

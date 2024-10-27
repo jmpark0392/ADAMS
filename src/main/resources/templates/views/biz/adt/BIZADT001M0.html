@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
 	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 	<div class="page-wrapper" id="page-wrapper">
@@ -13,17 +13,11 @@
 							<div class="row">
 								<!-- Year Select -->
 								<div class="col-auto">
-									<label class="form-label">Standard Year/Month:</label>
+									<label class="form-label">Standard Year / Month :</label>
 									<select name="user[year]" class="form-select select-month-year p-1" id="inputYear">
 									<option selected value="">- Year -</option>
 									<!-- Year Options -->
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2023">2023</option>
 										<option value="2024">2024</option>
-										<option value="2025">2025</option>
-										<option value="2026">2026</option>
 									</select>
 								</div>
 								<!-- Month Select -->
@@ -47,8 +41,8 @@
 									</select>
 								</div>
 								<div class="col-sm-6 col-md-3">
-									<label class="form-label">Search Account Title/Name:</label>
-									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Account Title/Name" />
+									<label class="form-label">Account Code or Name :</label>
+									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Account Code or Name" />
 								</div>
 								<div class="col-auto">
 									<button type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="getSearch()">Search</button>
@@ -183,13 +177,13 @@
 		var xcpt_cols = [unqId, "regUsrid", "regDt"];
 		var check_cols = [unqId, "atitCd"];
 		var columns = [
-			{id: "atitCd",			name: "Account Title",		field: "atitCd",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{id: "atitNm",			name: "Account Title Name",	field: "atitNm",		width: 290,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
+			{id: "atitCd",			name: "Account Code",		field: "atitCd",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "atitNm",			name: "Account Name",	field: "atitNm",		width: 290,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{id: "insuPlItmCd",		name: "Insurance Code",		field: "insuPlItmCd",	width: 110,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{id: "insuPlItmNm",		name: "Insurance Name",		field: "insuPlItmNm",	width: 350, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
-			{id: "acntAmt",			name: "Amt",				field: "acntAmt",		width: 130,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
-			{id: "insuPlItmAmt",	name: "Recon Amt",			field: "insuPlItmAmt",	width: 130,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
-			{id: "diffAmt",			name: "Diff",				field: "diffAmt",		width: 130,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
+			{id: "acntAmt",			name: "Amount",				field: "acntAmt",		width: 130,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
+			{id: "insuPlItmAmt",	name: "Recon Amount",			field: "insuPlItmAmt",	width: 130,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
+			{id: "diffAmt",			name: "Difference",				field: "diffAmt",		width: 130,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, formatter: currencyFormatter, headerCssClass: "slick-header-columns", cssClass: "slick-column-right"},
 			{id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{id: "frstRegDtm",		name: "Registration Date",	field: "frstRegDtm",	width: 120, sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
 		];

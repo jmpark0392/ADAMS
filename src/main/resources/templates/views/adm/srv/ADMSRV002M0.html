@@ -1,42 +1,27 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
-	<div class="page">
-		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
-		<div class="page-wrapper" id="page-wrapper">
-			<!-- Main Container -->
-			<div class="container" id="container">
-				<h2>[[${menuNm}]]</h2>
-				<div class="ptag-container">
-					<!-- <span><a href="#"> Home ></a></span> -->
-					<span>[[${navigator}]]</span>
-				</div>
-				<!-- Form Container -->
+	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
+	<div class="page-wrapper" id="page-wrapper">
+		<div class="container" id="container">
+			<h2>[[${menuNm}]]</h2>
+			<div class="ptag-container">
+				<span>[[${navigator}]]</span>
 				<div class="form-container">
 					<div class="form-box">
 						<form id="filter-form" name="form" method="post" action="/WRKFIL001M0SelectList" onsubmit="return false;">
 							<div class="row align-items-center">
 								<!-- Input and Search Button on the far left -->
 								<div class="col-md-4 mb-2 mb-md-0" style="margin-left: 8px">
-									<!-- <label for="datepicker-icon-prepend" class="form-label"
-                      >Year / Month</label
-                    > -->
 									<div class="mb-3">
-										<label class="form-label">Search Year / Month</label>
+										<label class="form-label">Select year and month :</label>
 										<div class="row">
 											<div class="col-auto">
 												<select name="user[year]" class="form-select select-month-year p-1">
 													<option value="">Year</option>
-													<option value="2020">2020</option>
-													<option value="2021">2021</option>
-													<option value="2022">2022</option>
-													<option value="2023">2023</option>
 													<option value="2024">2024</option>
-													<option value="2025">2025</option>
-													<option value="2026">2026</option>
 												</select>
 											</div>
-											<!-- <div class="col-3"></div> -->
 											<div class="col-auto">
 												<select name="user[month]" class="form-select select-month-year p-1">
 													<option value="">Month</option>
@@ -64,449 +49,402 @@
 						</form>
 					</div>
 				</div>
-			</div>
-			<!-- Page content -->
-			<div class="page-body">
-				<div class="container-xl">
-					<div class="row row-cards">
-						<div class="col-sm-6 col-lg-3">
-							<div class="card card-md d-flex flex-column h-100">
-                <div class="ribbon ribbon-top bg-yellow">
-									<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-device-imac-cog"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17h-8a1 1 0 0 1 -1 -1v-12a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v8" /><path d="M3 13h13" /><path d="M8 21h4" /><path d="M10 17l-.5 4" /><path d="M19.001 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M19.001 15.5v1.5" /><path d="M19.001 21v1.5" /><path d="M22.032 17.25l-1.299 .75" /><path d="M17.27 20l-1.3 .75" /><path d="M15.97 17.25l1.3 .75" /><path d="M20.733 20l1.3 .75" /></svg>
-								</div>
-								<div class="card-body text-center flex-grow-1">
-									<div class="text-uppercase text-secondary font-weight-medium flex-container">
-										<!-- Basic Service -->
-										<span id=""> Currently Using: </span>
-									</div>
-
-									<ul class="list-unstyled lh-lg">
-										<li>
-											<!-- <strong>5</strong> Users -->
-										</li>
-										<li>
-											<div class="mt-2 flex-container">
-												<span class="mb-2">Service: &nbsp;</span> <span id="serviceChange"></span>
-											</div> <!-- - Basic User: 5 -->
-										</li>
-										<li></li>
-									</ul>
-								</div>
+				<div class="row row-cards">
+					<div class="col-sm-6 col-xl-3">
+						<a class="card card-link card-link-pop card-md d-flex flex-column h-100">
+               				<div class="ribbon ribbon-top bg-primary">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-device-imac-cog"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17h-8a1 1 0 0 1 -1 -1v-12a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v8" /><path d="M3 13h13" /><path d="M8 21h4" /><path d="M10 17l-.5 4" /><path d="M19.001 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M19.001 15.5v1.5" /><path d="M19.001 21v1.5" /><path d="M22.032 17.25l-1.299 .75" /><path d="M17.27 20l-1.3 .75" /><path d="M15.97 17.25l1.3 .75" /><path d="M20.733 20l1.3 .75" /></svg>
 							</div>
-						</div>
-						<div class="col-sm-6 col-lg-3">
-							<div class="card card-md d-flex flex-column h-100">
-                <div class="ribbon ribbon-top bg-warning">
-                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chart-histogram"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 3v18h18" /><path d="M20 18v3" /><path d="M16 16v5" /><path d="M12 13v8" /><path d="M8 16v5" /><path d="M3 11c6 0 5 -5 9 -5s3 5 9 5" /></svg>								</div>
-								<div class="card-body text-center text-center flex-grow-1">
-									<div class="text-uppercase text-secondary font-weight-medium flex-container">
-                    <span id=""> Total Usage: </span>
-                  </div>
-									<!-- <div class="display-5 fw-bold my-3">$99</div> -->
-									<ul class="list-unstyled lh-lg">
-										<li>
-											<!-- <strong>100</strong> Users -->
-										</li>
-										<li>
-											<div class="mt-2 flex-container">
-												<span class="mb-2">Total:&nbsp</span> <span id="totalUsage"> </span>
-											</div> <!-- Total: 11.580.000 (KRW) -->
-										</li>
-									</ul>
-								</div>
+							<div class="card-body text-center flex-grow-1">
+								<span id="">Currently subscribing to :</span>
+								<br><br>
+								<span id="serviceChange" class="text-primary fs-2"></span>
 							</div>
-						</div>
-						<div class="col-sm-6 col-lg-3">
-							<div class="card card-md d-flex flex-column h-100">
-                <div class="ribbon ribbon-top bg-success">
-                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-google-analytics"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 9m0 1.105a1.105 1.105 0 0 1 1.105 -1.105h1.79a1.105 1.105 0 0 1 1.105 1.105v9.79a1.105 1.105 0 0 1 -1.105 1.105h-1.79a1.105 1.105 0 0 1 -1.105 -1.105z" /><path d="M17 3m0 1.105a1.105 1.105 0 0 1 1.105 -1.105h1.79a1.105 1.105 0 0 1 1.105 1.105v15.79a1.105 1.105 0 0 1 -1.105 1.105h-1.79a1.105 1.105 0 0 1 -1.105 -1.105z" /><path d="M5 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg>
-								</div>
-								<div class="card-body text-center text-center flex-grow-1">
-									<div class="text-uppercase text-secondary font-weight-medium flex-container">
-                    <span id=""> Estimated Usage: </span>
-                  </div>
-									<!-- <div class="display-5 fw-bold my-3">$139</div> -->
-									<ul class="list-unstyled lh-lg">
-										<li>
-											<!-- <strong>Unlimited</strong> Users -->
-										</li>
-										<li>
-											<div class="mt-2 flex-container">
-												<span class="mb-2">Total:&nbsp;</span> <span id="estimatedUsage"> </span>
-											</div> <!-- Total: 18.651.000 (KRW) -->
-										</li>
-									</ul>
-								</div>
+						</a>
+					</div>
+					<div class="col-sm-6 col-xl-3">
+						<a class="card card-link card-link-pop card-md d-flex flex-column h-100">
+			                <div class="ribbon ribbon-top bg-success">
+			                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chart-histogram"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 3v18h18" /><path d="M20 18v3" /><path d="M16 16v5" /><path d="M12 13v8" /><path d="M8 16v5" /><path d="M3 11c6 0 5 -5 9 -5s3 5 9 5" /></svg>
+			                </div>
+							<div class="card-body text-center flex-grow-1">
+								<span id="">The cost up to today is :</span>
+								<br><br>
+								<span id="totalUsage" class="text-success fs-2"></span>
 							</div>
-						</div>
-						<div class="col-sm-6 col-lg-3">
-							<div class="card card-md d-flex flex-column h-100">
-                <div class="ribbon ribbon-top bg-primary">
-                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>
-								</div>
-								<div class="card-body text-center text-center flex-grow-1">
-									<div class="text-uppercase text-secondary font-weight-medium flex-container">
-                    <span id=""> Option(s) Panel: </span>
-                   </div>
-									<ul class="list-unstyled lh-lg">
-										<li></li>
-										<!-- <form class="optionForm"> -->
-										<div class="card card-lg">
-											<div class="mt-2 flex-container">
-												<span class="mb-2">Current Option: &nbsp;</span> <span id="selectedOption"> </span>
-											</div>
-										</div>
-									</ul>
-								</div>
+						</a>
+					</div>
+					<div class="col-sm-6 col-xl-3">
+						<a class="card card-link card-link-pop card-md d-flex flex-column h-100">
+			                <div class="ribbon ribbon-top bg-warning">
+			                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-google-analytics"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 9m0 1.105a1.105 1.105 0 0 1 1.105 -1.105h1.79a1.105 1.105 0 0 1 1.105 1.105v9.79a1.105 1.105 0 0 1 -1.105 1.105h-1.79a1.105 1.105 0 0 1 -1.105 -1.105z" /><path d="M17 3m0 1.105a1.105 1.105 0 0 1 1.105 -1.105h1.79a1.105 1.105 0 0 1 1.105 1.105v15.79a1.105 1.105 0 0 1 -1.105 1.105h-1.79a1.105 1.105 0 0 1 -1.105 -1.105z" /><path d="M5 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg>
 							</div>
-						</div>
-						<div class="col-12 mb-3">
-							<div class="card card-md">
-								<div class="container my-5">
-									<canvas id="mixedChart" width="300" height="150"></canvas>
-								</div>
+							<div class="card-body text-center flex-grow-1">
+			                    <span id="">The estimated cost is :</span>
+								<br><br>
+								<span id="estimatedUsage" class="text-warning fs-2"></span>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-6 col-xl-3">
+						<a class="card card-link card-link-pop card-md d-flex flex-column h-100">
+               				<div class="ribbon ribbon-top bg-secondary">
+                 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>
+							</div>
+							<div class="card-body text-center flex-grow-1">
+                   				<span id="">You are also using this option :</span>
+								<br><br>
+								<span id="selectedOption" class="text-secondary fs-2"></span>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 mb-3">
+						<div class="card card-md">
+							<div class="container my-5">
+								<canvas id="mixedChart" width="300" height="100"></canvas>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<script>
-          let initlaizedChart;
-          //  we have to wait for the DOM to load
-          document.addEventListener("DOMContentLoaded", function () {
-            const ctx = document.getElementById("mixedChart").getContext("2d");
-
-            // const mixedChart = new Chart(ctx, config);
-            initlaizedChart = new Chart(ctx, {
-              data: {
-                labels: [],
-                datasets: [],
-              },
-              options: {
-                responsive: true,
-                interaction: {
-                  mode: "index",
-                  intersect: false,
-                },
-                stacked: false,
-                plugins: {
-                  title: {
-                    display: true,
-                    text: "Usage and Price Comparison",
-                    font: {
-                      size: 18,
-                      textAlign: "flex-start",
-                    },
-                  },
-                  tooltip: {
-                    enabled: true,
-                    mode: "index",
-                    intersect: false,
-                  },
-                  legend: {
-                    position: "top",
-                  },
-                },
-                scales: {
-                  // Primary y-axis for Sales (Bar Charts)
-                  y: {
-                    type: "linear",
-                    display: true,
-                    position: "left",
-                    title: {
-                      display: true,
-                      text: "Usage Option (Units)",
-                      font: {
-                        size: 14,
-                      },
-                      // align: "start", // we align the title to the start of the axis
-                    },
-                    ticks: {
-                      beginAtZero: true,
-                      min: 0,
-                      max: 150,
-                    },
-                  },
-                  // Secondary y-axis for Prices (Line Charts)
-                  y1: {
-                    type: "linear",
-                    display: true,
-                    position: "right",
-                    grid: {
-                      drawOnChartArea: false, // Only want the grid lines for one axis
-                    },
-                    title: {
-                      display: true,
-                      text: "Price ($)",
-                      font: {
-                        size: 14,
-                      },
-                    },
-                    ticks: {
-                      beginAtZero: false,
-                    },
-                  },
-                },
-              },
-            });
-
-            // Function to update the chart with new data
-            function updateChart(data) {
-              // Extract the month label from the ymd data;
-              const labels = data.map((item) => item.ymd);
-
-              // column chart data
-              const bsrvcVal = data.map((item) => item.bsrvcVal || 0);
-              const psrvcVal = data.map((item) => item.psrvcVal || 0);
-
-              // line chart data
-              const totalCost = data.map((item) => item.srvcCostSum || null);
-
-              // Method to filter total cost from the first date of the month until today
-              const filterTotalCostUntilToday = (data) => {
-                const today = new Date();
-                const firstDateOfMonth = new Date(
-                  today.getFullYear(),
-                  today.getMonth(),
-                  1
-                );
-
-                return data
-                  .filter((item) => {
-                    const itemDate = new Date(item.ymd);
-                    return itemDate >= firstDateOfMonth && itemDate <= today;
-                  })
-                  .map((item) => item.srvcCost);
-              };
-
-              const filteredTotalCost = filterTotalCostUntilToday(data);
-
-              const expectedCost = data.map(
-                (item) => item.srvcCostExpSum || null
-              );
-
-              // Update the chart data
-              initlaizedChart.data.labels = labels;
-              initlaizedChart.data.datasets = [
-                {
-                  type: "bar",
-                  label: "Basic Service",
-                  data: bsrvcVal,
-                  backgroundColor: "rgba(255, 99, 132, 0.2)",
-                  borderColor: "rgba(255, 99, 132, 1)",
-                  yAxisID: "y",
-                  orderWidth: 1,
-                  barThickness: "flex",
-                  maxBarThickness: 50,
-                },
-                {
-                  type: "bar",
-                  label: "Premium Service",
-                  data: psrvcVal,
-                  backgroundColor: "rgba(54, 162, 235, 0.2)",
-                  borderColor: "rgba(54, 162, 235, 1)",
-                  yAxisID: "y",
-                  orderWidth: 1,
-                  barThickness: "flex",
-                  maxBarThickness: 50,
-                },
-                {
-                  type: "line",
-                  label: "Total Cost",
-                  data: totalCost,
-                  fill: false,
-                  borderColor: "rgba(75, 192, 192, 1)",
-                  yAxisID: "y1",
-                  orderWidth: 2,
-                  spanGaps: true,
-                },
-                {
-                  type: "line",
-                  label: "Expected Cost",
-                  data: expectedCost,
-                  fill: false,
-                  borderColor: "rgba(255, 206, 86, 1)",
-                  yAxisID: "y1",
-                  orderWidth: 2,
-                  spanGaps: true,
-                },
-              ];
-
-              // Update the chart
-              initlaizedChart.update();
-            }
-
-            function getCurrMonthAndYear() {
-              let currentDate = new Date();
-              return {
-                month: (currentDate.getMonth() + 1).toString().padStart(2, '0'),
-                year: currentDate.getFullYear().toString()
-              }
-            }
-
-            // search function to make a fetch call to the server
-            function searchFunction( ) {
-
-              let month = $('select[name="user[month]"]').val();
-              let year = $('select[name="user[year]"]').val();
-
-              // Validate that both month and year are selected
-              if (!month || !year) {
-                alert("Please select both month and year.");
-                return;
-              }
-
-              // Send an AJAX POST request to the endpoint
-              $.ajax({
-                type: "POST",
-                url: "/ADMSRV002M0GetUserDataAndCost",
-                data: {
-                  month: month,
-                  year: year,
-                },
-                dataType: "json",
-                success: function (data) {
-                  console.log("Data received:", data);
-                  // we handle the data here
-                  // update the chart wwth the data
-                  updateChart(data);
-                  if (data && data.length > 0) {
-                    let totalCostUsage = data[0].maxSrvcCostSum;
-                    // let totalCostUsage = data[0].reduce(
-                    //   (acc, item) => acc + item.srvcCostSum
-                    // );
-                    // map((item) => item.maxSrvcCostSum);
-                    let estimatedCostUsage = data[0].maxSrvcCostExpSum;
-                    // let estimatedUsage = data[0].reduce(
-                    //   (acc, item) => acc + item.maxSrvcCostExpSum
-                    // );
-                    // .map((item) => item.maxSrvcCostExpSum);
-                    console.log("totalCostUsage", totalCostUsage);
-                    console.log("estimatedUsage", estimatedUsage);
-                    // Display the currently selected option data
-                    if (estimatedUsage > 0 || totalCostUsage > 0) {
-                      $("#estimatedUsage")
-                        .text(
-                          "+ " + estimatedCostUsage.toLocaleString() + " USD"
-                        )
-                        .css("font-weight", "bold");
-                      $("#totalUsage")
-                        .text("+ " + totalCostUsage.toLocaleString() + " USD")
-                        .css("font-weight", "bold");
-                    } else {
-                      // No positive values found
-                      $("#estimatedUsage").text("0 USD");
-                      $("#estimatedUsage").css("font-weight", "bold");
-                      $("#totalUsage").text("0 USD");
-                      $("#totalUsage").css("font-weight", "bold");
-                    }
-                  } else if (data && data.length === 0) {
-                    // No subscription info found
-                    $("#estimatedUsage").text("0 USD");
-                    $("#estimatedUsage").css("font-weight", "bold");
-                    $("#totalUsage").text("0 USD");
-                    $("#totalUsage").css("font-weight", "bold");
-                  }
-                },
-                error: function (xhr, status, error) {
-                  console.error("Error fetching data:", status, error);
-                },
-              });
-            }
-
-            // seafch button event listener
-            const searchButton = document.getElementById("searchButton");
-            searchButton.addEventListener("click", searchFunction);
-
-            // Function to fetch the subscription list
-            function fetchSubscriptionList() {
-              $.ajax({
-                type: "POST",
-                url: "/selectSubscriptionList",
-                async: true,
-                dataType: "json",
-                success: function (data) {
-                  // $("#userNumber").text(data[0].optDtlsCd + " users");
-                  // $("#userNumber").css("font-weight", "bold");
-                  console.log("Subscription list fetched successfully:", data);
-                  // update the ui based on the user subscription
-                  if (data[0].srvcCd === "01") {
-                    $("#serviceChange").text("Basic Service");
-                    serviceChange.style.fontWeight = "bold";
-                  } else {
-                    $("#serviceChange").text("Premium Service");
-                    serviceChange.style.fontWeight = "bold";
-                  }
-                },
-                error: function (xhr, status, error) {
-                  console.error(
-                    "Error fetching subscription list:",
-                    status,
-                    error
-                  );
-                },
-              });
-            }
-
-            // Function to fetch and display the user's current subscription info
-            function getUserSubscriptionInfo() {
-              $.ajax({
-                type: "POST",
-                url: "/getUserSubscriptionInfo",
-                async: true,
-                dataType: "json",
-                success: function (data) {
-                  console.log("User subscription info:", data);
-                  // update the ui based on the user subscription
-                  if (data && data.length > 0) {
-                    var subscription = data[0]; // Assuming we hvae only one subscrition
-                    // Display the currently selected option data
-                    if (subscription.optDtlsCd > 0) {
-                      $("#selectedOption").text(
-                        "+ " + subscription.optDtlsCd + " Users"
-                      );
-                      // we make the text bold
-                      $("#selectedOption").css("font-weight", "bold");
-                    } else if (subscription.optDtlsCd === 0 || subscription.optDtlsCd === null) {
-                      $("#selectedOption").text("No option selected yet");
-                      $("#selectedOption").css("font-weight", "bold");
-                    }
-                  } else {
-                    // No subscription info found
-                    $("#basicSubscriptionButton")
-                      .text("Use")
-                      .prop("disabled", false);
-                    $("#premiumSubscriptionButton")
-                      .text("Use")
-                      .prop("disabled", false);
-                  }
-                },
-                error: function (xhr, status, error) {
-                  console.error(
-                    "Error fetching user subscription info:",
-                    status,
-                    error
-                  );
-                },
-              });
-            }
-
-            $(document).ready(function () {
-              const currMonthAndYear = getCurrMonthAndYear();
-            	
-              $('select[name="user[month]"]').val(getCurrMonthAndYear().month);
-              $('select[name="user[year]"]').val(getCurrMonthAndYear().year);
-    			
-              fetchSubscriptionList();
-              // we fetch the user subcrioption info
-              getUserSubscriptionInfo();
-              searchFunction();
-              
-            });
-          });
-        </script>
 		</div>
 	</div>
+
+	<script>
+	    let initlaizedChart;
+	    //  we have to wait for the DOM to load
+	    document.addEventListener("DOMContentLoaded", function () {
+	      const ctx = document.getElementById("mixedChart").getContext("2d");
+	
+	      // const mixedChart = new Chart(ctx, config);
+	      initlaizedChart = new Chart(ctx, {
+	        data: {
+	          labels: [],
+	          datasets: [],
+	        },
+	        options: {
+	          responsive: true,
+	          interaction: {
+	            mode: "index",
+	            intersect: false,
+	          },
+	          stacked: false,
+	          plugins: {
+	            title: {
+	              display: true,
+	              text: "Usage Chart",
+	              font: {
+	                size: 18,
+	                textAlign: "flex-start",
+	              },
+	            },
+	            tooltip: {
+	              enabled: true,
+	              mode: "index",
+	              intersect: false,
+	            },
+	            legend: {
+	              position: "top",
+	            },
+	          },
+	          scales: {
+	            // Primary y-axis for Sales (Bar Charts)
+	            y: {
+	              type: "linear",
+	              display: true,
+	              position: "left",
+	              title: {
+	                display: true,
+	                text: "Usage (%)",
+	                font: {
+	                  size: 14,
+	                },
+	                // align: "start", // we align the title to the start of the axis
+	              },
+	              ticks: {
+	                beginAtZero: true,
+	                min: 0,
+	                max: 150,
+	              },
+	            },
+	            // Secondary y-axis for Prices (Line Charts)
+	            y1: {
+	              type: "linear",
+	              display: true,
+	              position: "right",
+	              grid: {
+	                drawOnChartArea: false, // Only want the grid lines for one axis
+	              },
+	              title: {
+	                display: true,
+	                text: "Cost ($)",
+	                font: {
+	                  size: 14,
+	                },
+	              },
+	              ticks: {
+	                beginAtZero: false,
+	              },
+	            },
+	          },
+	        },
+	      });
+	
+	      // Function to update the chart with new data
+	      function updateChart(data) {
+	        // Extract the month label from the ymd data;
+	        const labels = data.map((item) => item.ymd);
+	
+	        // column chart data
+	        const bsrvcVal = data.map((item) => item.bsrvcVal || 0);
+	        const psrvcVal = data.map((item) => item.psrvcVal || 0);
+	
+	        // line chart data
+	        const totalCost = data.map((item) => item.srvcCostSum || null);
+	
+	        // Method to filter total cost from the first date of the month until today
+	        const filterTotalCostUntilToday = (data) => {
+	          const today = new Date();
+	          const firstDateOfMonth = new Date(
+	            today.getFullYear(),
+	            today.getMonth(),
+	            1
+	          );
+	
+	          return data
+	            .filter((item) => {
+	              const itemDate = new Date(item.ymd);
+	              return itemDate >= firstDateOfMonth && itemDate <= today;
+	            })
+	            .map((item) => item.srvcCost);
+	        };
+	
+	        const filteredTotalCost = filterTotalCostUntilToday(data);
+	
+	        const expectedCost = data.map(
+	          (item) => item.srvcCostExpSum || null
+	        );
+
+	        // Update the chart data
+	        initlaizedChart.data.labels = labels;
+	        initlaizedChart.data.datasets = [
+	          {
+	            type: "bar",
+	            label: "Basic Service",
+	            data: bsrvcVal,
+	            backgroundColor: "rgba(255, 99, 132, 0.2)",
+	            borderColor: "rgba(255, 99, 132, 1)",
+	            yAxisID: "y",
+	            orderWidth: 1,
+	            barThickness: "flex",
+	            maxBarThickness: 50,
+	          },
+	          {
+	            type: "bar",
+	            label: "Premium Service",
+	            data: psrvcVal,
+	            backgroundColor: "rgba(54, 162, 235, 0.2)",
+	            borderColor: "rgba(54, 162, 235, 1)",
+	            yAxisID: "y",
+	            orderWidth: 1,
+	            barThickness: "flex",
+	            maxBarThickness: 50,
+	          },
+	          {
+	            type: "line",
+	            label: "Cost up to today",
+	            data: totalCost,
+	            fill: false,
+	            borderColor: "rgba(75, 192, 192, 1)",
+	            yAxisID: "y1",
+	            orderWidth: 2,
+	            spanGaps: true,
+	          },
+	          {
+	            type: "line",
+	            label: "Expected Cost",
+	            data: expectedCost,
+	            fill: false,
+	            borderColor: "rgba(255, 206, 86, 1)",
+	            yAxisID: "y1",
+	            orderWidth: 2,
+	            spanGaps: true,
+	          },
+	        ];
+	
+	        // Update the chart
+	        initlaizedChart.update();
+	      }
+	
+	      function getCurrMonthAndYear() {
+	        let currentDate = new Date();
+	        return {
+	          month: (currentDate.getMonth() + 1).toString().padStart(2, '0'),
+	          year: currentDate.getFullYear().toString()
+	        }
+	      }
+	
+	      // search function to make a fetch call to the server
+	      function searchFunction( ) {
+	
+	        let month = $('select[name="user[month]"]').val();
+	        let year = $('select[name="user[year]"]').val();
+	
+	        // Validate that both month and year are selected
+	        if (!month || !year) {
+	          alert("Please select both month and year.");
+	          return;
+	        }
+	
+	        // Send an AJAX POST request to the endpoint
+	        $.ajax({
+	          type: "POST",
+	          url: "/ADMSRV002M0GetUserDataAndCost",
+	          data: {
+	            month: month,
+	            year: year,
+	          },
+	          dataType: "json",
+	          success: function (data) {
+	            console.log("Data received:", data);
+	            // we handle the data here
+	            // update the chart wwth the data
+	            updateChart(data);
+	            if (data && data.length > 0) {
+	              let totalCostUsage = data[0].maxSrvcCostSum;
+	              // let totalCostUsage = data[0].reduce(
+	              //   (acc, item) => acc + item.srvcCostSum
+	              // );
+	              // map((item) => item.maxSrvcCostSum);
+	              let estimatedCostUsage = data[0].maxSrvcCostExpSum;
+	              // let estimatedUsage = data[0].reduce(
+	              //   (acc, item) => acc + item.maxSrvcCostExpSum
+	              // );
+	              // .map((item) => item.maxSrvcCostExpSum);
+	              console.log("totalCostUsage", totalCostUsage);
+	              console.log("estimatedUsage", estimatedUsage);
+	              // Display the currently selected option data
+	              if (estimatedUsage > 0 || totalCostUsage > 0) {
+	                $("#estimatedUsage")
+	                  .text(
+	                    "+ " + estimatedCostUsage.toLocaleString() + " USD"
+	                  )
+	                  .css("font-weight", "bold");
+	                $("#totalUsage")
+	                  .text("+ " + totalCostUsage.toLocaleString() + " USD")
+	                  .css("font-weight", "bold");
+	              } else {
+	                // No positive values found
+	                $("#estimatedUsage").text("0 USD");
+	                $("#estimatedUsage").css("font-weight", "bold");
+	                $("#totalUsage").text("0 USD");
+	                $("#totalUsage").css("font-weight", "bold");
+	              }
+	            } else if (data && data.length === 0) {
+	              // No subscription info found
+	              $("#estimatedUsage").text("0 USD");
+	              $("#estimatedUsage").css("font-weight", "bold");
+	              $("#totalUsage").text("0 USD");
+	              $("#totalUsage").css("font-weight", "bold");
+	            }
+	          },
+	          error: function (xhr, status, error) {
+	            console.error("Error fetching data:", status, error);
+	          },
+	        });
+	      }
+	
+	      // seafch button event listener
+	      const searchButton = document.getElementById("searchButton");
+	      searchButton.addEventListener("click", searchFunction);
+	
+	      // Function to fetch the subscription list
+	      function fetchSubscriptionList() {
+	        $.ajax({
+	          type: "POST",
+	          url: "/selectSubscriptionList",
+	          async: true,
+	          dataType: "json",
+	          success: function (data) {
+	            // $("#userNumber").text(data[0].optDtlsCd + " users");
+	            // $("#userNumber").css("font-weight", "bold");
+	            console.log("Subscription list fetched successfully:", data);
+	            // update the ui based on the user subscription
+	            if (data[0].srvcCd === "01") {
+	              $("#serviceChange").text("Basic Service");
+	              serviceChange.style.fontWeight = "bold";
+	            } else {
+	              $("#serviceChange").text("Premium Service");
+	              serviceChange.style.fontWeight = "bold";
+	            }
+	          },
+	          error: function (xhr, status, error) {
+	            console.error(
+	              "Error fetching subscription list:",
+	              status,
+	              error
+	            );
+	          },
+	        });
+	      }
+	
+	      // Function to fetch and display the user's current subscription info
+	      function getUserSubscriptionInfo() {
+	        $.ajax({
+	          type: "POST",
+	          url: "/getUserSubscriptionInfo",
+	          async: true,
+	          dataType: "json",
+	          success: function (data) {
+	            console.log("User subscription info:", data);
+	            // update the ui based on the user subscription
+	            if (data && data.length > 0) {
+	              var subscription = data[0]; // Assuming we hvae only one subscrition
+	              // Display the currently selected option data
+	              if (subscription.optDtlsCd > 0) {
+	                $("#selectedOption").text(
+	                  "+ " + subscription.optDtlsCd + " Users"
+	                );
+	                // we make the text bold
+	                $("#selectedOption").css("font-weight", "bold");
+	              } else if (subscription.optDtlsCd === 0 || subscription.optDtlsCd === null) {
+	                $("#selectedOption").text("No option selected yet");
+	                $("#selectedOption").css("font-weight", "bold");
+	              }
+	            } else {
+	              // No subscription info found
+	              $("#basicSubscriptionButton")
+	                .text("Use")
+	                .prop("disabled", false);
+	              $("#premiumSubscriptionButton")
+	                .text("Use")
+	                .prop("disabled", false);
+	            }
+	          },
+	          error: function (xhr, status, error) {
+	            console.error(
+	              "Error fetching user subscription info:",
+	              status,
+	              error
+	            );
+	          },
+	        });
+	      }
+	
+	      $(document).ready(function () {
+	        const currMonthAndYear = getCurrMonthAndYear();
+	      	
+	        $('select[name="user[month]"]').val(getCurrMonthAndYear().month);
+	        $('select[name="user[year]"]').val(getCurrMonthAndYear().year);
+		
+	        fetchSubscriptionList();
+	        // we fetch the user subcrioption info
+	        getUserSubscriptionInfo();
+	        searchFunction();
+	        
+	      });
+	    });
+	</script>
 	<script src="js/utils.js"></script>
 </th:block>
 </html>
