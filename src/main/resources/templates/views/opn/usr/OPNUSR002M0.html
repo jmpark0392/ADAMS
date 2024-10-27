@@ -174,10 +174,21 @@
 			var unqId = "seqNo";
 			var xcpt_cols = ["seqNo", "csNo", "oldStatDvCd", "frstRegDtm"];
 			var check_cols = ["compNo", "compNm"];
+			
+			var compNoDvCdList  = { 1:"System Operator"
+					              , 2:"Corporation Number"
+					              , 3:"Business Registration Number" };
+			var statDvCdList = { 0:"Normal use"
+					           , 1:"Application for use"
+						       , 2:"Waiting for use"
+							   , 3:"Application for change"
+					           , 8:"Application for suspension of use"
+					           , 9:"Suspension of use" };
+			
 			var columns = [
 							{ id: unqId,		name: "Seq",							field: unqId,							width: 80, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "csNo",		 	name: "Customer number",				field: "csNo",		 	sortable: true, width: 0,	editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "compNoDvCd",	name: "Type of company identification", field: "compNoDvCd",	sortable: true, width: 220, editor: function (args) { return new ComboBoxEditor(args, [ { key: "DUNS Number", value: "1" }, { key: "Corporation Number", value: "2" }, { key: "Business Registration Number", value: "3" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "compNoDvCd",	name: "Type of company identification", field: "compNoDvCd",	sortable: true, width: 220, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: compNoDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 						, { id: "compNo",		name: "Company identification number",	field: "compNo",		sortable: true, width: 220, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [createValidator, noWhitespaceValidator]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center"}
 						, { id: "compNm",		name: "Company name",					field: "compNm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 						, { id: "repPhNo",		name: "Representative phone number",	field: "repPhNo",		sortable: true, width: 220, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
@@ -188,7 +199,7 @@
 						, { id: "postNo",		name: "Postal code",					field: "postNo",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "addrs",		name: "Company address 1",				field: "addrs",			sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 						, { id: "dtlsAddrs",	name: "Company address 2",				field: "dtlsAddrs",		sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "statDvCd",	 	name: "Status",						 	field: "statDvCd",	 	sortable: true, width: 100, editor: function (args) { return new ComboBoxEditor(args, [{ key: "Normal use", value: "0" }, { key: "Application for use", value: "1" }, { key: "Waiting for use", value: "2" }, { key: "Application for change", value: "3" }, { key: "Application for suspension of use", value: "8" }, { key: "Suspension of use", value: "9" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "statDvCd",	 	name: "Status",						 	field: "statDvCd",	 	sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: statDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 						, { id: "oldStatDvCd",	name: "Status",						 	field: "oldStatDvCd",	sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
 						, { id: "useStrDtm",	name: "Use start date/time",			field: "useStrDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "useEndDtm",	name: "Use end date/time",				field: "useEndDtm",		sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }

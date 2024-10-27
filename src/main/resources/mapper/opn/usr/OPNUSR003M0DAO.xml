@@ -132,15 +132,16 @@
                        AND A.OPT_DTLS_CD = C.OPT_DTLS_CD
                 WHERE 1=1
                   AND A.CS_NO = #{sCsNo}
-                    )
-               ,    TMP_USE_CNT AS
-                    (
+             )
+        ,    TMP_USE_CNT AS
+             (
                SELECT 
                       COUNT(1) AS USE_CNT
                  FROM [RDSDB].[dbo].[TB_USR_MNG_LST]    A
                 WHERE 1=1
                   AND A.CS_NO     = #{sCsNo}
                   AND A.USR_DV_CD IN ('3', '2')
+                  AND ( A.STAT_DV_CD != '9' OR A.USE_END_DTM <![CDATA[ >= ]]> GETDATE() )
              )
         SELECT 
                CASE WHEN ISNULL((SELECT MAX_CNT FROM TMP_CS_CNT), 0) >= ISNULL((SELECT USE_CNT FROM TMP_USE_CNT), 0) THEN 'Y'

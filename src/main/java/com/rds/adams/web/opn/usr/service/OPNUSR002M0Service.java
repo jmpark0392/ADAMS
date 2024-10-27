@@ -96,6 +96,11 @@ public class OPNUSR002M0Service {
 			oPNUSR002M0DAO.insertAdmUsr(inVo);
 		}
 		
+		// 고객사 사용 중지 상태의 경우 고객사 사용자 상태 변경.
+		if ( "9".equals(sStatDvCd) ) {
+			oPNUSR002M0DAO.updateUsrEnd(inVo);
+		}
+		
 		// 관리자 임시 비밀번호 발송
 		if ( bMail ) {
 

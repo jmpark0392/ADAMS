@@ -73,15 +73,20 @@ public class OPNUSR002M0Controller {
     	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
     	inVo.setUsrId(sAdamsLoginDTO.getUsrId());
 		
-		bResult = oPNUSR002M0Service.saveCsNo(inVo);
-		
-		if (bResult) {
-			
-			resultMap.put("resultCode"   , "200");
-			resultMap.put("resultMessage", "Success !!!");
-		} else {
+    	try {
+    		bResult = oPNUSR002M0Service.saveCsNo(inVo);
+    		
+			if (bResult) {
+				
+				resultMap.put("resultCode"   , "200");
+				resultMap.put("resultMessage", "Success !!!");
+			} else {
+				resultMap.put("resultCode"   , "300");
+				resultMap.put("resultMessage", "Save Failed !!!");
+			}
+    	} catch (Exception e) {
 			resultMap.put("resultCode"   , "300");
-			resultMap.put("resultMessage", "Save Failed !!!");
+			resultMap.put("resultMessage", e.getMessage());
 		}
 		
 		return resultMap;
