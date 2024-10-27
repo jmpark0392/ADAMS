@@ -285,7 +285,8 @@
 									.text("Upgrade Now!")
 									.attr("onclick","usePremiumSubscription()");
 								//.prop("disabled", false);
-								alert("Your company is currently subscribing to Basic Plan.");
+								alert("Your company is currently subscribing to Basic Plan, and it will be redirected to the login page.");
+								window.location.href="/";
 							} else {
 								alert("Failed to activate the Basic Subscription service. error : " + result.data.resultMessage);
 							}
@@ -308,7 +309,8 @@
 									.text("Seriously?")
 									.attr("onclick","useBasicSubscription()");
 									//.prop("disabled", false);
-							  	alert("Your company is currently subscribing to Premium Plan.");
+							  	alert("Your company is currently subscribing to Premium Plan, and it will be redirected to the login page.");
+							  	window.location.href="/";
 							} else {
 							  alert("Failed to activate the Premium Subscription service. error : " + result.data.resultMessage);
 							}
@@ -445,7 +447,7 @@
 			
 			// Function to handle "Use" button click for Basic Subscription
 			function useBasicSubscription() {
-				var res_cfm = confirm("Basic Plan will be applied immediately. Shall we proceed?");
+				var res_cfm = confirm("Basic Plan will be applied immediately, and, once your service option is changed, you need to log in anew. Shall we proceed?");
 				
 				if (res_cfm) {
 					mergeSrvcOptList( "MergeServiceOptionBasic", JSON.stringify({ srvcCd: "01" }) );
@@ -456,7 +458,7 @@
 		
 			// Function to handle "Use" button click for Premium Subscription
 			function usePremiumSubscription() {
-				var res_cfm = confirm("Premium Plan will be applied immediately. Shall we proceed?");
+				var res_cfm = confirm("Premium Plan will be applied immediately, and, once your service option is changed, you need to log in anew. Shall we proceed?");
 		
 				if (res_cfm) {
 					mergeSrvcOptList( "MergeServiceOptionPremium", JSON.stringify({ srvcCd: "02" }) );

@@ -338,13 +338,13 @@
     	}
 
     	if ( isNull(reperNm) == "" ) {
-            alert("Enter your comapny representative person name. (President, CEO etc.)");
+            alert("Enter your company representative person name. (President, CEO etc.)");
             $("#representativeName").focus();
     		return;
     	}
 
     	if ( isNull(compHmpgUrl) == "" ) {
-            alert("Enter your comapny homepage URL.");
+            alert("Enter your company homepage URL.");
             $("#companyHomepage").focus();
     		return;
     	}
@@ -401,8 +401,8 @@
 			var cfm_notice = "";
 			var alt_notice = "";
 			if (statDvCd == 0) {
-				cfm_notice = "Your unsubscribe request will be applied shortly, and the status of all users will be changed to 'unavailable' simultaneously. Shall we proceed?";
-				alt_notice = "Your unsubscribe request has been sent successfully. We will approve it in a moment.";
+				cfm_notice = "Your unsubscribe request will be applied shortly, and the status of all users will be changed to 'inactive' simultaneously. Shall we proceed?";
+				alt_notice = "Your unsubscribe request has been sent successfully. We will check and approve it in a moment.";
 			} else {
 				cfm_notice = "Your withdraw request will be applied immediately. Shall we proceed?";
 				alt_notice = "Your request has been applied successfully. You can use iFrame2.0 as before.";

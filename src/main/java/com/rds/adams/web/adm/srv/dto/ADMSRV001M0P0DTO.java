@@ -29,6 +29,7 @@ public class ADMSRV001M0P0DTO {
     private String srvcCd;          // 서비스코드
     private String optCd;           // 옵션코드
     private String optDtlsCd;       // 옵션상세코드
+    private String optDtlsNm;       // 옵션상세명
     private String fnlUpdEmpNo;     // 최종수정자사번
     private String fnlUpdDtm;       // 최종수정일시
     private String fnlRegEmpNo;     // 최초등록자사번
