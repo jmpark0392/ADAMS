@@ -103,7 +103,9 @@ public class OPNSRV001M0Controller {
 				resultMap.put("resultMessage", "Save Failed !!!");
 			}
 		} catch (Exception e) {
-			throw new Exception("OPNSRV001M0Controller Error : " + e.getMessage());
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "OPNSRV001M0Controller Error : " + e.getMessage());
+			//throw new Exception("OPNSRV001M0Controller Error : " + e.getMessage());
 		}
 		
 		return resultMap;
@@ -137,7 +139,9 @@ public class OPNSRV001M0Controller {
 				resultMap.put("resultMessage", "Save Failed !!!");
 			}
 		} catch (Exception e) {
-			throw new Exception("OPNSRV001M0Controller Error : " + e.getMessage());
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "OPNSRV001M0Controller Error : " + e.getMessage());
+			//throw new Exception("OPNSRV001M0Controller Error : " + e.getMessage());
 		}
 		
 		return resultMap;

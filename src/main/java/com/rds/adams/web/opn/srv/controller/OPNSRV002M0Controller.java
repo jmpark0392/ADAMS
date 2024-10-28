@@ -141,7 +141,9 @@ public class OPNSRV002M0Controller {
 				resultMap.put("resultMessage", "Save Failed !!!");
 			}
 		} catch (Exception e) {
-			throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "OPNSRV002M0Controller Error : " + e.getMessage());
+			//throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
 		}
 		
 		return resultMap;
@@ -175,7 +177,9 @@ public class OPNSRV002M0Controller {
 				resultMap.put("resultMessage", "Save Failed !!!");
 			}
 		} catch (Exception e) {
-			throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "OPNSRV002M0Controller Error : " + e.getMessage());
+			//throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
 		}
 		
 		return resultMap;
@@ -209,7 +213,9 @@ public class OPNSRV002M0Controller {
 				resultMap.put("resultMessage", "Save Failed !!!");
 			}
 		} catch (Exception e) {
-			throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "OPNSRV002M0Controller Error : " + e.getMessage());
+			//throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
 		}
 		
 		return resultMap;
@@ -243,7 +249,9 @@ public class OPNSRV002M0Controller {
 				resultMap.put("resultMessage", "Save Failed !!!");
 			}
 		} catch (Exception e) {
-			throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "OPNSRV002M0Controller Error : " + e.getMessage());
+			//throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
 		}
 		
 		return resultMap;
@@ -277,7 +285,9 @@ public class OPNSRV002M0Controller {
 				resultMap.put("resultMessage", "Save Failed !!!");
 			}
 		} catch (Exception e) {
-			throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "OPNSRV002M0Controller Error : " + e.getMessage());
+			//throw new Exception("OPNSRV002M0Controller Error : " + e.getMessage());
 		}
 		
 		return resultMap;

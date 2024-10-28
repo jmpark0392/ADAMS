@@ -270,7 +270,7 @@
 			function fn_callback(result) {
 				//console.log("fn_callback : " + result.id);
 				if ( result.resultCd == "S" ) {
-					
+					let resultData = typeof result.data === "string" ? JSON.parse(result.data) : result.data;
 					switch (result.id) {
 						case "SelectList":
 							
@@ -283,13 +283,22 @@
 							
 						break;
 						case "insertList":
-							
-							main();
+							if ( resultData.resultCode == "200" ) {
+								alert("Successfully Inserted");
+								main();
+							} else {
+								alert( "Save Fail Error : " + result.data.resultMessage );
+							}
 							
 						break;
 						case "updateList":
-							
-							main();
+
+							if ( resultData.resultCode == "200" ) {
+								alert("Successfully Updated");
+								main();
+							} else {
+								alert( "Save Fail Error : " + result.data.resultMessage );
+							}
 							
 						break;
 					}

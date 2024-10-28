@@ -124,8 +124,8 @@
 	return parentCheckData(data, check_cols);
 	}
 	
-	function getCsList(input) {
-		console.log("getCsList input : " + input);
+	function getOptList(input) {
+		console.log("getOptList input : " + input);
 		var option = {
 						id: "SelectList"
 					, type: "post"
@@ -139,41 +139,12 @@
 		gf_Transaction(option, fn_callback);
 	}
 
-	function insertCs(addedRow) {
-		var option = {
-						id: "insertList"
-					, type: "post"
-					, url: "/WRKFIL001M0InsertList"
-					, async: false
-					, dataType: "text"
-					, contentType: "application/json; charset=utf-8"
-					, data: addedRow,
-		};
-
-		gf_Transaction(option, fn_callback);
-	}
-
-	function fn_updateCs(input) {
-		console.log("updateCs input : " + input);
-		var option = {
-						id          : "updateList"
-					, type        : "post"
-					, url         : "/WRKFIL001M0UpdateList"
-					, async       : true
-					, dataType    : "text"
-					, contentType : "application/json; charset=utf-8"
-					, data        : input
-		};
-
-		gf_Transaction(option, fn_callback);
-	}
-	
-	function fn_deleteCs(input) {
-		console.log("deleteCs input : " + input);
+	function fn_deleteOptDtls(input) {
+		console.log("fn_deleteOptDtls input : " + input);
 		var option = {
 						id          : "deleteList"
 					, type        : "post"
-					, url         : "/WRKFIL001M0DeleteList"
+					, url         : "/OPNSRV002M0DeleteDetailList"
 					, async       : true
 					, dataType    : "text"
 					, contentType : "application/json; charset=utf-8"
@@ -183,8 +154,8 @@
 		gf_Transaction(option, fn_callback);
 	}
 
-	function fn_getSrvcHistList(input) {
-		console.log("fn_getSrvcHistList input : " + input);
+	function fn_getOptHistList(input) {
+		console.log("fn_getOptHistList input : " + input);
 		var option = {
 						id: "getSrvcHistList"
 					, type: "POST"
@@ -198,8 +169,8 @@
 		gf_Transaction(option, fn_callback);
 	}
 
-	function fn_getOptionDetailsList(input) {
-		console.log("fn_getOptionDetailsList input : " + input);
+	function fn_getOptDtlsList(input) {
+		console.log("fn_getOptDtlsList input : " + input);
 		var option = {
 						id: "getOptionDetailsList"
 					, type: "POST"
@@ -214,8 +185,8 @@
 	}
 
 	// 4th grid data reuqest to server
-	function fn_getOptionDetailsHistList(input) {
-		console.log("fn_getOptionDetailsHistList input : " + input);
+	function fn_getOptDtlsHistList(input) {
+		console.log("fn_getOptDtlsHistList input : " + input);
 		var option = {
 						id: "getOptionDetailsHistList"
 					, type: "POST"
@@ -246,8 +217,8 @@
 	// }
 
 	// 1st grid update button
-	function fn_updateGetCsListOption(input) {
-		console.log("fn_updateGetCsListOption input : " + input);
+	function fn_updateOptList(input) {
+		console.log("fn_updateOptList input : " + input);
 		var option = {
 						id: "getCsListOptionUpdate"
 					, type: "POST"
@@ -379,17 +350,17 @@
 	let thirdGridSelectedRow = null;
 
 	var columns = [
-		{ id: unqId,			name: "ID",				    			field: unqId,			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",  hidden:true },
-		{ id: "optCd",			name: "Option Code",					field: "optCd",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-		{ id: "optNm",			name: "Option Name",					field: "optNm",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-		{ id: "optUprc",		name: "Option Price",					field: "optUprc",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
-		{ id: "optStrDtm",		name: "Option Start Date",				field: "optStrDtm",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
-		{ id: "oldSrvcStrDtm",	name: "Option Service Start",			field: "oldSrvcStrDtm",	width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden:true },
+		{ id: unqId,			name: "Seq",					field: unqId,			width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",  hidden:true },
+		{ id: "optCd",			name: "Option Code",			field: "optCd",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+		{ id: "optNm",			name: "Option Name",			field: "optNm",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+		{ id: "optUprc",		name: "Option Price",			field: "optUprc",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
+		{ id: "optStrDtm",		name: "Option Start Date",		field: "optStrDtm",		width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
+		{ id: "oldSrvcStrDtm",	name: "Option Service Start",	field: "oldSrvcStrDtm",	width: 200,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden:true },
 	];
 
 
 	var optionSelectHistList = [
-		{ id: uniqueIdSelect,    	name: "ID",		    					field: uniqueIdSelect,		width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",  hidden:true },
+		{ id: uniqueIdSelect,    	name: "Seq",		    				field: uniqueIdSelect,		width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "usrIdHist",			name: "User ID",						field: "usrIdHist",		    width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
 		{ id: "optCdHist",			name: "Option Code",					field: "optCdHist",		    width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }, // no hidden
 		{ id: "optUprcHist",		name: "Option Price",					field: "optUprcHist",	    width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }, // no hidden
@@ -402,29 +373,29 @@
 	];
 
 	var optionSelectDetailsList = [
-		{ id: uniqueIdDetails, 			name: "Sequence ID",				    	field: uniqueIdDetails,	    		width: 40,		   editor: Slick.Editors.Text,   validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
-		{ id: "optCdDtls",             	name: "Option Code",    					field: "optCdDtls",         		sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator,]), width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true  }, 
-		{ id: "optDtlsCd",             	name: "Option Details Code",    			field: "optDtlsCd",         		sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator,]), width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", }, // no hidden
-		{ id: "optDtlsNm",             	name: "Option Name Details",    			field: "optDtlsNm",         		sortable: true,    editor: function (args) {  return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },  ]);},width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", }, // no hidden
-		{ id: "optDtlsVlu",				name: "Option Price Details",				field: "optDtlsVlu",    			sortable: true,	   editor: Slick.Editors.Text,  validator: createValidator  ,width: 120,headerCssClass: "slick-header-columns",cssClass: "slick-column-right",formatter: numberFormatter,  hidden: true },
-		{ id: "optDtlsDcRt",      		name: "Option Discount Rate",  		field: "optDtlsDcRt", 				sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
-		{ id: "useYn",      			name: "Usage Status ",    					field: "useYn", 					sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 40,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter }, // no hidden
-		{ id: "delYn",      			name: "Delete Status ",    					field: "delYn", 					sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
-		{ id: "optDtlsStrDtm",      	name: "Option Start Date ",    				field: "optDtlsStrDtm", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
-		{ id: "optDtlsEndDtm",      	name: "Option End Date",    				field: "optDtlsEndDtm", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
+		{ id: uniqueIdDetails, 			name: "Seq",					field: uniqueIdDetails,		width: 40,		   editor: Slick.Editors.Text,   validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
+		{ id: "optCdDtls",             	name: "Option Code",    		field: "optCdDtls",     	sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator,]), width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true  }, 
+		{ id: "optDtlsCd",             	name: "Option Details Code",    field: "optDtlsCd",     	sortable: true,    editor: Slick.Editors.Text,  validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator,]), width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", }, // no hidden
+		{ id: "optDtlsNm",             	name: "Option Name Details",    field: "optDtlsNm",     	sortable: true,    editor: function (args) {  return new ComboBoxEditor(args, [{ key: "Y", value: "Y" }, { key: "N", value: "N" },  ]);},width: 40, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", }, // no hidden
+		{ id: "optDtlsVlu",				name: "Option Price Details",	field: "optDtlsVlu",    	sortable: true,	   editor: Slick.Editors.Text,  validator: createValidator  ,width: 120,headerCssClass: "slick-header-columns",cssClass: "slick-column-right",formatter: numberFormatter,  hidden: true },
+		{ id: "optDtlsDcRt",      		name: "Option Discount Rate",  	field: "optDtlsDcRt", 		sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
+		{ id: "useYn",      			name: "Usage Status ",    		field: "useYn", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 40,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter }, // no hidden
+		{ id: "delYn",      			name: "Delete Status ",    		field: "delYn", 			sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
+		{ id: "optDtlsStrDtm",      	name: "Option Start Date ",    	field: "optDtlsStrDtm", 	sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
+		{ id: "optDtlsEndDtm",      	name: "Option End Date",    	field: "optDtlsEndDtm", 	sortable: true,    editor: Slick.Editors.Text,  validator: createValidator,  width: 120,  headerCssClass: "slick-header-columns",  cssClass: "slick-column-center",  formatter: numberFormatter, hidden: true  },
 	];
 
 	var optionDetailsHistList = [
-		{ id: uniqueIdDetailsHist,  	name: "ID",											field: uniqueIdDetailsHist,		width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
+		{ id: uniqueIdDetailsHist,  	name: "Seq",										field: uniqueIdDetailsHist,		width: 40,					editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "optCdDtlsHist",			name: "Option Code Details History",				field: "optCdDtlsHist",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: (value, args) => complexValidator(value, args, [ createValidator, noWhitespaceValidator ]), headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 		{ id: "optDtlsCdHist",			name: "Option Code",								field: "optDtlsCdHist",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "optDtlsNmHist",			name: "Option Name Details History",				field: "optDtlsNmHist",			width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "optDtlsVluHist",			name: "Option Price History",						field: "optDtlsVluHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-		{ id: "optDtlsDcRtHist",		name: "Option Details Rate History ",				field: "optDtlsDcRtHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+		{ id: "optDtlsDcRtHist",		name: "Option Details Rate History ",				field: "optDtlsDcRtHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
 		{ id: "useYnHist",				name: "Usage Status History ",						field: "useYnHist",				width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-		{ id: "delYnHist",				name: "Delete Status History",						field: "delYnHist",				width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
+		{ id: "delYnHist",				name: "Delete Status History",						field: "delYnHist",				width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
 		{ id: "optDtlsStrDtmHist",		name: "Option Start Date History",					field: "optDtlsStrDtmHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-		{ id: "optDtlsEndDtmHist",		name: "Option Details End Date History",			field: "optDtlsEndDtmHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
+		{ id: "optDtlsEndDtmHist",		name: "Option Details End Date History",			field: "optDtlsEndDtmHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 		{ id: "fnlUpdEmpNoDtlsHist",	name: "File Upload Employee Details History",		field: "fnlUpdEmpNoDtlsHist",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
 		{ id: "fnlUpdDtmDtlsHist",		name: "File Upload Date Details History",			field: "fnlUpdDtmDtlsHist",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
 		{ id: "frstRegEmpNoDtlsHist",	name: "First Register Employee Details History", 	field: "frstRegEmpNoDtlsHist",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center", hidden: true },
@@ -516,7 +487,7 @@
 	function main() {
 		// 그리드 초기화 및 데이터 로드
 		console.log("Initializing SlickGrid...");
-		getCsList(
+		getOptList(
 			(input = JSON.stringify({ optCdNm: $("#inpSearchTxt").val() }))
 		);
 	}
@@ -526,29 +497,75 @@
 	**/
 	function fn_callback(result){
 		if( result.resultCd == "S" ){
+			let resultData = typeof result.data === "string" ? JSON.parse(result.data) : result.data;
 			switch (result.id){
 				case "SelectList" :
 					fn_setGrid(result.data);
 					break;
 				case "insertGetCsListOption"      :
-					alert("Successfully Inserted");
-					saveHandler();
+					if ( resultData.resultCode == "200" ) {
+						alert("Successfully Inserted");
+						main();
+					} else {
+						alert( "Save Fail Error : " + result.data.resultMessage );
+					}
 					break;
 				case "getCsListOptionUpdate"      :
-					alert("Successfully Updated");
-					saveHandler();
+					if ( resultData.resultCode == "200" ) {
+						alert("Successfully Updated");
+						main();
+					} else {
+						alert( "Save Fail Error : " + result.data.resultMessage );
+					}
 					break;
 				case "updateGetSrvcHistList"      :
-					alert("Successfully Updated");
-					saveHandler();
+					if ( resultData.resultCode == "200" ) {
+						alert("Successfully Updated");
+
+						var grid1OptCd = selectedFirstGridRow.optCd || '';
+						console.log(" optCd from the 1st grid:", grid1OptCd);
+
+						var jsonData = JSON.stringify({optCd: grid1OptCd});
+						console.log("jsonData from the 1st  grid iside the jsonData:", jsonData);
+						
+						// call to the 3rd grid below the 1st grid
+						fn_getOptDtlsList(jsonData);
+					} else {
+						alert( "Save Fail Error : " + result.data.resultMessage );
+					}
 					break;
 				case "insertGetSrvcHistList"      :
-					alert("Successfully Inserted");
-					saveHandler();
+					if ( resultData.resultCode == "200" ) {
+						alert("Successfully Inserted");
+
+						var grid1OptCd = selectedFirstGridRow.optCd || '';
+						console.log(" optCd from the 1st grid:", grid1OptCd);
+
+						var jsonData = JSON.stringify({optCd: grid1OptCd});
+						console.log("jsonData from the 1st  grid iside the jsonData:", jsonData);
+						
+						// call to the 3rd grid below the 1st grid
+						fn_getOptDtlsList(jsonData);
+					} else {
+						alert( "Save Fail Error : " + result.data.resultMessage );
+					}
 					break;
 				case "deleteList"      :
-					alert("Successfully Deleted");
-					main();
+					if ( resultData.resultCode == "200" ) {
+						alert("Successfully Deleted");
+
+						var grid1OptCd = selectedFirstGridRow.optCd || '';
+						console.log(" optCd from the 1st grid:", grid1OptCd);
+
+						var jsonData = JSON.stringify({optCd: grid1OptCd});
+						console.log("jsonData from the 1st  grid iside the jsonData:", jsonData);
+						
+						// call to the 3rd grid below the 1st grid
+						fn_getOptDtlsList(jsonData);
+					} else {
+						alert( "Save Fail Error : " + result.data.resultMessage );
+					}
+					break;
 					break;
 				case "getSrvcHistList" :
 					fn_setGridOptionHistSelectList(result.data);
@@ -674,10 +691,10 @@
 			 console.log("selectedFirstGridRow inside the 1st grid:", selectedFirstGridRow);
 
  			// call to the 2nd grid on the right side
-			fn_getSrvcHistList(jsonData);
+			fn_getOptHistList(jsonData);
 			
 			// call to the 3rd grid below the 1st grid
-			fn_getOptionDetailsList(jsonData);
+			fn_getOptDtlsList(jsonData);
 			// var cell = grid1.getCellFromEvent(e);
 			// var row = cell.row;	
 			// var dataItem = grid1.getDataItem(row);
@@ -910,7 +927,7 @@
 			console.log("jsonData4th in the 3rd grid:", jsonData4th);
 
 			// call to the 4th grid on the right side
-			fn_getOptionDetailsHistList(jsonData4th);
+			fn_getOptDtlsHistList(jsonData4th);
 
 			// Open edit modal for the third grid with delete button
 			// openDetails('edit', grid3, optionSelectDetailsList, dataView3, dataItem, "divMyGridThird");
@@ -1097,9 +1114,9 @@
 		} else if (gridName === "divMyGridThird") {
 			uniqueId = "seqNoDtls";
 			if (modalType === "create") {
-				hiddenColumns = ['seqNoDtls', 'delYn', 'optDtlsEndDtm'];
+				hiddenColumns = ['seqNoDtls', 'optDtlsDcRt', 'delYn', 'optDtlsEndDtm'];
 			} else if (modalType === "edit") {
-				hiddenColumns = ['seqNoDtls', 'delYn', 'optDtlsEndDtm'];
+				hiddenColumns = ['seqNoDtls', 'optDtlsDcRt', 'delYn', 'optDtlsEndDtm'];
 			}
 		} else {
 			console.error("Invalid grid provided.");
@@ -1199,11 +1216,11 @@
 						deleteButton.onclick = function () {
 							if (confirm("Do you want to delete?") == true) {
 								// delete the selected row
-								dataViewToUse.deleteItem(dataContext[unqId]);
-								fn_deleteCs(JSON.stringify(dataContext));
+								//dataViewToUse.deleteItem(dataContext[unqId]);
+								fn_deleteOptDtls(JSON.stringify(dataContext));
 								gridToUse.render();
 								modalElement.hide();
-								location.reload(true);
+								//location.reload(true);
 							}
 						};
 					}
@@ -1215,6 +1232,7 @@
 		} else {
 			console.error("error while loading the modal title: ");
 		}
+		
 		renewOptionsGrids(false);
 
 		// Dynamically create form elements based on the columns that have editors
@@ -1251,7 +1269,7 @@
 
 			formGroupElem.appendChild(detailLabelitem);
 
-			if ( column.id === "oldSrvcStrDtm" ) {
+			if ( column.id === "optStrDtm" || column.id === "optDtlsStrDtm" ) {
 				// this is the date input field
 				const dateInputContainer = document.createElement('div');
 				dateInputContainer.className = "input-icon mb-2";
@@ -1305,20 +1323,20 @@
 				selectInput.dataset.editorid = column.id;
 
 				const defaultOption = document.createElement("option");
-				defaultOption.value = "Y";
+				defaultOption.value = "";
 				defaultOption.textContent = "-options-";
 				selectInput.appendChild(defaultOption);
 
 				let optionsData = [];
 				optionsData = options6;
-
+				debugger;
 				optionsData.forEach((option) => {
 					const optionElem = document.createElement("option");
 					optionElem.value = option.value;
 					optionElem.textContent = option.text;
 					selectInput.appendChild(optionElem);
 				});
-
+				
 				if (modalType === "edit") {
 					selectInput.value = dataContext[column.field] || "";
 				}
@@ -1444,7 +1462,7 @@
 					if(gridName === "divMyGrid"){
 						if (confirm("Do you want to modify?") == true) {
 						// updateFile(formData);
-							fn_updateGetCsListOption(JSON.stringify(formData));
+							fn_updateOptList(JSON.stringify(formData));
 							// dataViewToUse.updateItem(originalData[unqId], formData);
 						}
 					} else if (gridName === "divMyGridThird"){
