@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.rds.adams.web.common.login.dto.AdamsBatCntTotalDTO;
+import com.rds.adams.web.common.login.dto.AdamsCheckUserParDTO;
+import com.rds.adams.web.common.login.dto.AdamsCheckUserResDTO;
 import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.common.login.dto.AdamsFindPwDTO;
 import com.rds.adams.web.common.login.dto.AdamsLastBatDtmDTO;
@@ -21,6 +23,7 @@ import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsUpdateAccountDTO;
 import com.rds.adams.web.common.login.dto.AdamsUpdateLoginDTO;
+import com.rds.adams.web.common.login.dto.AdamsUpdatePwDTO;
 import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 
 /**
@@ -219,15 +222,27 @@ public interface AdamsLoginDAO {
 	 * @param vo AdamsUpdateAccountDTO
 	 * @exception Exception
 	 */
-	public void updateAccount(AdamsUpdateAccountDTO vo) ;
+	public int updateAccount(AdamsUpdateAccountDTO vo) ;
 	
 	/**
-	 * 마이페이지에서 변경된 사용자 정보를 조회한다
+	 * 마이페이지에서 변경된 사용자 정보를 조회해서 세션에 정보를 업데이트한다
 	 * @param vo AdamsUpdateLoginDTO
-	 * @return AdamsUpdateLoginDTO
+	 * @return AdamsLoginDTO
 	 * @exception Exception
 	 */
-	public AdamsUpdateLoginDTO actionUpdateLogin(AdamsUpdateLoginDTO vo) ;
+	public AdamsLoginDTO actionUpdateLogin(AdamsUpdateLoginDTO vo) ;
 	
+	/**
+	 * 마이페이지에서 변경한 비밀번호를 저장한다.
+	 * @param vo AdamsUpdatePwDTO
+	 * @exception Exception
+	 */
+	public int changeMyPassword(AdamsUpdatePwDTO vo) ;
 	
+	/**
+	 * 마이페이지에서 비밀번호 변경 전 사용자 인증 결과를 전달한다
+	 * @param vo AdamsCheckUserParDTO
+	 * @exception Exception
+	 */
+	public AdamsCheckUserResDTO checkUsrPw(AdamsCheckUserParDTO vo) ;
 }

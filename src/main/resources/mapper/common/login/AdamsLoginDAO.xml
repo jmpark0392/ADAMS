@@ -134,6 +134,12 @@
         <result property="srvcNm" column="srvcNm"/>
     </resultMap>
     
+    <!-- 마이페이지 - 비밀번호 변경 전 사용자 인증 결과를 위한 resultMap -->
+    <resultMap id="checkUsrPw" type="com.rds.adams.web.common.login.dto.AdamsCheckUserResDTO">
+        <result property="checkUsrPwd" column="checkUsrPwd"/>
+    </resultMap>
+    
+    
     <!-- 일반 로그인 -->
     <select id="actionLogin" resultMap="login">
         SELECT
@@ -684,17 +690,14 @@
            SET 
                USR_PH_NO 		= #{ptbPhNo}
            	 , USR_DEPT_NM 		= #{ptbDeptNm}
-           	 , USR_PASSWORD 	= PWDENCRYPT(#{usrPassword})
-             , PASSWORD_UPD_DTM = GETDATE()
-             , FNL_UPD_EMP_NO   = #{usrId} 
-      		 , FNL_UPD_DTM      = GETDATE()
          WHERE 1=1
            AND CS_NO  = #{csNo}
            AND USR_ID = #{ptbEmail}
+           AND 1        = PWDCOMPARE(#{usrPassword}, USR_PASSWORD)
     </update>
     
-    <!-- 마이페이지 - 사용자 정보 업데이트 -->
-    <select id="actionUpdateLogin" parameterType="com.rds.adams.web.common.login.dto.AdamsUpdateLoginDTO" resultMap="updateLogin">
+    <!-- 마이페이지 - 사용자 정보 세션 업데이트 -->
+    <select id="actionUpdateLogin" parameterType="com.rds.adams.web.common.login.dto.AdamsUpdateLoginDTO" resultMap="login">
         SELECT
                A.CS_NO AS csNo
              , B.COMP_NO_DV_CD     AS compNoDvCd     /* 회사번호구분코드 */
@@ -725,5 +728,29 @@
          WHERE 1=1
            AND A.CS_NO = #{csNo}
            AND A.USR_ID = #{usrId}
+    </select>
+    
+    <!-- 마이페이지 - 비밀번호 변경 -->
+    <update id="changeMyPassword" parameterType="com.rds.adams.web.common.login.dto.AdamsUpdatePwDTO">
+    	UPDATE RDSDB.[dbo].[TB_USR_MNG_LST]
+           SET 
+               USR_PASSWORD 	= PWDENCRYPT(#{usrNewPassword})
+             , PASSWORD_UPD_DTM = GETDATE()
+             , FNL_UPD_EMP_NO   = #{usrId} 
+      		 , FNL_UPD_DTM      = GETDATE()
+         WHERE 1=1
+           AND CS_NO  = #{csNo}
+           AND USR_ID = #{usrId}
+           AND 1        = PWDCOMPARE(#{usrCurrentPassword}, USR_PASSWORD)
+    </update>
+    
+    <!-- 마이페이지 - 비밀번호 변경 전 사용자 인증 결과 -->
+    <select id="checkUsrPw" parameterType="com.rds.adams.web.common.login.dto.AdamsCheckUserParDTO" resultMap="checkUsrPw">
+        SELECT
+               PWDCOMPARE(#{usrCurrentPassword}, USR_PASSWORD) AS checkUsrPwd /* 1: 사용자 인증, 0: 사용자 인증 안됨 */
+          FROM RDSDB.[dbo].[TB_USR_MNG_LST]
+         WHERE 1=1
+           AND CS_NO = #{csNo}
+           AND USR_ID = #{usrId}
     </select>
 </mapper>

@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.jwt.AdamsJwtTokenUtil;
 import com.rds.adams.web.common.login.dto.AdamsBatCntTotalDTO;
+import com.rds.adams.web.common.login.dto.AdamsCheckUserParDTO;
+import com.rds.adams.web.common.login.dto.AdamsCheckUserResDTO;
 import com.rds.adams.web.common.login.dto.AdamsCsNoDTO;
 import com.rds.adams.web.common.login.dto.AdamsFindPwDTO;
 import com.rds.adams.web.common.login.dto.AdamsLastBatDtmDTO;
@@ -42,6 +44,7 @@ import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsResultDTO;
 import com.rds.adams.web.common.login.dto.AdamsUpdateAccountDTO;
 import com.rds.adams.web.common.login.dto.AdamsUpdateLoginDTO;
+import com.rds.adams.web.common.login.dto.AdamsUpdatePwDTO;
 import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 import com.rds.adams.web.common.login.service.AdamsLoginService;
 import com.rds.adams.web.core.utils.StringUtil;
@@ -747,11 +750,12 @@ public class AdamsLoginController {
 	 * @return result - 고객 목록
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/mypage/updateMyAccount", method=RequestMethod.POST, consumes="application/json")
+	@RequestMapping(value = "/mypage/updateMyAccount", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.TEXT_HTML_VALUE})
 	public HashMap<String, Object> updateAccount(@RequestBody AdamsUpdateAccountDTO adamsUpdateAccountDTO, HttpServletRequest request) throws Exception {
 
 		HashMap<String, Object> resultMap = new HashMap<String,Object>();
 	    boolean  bResult = false;
+	    int checkResult = 0;
 	    
 	    // 1. 세션에서 사용자 정보 가져오기
 	    AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
@@ -760,29 +764,97 @@ public class AdamsLoginController {
 		    // 2. 사용자 정보 수정을 세션정보 가져오기 
 	    	adamsUpdateAccountDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 	    	adamsUpdateAccountDTO.setUsrId(sAdamsLoginDTO.getUsrId());
-		    
-			// 3. 비밀번호 변경 처리
+	    	
+	    	// 3. 사용자 인증 - 사용자가 입력한 비밀번호가 저장된 비밀번호와 동일한지
+	    	AdamsCheckUserParDTO adamsCheckUserParDTO = new AdamsCheckUserParDTO();
+	    	adamsCheckUserParDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+	    	adamsCheckUserParDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+	    	adamsCheckUserParDTO.setUsrCurrentPassword(adamsUpdateAccountDTO.getUsrPassword());
+	    	
+	    	AdamsCheckUserResDTO adamsCheckUserResDTO = adamsLoginService.checkUsrPw(adamsCheckUserParDTO);
+	    	checkResult = adamsCheckUserResDTO.getCheckUsrPwd(); /* 1: 사용자 인증 통과, 0: 사용자 인증 실패 */
+	    			    
+			// 4. 부서명, 전화번호 변경 처리
 		    bResult = adamsLoginService.updateAccount(adamsUpdateAccountDTO);
 		    
-		    // 4. 변경된 사용자 정보 가져오기
+		    // 5. 변경된 사용자 정보 가져오기
 		    AdamsUpdateLoginDTO newAdamsLoginDTO = new AdamsUpdateLoginDTO();
 		    newAdamsLoginDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		    newAdamsLoginDTO.setUsrId(sAdamsLoginDTO.getUsrId());
 		    
-		    AdamsUpdateLoginDTO newAdamsUpdateLoginDTO = adamsLoginService.actionUpdateLogin(newAdamsLoginDTO);
+		    AdamsLoginDTO newAdamsUpdateLoginDTO = adamsLoginService.actionUpdateLogin(newAdamsLoginDTO);
 		    request.getSession().setAttribute(AdamsConstant.SESSION_LOGIN_INFO, newAdamsUpdateLoginDTO);
 	    }
 	    
 	    if (bResult) {
 	    	log.info(adamsUpdateAccountDTO.toString());
 			resultMap.put("resultCode"   , "200");
-			resultMap.put("resultMessage", "Success !!!");
+			resultMap.put("resultMessage", "Success");
 		} else {
-			resultMap.put("resultCode"   , "300");
-			resultMap.put("resultMessage", "Update Failed !!!");
+			if(checkResult == 0) {
+				resultMap.put("resultCode"   , "400"); // 임의로 지정한 에러코드.
+				resultMap.put("resultMessage", "Password Check Failed. Please check the current password you entered.");
+			}else {
+				resultMap.put("resultCode"   , "300");
+				resultMap.put("resultMessage", "Update Failed");
+			}
 		}
 		
 		return resultMap;
 
 	}
+	
+	/**
+	 * 마이페이지에서 사용자의 비밀번호를 변경 한다
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/mypage/changeMyPassword", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.TEXT_HTML_VALUE})
+	public HashMap<String, Object> changeMyPassword(@RequestBody AdamsUpdatePwDTO adamsUpdatePwDTO, HttpServletRequest request) throws Exception {
+
+		HashMap<String, Object> resultMap = new HashMap<String,Object>();
+	    boolean  bResult = false;
+	    int checkResult = 0;
+	    
+	    // 1. 세션에서 사용자 정보 가져오기
+	    AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+
+	    if ( sAdamsLoginDTO != null && sAdamsLoginDTO.getUsrId() != null && !sAdamsLoginDTO.getUsrId().equals("")) {
+		    // 2. 사용자 정보 수정을 세션정보 가져오기 
+	    	adamsUpdatePwDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+	    	adamsUpdatePwDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+	    	
+	    	// 3. 사용자 인증 - 사용자가 입력한 비밀번호가 저장된 비밀번호와 동일한지
+	    	AdamsCheckUserParDTO adamsCheckUserParDTO = new AdamsCheckUserParDTO();
+	    	adamsCheckUserParDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+	    	adamsCheckUserParDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+	    	adamsCheckUserParDTO.setUsrCurrentPassword(adamsUpdatePwDTO.getUsrCurrentPassword());
+	    	
+	    	AdamsCheckUserResDTO adamsCheckUserResDTO = adamsLoginService.checkUsrPw(adamsCheckUserParDTO);
+	    	checkResult = adamsCheckUserResDTO.getCheckUsrPwd(); /* 1: 사용자 인증 통과, 0: 사용자 인증 실패 */
+	    			    
+			// 4. 비밀번호 변경 처리
+		    bResult = adamsLoginService.changeMyPassword(adamsUpdatePwDTO);
+	    }
+	    
+	    if (bResult) {
+	    	log.info(adamsUpdatePwDTO.toString());
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success");
+		} else {
+			if(checkResult == 0) {
+				resultMap.put("resultCode"   , "400"); // 임의로 지정한 에러코드.
+				resultMap.put("resultMessage", "Password Check Failed. Please check the current password you entered.");
+			}else {
+				resultMap.put("resultCode"   , "300");
+				resultMap.put("resultMessage", "Update Failed");
+			}
+		}
+		
+		return resultMap;
+
+	}
+	
 }
