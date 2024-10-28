@@ -33,6 +33,9 @@ public class WRKFIL004M0R0DTO {
 	@Schema(description = "파일명")
 	private String fileNm;
 	
+	@Schema(description = "데이터베이스ID")
+	private String dbId;
+	
 	@Schema(description = "테이블ID")
 	private String tblId;
 	

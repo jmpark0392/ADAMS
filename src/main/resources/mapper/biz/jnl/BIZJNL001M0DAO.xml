@@ -86,21 +86,21 @@
     <update id="updateList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL001M0P1DTO">
         UPDATE TB_ATIT_MNG_LST
            SET 
-               ATIT_KOR_NM = #{atitKorNm},
-               ATIT_ENG_NM = #{atitEngNm},
-               HGRK_ATIT_CD = #{hgrkAtitCd},
-               AC_LVL_CD = #{acLvlCd},
-               BKG_AC_YN = #{bkgAcYn},
-               FS_DV_CD = #{fsDvCd},
-               AC_DV_CD = #{acDvCd},
-			   AC_KIND_CD = #{acKindCd},
-			   APP_STR_DT = REPLACE(#{appStrDt}, '-', ''),
-			   APP_END_DT = REPLACE(#{appEndDt}, '-', ''),
-			   ORD_SEQ = #{ordSeq},
-			   ETC_DESC = #{etcDesc},
-               USE_YN = #{useYn},
-               FNL_UPD_EMP_NO = #{frstRegEmpNo},
-               FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
+               ATIT_KOR_NM    = #{atitKorNm} 
+             , ATIT_ENG_NM    = #{atitEngNm} 
+             , HGRK_ATIT_CD   = #{hgrkAtitCd} 
+             , AC_LVL_CD      = #{acLvlCd} 
+             , BKG_AC_YN      = #{bkgAcYn} 
+             , FS_DV_CD       = #{fsDvCd} 
+             , AC_DV_CD       = #{acDvCd} 
+             , AC_KIND_CD     = #{acKindCd} 
+             , APP_STR_DT     = REPLACE(#{appStrDt}, '-', '')
+             , APP_END_DT     = REPLACE(#{appEndDt}, '-', '')
+             , ORD_SEQ        = #{ordSeq}
+             , ETC_DESC       = #{etcDesc}
+             , USE_YN         = #{useYn}
+             , FNL_UPD_EMP_NO = #{frstRegEmpNo}
+             , FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
          WHERE 1=1
            AND ATIT_CD = #{atitCd}
            AND CS_NO   = #{csNo}

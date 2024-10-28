@@ -99,19 +99,19 @@
 	<update id="updateList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
         UPDATE TB_JNL_RUL_MNG_LST
            SET
-               DR_AC_SUBJ_CD  = #{drAcSubjCd},
-               CR_AC_SUBJ_CD  = #{crAcSubjCd},
-               ETC_DESC       = #{etcDesc},
-               USE_YN         = #{useYn},
-               FNL_UPD_EMP_NO = #{frstRegEmpNo},
-               FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
-          WHERE 1=1
-            AND CS_NO        = #{csNo}
-            AND INSC_DV_CD   = #{inscDvCd}
-            AND VALU_METD_CD = #{valuMetdCd}
-            AND LVL_1_CD     = #{lvl1Cd}
-            AND LVL_2_CD     = #{lvl2Cd}
-            AND LVL_3_CD     = #{lvl3Cd}
+               DR_AC_SUBJ_CD  = #{drAcSubjCd}
+             , CR_AC_SUBJ_CD  = #{crAcSubjCd}
+             , ETC_DESC       = #{etcDesc}
+             , USE_YN         = #{useYn}
+             , FNL_UPD_EMP_NO = #{frstRegEmpNo}
+             , FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
+         WHERE 1=1
+           AND CS_NO        = #{csNo}
+           AND INSC_DV_CD   = #{inscDvCd}
+           AND VALU_METD_CD = #{valuMetdCd}
+           AND LVL_1_CD     = #{lvl1Cd}
+           AND LVL_2_CD     = #{lvl2Cd}
+           AND LVL_3_CD     = #{lvl3Cd}
   </update>
     <delete id="deleteList" parameterType="com.rds.adams.web.biz.jnl.dto.BIZJNL002M0P1DTO">
         DELETE FROM TB_JNL_RUL_MNG_LST

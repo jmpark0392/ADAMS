@@ -77,17 +77,17 @@
                      GROUP BY B.HGRK_ATIT_CD 
                   )
         SELECT 
-               ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS ROW_NUMBER
-             , AA.ATIT_CD                             AS ATIT_CD
-             , BB.HGRK_ATIT_CD                        AS HGRK_ATIT_CD
-             , BB.ATIT_ENG_NM                         AS ATIT_NM
-             , BAS_AMT                                AS BAS_AMT
-             , DR_AMT                                 AS DR_AMT
-             , CR_AMT                                 AS CR_AMT
-             , ENTM_AMT                               AS ENTM_AMT
-             , CC.USR_NM                              AS FRST_REG_EMP_NO
-             , CONVERT(CHAR(10), AA.FNL_UPD_DTM, 23)  AS FRST_REG_DTM
-             , BB.AC_LVL_CD                           AS LEVEL_CD
+               ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS rowNumber    /* 행번호 */
+             , AA.ATIT_CD                             AS atitCd       /* 계정과목코드 */
+             , BB.HGRK_ATIT_CD                        AS hgrkAtitCd   /* 상위계정과목코드 */
+             , BB.ATIT_ENG_NM                         AS atitNm       /* 계정과목명 */
+             , AA.BAS_AMT                             AS basAmt       /* 기초금액 */
+             , AA.DR_AMT                              AS drAmt        /* 차변금액 */
+             , AA.CR_AMT                              AS crAmt        /* 대변금액 */
+             , AA.ENTM_AMT                            AS entmAmt      /* 기말금액 */
+             , CC.USR_NM                              AS frstRegEmpNo /* 최초등록사원번호 */
+             , CONVERT(CHAR(10), AA.FNL_UPD_DTM, 23)  AS frstRegDtm   /* 최초등록일시 */
+             , BB.AC_LVL_CD                           AS levelCd      /* 메뉴레벨코드 */
           FROM (
                            SELECT * FROM LVL4
                  UNION ALL SELECT * FROM LVL3

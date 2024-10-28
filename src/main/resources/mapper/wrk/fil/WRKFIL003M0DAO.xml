@@ -40,7 +40,7 @@
           FROM RDSDB.dbo.TB_UPL_FILE_LST A
          WHERE 1=1
 	     <if test= 'csNo != "999"'>
-	       AND A.CS_NO       = #{csNo}
+	       AND A.CS_NO = #{csNo}
 	     </if>
            AND USE_YN = 'Y'
            AND EXISTS (
@@ -83,19 +83,19 @@
     <insert id="insertUplHist" useGeneratedKeys="true" keyColumn="seqNo" keyProperty="seqNo" >
         INSERT INTO RDSDB.dbo.TB_UPL_HIST
                (
-                 DB_ID
-               , CS_NO
-               , TBL_ID
-               , FILE_NM
-               , LOAD_STR_DTM
-               , LOAD_END_DTM
-               , LOAD_CNT
-               , LOAD_SUCC_YN
-               , STD_YYMM
-               , FNL_UPD_EMP_NO
-               , FNL_UPD_DTM
-               , FRST_REG_EMP_NO
-               , FRST_REG_DTM
+                 [DB_ID]
+               , [CS_NO]
+               , [TBL_ID]
+               , [FILE_NM]
+               , [LOAD_STR_DTM]
+               , [LOAD_END_DTM]
+               , [LOAD_CNT]
+               , [LOAD_SUCC_YN]
+               , [STD_YYMM]
+               , [FNL_UPD_EMP_NO]
+               , [FNL_UPD_DTM]
+               , [FRST_REG_EMP_NO]
+               , [FRST_REG_DTM]
                )
         VALUES
                (

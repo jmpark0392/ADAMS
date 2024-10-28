@@ -70,19 +70,19 @@
 	<update id="updateList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P1DTO">
 		UPDATE TB_BAT_MNG_LST
 			SET 
-				BAT_PROG_NM    = #{batProgNm},
-				UP_PROG_ID     = #{upProgId},
-				LWST_PROG_YN   = #{lwstProgYn},
-				EXE_PRD        = #{exePrd},
-				MAIN_EMP_NO    = #{mainEmpId},
-				SUB_EMP_NO     = #{subEmpId},
-				ETC_DESC       = #{etcDesc},
-				USE_YN         = #{useYn},
-				FNL_UPD_EMP_NO = #{frstRegEmpNo},
-				FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
-			WHERE 1=1
-			  AND BAT_PROG_ID = #{batProgId}
-			  AND CS_NO		  = #{csNo}
+			    BAT_PROG_NM    = #{batProgNm} 
+			  , UP_PROG_ID     = #{upProgId} 
+			  , LWST_PROG_YN   = #{lwstProgYn} 
+			  , EXE_PRD        = #{exePrd} 
+			  , MAIN_EMP_NO    = #{mainEmpId} 
+			  , SUB_EMP_NO     = #{subEmpId} 
+			  , ETC_DESC       = #{etcDesc} 
+			  , USE_YN         = #{useYn} 
+			  , FNL_UPD_EMP_NO = #{frstRegEmpNo} 
+			  ,	FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
+		  WHERE 1=1
+			AND BAT_PROG_ID = #{batProgId}
+			AND CS_NO       = #{csNo}
 	</update>
 	<delete id="deleteList" parameterType="com.rds.adams.web.wrk.bat.dto.WRKBAT001M0P1DTO">
 		DELETE FROM TB_BAT_MNG_LST

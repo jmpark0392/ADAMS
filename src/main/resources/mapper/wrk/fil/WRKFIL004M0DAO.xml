@@ -5,16 +5,16 @@
 <mapper namespace="com.rds.adams.web.wrk.fil.dao.WRKFIL004M0DAO">
     <select id="selectList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL004M0P0DTO" resultType="com.rds.adams.web.wrk.fil.dto.WRKFIL004M0R0DTO">
         SELECT
-               A.SEQ_NO                               AS SEQ_NO
-             , A.FILE_NM                              AS FILE_NM
-             , A.TBL_ID                               AS TBL_ID
-             , A.FILE_NM                              AS FILE_NM
-             , A.LOAD_CNT                             AS LOAD_CNT
-             , A.STD_YYMM                             AS STD_YYMM
-             , C.USR_NM                               AS FRST_REG_EMP_NO
-             , CONVERT(CHAR(19), A.LOAD_STR_DTM, 20)  AS LOAD_STR_DTM
-             , CONVERT(CHAR(19), A.LOAD_END_DTM, 20)  AS LOAD_END_DTM
-             , A.LOAD_SUCC_YN                         AS LOAD_SUCC_YN
+               A.SEQ_NO                               AS seqNo        /* 순번 */
+             , A.DB_ID                                AS dbId         /* 데이터베이스ID */
+             , A.TBL_ID                               AS tblId        /* 테이블ID */
+             , A.FILE_NM                              AS fileNm       /* 파일명 */
+             , A.LOAD_CNT                             AS loadCnt      /* 적재건수 */
+             , A.STD_YYMM                             AS stdYymm      /* 기준년월 */
+             , C.USR_NM                               AS frstRegEmpNo /* 최초등록자번호 */
+             , CONVERT(CHAR(19), A.LOAD_STR_DTM, 20)  AS loadStrDtm   /* 적재시작일시 */
+             , CONVERT(CHAR(19), A.LOAD_END_DTM, 20)  AS loadEndDtm   /* 적재종료일시 */
+             , A.LOAD_SUCC_YN                         AS loadSuccYn   /* 적재성공여부 */
           FROM RDSDB.dbo.TB_UPL_HIST A
          INNER JOIN (
                       SELECT
@@ -25,7 +25,7 @@
                        WHERE 1=1
                          AND USE_YN = 'Y'
                        <if test= 'csNo != "999"'>
-                         AND CS_NO       = #{csNo}
+                         AND CS_NO  = #{csNo}
                        </if>  
                        <if test='uploadFile != ""'>
                          AND SEQ_NO = #{uploadFile}
@@ -39,7 +39,7 @@
                  ON A.FNL_UPD_EMP_NO = C.USR_ID
               WHERE 1=1
              <if test= 'csNo != "999"'>
-               AND A.CS_NO       = #{csNo}
+               AND A.CS_NO   = #{csNo}
              </if>
              <if test="startLoadDate != null and startLoadDate != '' and endLoadDate != null and endLoadDate != ''">
                AND  CONVERT(CHAR(8), A.LOAD_STR_DTM, 112) BETWEEN #{startLoadDate} AND #{endLoadDate}

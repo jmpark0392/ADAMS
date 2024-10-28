@@ -36,52 +36,52 @@
             SELECT MAX(SEQ_NO)+1 FROM TB_UPL_FILE_LST;
         </selectKey>
         INSERT INTO [dbo].[TB_UPL_FILE_LST] (
-            [CS_NO],
-            [SEQ_NO],
-            [DB_ID],
-            [TBL_ID],
-            [FILE_NM],
-            [FILE_DSC],
-            [FILE_DEL_YN],
-            [UI_SEL_YN],
-            [USE_YN],
-            [VRF_USE_YN],
-            [DEL_YN],
-            [FNL_UPD_EMP_NO],
-            [FNL_UPD_DTM],
-            [FRST_REG_EMP_NO],
-            [FRST_REG_DTM]
-        )
+                [CS_NO] 
+             ,  [SEQ_NO] 
+             ,  [DB_ID] 
+             ,  [TBL_ID] 
+             ,  [FILE_NM] 
+             ,  [FILE_DSC] 
+             ,  [FILE_DEL_YN] 
+             ,  [UI_SEL_YN] 
+             ,  [USE_YN] 
+             ,  [VRF_USE_YN] 
+             ,  [DEL_YN] 
+             ,  [FNL_UPD_EMP_NO] 
+             ,  [FNL_UPD_DTM] 
+             ,  [FRST_REG_EMP_NO] 
+             ,  [FRST_REG_DTM]
+          )
         VALUES (
-            #{csNo},
-            #{seqNo},
-            #{dbId},
-            #{tblId},
-            #{fileNm},
-            #{fileDsc},
-            #{fileDelYn},
-            #{uiSelYn},
-            #{useYn},
-            #{vrfUseYn},
-            'N',
-            #{frstRegEmpNo},
-            CONVERT(CHAR(10), getdate(), 23),
-            #{frstRegEmpNo},
-            CONVERT(CHAR(10), getdate(), 23)
+               #{csNo} 
+             , #{seqNo} 
+             , #{dbId} 
+             , #{tblId} 
+             , #{fileNm} 
+             , #{fileDsc} 
+             , #{fileDelYn} 
+             , #{uiSelYn} 
+             , #{useYn} 
+             , #{vrfUseYn} 
+             , 'N' 
+             , #{frstRegEmpNo}
+             , CONVERT(CHAR(10), getdate(), 23)
+             , #{frstRegEmpNo}
+             , CONVERT(CHAR(10), getdate(), 23)
         )
     </insert>
     <update id="updateList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL001M0P1DTO">
         UPDATE TB_UPL_FILE_LST
-           SET DB_ID = #{dbId},
-               TBL_ID = #{tblId},
-               FILE_NM = #{fileNm},
-               FILE_DSC = #{fileDsc},
-               FILE_DEL_YN = #{fileDelYn},
-               UI_SEL_YN = #{uiSelYn},
-               USE_YN = #{useYn},
-               VRF_USE_YN = #{vrfUseYn},
-               FNL_UPD_EMP_NO = #{frstRegEmpNo},
-               FNL_UPD_DTM = CONVERT(CHAR(10), getdate(), 23)
+           SET DB_ID          = #{dbId} 
+             , TBL_ID         = #{tblId} 
+             , FILE_NM        = #{fileNm} 
+             , FILE_DSC       = #{fileDsc} 
+             , FILE_DEL_YN    = #{fileDelYn} 
+             , UI_SEL_YN      = #{uiSelYn} 
+             , USE_YN         = #{useYn} 
+             , VRF_USE_YN     = #{vrfUseYn} 
+             , FNL_UPD_EMP_NO = #{frstRegEmpNo} 
+             , FNL_UPD_DTM    = CONVERT(CHAR(10), getdate(), 23)
          WHERE 1=1
            AND SEQ_NO = #{seqNo}
            AND CS_NO  = #{csNo}
