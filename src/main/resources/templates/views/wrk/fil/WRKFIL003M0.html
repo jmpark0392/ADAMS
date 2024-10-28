@@ -84,6 +84,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<!-- rest of content -->
 				</div>
 				<div style="padding-bottom: 10px"></div>
@@ -91,6 +92,7 @@
 					<form name="divData">
 					<!-- <p>►&nbsp;<label for="lblGrdTitle">Grid title: </label></p> -->
 						<div class="card card-md" align="center" id="divMyGrid">
+							<div id="center" style="position:fixed;top:50%;left:55%; transform: translate(-50%, -55%); display: block;"></div>
 							<table id="divMyGrid" style="width: 1284px; height: 500px"></table>
 						</div>
 					</form>
@@ -98,6 +100,7 @@
 			</div>
 		</div>
 	</div>
+
 	<script>
 		function getFileList(input) {
 			console.log("getFileList input : " + input);
@@ -438,6 +441,9 @@
 			
 			formData.append("uploadFileVal", $("#cmbUploadFileList").val());
 			formData.append("inpStdYymm", stdYymm);
+
+			var center = document.getElementById('center');
+			var spinner = new Spinner().spin(center);
 			
 			/*
 			  formData.append("param", new Blob([ JSON.stringify({
@@ -464,6 +470,8 @@
 									result.resultCd = "S";
 									result.id       = "SaveUplFileList";
 									result.data     = data;
+
+									spinner.stop(); // we stop the spinner once you finished loading data
 									
 									fn_callback(result);
 								}, error    : function (e) {
