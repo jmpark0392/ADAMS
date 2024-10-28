@@ -168,7 +168,7 @@
 										</div>
 										<div class="col-xl-4">
 											<div class="form-floating mb-2">
-												<input type="text" th:value="${loginDTO.usrPhNo}" class="form-control" id="userPhone" name="userPhone" maxLength="30" placeholder="ditect phone number (without -)" autocomplete="off" required>
+												<input type="text" th:value="${loginDTO.usrPhNo}" class="form-control" id="userPhone" name="userPhone" maxLength="20" placeholder="ditect phone number (without -)" autocomplete="off" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
 												<label for="userPhone">direct phone number (without -)</label>
 											</div>
 										</div>
@@ -495,11 +495,32 @@
 						case "getAdamsMonthBatCnt" :
 							fn_monthBatCnt(result.data);
 							break;
-						case "updateMyAccount" :
-							/* main(); */
+							
+						case "updateMyAccount" :	
+							
+							if(result.data.resultCode =="200"){
+								alert("Your profile has been updated successfully, and it will be redirected to the login page.");
+								window.location.href="/";
+							}
+							else if(result.data.resultCode == "300"){
+								alert( "Update Fail Error : " + result.data.resultMessage );
+							}
+							else if(result.data.resultCode == "400"){
+								alert( "Update Fail Error : " + result.data.resultMessage );
+							}							
 							break;
 						case "changeMyPassword" :
-							/* main(); */
+							
+							if(result.data.resultCode =="200"){
+								alert("Your password has been changed successfully, and it will be redirected to the login page.");
+								window.location.href="/";
+							}
+							else if(result.data.resultCode == "300"){
+								alert( "Change Fail Error : " + result.data.resultMessage );
+							}
+							else if(result.data.resultCode == "400"){
+								alert( "Change Fail Error : " + result.data.resultMessage );
+							}
 							break;
 					}
 				} else if(result.resultCd == "E") {
@@ -901,7 +922,6 @@
 		    	var vPtbDeptNm    = $("#userTeam").val();
 		    	var vPtbPhNo      = $("#userPhone").val();
 		    	var vUsrPassword  = $("#userPassword").val();
-//		    	var vUsrPasswordAgain  = $("#userPasswordAgain").val();
 		    	
 	    	
 		    	if ( isNull(vPtbDeptNm) == "" ) {
@@ -944,8 +964,6 @@
 		    	
 				if (cfm_notice) {
 					gf_Transaction(option, fn_callback);
-					alert("Your profile has been updated successfully, and it will be redirected to the login page.");
-					window.location.href="/";
 				} else {
 					return false;
 				}
@@ -991,7 +1009,6 @@
 		    	const myPasswordData = {
 		            usrCurrentPassword    : vUsrCurrentPassword
 		    		, usrNewPassword       : vUsrNewPassword
-		            , usrNewPasswordAgain   : vUsrNewPasswordAgain
 		        };
 
 		    	var option = {
@@ -1007,9 +1024,7 @@
 		    	var cfm_notice = confirm("Once your password is changed, you need to log in anew. Shall we proceed?");
 		    	
 				if (cfm_notice) {
-					gf_Transaction(option, fn_callback);
-					alert("Your password has been changed successfully, and it will be redirected to the login page.");
-					window.location.href="/";
+					gf_Transaction(option, fn_callback);					
 				} else {
 					return false;
 				}

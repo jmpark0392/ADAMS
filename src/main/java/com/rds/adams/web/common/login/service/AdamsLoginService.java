@@ -17,6 +17,8 @@ import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.core.utils.EmailUtil;
 import com.rds.adams.web.core.utils.dto.EmailDTO;
 import com.rds.adams.web.common.login.dto.AdamsBatCntTotalDTO;
+import com.rds.adams.web.common.login.dto.AdamsCheckUserParDTO;
+import com.rds.adams.web.common.login.dto.AdamsCheckUserResDTO;
 import com.rds.adams.web.common.login.dto.AdamsLastBatDtmDTO;
 import com.rds.adams.web.common.login.dto.AdamsLastLoginDtmDTO;
 import com.rds.adams.web.common.login.dto.AdamsLastUploadDtmDTO;
@@ -28,6 +30,7 @@ import com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO;
 import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsUpdateAccountDTO;
 import com.rds.adams.web.common.login.dto.AdamsUpdateLoginDTO;
+import com.rds.adams.web.common.login.dto.AdamsUpdatePwDTO;
 import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 
 import egovframework.let.utl.fcc.service.EgovNumberUtil;
@@ -578,41 +581,77 @@ public class AdamsLoginService {
 	 */
 	public boolean updateAccount(AdamsUpdateAccountDTO vo) throws Exception {
 
-		boolean result = true;
-
 		// 1. 사용자 비밀번호 변경 정보가 있는지 확인한다.
 		if (vo == null || vo.getPtbEmail() == null || "".equals(vo.getPtbEmail()) || vo.getUsrPassword() == null || "".equals(vo.getUsrPassword())) {
 			return false;
 		}
 		
 		// 2. 변경된 사용자 정보를 DB에 저장한다.
-		adamsLoginDAO.updateAccount(vo);
-
-		return result;
+		int updateCount = adamsLoginDAO.updateAccount(vo);
+		return updateCount > 0; // 비밀번호를 정확히 입력했을 때 업데이트된 행의 수 반환, 실패하면 0 반환
 	}
 	
 	/**
-	 * 마이페이지에서 변경된 사용자 정보를 조회한다
+	 * 마이페이지에서 변경된 사용자 정보를 조회해서 세션 정보를 업데이트한다
 	 * @param vo AdamsLoginDTO
 	 * @return AdamsUpdateLoginDTO
 	 * @exception Exception
 	 */
-	public AdamsUpdateLoginDTO actionUpdateLogin(AdamsUpdateLoginDTO vo) throws Exception {
+	public AdamsLoginDTO actionUpdateLogin(AdamsUpdateLoginDTO vo) throws Exception {
 		
-		log.debug(" =====================> AdamsUpdateLoginDTO : " + vo.toString() );
+		log.debug(" =====================> AdamsLoginDTO : " + vo.toString() );
 		// 1. 입력한 비밀번호를 암호화한다.
 		//생략 DB에서 진행
 		
 		// 2. 아이디와 비밀번호가 DB와 일치하는지 확인한다.
-		AdamsUpdateLoginDTO adamsUpdateLoginDTO = adamsLoginDAO.actionUpdateLogin(vo);
+		AdamsLoginDTO adamsUpdateLoginDTO = adamsLoginDAO.actionUpdateLogin(vo);
 
 		// 3. 결과를 리턴한다.
 		if (adamsUpdateLoginDTO != null && !adamsUpdateLoginDTO.getUsrId().equals("") && !adamsUpdateLoginDTO.getUsrDvCd().equals("")) {
 			return adamsUpdateLoginDTO;
 		} else {
-			adamsUpdateLoginDTO = new AdamsUpdateLoginDTO();
+			adamsUpdateLoginDTO = new AdamsLoginDTO();
 		}
 
 		return adamsUpdateLoginDTO;
+	}
+	
+	/**
+	 * 마이페이지에서 변경한 비밀번호를 저장한다.
+	 * @param vo AdamsUpdateAccountDTO
+	 * @return boolean
+	 * @exception Exception
+	 */
+	public boolean changeMyPassword(AdamsUpdatePwDTO vo) throws Exception {
+
+		// 1. 사용자 정보가 있는지 확인한다.
+		if (vo == null || vo.getUsrId() == null || "".equals(vo.getUsrId()) || vo.getUsrNewPassword() == null || "".equals(vo.getUsrNewPassword())) {
+			return false;
+		}
+		
+		// 2. 변경된 사용자의 비밀번호를 DB에 저장한다.
+		// 비밀번호 확인, 기존 비밀번호와 새로운 비밀번호의 비교는 프론트에서
+		int updateCount = adamsLoginDAO.changeMyPassword(vo);		
+		return updateCount > 0; // 현재 비밀번호를 정확히 입력했을 때 업데이트된 행의 수 반환, 비밀번호가 일치하지 않거나 사용자 정보가 잘못된 경우 = 실패하면 0 반환
+	}
+	
+	/**
+	 * 마이페이지에서 비밀번호 변경 전 사용자 인증 결과를 전달한다
+	 * @param vo AdamsCheckUserParDTO
+	 * @exception Exception
+	 */
+	public AdamsCheckUserResDTO checkUsrPw(AdamsCheckUserParDTO vo) throws Exception {
+		
+		// 1. 사용자가 입력한 비밀번호가 DB와 일치하는지 확인한다.
+		AdamsCheckUserResDTO adamsCheckUserResDTO = adamsLoginDAO.checkUsrPw(vo);
+		
+		// 2. 사용자 인증 결과를 리턴한다.
+		if (adamsCheckUserResDTO != null) {
+			return adamsCheckUserResDTO;
+		} else {
+			adamsCheckUserResDTO = new AdamsCheckUserResDTO();
+		}
+				
+		return adamsCheckUserResDTO;
 	}
 }
