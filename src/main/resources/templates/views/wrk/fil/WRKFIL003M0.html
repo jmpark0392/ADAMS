@@ -158,7 +158,7 @@
 
 			var dropdown = $("#cmbUploadFileList");
 			data.forEach(function (item) {
-				var option = $("<option></option>").attr("value", item.seqNo).text(item.tblId);
+				var option = $("<option></option>").attr("value", item.seqNo).text(item.opName);
 				dropdown.append(option);
 			});
 		}

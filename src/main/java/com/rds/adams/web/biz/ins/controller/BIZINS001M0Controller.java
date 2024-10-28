@@ -61,7 +61,7 @@ public class BIZINS001M0Controller {
 		try {
 			bIZINS001M0Service.executeList(inVo);
 			log.info("success");
-			Thread.sleep(1000);
+			Thread.sleep(5000);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

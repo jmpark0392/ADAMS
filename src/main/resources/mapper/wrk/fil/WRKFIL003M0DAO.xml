@@ -37,6 +37,7 @@
              , A.FILE_NM
              , A.DB_ID
              , A.TBL_ID
+             , CONCAT(A.TBL_ID, '(', A.FILE_DSC, ')')  AS opName
           FROM RDSDB.dbo.TB_UPL_FILE_LST A
          WHERE 1=1
 	     <if test= 'csNo != "999"'>

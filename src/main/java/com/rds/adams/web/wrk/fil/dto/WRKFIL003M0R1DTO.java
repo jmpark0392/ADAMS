@@ -25,10 +25,20 @@ public class WRKFIL003M0R1DTO {
 	
 	@Schema(description = "고객사번호")
 	private String csNo;
-	
+
+	@Schema(description = "순번")
 	private long seqNo;
+
+	@Schema(description = "파일명")
 	private String fileNm;
+
+	@Schema(description = "데이터베이스ID")
 	private String dbId;
+
+	@Schema(description = "테이블ID")
 	private String tblId;
+	
+	@Schema(description = "select옵션명")	
+	private String opName;
 
 }
