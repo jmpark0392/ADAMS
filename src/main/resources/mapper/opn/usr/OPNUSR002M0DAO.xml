@@ -16,8 +16,10 @@
              , A.PTB_NM                               AS ptbNm          /* 담당자명 */
              , A.PTB_PH_NO                            AS ptbPhNo        /* 담당자전화번호 */
              , A.PTB_EMAIL                            AS ptbEmail       /* 담당자이메일 */
+             , A.PTB_DEPT_NM                          AS ptbDeptNm      /* 담당자부서명 */
              , A.ADMIN_ID                             AS adminId        /* 관리자ID */
              , ''                                     AS adminPassword  /* 관리자비밀번호 */
+             , A.COMP_HMPG_URL                        AS compHmpgUrl    /* 회사홈페이지URL */
              , A.POST_NO                              AS postNo         /* 우편번호 */
              , A.ADDRS                                AS addrs          /* 주소 */
              , A.DTLS_ADDRS                           AS dtlsAddrs      /* 상세주소 */
@@ -67,7 +69,9 @@
                      , #{ptbNm}                         AS PTB_NM
                      , #{ptbPhNo}                       AS PTB_PH_NO
                      , #{ptbEmail}                      AS PTB_EMAIL
+                     , #{ptbDeptNm}                     AS PTB_DEPT_NM
                      , #{adminId}                       AS ADMIN_ID
+                     , #{compHmpgUrl}                   AS COMP_HMPG_URL
                      , #{postNo}                        AS POST_NO
                      , #{addrs}                         AS ADDRS
                      , #{dtlsAddrs}                     AS DTLS_ADDRS
@@ -91,7 +95,9 @@
                   , A.PTB_NM          = B.PTB_NM
                   , A.PTB_PH_NO       = B.PTB_PH_NO
                   , A.PTB_EMAIL       = B.PTB_EMAIL
+                  , A.PTB_DEPT_NM     = B.PTB_DEPT_NM
                   , A.ADMIN_ID        = B.ADMIN_ID
+                  , A.COMP_HMPG_URL   = B.COMP_HMPG_URL
                   , A.POST_NO         = B.POST_NO
                   , A.ADDRS           = B.ADDRS
                   , A.DTLS_ADDRS      = B.DTLS_ADDRS
@@ -115,8 +121,10 @@
                   , PTB_NM
                   , PTB_PH_NO
                   , PTB_EMAIL
+                  , PTB_DEPT_NM
                   , ADMIN_ID
                   , ADMIN_PASSWORD
+                  , COMP_HMPG_URL
                   , POST_NO
                   , ADDRS
                   , DTLS_ADDRS
@@ -142,8 +150,10 @@
                   , B.PTB_NM
                   , B.PTB_PH_NO
                   , B.PTB_EMAIL
+                  , B.PTB_DEPT_NM
                   , B.ADMIN_ID
                   , PWDENCRYPT(#{adminPassword})
+                  , B.COMP_HMPG_URL
                   , B.POST_NO
                   , B.ADDRS
                   , B.DTLS_ADDRS
@@ -160,6 +170,16 @@
                   );
     </update>
     
+    <update id="updateUsrEnd">
+        UPDATE [RDSDB].[dbo].[TB_USR_MNG_LST]
+           SET STAT_DV_CD     = '9'
+             , USE_END_DTM    = CONVERT(DATE, #{useEndDtm}, 23)
+             , FNL_UPD_EMP_NO = #{usrId}
+             , FNL_UPD_DTM    = GETDATE()
+         WHERE 1=1
+           AND A.CS_NO = #{csNo}
+    </update>
+    
     <insert id="insertAdmUsr">
         INSERT INTO [RDSDB].[dbo].[TB_USR_MNG_LST]
                (
@@ -170,6 +190,7 @@
                , USR_PASSWORD
                , USR_PH_NO
                , USR_EMAIL
+               , USR_DEPT_NM
                , EMP_NO
                , STAT_DV_CD
                , USE_STR_DTM
@@ -189,6 +210,7 @@
              , A.ADMIN_PASSWORD AS USR_PASSWORD
              , A.PTB_PH_NO      AS USR_PH_NO
              , A.PTB_EMAIL      AS USR_EMAIL
+             , A.PTB_DEPT_NM    AS USR_DEPT_NM
              , NULL             AS EMP_NO
              , '0'              AS STAT_DV_CD
              , GETDATE()        AS USE_STR_DTM

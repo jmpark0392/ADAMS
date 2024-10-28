@@ -61,11 +61,17 @@ public class OPNUSR002M0R0DTO {
     @Schema(description = "담당자이메일")
     private String ptbEmail;
 
+    @Schema(description = "담당자부서명")
+    private String ptbDeptNm;
+
     @Schema(description = "관리자ID")
     private String adminId;
 
     @Schema(description = "관리자비밀번호")
     private String adminPassword;
+
+    @Schema(description = "회사홈페이지URL")
+    private String compHmpgUrl;
 
     @Schema(description = "우편번호")
     private String postNo;

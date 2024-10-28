@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
 	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 	<div class="page-wrapper" id="page-wrapper">
@@ -12,7 +12,7 @@
 						<form id="filter-form" name="form" method="post" action="WRKBAT001M0SelectList" onsubmit="return false;">
 							<div class="row">
 								<div class="col-sm-6 col-md-3">
-									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Program ID/Name" />
+									<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Program ID or Name" />
 								</div>
 								<div class="col-auto">
 									<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()">Search</button>

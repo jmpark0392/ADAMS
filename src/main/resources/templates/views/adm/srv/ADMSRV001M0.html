@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 	<th:block layout:fragment="content">
-		<!-- <div class="page"> -->
 		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 		<link href="css/common-css.css" rel="stylesheet" />
 		<div class="page-wrapper" id="page-wrapper">
@@ -10,182 +9,177 @@
 				<h2>[[${menuNm}]]</h2>
 				<div class="ptag-container">
 					<span>[[${navigator}]]</span>
-					<!-- page bopdy for the subscription -->
-					<div class="page-body">
-						<div class="container-xl">
-							<div class="row row-cards">
-								<!-- Basic Plan Card -->
-								<div class="col-sm-12 col-lg-4">
-									<a class="card card-link card-link-pop h-100">
-										<div class="card-header">
-											<div class="w-100 text-center">
-												<span class="fs-2" id="basicSrvcName"> </span>
-											</div>
-										</div>
-										<div class="card-body text-center">
-											<span class="fs-1 fw-bold" id="basicSrvc"></span>&nbsp;&nbsp;&nbsp;<span>per month</span>
-											<br><br>
-											<span class="fs-2" id="basicSrvcUser">  &nbsp;</span>
-											<br><br>
-											<ul class="list-unstyled lh-lg">
-												<li>
-													<!-- Check Icon -->
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-														<path d="M5 12l5 5l10 -10" />
-													</svg>
-													Custom Table Creation
-												</li>
-												<li>
-													<!-- Check Icon -->
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-														<path d="M5 12l5 5l10 -10" />
-													</svg>
-													File to DB Migration
-												</li>
-												<li>
-												<!-- Check Icon -->
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-														<path d="M5 12l5 5l10 -10" />
-													</svg>
-													Batch Job Running
-												</li>
-												<li>
-													<!-- Check Icon -->
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-														<path d="M5 12l5 5l10 -10" />
-													</svg>
-													Liabilities Calculation
-												</li>
-												<li>
-													<!-- Check Icon -->
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-														<path d="M5 12l5 5l10 -10" />
-													</svg>
-													User Management
-												</li>
-												<li>
-												<!-- Check Icon -->
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-														<path d="M5 12l5 5l10 -10" />
-													</svg>
-													Cost & Usage Monitoring
-												</li>
-											</ul>
-										</div>
-										<div class="card-footer card-footer-transparent">
-											<button class="btn btn-primary w-100" id="basicSubscriptionButton" onclick="useBasicSubscription()"></button>
-										</div>
-									</a>
+					<div class="row row-cards">
+						<!-- Basic Plan Card -->
+						<div class="col-sm-12 col-lg-4">
+							<a class="card card-link card-link-pop h-100">
+								<div class="card-header">
+									<div class="w-100 text-center">
+										<span class="fs-2" id="basicSrvcName"> </span>
+									</div>
 								</div>
-								<div class="col-sm-12 col-lg-4">
-									<a class="card card-link card-link-pop h-100">
-										<div class="card-header">
-											<div class="w-100 text-center">
-												<span class="fs-2" id="premiumSrvcName"></span>
-											</div>
-										</div>
-										<div class="card-body text-center">
-											<span class="fs-1 fw-bold" id="premiumSrvc"></span>&nbsp;&nbsp;&nbsp;<span>per month</span>
-											<br><br>
-											<span class="fs-2" id="premiumSrvcUser">&nbsp;</span>
-											<br><br>
-											<ul class="list-unstyled lh-lg">
-												<li>
-													Basic Service
-												</li>
-												<li>
-													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-copy-plus">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-														<path stroke="none" d="M0 0h24v24H0z" />
-														<path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
-														<path d="M4.012 16.737a2 2 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
-														<path d="M11 14h6" />
-														<path d="M14 11v6" />	
-													</svg>
-												</li>
-												<li>
-													<!-- Check Icon -->
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-														<path d="M5 12l5 5l10 -10" />
-													</svg>
-													Account Journaling
-												</li>
-												<li>
-													<!-- Check Icon -->
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-														<path d="M5 12l5 5l10 -10" />
-													</svg>
-													Balance Sheet Creation
-												</li>
-												<li>
-													<!-- Check Icon -->
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-														<path d="M5 12l5 5l10 -10" />
-													</svg>
-													Profit and Loss Creation
-												</li>
-												<li>
-													<!-- Check Icon -->
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-														<path d="M5 12l5 5l10 -10" />
-													</svg>
-													Audit Trailing
-												</li>
-											</ul>
-										</div>
-										<div class="card-footer card-footer-transparent">
-											<button class="btn btn-primary w-100" id="premiumSubscriptionButton" onclick="usePremiumSubscription()"></button>
-										</div>
-									</a>
+								<div class="card-body text-center">
+									<span class="fs-1 fw-bold" id="basicSrvc"></span>&nbsp;&nbsp;&nbsp;<span>per month</span>
+									<br><br>
+									<span class="fs-2" id="basicSrvcUser">  &nbsp;</span>
+									<br><br>
+									<ul class="list-unstyled lh-lg">
+										<li>
+											<!-- Check Icon -->
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l5 5l10 -10" />
+											</svg>
+											Custom Table Creation
+										</li>
+										<li>
+											<!-- Check Icon -->
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l5 5l10 -10" />
+											</svg>
+											File to DB Migration
+										</li>
+										<li>
+										<!-- Check Icon -->
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l5 5l10 -10" />
+											</svg>
+											Batch Job Running
+										</li>
+										<li>
+											<!-- Check Icon -->
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l5 5l10 -10" />
+											</svg>
+											Liabilities Calculation
+										</li>
+										<li>
+											<!-- Check Icon -->
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l5 5l10 -10" />
+											</svg>
+											User Management
+										</li>
+										<li>
+										<!-- Check Icon -->
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l5 5l10 -10" />
+											</svg>
+											Cost & Usage Monitoring
+										</li>
+									</ul>
 								</div>
-								<div class="col-sm-12 col-lg-4">
-									<a class="card card-link card-link-pop h-100">
-										<div class="card-header">
-											<div class="w-100 text-center">
-												<span class="fs-2">Additional Options</span>
-											</div>
-										</div>
-										<div class="card-body text-center">
-											<form id="optionForm">
-												<div class="text-center mt-2 mb-5">
-													<span class="fs-3">If you would like to add some users, please select the option below.</span>
-												</div>
-												<div>
-													<select id="optionSelect" class="form-select">
-														<option value="">select the number of users</option>
-													</select>
-												</div>
-												<div class="text-center mt-5">
-													<span class="fs-3">It will be charged by the number of days as many as you used the option.</span>
-												</div>
-											</form>
-										</div>
-										<div class="p-4 mt-5">
-											<span>Currently Using Option:&nbsp;</span>
-											<span id="selectedOption" style="font-weight: bold;"> None</span>
-										</div>
-										<div class="card-footer card-footer-transparent">
-											<button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">Use Option</button>
-										</div>
-									</a>
+								<div class="card-footer card-footer-transparent">
+									<button class="btn btn-primary w-100" id="basicSubscriptionButton" onclick="useBasicSubscription()"></button>
 								</div>
-							</div>
+							</a>
+						</div>
+						<div class="col-sm-12 col-lg-4">
+							<a class="card card-link card-link-pop h-100">
+								<div class="card-header">
+									<div class="w-100 text-center">
+										<span class="fs-2" id="premiumSrvcName"></span>
+									</div>
+								</div>
+								<div class="card-body text-center">
+									<span class="fs-1 fw-bold" id="premiumSrvc"></span>&nbsp;&nbsp;&nbsp;<span>per month</span>
+									<br><br>
+									<span class="fs-2" id="premiumSrvcUser">&nbsp;</span>
+									<br><br>
+									<ul class="list-unstyled lh-lg">
+										<li>
+											Basic Service
+										</li>
+										<li>
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-copy-plus">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												<path stroke="none" d="M0 0h24v24H0z" />
+												<path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+												<path d="M4.012 16.737a2 2 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+												<path d="M11 14h6" />
+												<path d="M14 11v6" />	
+											</svg>
+										</li>
+										<li>
+											<!-- Check Icon -->
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l5 5l10 -10" />
+											</svg>
+											Account Journaling
+										</li>
+										<li>
+											<!-- Check Icon -->
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l5 5l10 -10" />
+											</svg>
+											Balance Sheet Creation
+										</li>
+										<li>
+											<!-- Check Icon -->
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l5 5l10 -10" />
+											</svg>
+											Profit and Loss Creation
+										</li>
+										<li>
+											<!-- Check Icon -->
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon me-1 text-success" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l5 5l10 -10" />
+											</svg>
+											Audit Trailing
+										</li>
+									</ul>
+								</div>
+								<div class="card-footer card-footer-transparent">
+									<button class="btn btn-primary w-100" id="premiumSubscriptionButton" onclick="usePremiumSubscription()"></button>
+								</div>
+							</a>
+						</div>
+						<div class="col-sm-12 col-lg-4">
+							<a class="card card-link card-link-pop h-100">
+								<div class="card-header">
+									<div class="w-100 text-center">
+										<span class="fs-2">Additional Options</span>
+									</div>
+								</div>
+								<div class="card-body text-center">
+									<form id="optionForm">
+										<div class="text-center mt-2 mb-5">
+											<span class="fs-3">If you would like to add some users, please select the option below.</span>
+										</div>
+										<div>
+											<select id="optionSelect" class="form-select">
+												<option value="">select the number of users</option>
+											</select>
+										</div>
+										<div class="text-center mt-5">
+											<span class="fs-3">It will be charged by the number of days as many as you used the option.</span>
+										</div>
+									</form>
+								</div>
+								<div class="p-4 mt-5">
+									<span>Currently Using Option:&nbsp;</span>
+									<span id="selectedOption" style="font-weight: bold;"> None</span>
+								</div>
+								<div class="card-footer card-footer-transparent">
+									<button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">Use Option</button>
+								</div>
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- </div> -->
+
 		<script>
 			
 			var lv_optDtlsDesc = "";
@@ -291,7 +285,8 @@
 									.text("Upgrade Now!")
 									.attr("onclick","usePremiumSubscription()");
 								//.prop("disabled", false);
-								alert("Your company is currently subscribing to Basic Plan.");
+								alert("Your company is currently subscribing to Basic Plan, and it will be redirected to the login page.");
+								window.location.href="/";
 							} else {
 								alert("Failed to activate the Basic Subscription service. error : " + result.data.resultMessage);
 							}
@@ -314,7 +309,8 @@
 									.text("Seriously?")
 									.attr("onclick","useBasicSubscription()");
 									//.prop("disabled", false);
-							  	alert("Your company is currently subscribing to Premium Plan.");
+							  	alert("Your company is currently subscribing to Premium Plan, and it will be redirected to the login page.");
+							  	window.location.href="/";
 							} else {
 							  alert("Failed to activate the Premium Subscription service. error : " + result.data.resultMessage);
 							}
@@ -451,7 +447,7 @@
 			
 			// Function to handle "Use" button click for Basic Subscription
 			function useBasicSubscription() {
-				var res_cfm = confirm("Basic Plan will be applied immediately. Shall we proceed?");
+				var res_cfm = confirm("Basic Plan will be applied immediately, and, once your service option is changed, you need to log in anew. Shall we proceed?");
 				
 				if (res_cfm) {
 					mergeSrvcOptList( "MergeServiceOptionBasic", JSON.stringify({ srvcCd: "01" }) );
@@ -462,7 +458,7 @@
 		
 			// Function to handle "Use" button click for Premium Subscription
 			function usePremiumSubscription() {
-				var res_cfm = confirm("Premium Plan will be applied immediately. Shall we proceed?");
+				var res_cfm = confirm("Premium Plan will be applied immediately, and, once your service option is changed, you need to log in anew. Shall we proceed?");
 		
 				if (res_cfm) {
 					mergeSrvcOptList( "MergeServiceOptionPremium", JSON.stringify({ srvcCd: "02" }) );

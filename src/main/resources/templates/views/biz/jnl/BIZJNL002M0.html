@@ -1,11 +1,5 @@
-
 <!DOCTYPE html>
-<html
-	lang="ko"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 	<th:block layout:fragment="content">
 		<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 		<div class="page-wrapper" id="page-wrapper">
@@ -18,7 +12,7 @@
 							<form id="filter-form" name="form" method="post" action="/BIZJNL002M0SelectList" onsubmit="return false;" >
 								<div class="row">
 									<div class="col-sm-6 col-md-3">
-										<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Account Title/Name" />
+										<input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Account Code or Name" />
 									</div>
 									<div class="col-auto">
 										<button type="button" class="btn btn-primary" style="padding: 4px 10px; color: white; font-size: 13px" onclick="main()" >Search</button>
@@ -213,7 +207,7 @@
 			{id: "valuMetdCd",		name: "Valuation",			field: "valuMetdCd",	width: 80,	sortable: true, editor: function(args){ return new ComboBoxEditor(args, [ { key: 'GMM', value: 'GMM'}, { key: 'PAA', value: 'PAA'} ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{id: "lvl1Cd",			name: "Level1",				field: "lvl1Cd",		width: 70,	sortable: true, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: lvl1CdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{id: "lvl2Cd",			name: "Level2",				field: "lvl2Cd",		width: 70,	sortable: true, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: lvl2CdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
-			{id: "lvl3Cd",			name: "Level3",				field: "lvl3Cd",		width: 200,	sortable: true, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: lvl3CdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{id: "lvl3Cd",			name: "Level3",				field: "lvl3Cd",		width: 200,	sortable: true, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: lvl3CdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{id: "drAcSubjCd",		name: "Dr Code",			field: "drAcSubjCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{id: "drAcSubjNm",		name: "Dr Name",			field: "drAcSubjNm",	width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{id: "crAcSubjCd",		name: "Cr Code",			field: "crAcSubjCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},

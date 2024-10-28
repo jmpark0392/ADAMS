@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
 	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 	<div class="page-wrapper" id="page-wrapper">
@@ -13,17 +13,11 @@
 							<div class="row">
 								<!-- Year Select -->
 								<div class="col-auto">
-									<label class="form-label">Standard Year/Month:</label>
+									<label class="form-label">Standard Year / Month :</label>
 									<select name="user[year]" class="form-select select-month-year p-1" id="inputYear">
 										<option selected value="">- Year -</option>
 										<!-- Year Options -->
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2023">2023</option>
 										<option value="2024">2024</option>
-										<option value="2025">2025</option>
-										<option value="2026">2026</option>
 									</select>
 								</div>
 								<!-- Month Select -->
@@ -47,7 +41,7 @@
 									</select>
 								</div>
 								<div class="col-auto">
-									<label class="form-label"> Program ID/Name: </label> <input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Program ID/Name" />
+									<label class="form-label"> Program ID or Name : </label> <input id="inpSearchTxt" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Program ID or Name" />
 								</div>
 								<div class="col-auto">
 									<button type="button" class="btn btn-primary search-button p-1" style="padding: 4px 10px; color: white; font-size: 13px" onclick="getSearch()">Search</button>
@@ -151,8 +145,8 @@
 		var columns = [
 						checkboxSelector1.getColumnDefinition()	 
 					, { id: unqId,			name: "Program ID",			field: unqId,			width: 80,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[createValidator,noWhitespaceValidator]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
-					, { id: "batProgNm",	name: "Program Name",		field: "batProgNm",		width: 300,	sortable: true,	editor: Slick.Editors.Text,validator: createValidator,headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-					, { id: "upProgId",		name: "Group Name",			field: "upProgId",		width: 140,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[ createValidator,noWhitespaceValidator,]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
+					, { id: "batProgNm",	name: "Program Name",		field: "batProgNm",		width: 200,	sortable: true,	editor: Slick.Editors.Text,validator: createValidator,headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+					, { id: "upProgId",		name: "Group Name",			field: "upProgId",		width: 150,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[ createValidator,noWhitespaceValidator,]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
 					, { id: "exePrd",		name: "Cycle",				field: "exePrd",		width: 80,	sortable: true,	editor: function (args) { return new ComboBoxEditor( args,[ { key: "Y", value: "Y" },{ key: "Q", value: "Q" },{ key: "M", value: "M" },] ); },headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
 					, { id: "mainEmpNo",	name: "Main User",			field: "mainEmpNo",		width: 120,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[ createValidator,noWhitespaceValidator,]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }
 					, { id: "subEmpNo",		name: "Sub User",			field: "subEmpNo",		width: 120,	sortable: true,	editor: Slick.Editors.Text,validator: (value,args) => complexValidator(value,args,[ createValidator,noWhitespaceValidator,]),headerCssClass: "slick-header-columns",cssClass: "slick-column-center" }

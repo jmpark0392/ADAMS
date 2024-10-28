@@ -61,13 +61,22 @@ public class OPNUSR003M0Service {
 	 * @exception Exception
 	 */
 	public boolean saveUsr(OPNUSR003M0R0DTO inVo) throws Exception {
-		
+
+		String sMaxUsrCntYn   = "";
 		String newpassword  = "";
 		boolean bMail       = false;
 		
 		log.debug(" OPNUSR003M0R0DTO : " + inVo.toString());
 
 		try {
+			// 1. 고객사 사용자 수 체크
+			sMaxUsrCntYn = oPNUSR003M0DAO.selectUsrCntChk(inVo.getCsNo());
+			
+			if( "N".equals(sMaxUsrCntYn) ) {
+				// 회사는 최대 사용자 수보다 많은 사람을 등록할 수 없습니다.
+				throw new Exception("A company[" + inVo.getCompNm() + "] cannot register more than the maximum number of users.");
+			}
+			
 			// 2. 관리자 비밀번호 공백 시 임시 비밀번호를 생성한다.(영+영+숫+영+영+숫=6자리)
 			if ( inVo.getOldUsrId() == null || "".equals(inVo.getOldUsrId()) ) {
 	

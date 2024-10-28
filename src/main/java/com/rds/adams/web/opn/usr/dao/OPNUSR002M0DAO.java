@@ -40,8 +40,15 @@ public interface OPNUSR002M0DAO {
 	public void updateCsNo(OPNUSR002M0R0DTO inVo);
 
 	/**
+	 * 고객사 사용 종료 시 사용자를 종료 저장한다
+	 * @param vo OPNUSR002M0R0DTO
+	 * @exception Exception
+	 */
+	public void updateUsrEnd(OPNUSR002M0R0DTO inVo);
+
+	/**
 	 * 고객사 관리자 사용자를 저장한다
-	 * @param vo OPNUSR002M0P1DTO
+	 * @param vo OPNUSR002M0R0DTO
 	 * @exception Exception
 	 */
 	public void insertAdmUsr(OPNUSR002M0R0DTO inVo);

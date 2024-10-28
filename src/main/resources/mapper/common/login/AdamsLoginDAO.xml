@@ -110,6 +110,30 @@
         <result property="batCnt" column="batCnt"/>
     </resultMap>
     
+    <!-- 마이페이지 - 새 정보 업데이트를 위한 resultMap -->
+    <resultMap id="updateLogin" type="com.rds.adams.web.common.login.dto.AdamsUpdateLoginDTO">
+        <result property="csNo" column="csNo"/>
+        <result property="compNoDvCd" column="compNoDvCd"/>
+        <result property="compNo" column="compNo"/>
+        <result property="compNm" column="compNm"/>
+        <result property="usrDvCd" column="usrDvCd"/>
+        <result property="usrId" column="usrId"/>
+        <result property="usrNm" column="usrNm"/>
+        <result property="usrPassword" column="usrPassword"/>
+        <result property="usrNewPassword" column="usrNewPassword"/>
+        <result property="usrPhNo" column="usrPhNo"/>
+        <result property="usrEmail" column="usrEmail"/>
+        <result property="usrDeptNm" column="usrDeptNm"/>
+        <result property="empNo" column="empNo"/>
+        <result property="statDvCd" column="statDvCd"/>
+        <result property="useStrDtm" column="useStrDtm"/>
+        <result property="useEndDtm" column="useEndDtm"/>
+        <result property="passwordUpdDtm" column="passwordUpdDtm"/>
+        <result property="passwordInitYn" column="passwordInitYn"/>
+        <result property="srvcCd" column="srvcCd"/>
+        <result property="srvcNm" column="srvcNm"/>
+    </resultMap>
+    
     <!-- 일반 로그인 -->
     <select id="actionLogin" resultMap="login">
         SELECT
@@ -526,15 +550,15 @@
     <!-- 마이페이지 - (전날 기준)30일간 일별 로그인 횟수 조회 -->
     <select id="selectMonthLoginCnt" parameterType="com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO" resultMap="monthLoginCnt">
     <![CDATA[
-     WITH TB_LOGIN_CNT AS 
+       WITH TB_LOGIN_CNT AS 
 	        (
 	        SELECT 
 	        	   COUNT(SEQ_NO) AS LOGIN_CNT
-	        	  ,ACC_DTM
+	        	  ,CONVERT(CHAR(10), ACC_DTM, 23) AS ACC_DTM
 	         FROM  [dbo].TB_USR_LOGIN_HIST
 			 WHERE USR_ID = #{usrId}
 			   AND GETDATE()-30 <= ACC_DTM
-		  	 GROUP BY ACC_DTM
+		  	 GROUP BY CONVERT(CHAR(10), ACC_DTM, 23)
 		  ) 
 		, TB_ALL_DTM AS (
 			SELECT   
@@ -662,8 +686,44 @@
            	 , USR_DEPT_NM 		= #{ptbDeptNm}
            	 , USR_PASSWORD 	= PWDENCRYPT(#{usrPassword})
              , PASSWORD_UPD_DTM = GETDATE()
+             , FNL_UPD_EMP_NO   = #{usrId} 
+      		 , FNL_UPD_DTM      = GETDATE()
          WHERE 1=1
            AND CS_NO  = #{csNo}
            AND USR_ID = #{ptbEmail}
     </update>
+    
+    <!-- 마이페이지 - 사용자 정보 업데이트 -->
+    <select id="actionUpdateLogin" parameterType="com.rds.adams.web.common.login.dto.AdamsUpdateLoginDTO" resultMap="updateLogin">
+        SELECT
+               A.CS_NO AS csNo
+             , B.COMP_NO_DV_CD     AS compNoDvCd     /* 회사번호구분코드 */
+             , B.COMP_NO           AS compNo         /* 회사번호 */
+             , B.COMP_NM           AS compNm         /* 회사명 */
+             , A.USR_DV_CD         AS usrDvCd
+             , A.USR_ID            AS usrId
+             , A.USR_NM            AS usrNm
+             , ''			       AS usrPassword
+             , A.USR_PH_NO         AS usrPhNo
+             , A.USR_EMAIL         AS usrEmail
+             , A.USR_DEPT_NM       AS usrDeptNm
+             , A.EMP_NO            AS empNo
+             , A.STAT_DV_CD        AS statDvCd
+             , A.USE_STR_DTM       AS useStrDtm
+             , A.USE_END_DTM       AS useEndDtm
+             , A.PASSWORD_UPD_DTM  AS passwordUpdDtm
+             , A.PASSWORD_INIT_YN  AS passwordInitYn
+             , C.SRVC_CD           AS srvcCd
+             , D.SRVC_NM           AS srvcNm
+          FROM RDSDB.[dbo].[TB_USR_MNG_LST] A
+          LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_MNG_LST] B
+                       ON A.CS_NO = B.CS_NO
+          LEFT OUTER JOIN RDSDB.[dbo].[TB_CS_SRVC_OPT_INF] C
+                       ON A.CS_NO = C.CS_NO
+          LEFT OUTER JOIN RDSDB.[dbo].[TB_SVRC_INF] D
+                       ON C.SRVC_CD = D.SRVC_CD
+         WHERE 1=1
+           AND A.CS_NO = #{csNo}
+           AND A.USR_ID = #{usrId}
+    </select>
 </mapper>

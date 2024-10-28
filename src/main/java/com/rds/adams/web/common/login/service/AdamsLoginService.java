@@ -27,6 +27,7 @@ import com.rds.adams.web.common.login.dto.AdamsMonthUploadCntDTO;
 import com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO;
 import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsUpdateAccountDTO;
+import com.rds.adams.web.common.login.dto.AdamsUpdateLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 
 import egovframework.let.utl.fcc.service.EgovNumberUtil;
@@ -588,5 +589,30 @@ public class AdamsLoginService {
 		adamsLoginDAO.updateAccount(vo);
 
 		return result;
+	}
+	
+	/**
+	 * 마이페이지에서 변경된 사용자 정보를 조회한다
+	 * @param vo AdamsLoginDTO
+	 * @return AdamsUpdateLoginDTO
+	 * @exception Exception
+	 */
+	public AdamsUpdateLoginDTO actionUpdateLogin(AdamsUpdateLoginDTO vo) throws Exception {
+		
+		log.debug(" =====================> AdamsUpdateLoginDTO : " + vo.toString() );
+		// 1. 입력한 비밀번호를 암호화한다.
+		//생략 DB에서 진행
+		
+		// 2. 아이디와 비밀번호가 DB와 일치하는지 확인한다.
+		AdamsUpdateLoginDTO adamsUpdateLoginDTO = adamsLoginDAO.actionUpdateLogin(vo);
+
+		// 3. 결과를 리턴한다.
+		if (adamsUpdateLoginDTO != null && !adamsUpdateLoginDTO.getUsrId().equals("") && !adamsUpdateLoginDTO.getUsrDvCd().equals("")) {
+			return adamsUpdateLoginDTO;
+		} else {
+			adamsUpdateLoginDTO = new AdamsUpdateLoginDTO();
+		}
+
+		return adamsUpdateLoginDTO;
 	}
 }

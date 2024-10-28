@@ -99,7 +99,7 @@
           LEFT OUTER JOIN TB_USR_MNG_LST CC
             ON AA.FNL_UPD_EMP_NO = CC.USR_ID
          WHERE 1=1
-         <if test='csNo != ""'>
+         <if test='csNo != "999"'>
            AND BB.CS_NO = #{csNo}
          </if>
          <if test='searchTxt != ""'>

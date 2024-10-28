@@ -20,6 +20,7 @@ import com.rds.adams.web.common.login.dto.AdamsMypageUsrIdDTO;
 import com.rds.adams.web.common.login.dto.AdamsNewCsDTO;
 import com.rds.adams.web.common.login.dto.AdamsRegDtmTotalDTO;
 import com.rds.adams.web.common.login.dto.AdamsUpdateAccountDTO;
+import com.rds.adams.web.common.login.dto.AdamsUpdateLoginDTO;
 import com.rds.adams.web.common.login.dto.AdamsUploadCntTotalDTO;
 
 /**
@@ -219,4 +220,14 @@ public interface AdamsLoginDAO {
 	 * @exception Exception
 	 */
 	public void updateAccount(AdamsUpdateAccountDTO vo) ;
+	
+	/**
+	 * 마이페이지에서 변경된 사용자 정보를 조회한다
+	 * @param vo AdamsUpdateLoginDTO
+	 * @return AdamsUpdateLoginDTO
+	 * @exception Exception
+	 */
+	public AdamsUpdateLoginDTO actionUpdateLogin(AdamsUpdateLoginDTO vo) ;
+	
+	
 }
