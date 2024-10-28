@@ -70,7 +70,7 @@
                   , A.USR_DEPT_NM     = B.USR_DEPT_NM
                   , A.USR_EMAIL       = B.USR_EMAIL
                   , A.STAT_DV_CD      = B.STAT_DV_CD
-                  , A.USE_STR_DTM     = B.USE_STR_DTM
+                  , A.USE_STR_DTM     = CASE WHEN B.USE_STR_DTM IS NULL THEN A.USE_STR_DTM ELSE B.USE_STR_DTM END
                   , A.USE_END_DTM     = B.USE_END_DTM
                   , A.FNL_UPD_EMP_NO  = #{updId}
                   , A.FNL_UPD_DTM     = GETDATE()
@@ -108,7 +108,7 @@
                   , B.USR_EMAIL
                   , NULL
                   , B.STAT_DV_CD
-                  , B.USE_STR_DTM
+                  , CASE WHEN B.USE_STR_DTM IS NULL THEN GETDATE() ELSE B.USE_STR_DTM END
                   , B.USE_END_DTM
                   , NULL
                   , 'N'

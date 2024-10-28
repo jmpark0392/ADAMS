@@ -76,8 +76,8 @@
                      , #{addrs}                         AS ADDRS
                      , #{dtlsAddrs}                     AS DTLS_ADDRS
                      , #{statDvCd}                      AS STAT_DV_CD
-                     , CONVERT(DATE, #{useStrDtm}, 23)  AS USE_STR_DTM
-                     , CONVERT(DATE, #{useEndDtm}, 23)  AS USE_END_DTM
+                     , CASE WHEN #{useStrDtm} IS NULL OR #{useStrDtm} = '' THEN NULL ELSE CONVERT(DATE, #{useStrDtm}, 23) END  AS USE_STR_DTM
+                     , CASE WHEN #{useEndDtm} IS NULL OR #{useEndDtm} = '' THEN NULL ELSE CONVERT(DATE, #{useEndDtm}, 23) END  AS USE_END_DTM
                      , #{countryCd}                     AS COUNTRY_CD
                      , #{countryNmKor}                  AS COUNTRY_NM_KOR
                      , #{countryNmEng}                  AS COUNTRY_NM_ENG
@@ -102,7 +102,7 @@
                   , A.ADDRS           = B.ADDRS
                   , A.DTLS_ADDRS      = B.DTLS_ADDRS
                   , A.STAT_DV_CD      = B.STAT_DV_CD
-                  , A.USE_STR_DTM     = B.USE_STR_DTM
+                  , A.USE_STR_DTM     = CASE WHEN B.USE_STR_DTM IS NULL THEN A.USE_STR_DTM ELSE B.USE_STR_DTM END
                   , A.USE_END_DTM     = B.USE_END_DTM
                   , A.COUNTRY_CD      = B.COUNTRY_CD
                   , A.COUNTRY_NM_KOR  = B.COUNTRY_NM_KOR
@@ -158,7 +158,7 @@
                   , B.ADDRS
                   , B.DTLS_ADDRS
                   , B.STAT_DV_CD
-                  , B.USE_STR_DTM
+                  , CASE WHEN B.USE_STR_DTM IS NULL THEN GETDATE() ELSE B.USE_STR_DTM END
                   , B.USE_END_DTM
                   , B.COUNTRY_CD
                   , B.COUNTRY_NM_KOR
@@ -177,7 +177,7 @@
              , FNL_UPD_EMP_NO = #{usrId}
              , FNL_UPD_DTM    = GETDATE()
          WHERE 1=1
-           AND A.CS_NO = #{csNo}
+           AND CS_NO = #{csNo}
     </update>
     
     <insert id="insertAdmUsr">
