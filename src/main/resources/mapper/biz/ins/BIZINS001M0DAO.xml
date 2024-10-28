@@ -77,7 +77,7 @@
 		     , 'O'                       AS INSC_DV_CD 
 		     , 'GMM'                     AS VALU_METD_CD
 		     , 'BEL'                     AS INSU_PL_CHNG_DV_CD
-		     , PORTPOLIO                 AS PTF_CD
+		     , PORTFOLIO                 AS PTF_CD
 		     , SUM(BASE)                 AS BAS_AMT
 		     , SUM(OCI)                  AS OCI_AMT
 		     , SUM(ACQ_EXP_PREM_RLTED)
@@ -120,6 +120,6 @@
 		   <if test = 'csNo != "999"'>
 		      AND CS_NO    = #{csNo}
 		   </if>
-		 GROUP BY STD_YYMM, PORTPOLIO
+		 GROUP BY STD_YYMM, PORTFOLIO
 	</insert>
 </mapper>
