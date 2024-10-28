@@ -424,7 +424,7 @@
 								id			: "ExecuteList"
 							,	type		: "post"
 							,	url 		: url
-							,	async		: false
+							,	async		: true
 							,	dataType	: "text"
 							,	contentType	: "application/json; charset=utf-8"
 							,	data		: input
@@ -432,7 +432,10 @@
 				gf_Transaction(option, fn_callback);
 			})
 		 };
-		
+		 
+		function fn_sleep() {
+		return new Promise(resolve => setTimeout(resolve, 5000));  // 5초 후 Promise를 해결
+		}
 		// Download Excel functionality
 		document.getElementById("downloadExcel").addEventListener("click", function () {
 			const currDate = getCurrentDateTime();
@@ -452,9 +455,14 @@
 				selectedPrograms.forEach((row)=>{
 					const bPId = row.batProgId;
 					fn_execute_batch(bPId, getStdYymm());
+					fn_sleep();
 				})
 				
-				alert("Successfully Execution.")
+				// fn_sleep() 후에 then()으로 처리
+				fn_sleep().then(() => {
+					alert("Successfully Execution.");
+				});
+				
 			}
 		});
 	</script>
