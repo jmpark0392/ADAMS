@@ -33,18 +33,22 @@
     </select>
     <select id="selectOptionInfoByCustomer" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0R0DTO">
         SELECT 
-            A.CS_NO,
-            A.SRVC_CD,
-            A.OPT_CD,
-            A.OPT_DTLS_CD,
-            B.OPT_DTLS_NM,
-            A.FNL_UPD_EMP_NO,
-            A.FNL_UPD_DTM,
-            A.FRST_REG_EMP_NO,
-            A.FRST_REG_DTM
-        FROM TB_CS_SRVC_OPT_INF A, TB_OPT_DTLS_INF B, TB_CS_OPT_HIST C
-        WHERE A.CS_NO = #{csNo} AND A.CS_NO = C.CS_NO AND A.OPT_CD = B.OPT_CD and A.OPT_DTLS_CD = B.OPT_DTLS_CD
-			AND CONVERT(DATE, GETDATE()) <![CDATA[ < ]]> C.OPT_END_DTM AND CONVERT(DATE, GETDATE()) <![CDATA[ >= ]]> C.OPT_STR_DTM
+               A.CS_NO
+             , A.SRVC_CD
+             , A.OPT_CD
+             , A.OPT_DTLS_CD
+             , B.OPT_DTLS_NM
+             , A.FNL_UPD_EMP_NO
+             , A.FNL_UPD_DTM
+             , A.FRST_REG_EMP_NO
+             , A.FRST_REG_DTM
+          FROM TB_CS_SRVC_OPT_INF A
+          LEFT OUTER JOIN TB_OPT_DTLS_HIST B
+                       ON A.OPT_CD     = B.OPT_CD 
+                      AND A.OPT_DTLS_CD = B.OPT_DTLS_CD
+                      AND CONVERT(DATE, GETDATE(), 23)   BETWEEN B.OPT_DTLS_STR_DTM AND B.OPT_DTLS_END_DTM
+         WHERE 1=1
+          AND A.CS_NO = #{csNo}
     </select>
     <select id="selectSrvcUprcInfo" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0P0DTO" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV001M0R3DTO">
         /* web.adm.srv.dao.ADMSRV001M0DAO.selectSrvcUprcInfo */

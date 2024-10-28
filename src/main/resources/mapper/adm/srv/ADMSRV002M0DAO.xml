@@ -4,95 +4,200 @@
     <select id="fetchUserUsageDataAndCost" parameterType="com.rds.adams.web.adm.srv.dto.ADMSRV002M0P0DTO" resultType="com.rds.adams.web.adm.srv.dto.ADMSRV002M0R0DTO">
     <![CDATA[
         WITH TMP_D AS 
-            ( 
-            SELECT 
-                    Z.YMD           AS YMD /*DAY, 날짜의 일*/
-                    , COUNT(1) OVER() AS M_DAY 
-                FROM (
-                        SELECT
-                            CONCAT( #{yearMonth} , FORMAT( NUMBER , '00' )) AS YMD /*DAY, 날짜의 일*/
-                        FROM MASTER..SPT_VALUES
-                        WHERE 1=1
-                        AND TYPE = 'P'
-                        AND NUMBER BETWEEN 1 AND DATEDIFF(
-                            D,  CONVERT( DATETIME, 
-                            CONCAT(#{yearMonth} ,'01'),112) , 
-                            DATEADD(MM, 1, CONVERT( DATETIME, CONCAT(#{yearMonth} ,'01'),112)))
-                    ) Z
-            )
-        ,   TMP_BASE_CS AS 
-            (
-            SELECT 
-                    B.YMD          AS YMD
-                , MAX( CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN A.SRVC_CD 
-                            ELSE NULL 
-                        END )     AS SRVC_CD
-                , MAX(A.SRVC_CD) AS SRVC_CD_EXP
-                FROM TMP_D AS B
-                LEFT OUTER JOIN [RDSDB].[dbo].[TB_CS_SRVC_HIST]  AS A
-                            ON B.YMD BETWEEN CONVERT(CHAR(8),A.SRVC_STR_DTM,112) AND CONVERT(CHAR(8),A.SRVC_END_DTM,112)
-                            AND A.CS_NO = #{csNo}
-            WHERE 1=1
-            GROUP BY B.YMD
-            )
-        ,   TMP_BASE_SRVC AS 
-            (
-            SELECT 
-                    B.YMD                      AS YMD
-                , A.SRVC_CD                  AS SRVC_CD
-                , MAX( CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN A.SRVC_UPRC / M_DAY
-                            ELSE NULL 
-                        END )                 AS SRVC_COST
-                , MAX( A.SRVC_UPRC / M_DAY ) AS SRVC_COST_EXP
-                FROM TMP_D  AS B
-                LEFT OUTER JOIN [RDSDB].[dbo].[TB_SVRC_HIST] AS A
-                            ON B.YMD BETWEEN CONVERT(CHAR(8),A.SRVC_STR_DTM,112) AND CONVERT(CHAR(8),A.SRVC_END_DTM,112)
-            WHERE 1=1
-            GROUP BY B.YMD, A.SRVC_CD
-            )
-        , TMP_RESULT AS (
-        SELECT 
-            A.YMD
-            , B.SRVC_CD
-            , B.SRVC_CD_EXP
-            , CASE WHEN B.SRVC_CD = '01' THEN 100 ELSE 0 END AS B_SRVC_VAL
-            , CASE WHEN B.SRVC_CD = '02' THEN 100 ELSE 0 END AS P_SRVC_VAL
-            , ISNULL(C.SRVC_COST     , 0 ) AS SRVC_COST
-            , ISNULL(D.SRVC_COST_EXP , 0 ) AS SRVC_COST_EXP
-            , CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( C.SRVC_COST )     OVER( ORDER BY A.YMD  ROWS UNBOUNDED PRECEDING )
-                    ELSE NULL
-            END                          AS SRVC_COST_SUM
-            , CASE WHEN B.YMD >= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( D.SRVC_COST_EXP )     OVER( ORDER BY A.YMD  ROWS UNBOUNDED PRECEDING )
-	        ELSE NULL
-	    END                           AS SRVC_COST_EXP_SUM
-        FROM TMP_D                   AS A
-        LEFT OUTER JOIN TMP_BASE_CS   AS B
-                    ON A.YMD = B.YMD
-        LEFT OUTER JOIN TMP_BASE_SRVC AS C
-                    ON A.YMD     = C.YMD
-                    AND B.YMD     = C.YMD
-                    AND B.SRVC_CD = C.SRVC_CD
-        LEFT OUTER JOIN TMP_BASE_SRVC AS D
-                    ON A.YMD     = D.YMD
-                    AND B.YMD     = D.YMD
-                    AND B.SRVC_CD_EXP = D.SRVC_CD
+        ( 
+          SELECT 
+                 Z.YMD                               AS YMD    /*DAY, 날짜의 일*/
+               , Y.CS_NO                             AS CS_NO
+               , COUNT(1) OVER(PARTITION BY Y.CS_NO) AS M_DAY  /* 월일수 */
+            FROM (
+                   SELECT
+                          CONCAT( #{yearMonth} , FORMAT( NUMBER , '00' )) AS YMD /*DAY, 날짜의 일*/
+                     FROM MASTER..SPT_VALUES
+                    WHERE 1=1
+                      AND TYPE = 'P'
+                      AND NUMBER BETWEEN 1 AND DATEDIFF( D,  CONVERT( DATETIME, CONCAT(#{yearMonth} ,'01'),112) , DATEADD(MM, 1, CONVERT( DATETIME, CONCAT(#{yearMonth} ,'01'),112)))
+                 ) Z
+           INNER JOIN [dbo].[TB_CS_MNG_LST] Y ON 1=1
+           WHERE 1=1
+             AND Y.CS_NO = #{csNo}
+        )
+        ,    TMP_BASE_CS_SRVC AS 
+        (
+          SELECT 
+                 B.YMD          AS YMD      /* 년월일 */
+               , B.CS_NO        AS CS_NO      /* 고객사번호 */
+               , MAX( CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN A.SRVC_CD 
+                           ELSE NULL 
+                      END )     AS SRVC_CD      /* 서비스코드 */
+               , MAX(A.SRVC_CD) AS SRVC_CD_EXP   /* 서비스코드_예상 */
+            FROM TMP_D AS B
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_CS_SRVC_HIST]  AS A
+                         ON B.YMD   BETWEEN CONVERT(CHAR(8),A.SRVC_STR_DTM,112) AND CONVERT(CHAR(8),A.SRVC_END_DTM,112)
+                        AND B.CS_NO = A.CS_NO
+           WHERE 1=1
+           GROUP BY B.YMD
+                  , B.CS_NO
+        )
+        ,    TMP_BASE_CS_OPT AS 
+        (
+          SELECT 
+                 A.YMD          AS YMD              /* 년월일 */
+               , A.CS_NO        AS CS_NO            /* 고객사번호 */
+               , A.OPT_CD       AS OPT_CD           /* 옵션코드 */
+               , B.OPT_DTLS_CD  AS OPT_DTLS_CD      /* 옵션상세코드 */
+               , A.OPT_VLU      AS OPT_VLU          /* 옵션값 */
+               , C.OPT_DTLS_CD  AS OPT_DTLS_CD_EXP  /* 옵션상세코드_예상 */
+               , A.OPT_VLU_EXP  AS OPT_VLU_EXP      /* 옵션값_예상 */
+            FROM (
+                   SELECT 
+                          B.YMD          AS YMD
+                        , B.CS_NO
+                        , A.OPT_CD
+                        , MAX( CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN C.OPT_DTLS_VLU
+                                    ELSE NULL 
+                               END )     AS OPT_VLU
+                        , MAX(C.OPT_DTLS_VLU) AS OPT_VLU_EXP
+                     FROM TMP_D AS B
+                     LEFT OUTER JOIN [RDSDB].[dbo].[TB_CS_OPT_HIST]  AS A
+                                  ON B.YMD    BETWEEN CONVERT(CHAR(8),A.OPT_STR_DTM,112) AND CONVERT(CHAR(8),A.OPT_END_DTM,112)
+                                 AND B.CS_NO  = A.CS_NO
+                                 AND A.OPT_CD = '01'
+                     LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF]  AS C
+                                  ON A.OPT_CD      = C.OPT_CD
+                                 AND A.OPT_DTLS_CD = C.OPT_DTLS_CD
+                    WHERE 1=1
+                    GROUP BY B.YMD
+                           , B.CS_NO
+                           , A.OPT_CD
+                 ) A
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF]  AS B
+                         ON B.OPT_CD      = '01'
+                        AND A.OPT_VLU     = B.OPT_DTLS_VLU
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF]  AS C
+                         ON C.OPT_CD      = '01'
+                        AND A.OPT_VLU_EXP = C.OPT_DTLS_VLU
         WHERE 1=1
         )
+        ,    TMP_BASE_SRVC AS 
+        (
+          SELECT 
+                 B.YMD                      AS YMD
+               , B.CS_NO                    AS CS_NO
+               , A.SRVC_CD                  AS SRVC_CD
+               , MAX( CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN A.SRVC_UPRC / M_DAY
+                           ELSE NULL 
+                      END )                 AS SRVC_COST
+               , MAX( A.SRVC_UPRC / M_DAY ) AS SRVC_COST_EXP
+            FROM TMP_D  AS B
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_SVRC_HIST] AS A
+                         ON B.YMD   BETWEEN CONVERT(CHAR(8),A.SRVC_STR_DTM,112) AND CONVERT(CHAR(8),A.SRVC_END_DTM,112)
+           WHERE 1=1
+           GROUP BY B.YMD
+                  , B.CS_NO
+                  , A.SRVC_CD
+        )
+        ,    TMP_BASE_OPT AS 
+        (
+          SELECT 
+                 B.YMD                      AS YMD
+               , B.CS_NO                    AS CS_NO
+               , A.OPT_CD                   AS OPT_CD
+               , MAX( CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN A.OPT_UPRC / M_DAY
+                           ELSE NULL 
+                      END )                 AS OPT_COST
+               , MAX( A.OPT_UPRC / M_DAY )  AS OPT_COST_EXP
+            FROM TMP_D  AS B
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_HIST] AS A
+                         ON B.YMD BETWEEN CONVERT(CHAR(8),A.OPT_STR_DTM,112) AND CONVERT(CHAR(8),A.OPT_END_DTM,112)
+           WHERE 1=1
+           GROUP BY B.YMD
+                  , B.CS_NO
+                  , A.OPT_CD
+        )
+        ,    TMP_RESULT AS 
+        (
+          SELECT 
+                 A.YMD
+               , A.CS_NO
+               , B.SRVC_CD
+               , B.SRVC_CD_EXP
+               , CASE WHEN B.SRVC_CD = '01' THEN 100 ELSE 0 END AS B_SRVC_VAL
+               , CASE WHEN B.SRVC_CD = '02' THEN 100 ELSE 0 END AS P_SRVC_VAL
+               , ISNULL(C.SRVC_COST     , 0 ) AS SRVC_COST
+               , ISNULL(D.SRVC_COST_EXP , 0 ) AS SRVC_COST_EXP
+               , CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( C.SRVC_COST )      OVER( PARTITION BY A.CS_NO ORDER BY A.YMD  ROWS UNBOUNDED PRECEDING )
+                      ELSE NULL
+                 END                          AS SRVC_COST_SUM
+               , CASE WHEN B.YMD >= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( D.SRVC_COST_EXP )  OVER( PARTITION BY A.CS_NO ORDER BY A.YMD, A.CS_NO  ROWS UNBOUNDED PRECEDING )
+                      ELSE NULL
+                 END                          AS SRVC_COST_EXP_SUM
+               , E.OPT_DTLS_CD
+               , E.OPT_DTLS_CD_EXP
+               , ISNULL(F.OPT_COST     , 0 ) * ISNULL(H.OPT_DTLS_VLU , 0 )  AS OPT_COST
+               , ISNULL(G.OPT_COST_EXP , 0 ) * ISNULL(I.OPT_DTLS_VLU , 0 )  AS OPT_COST_EXP
+               , CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( F.OPT_COST * ISNULL(H.OPT_DTLS_VLU , 0 ) )   OVER( PARTITION BY A.CS_NO ORDER BY A.YMD  ROWS UNBOUNDED PRECEDING )
+                      ELSE NULL
+                 END                          AS OPT_COST_SUM
+               , CASE WHEN B.YMD >= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( G.OPT_COST_EXP * ISNULL(I.OPT_DTLS_VLU , 0 ) )  OVER( PARTITION BY A.CS_NO ORDER BY A.YMD, A.CS_NO  ROWS UNBOUNDED PRECEDING )
+                      ELSE NULL
+                 END                          AS OPT_COST_EXP_SUM
+               , ISNULL(H.OPT_DTLS_VLU , 0 )  AS OPT_DTLS_VLU
+               , ISNULL(I.OPT_DTLS_VLU , 0 )  AS OPT_DTLS_VLU_EXP
+            FROM TMP_D                         AS A
+            LEFT OUTER JOIN TMP_BASE_CS_SRVC   AS B
+                         ON A.YMD   = B.YMD
+                        AND A.CS_NO = B.CS_NO
+            LEFT OUTER JOIN TMP_BASE_SRVC      AS C
+                         ON A.YMD     = C.YMD
+                        AND A.CS_NO   = C.CS_NO
+                        AND B.YMD     = C.YMD
+                        AND B.CS_NO   = C.CS_NO
+                        AND B.SRVC_CD = C.SRVC_CD
+            LEFT OUTER JOIN TMP_BASE_SRVC      AS D
+                         ON A.YMD         = D.YMD
+                        AND A.CS_NO       = D.CS_NO
+                        AND B.YMD         = D.YMD
+                        AND B.CS_NO       = D.CS_NO
+                        AND B.SRVC_CD_EXP = D.SRVC_CD
+            LEFT OUTER JOIN TMP_BASE_CS_OPT    AS E
+                         ON A.YMD   = E.YMD
+                        AND A.CS_NO = E.CS_NO
+            LEFT OUTER JOIN TMP_BASE_OPT       AS F
+                         ON A.YMD    = F.YMD
+                        AND A.CS_NO  = F.CS_NO
+                        AND E.YMD    = F.YMD
+                        AND E.CS_NO  = F.CS_NO
+                        AND E.OPT_CD = F.OPT_CD
+            LEFT OUTER JOIN TMP_BASE_OPT       AS G
+                         ON A.YMD    = G.YMD
+                        AND A.CS_NO  = G.CS_NO
+                        AND E.YMD    = G.YMD
+                        AND E.CS_NO  = G.CS_NO
+                        AND E.OPT_CD = G.OPT_CD
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF] AS H
+                         ON E.OPT_CD      = H.OPT_CD
+                        AND E.OPT_DTLS_CD = H.OPT_DTLS_CD
+            LEFT OUTER JOIN [RDSDB].[dbo].[TB_OPT_DTLS_INF] AS I
+                         ON E.OPT_CD          = I.OPT_CD
+                        AND E.OPT_DTLS_CD_EXP = I.OPT_DTLS_CD
+           WHERE 1=1
+        )
         SELECT 
-            A.YMD
-            , A.B_SRVC_VAL
-	        , A.P_SRVC_VAL
-            , A.SRVC_CD
-            , A.SRVC_CD_EXP
-            , A.SRVC_COST
-            , A.SRVC_COST_EXP
-            , ROUND( A.SRVC_COST_SUM    , 2) AS SRVC_COST_SUM
-            , ROUND( A.SRVC_COST_EXP_SUM, 2) AS SRVC_COST_EXP_SUM
-            , MAX( ROUND( A.SRVC_COST_SUM    , 2) ) OVER() AS MAX_SRVC_COST_SUM
-            , MAX( ROUND( A.SRVC_COST_EXP_SUM, 2) ) OVER() AS MAX_SRVC_COST_EXP_SUM
-        FROM TMP_RESULT  AS A
-        WHERE 1=1
-        ORDER BY A.YMD
+               A.YMD
+             , SUM(A.B_SRVC_VAL)                                                           AS B_SRVC_VAL
+             , SUM(A.P_SRVC_VAL)                                                           AS P_SRVC_VAL
+             , MAX(A.SRVC_CD     + '|' + A.OPT_DTLS_CD)                                    AS SRVC_CD
+             , MAX(A.SRVC_CD_EXP + '|' + A.OPT_DTLS_CD_EXP)                                AS SRVC_CD_EXP
+             , ROUND( SUM(A.SRVC_COST)         + SUM(A.OPT_COST)        , 2)               AS SRVC_COST
+             , ROUND( SUM(A.SRVC_COST_EXP)     + SUM(A.OPT_COST_EXP)    , 2)               AS SRVC_COST_EXP
+             , ROUND( SUM(A.SRVC_COST_SUM)     + SUM(A.OPT_COST_SUM)    , 2)               AS SRVC_COST_SUM
+             , ROUND( SUM(A.SRVC_COST_EXP_SUM) + SUM(A.OPT_COST_EXP_SUM), 2)               AS SRVC_COST_EXP_SUM
+             , MAX( ROUND( SUM(A.SRVC_COST_SUM)     + SUM(A.OPT_COST_SUM)    , 2) ) OVER() AS MAX_SRVC_COST_SUM
+             , MAX( ROUND( SUM(A.SRVC_COST_EXP_SUM) + SUM(A.OPT_COST_EXP_SUM), 2) ) OVER() AS MAX_SRVC_COST_EXP_SUM
+          FROM TMP_RESULT  AS A
+         WHERE 1=1
+         GROUP BY A.YMD
+         ORDER BY A.YMD
     ]]>
     </select>
 </mapper>
