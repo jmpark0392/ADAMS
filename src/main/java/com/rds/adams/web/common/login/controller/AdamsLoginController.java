@@ -793,7 +793,7 @@ public class AdamsLoginController {
 		} else {
 			if(checkResult == 0) {
 				resultMap.put("resultCode"   , "400"); // 임의로 지정한 에러코드.
-				resultMap.put("resultMessage", "Password Check Failed. Please check the current password you entered.");
+				resultMap.put("resultMessage", "Your current password does not match.");
 			}else {
 				resultMap.put("resultCode"   , "300");
 				resultMap.put("resultMessage", "Update Failed");
@@ -846,7 +846,7 @@ public class AdamsLoginController {
 		} else {
 			if(checkResult == 0) {
 				resultMap.put("resultCode"   , "400"); // 임의로 지정한 에러코드.
-				resultMap.put("resultMessage", "Password Check Failed. Please check the current password you entered.");
+				resultMap.put("resultMessage", "Your current password does not match.");
 			}else {
 				resultMap.put("resultCode"   , "300");
 				resultMap.put("resultMessage", "Update Failed");
