@@ -467,7 +467,7 @@
                       );
                       // we make the text bold
                       $("#selectedOption").css("font-weight", "bold");
-                    } else if (subscription.optDtlsCd === 0 || subscription.optDtlsCd === null) {
+                    } else if (subscription.optDtlsCd === 0 || subscription.optDtlsCd === null || subscription.optDtlsCd === "") {
                       $("#selectedOption").text("No option selected yet");
                       $("#selectedOption").css("font-weight", "bold");
                     }
