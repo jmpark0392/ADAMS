@@ -109,7 +109,7 @@
                   , CASE WHEN B.USE_STR_DTM IS NULL THEN GETDATE() ELSE B.USE_STR_DTM END
                   , B.USE_END_DTM
                   , NULL
-                  , 'N'
+                  , 'Y'
                   , #{updId}
                   , GETDATE()
                   , #{updId}
@@ -188,7 +188,7 @@
                   , CASE WHEN B.USE_STR_DTM IS NULL THEN GETDATE() ELSE B.USE_STR_DTM END
                   , B.USE_END_DTM
                   , NULL
-                  , 'N'
+                  , 'Y'
                   , #{updId}
                   , GETDATE()
                   , #{updId}
