@@ -74,7 +74,7 @@
                   WHERE 1=1
                     AND CS_NO       = #{csNo}
                     AND USR_DV_CD   IN ( '2', '3' )
-                    AND STAT_DV_CD  <![CDATA[ <> ]]> '9'
+                    AND ( STAT_DV_CD != '9' OR USE_END_DTM  <![CDATA[ >= ]]>  GETDATE() )
                  UNION ALL
                  SELECT
                         0               AS USE_USR_CNT
