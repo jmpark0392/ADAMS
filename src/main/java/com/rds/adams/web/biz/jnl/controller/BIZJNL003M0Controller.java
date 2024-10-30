@@ -66,7 +66,6 @@ public class BIZJNL003M0Controller {
 			
 			bIZJNL003M0Service.executeList(inVo);
 			log.info("success");
-			Thread.sleep(5000);
 			
 			
 		} catch (Exception e) {

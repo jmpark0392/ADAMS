@@ -431,11 +431,8 @@
 							};
 				gf_Transaction(option, fn_callback);
 			})
-		 };
-		 
-		function fn_sleep() {
-		return new Promise(resolve => setTimeout(resolve, 5000));  // 5초 후 Promise를 해결
-		}
+		};
+
 		// Download Excel functionality
 		document.getElementById("downloadExcel").addEventListener("click", function () {
 			const currDate = getCurrentDateTime();
@@ -455,13 +452,7 @@
 				selectedPrograms.forEach((row)=>{
 					const bPId = row.batProgId;
 					fn_execute_batch(bPId, getStdYymm());
-					fn_sleep();
 				})
-				
-				// fn_sleep() 후에 then()으로 처리
-				fn_sleep().then(() => {
-					alert("Successfully Execution.");
-				});
 			}
 		});
 	</script>
