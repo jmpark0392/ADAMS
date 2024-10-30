@@ -803,49 +803,53 @@ public class AdamsLoginController {
 	    
 	    // 1. 세션에서 사용자 정보 가져오기
 	    AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-
-	    if ( sAdamsLoginDTO != null && sAdamsLoginDTO.getUsrId() != null && !sAdamsLoginDTO.getUsrId().equals("")) {
-		    // 2. 사용자 정보 수정을 세션정보 가져오기 
-	    	adamsUpdateAccountDTO.setCsNo(sAdamsLoginDTO.getCsNo());
-	    	adamsUpdateAccountDTO.setUsrId(sAdamsLoginDTO.getUsrId());
-	    	
-	    	// 3. 사용자 인증 - 사용자가 입력한 비밀번호가 저장된 비밀번호와 동일한지
-	    	AdamsCheckUserParDTO adamsCheckUserParDTO = new AdamsCheckUserParDTO();
-	    	adamsCheckUserParDTO.setCsNo(sAdamsLoginDTO.getCsNo());
-	    	adamsCheckUserParDTO.setUsrId(sAdamsLoginDTO.getUsrId());
-	    	adamsCheckUserParDTO.setUsrCurrentPassword(adamsUpdateAccountDTO.getUsrPassword());
-	    	
-	    	AdamsCheckUserResDTO adamsCheckUserResDTO = adamsLoginService.checkUsrPw(adamsCheckUserParDTO);
-	    	checkResult = adamsCheckUserResDTO.getCheckUsrPwd(); /* 1: 사용자 인증 통과, 0: 사용자 인증 실패 */
-	    			    
-			// 4. 부서명, 전화번호 변경 처리
-		    bResult = adamsLoginService.updateAccount(adamsUpdateAccountDTO);
+	    
+	    try {
+	    	if ( sAdamsLoginDTO != null && sAdamsLoginDTO.getUsrId() != null && !sAdamsLoginDTO.getUsrId().equals("")) {
+			    // 2. 사용자 정보 수정을 세션정보 가져오기 
+		    	adamsUpdateAccountDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+		    	adamsUpdateAccountDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		    	
+		    	// 3. 사용자 인증 - 사용자가 입력한 비밀번호가 저장된 비밀번호와 동일한지
+		    	AdamsCheckUserParDTO adamsCheckUserParDTO = new AdamsCheckUserParDTO();
+		    	adamsCheckUserParDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+		    	adamsCheckUserParDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		    	adamsCheckUserParDTO.setUsrCurrentPassword(adamsUpdateAccountDTO.getUsrPassword());
+		    	
+		    	AdamsCheckUserResDTO adamsCheckUserResDTO = adamsLoginService.checkUsrPw(adamsCheckUserParDTO);
+		    	checkResult = adamsCheckUserResDTO.getCheckUsrPwd(); /* 1: 사용자 인증 통과, 0: 사용자 인증 실패 */
+		    			    
+				// 4. 부서명, 전화번호 변경 처리
+			    bResult = adamsLoginService.updateAccount(adamsUpdateAccountDTO);
+			    
+			    // 5. 변경된 사용자 정보 가져오기
+			    AdamsUpdateLoginDTO newAdamsLoginDTO = new AdamsUpdateLoginDTO();
+			    newAdamsLoginDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+			    newAdamsLoginDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+			    
+			    AdamsLoginDTO newAdamsUpdateLoginDTO = adamsLoginService.actionUpdateLogin(newAdamsLoginDTO);
+			    request.getSession().setAttribute(AdamsConstant.SESSION_LOGIN_INFO, newAdamsUpdateLoginDTO);
+		    }
 		    
-		    // 5. 변경된 사용자 정보 가져오기
-		    AdamsUpdateLoginDTO newAdamsLoginDTO = new AdamsUpdateLoginDTO();
-		    newAdamsLoginDTO.setCsNo(sAdamsLoginDTO.getCsNo());
-		    newAdamsLoginDTO.setUsrId(sAdamsLoginDTO.getUsrId());
-		    
-		    AdamsLoginDTO newAdamsUpdateLoginDTO = adamsLoginService.actionUpdateLogin(newAdamsLoginDTO);
-		    request.getSession().setAttribute(AdamsConstant.SESSION_LOGIN_INFO, newAdamsUpdateLoginDTO);
+		    if (bResult) {
+		    	log.info(adamsUpdateAccountDTO.toString());
+				resultMap.put("resultCode"   , "200");
+				resultMap.put("resultMessage", "Success");
+			} else {
+				if(checkResult == 0) {
+					resultMap.put("resultCode"   , "400"); // 임의로 지정한 에러코드.
+					resultMap.put("resultMessage", "Your current password does not match."); // 사용자가 현재 입력한 비밀번호가 DB와 일치하지 않습니다
+				}else {
+					resultMap.put("resultCode"   , "300");
+					resultMap.put("resultMessage", "Sorry, Update Failed");
+				}
+			}
+	    } catch (Exception e) {
+	    	resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "Error : " + e.getMessage());
 	    }
 	    
-	    if (bResult) {
-	    	log.info(adamsUpdateAccountDTO.toString());
-			resultMap.put("resultCode"   , "200");
-			resultMap.put("resultMessage", "Success");
-		} else {
-			if(checkResult == 0) {
-				resultMap.put("resultCode"   , "400"); // 임의로 지정한 에러코드.
-				resultMap.put("resultMessage", "Your current password does not match.");
-			}else {
-				resultMap.put("resultCode"   , "300");
-				resultMap.put("resultMessage", "Update Failed");
-			}
-		}
-		
 		return resultMap;
-
 	}
 	
 	/**
@@ -865,40 +869,44 @@ public class AdamsLoginController {
 	    // 1. 세션에서 사용자 정보 가져오기
 	    AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 
-	    if ( sAdamsLoginDTO != null && sAdamsLoginDTO.getUsrId() != null && !sAdamsLoginDTO.getUsrId().equals("")) {
-		    // 2. 사용자 정보 수정을 세션정보 가져오기 
-	    	adamsUpdatePwDTO.setCsNo(sAdamsLoginDTO.getCsNo());
-	    	adamsUpdatePwDTO.setUsrId(sAdamsLoginDTO.getUsrId());
-	    	
-	    	// 3. 사용자 인증 - 사용자가 입력한 비밀번호가 저장된 비밀번호와 동일한지
-	    	AdamsCheckUserParDTO adamsCheckUserParDTO = new AdamsCheckUserParDTO();
-	    	adamsCheckUserParDTO.setCsNo(sAdamsLoginDTO.getCsNo());
-	    	adamsCheckUserParDTO.setUsrId(sAdamsLoginDTO.getUsrId());
-	    	adamsCheckUserParDTO.setUsrCurrentPassword(adamsUpdatePwDTO.getUsrCurrentPassword());
-	    	
-	    	AdamsCheckUserResDTO adamsCheckUserResDTO = adamsLoginService.checkUsrPw(adamsCheckUserParDTO);
-	    	checkResult = adamsCheckUserResDTO.getCheckUsrPwd(); /* 1: 사용자 인증 통과, 0: 사용자 인증 실패 */
-	    			    
-			// 4. 비밀번호 변경 처리
-		    bResult = adamsLoginService.changeMyPassword(adamsUpdatePwDTO);
-	    }
-	    
-	    if (bResult) {
-	    	log.info(adamsUpdatePwDTO.toString());
-			resultMap.put("resultCode"   , "200");
-			resultMap.put("resultMessage", "Success");
-		} else {
-			if(checkResult == 0) {
-				resultMap.put("resultCode"   , "400"); // 임의로 지정한 에러코드.
-				resultMap.put("resultMessage", "Your current password does not match.");
-			}else {
-				resultMap.put("resultCode"   , "300");
-				resultMap.put("resultMessage", "Update Failed");
+	    try {
+	    	if ( sAdamsLoginDTO != null && sAdamsLoginDTO.getUsrId() != null && !sAdamsLoginDTO.getUsrId().equals("")) {
+			    // 2. 사용자 정보 수정을 세션정보 가져오기 
+		    	adamsUpdatePwDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+		    	adamsUpdatePwDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		    	
+		    	// 3. 사용자 인증 - 사용자가 입력한 비밀번호가 저장된 비밀번호와 동일한지
+		    	AdamsCheckUserParDTO adamsCheckUserParDTO = new AdamsCheckUserParDTO();
+		    	adamsCheckUserParDTO.setCsNo(sAdamsLoginDTO.getCsNo());
+		    	adamsCheckUserParDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		    	adamsCheckUserParDTO.setUsrCurrentPassword(adamsUpdatePwDTO.getUsrCurrentPassword());
+		    	
+		    	AdamsCheckUserResDTO adamsCheckUserResDTO = adamsLoginService.checkUsrPw(adamsCheckUserParDTO);
+		    	checkResult = adamsCheckUserResDTO.getCheckUsrPwd(); /* 1: 사용자 인증 통과, 0: 사용자 인증 실패 */
+		    			    
+				// 4. 비밀번호 변경 처리
+			    bResult = adamsLoginService.changeMyPassword(adamsUpdatePwDTO);
+		    }
+		    
+		    if (bResult) {
+		    	log.info(adamsUpdatePwDTO.toString());
+				resultMap.put("resultCode"   , "200");
+				resultMap.put("resultMessage", "Success");
+			} else {
+				if(checkResult == 0) {
+					resultMap.put("resultCode"   , "400"); // 임의로 지정한 에러코드.
+					resultMap.put("resultMessage", "Your current password does not match."); // 사용자가 현재 입력한 비밀번호가 DB와 일치하지 않습니다
+				}else {
+					resultMap.put("resultCode"   , "300");
+					resultMap.put("resultMessage", "Sorry, Update Failed");
+				}
 			}
-		}
+	    }catch (Exception e) {
+	    	resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "Error : " + e.getMessage());
+	    }
 		
 		return resultMap;
-
 	}
 	
 }

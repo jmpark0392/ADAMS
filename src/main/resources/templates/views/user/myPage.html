@@ -460,68 +460,73 @@
 			* Transaction callback 함수
 			**/
 			function fn_callback(result){
-				//console.log("fn_callback : " + result.id);
+				let resultData = typeof result.data === "string" ? JSON.parse(result.data) : result.data;
 				if( result.resultCd == "S" ){
 					switch (result.id){
 						case "getAdamsRegDtmTotal" :
-							fn_regDtmTotal(result.data);
+							fn_regDtmTotal(resultData);
 							break;
 						case "getAdamsLastLoginDtm" :
-							fn_lastLoginDtm(result.data);
+							fn_lastLoginDtm(resultData);
 							break;
 						case "getAdamsLoginCntTotal" :
-							fn_loginCntTotal(result.data);
+							fn_loginCntTotal(resultData);
 							break;
 						case "getAdamsMonthLoginCnt" :
-							fn_monthLoginCnt(result.data);
+							fn_monthLoginCnt(resultData);
 							break;
 							
 						case "getAdamsLastUploadDtm" :
-							fn_lastUploadDtm(result.data);
+							fn_lastUploadDtm(resultData);
 							break;
 						case "getAdamsUploadCntTotal" :
-							fn_uploadCntTotal(result.data);
+							fn_uploadCntTotal(resultData);
 							break;
 						case "getAdamsMonthUploadCnt" :
-							fn_monthUploadCnt(result.data);
+							fn_monthUploadCnt(resultData);
 							break;
 							
 						case "getAdamsLastBatDtm" :
-							fn_lastBatDtm(result.data);
+							fn_lastBatDtm(resultData);
 							break;
 						case "getAdamsBatCntTotal" :
-							fn_batCntTotal(result.data);
+							fn_batCntTotal(resultData);
 							break;
 						case "getAdamsMonthBatCnt" :
-							fn_monthBatCnt(result.data);
+							fn_monthBatCnt(resultData);
 							break;
 							
 						case "updateMyAccount" :	
-							
-							if(result.data.resultCode =="200"){
+							if(resultData.resultCode =="200"){
 								alert("Your profile has been updated successfully, and it will be redirected to the login page.");
 								window.location.href="/";
-							}
-							else if(result.data.resultCode == "300"){
-								alert( result.data.resultMessage );
-							}
-							else if(result.data.resultCode == "400"){ // 사용자가 입력한 비밀번호가 DB와 일치하지 않을 때 
-								alert( result.data.resultMessage );
+								
+							} else if(resultData.resultCode == "300"){
+								alert( resultData.resultMessage );
+								
+							} else if(resultData.resultCode == "400"){ // 사용자가 입력한 비밀번호가 DB와 일치하지 않을 때 
+								alert( resultData.resultMessage );
 								$("#userPassword").focus();
-							}							
+								
+							} else {
+								alert( "Sorry, Update Fail. " + resultData.resultMessage );
+							}
 							break;
-						case "changeMyPassword" :
 							
-							if(result.data.resultCode =="200"){
+						case "changeMyPassword" :							
+							if(resultData.resultCode =="200"){
 								alert("Your password has been changed successfully, and it will be redirected to the login page.");
 								window.location.href="/";
-							}
-							else if(result.data.resultCode == "300"){
-								alert( result.data.resultMessage );
-							}
-							else if(result.data.resultCode == "400"){ // 사용자가 입력한 비밀번호가 DB와 일치하지 않을 때 
-								alert( result.data.resultMessage );
+								
+							} else if(resultData.resultCode == "300"){
+								alert( resultData.resultMessage );
+							
+							} else if(resultData.resultCode == "400"){ // 사용자가 입력한 비밀번호가 DB와 일치하지 않을 때 
+								alert( resultData.resultMessage );
 								$("#userCurrentPassword").focus();
+								
+							} else{
+								alert( "Sorry, Update Fail. " + resultData.resultMessage );
 							}
 							break;
 					}
