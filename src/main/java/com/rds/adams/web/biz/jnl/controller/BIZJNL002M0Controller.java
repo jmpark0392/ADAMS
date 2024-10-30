@@ -1,5 +1,6 @@
 package com.rds.adams.web.biz.jnl.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,8 +53,9 @@ public class BIZJNL002M0Controller {
 	}
 	
 	@RequestMapping(value="/BIZJNL002M0InsertList", method=RequestMethod.POST, consumes="application/json")
-	public void insert(@RequestBody BIZJNL002M0P1DTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> insert(@RequestBody BIZJNL002M0P1DTO inVo, HttpServletRequest request) {
 		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		AdamsLoginDTO adamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setFrstRegEmpNo(adamsLoginDTO.getUsrId());
 		inVo.setCsNo(adamsLoginDTO.getCsNo());
@@ -62,16 +64,21 @@ public class BIZJNL002M0Controller {
 		try {
 			bIZJNL002M0Service.insertList(inVo);
 			log.info("success");
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("fail");
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "Error : " + e.getMessage());
 		}
-		return;
+		return resultMap;
 	}
 
 	@RequestMapping(value="/BIZJNL002M0UpdateList", method=RequestMethod.POST, consumes="application/json")
-	public void update(@RequestBody BIZJNL002M0P1DTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> update(@RequestBody BIZJNL002M0P1DTO inVo, HttpServletRequest request) {
 		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		AdamsLoginDTO adamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setFrstRegEmpNo(adamsLoginDTO.getUsrId());
 		inVo.setCsNo(adamsLoginDTO.getCsNo());
@@ -80,16 +87,21 @@ public class BIZJNL002M0Controller {
 		try {
 			bIZJNL002M0Service.updateList(inVo);
 			log.info("success");
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("fail");
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "Error : " + e.getMessage());
 		}
-		return;
+		return resultMap;
 	}
 	
 	@RequestMapping(value="/BIZJNL002M0DeleteList", method=RequestMethod.POST, consumes="application/json")
-	public void delete(@RequestBody BIZJNL002M0P1DTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> delete(@RequestBody BIZJNL002M0P1DTO inVo, HttpServletRequest request) {
 		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		AdamsLoginDTO adamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setCsNo(adamsLoginDTO.getCsNo());
 		
@@ -97,10 +109,14 @@ public class BIZJNL002M0Controller {
 		try {
 			bIZJNL002M0Service.deleteList(inVo);
 			log.info("success");
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("fail");
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "Error : " + e.getMessage());
 		}
-		
+		return resultMap;	
 	}
 }

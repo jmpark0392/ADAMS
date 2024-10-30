@@ -267,17 +267,21 @@
 		function fn_callback(result){
 			console.log("fn_callback : " + result.id);
 			if( result.resultCd == "S" ){
-
+				let resultData = typeof result.data === "string" ? JSON.parse(result.data) : result.data;
 				switch (result.id){
 					case "SelectList" :
 
-						fn_setGrid(result.data);
+						fn_setGrid(resultData);
 
 						break;
 					case "ExecuteList" :
 						console.log("executeList case");
+						if ( resultData.resultCode == "200" ) {
 						alert("Successfully Settled");
 						main();
+						} else {
+							alert( "Save Fail Error : " + result.data.resultMessage );
+						}
 					break;
 				}
 

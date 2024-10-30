@@ -175,7 +175,7 @@
 			{ id: "atitCd",			name: "Account Code",		field: "atitCd",		width: 260, sortable: true, editor: Slick.Editors.Text, formatter: TreeArchFormatter, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
 			{ id: "atitKorNm",		name: "Account Name(Kor)",	field: "atitKorNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left", hidden:true },
 			{ id: "atitEngNm",		name: "Account Name",		field: "atitEngNm",		width: 240, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left"},
-			{ id: "hgrkAtitCd",		name: "Parent Code",	field: "hgrkAtitCd",	width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
+			{ id: "hgrkAtitCd",		name: "Parent Code",		field: "hgrkAtitCd",	width: 120, sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "acLvlCd",		name: "Account Depth",		field: "acLvlCd",		width: 120, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "1", value: "1" }, { key: "2", value: "2" }, { key: "3", value: "3" }, { key: "4", value: "4" }, { key: "5", value: "5" }, { key: "6", value: "6" }, { key: "7", value: "7" }, { key: "8", value: "8" }, { key: "9", value: "9" } ]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "bkgAcYn",		name: "Booking",			field: "bkgAcYn",					sortable: true, editor: function (args) { return new ComboBoxEditor(args, [ { key: "Y", value: "Y" }, { key: "N", value: "N" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
 			{ id: "fsDvCd",			name: "Financial Div",		field: "fsDvCd",		width: 100, sortable: true, editor: function (args) { return new ComboBoxEditor(args, [{ key: "BS", value: "BS" }, { key: "PL", value: "PL" }]);}, headerCssClass: "slick-header-columns", cssClass: "slick-column-center"},
@@ -238,21 +238,37 @@
 		function fn_callback(result){
 			//console.log("fn_callback : " + result.id);
 			if( result.resultCd == "S" ){
+				let resultData = typeof result.data === "string" ? JSON.parse(result.data) : result.data;				
 				switch (result.id){
 					case "SelectList" :
-						fn_setGrid(result.data);
+						fn_setGrid(resultData);
 						break;
 					case "insertList" :
-						alert("Successfully Insert");
-						main();
+						
+						if ( resultData.resultCode == "200" ) {
+							alert("Successfully Insert");
+							main();
+						} else {
+							alert( "Save Fail Error : " + result.data.resultMessage );
+						}
 						break;
 					case "updateList" :
-						alert("Successfully Updated");
-						main();
+						
+						if ( resultData.resultCode == "200" ) {
+							alert("Successfully Updated");
+							main();
+						} else {
+							alert( "Save Fail Error : " + result.data.resultMessage );
+						}
 						break;
 					case "deleteList" :
-						alert("Successfully Deleted");
-						main();
+						
+						if ( resultData.resultCode == "200" ) {
+							alert("Successfully Deleted");
+							main();
+						} else {
+							alert( "Save Fail Error : " + result.data.resultMessage );
+						}
 						break;
 				}
 			} else if( result.resultCd == "E") {

@@ -1,5 +1,6 @@
 package com.rds.adams.web.biz.ins.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,8 +51,9 @@ public class BIZINS001M0Controller {
 	}
 	
 	@RequestMapping(value="/BIZINS001M0ExecuteList", method=RequestMethod.POST, consumes="application/json")
-	public void execute(@RequestBody ExecuteDTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> execute(@RequestBody ExecuteDTO inVo, HttpServletRequest request) {
 		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		
 		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
@@ -61,11 +63,15 @@ public class BIZINS001M0Controller {
 		try {
 			bIZINS001M0Service.executeList(inVo);
 			log.info("success");
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("fail");
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", "Error : " + e.getMessage());
 		}
-		return;
+		return resultMap;
 	}
 }
