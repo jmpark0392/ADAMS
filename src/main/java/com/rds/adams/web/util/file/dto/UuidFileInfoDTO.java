@@ -21,7 +21,8 @@ import lombok.ToString;
 @Getter
 @Setter
 public class UuidFileInfoDTO {
-	
+
+	private String csNo;
 	private String seq;
 	private String uuid;
 	private String uplPath;

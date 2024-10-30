@@ -273,7 +273,7 @@ public class WRKFIL003M0Service {
 		for (MultipartFile multipartFile : uploadFile) {
 
 			try {
-				atachFile = fileStore.storeFile(multipartFile, usrId);
+				atachFile = fileStore.storeFile(multipartFile, usrId, csNo);
 				
 				sFileNm    = atachFile.getUploadFileName();
 				opcPackage = OPCPackage.open(atachFile.getStoreFilePath() + atachFile.getStoreFileName());

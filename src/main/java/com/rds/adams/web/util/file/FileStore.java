@@ -13,6 +13,9 @@ import com.rds.adams.web.util.file.dao.UuidFileInfoDAO;
 import com.rds.adams.web.util.file.dto.UploadFile;
 import com.rds.adams.web.util.file.dto.UuidFileInfoDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class FileStore {
 
@@ -39,7 +42,7 @@ public class FileStore {
     }
 */
 
-    public UploadFile storeFile(MultipartFile multipartFile, String usrId) throws IOException { // 파일을 서버에 저장하는 메소드
+    public UploadFile storeFile(MultipartFile multipartFile, String usrId, String csNo) throws IOException { // 파일을 서버에 저장하는 메소드
         // MultipartFile로 받은후 서버에 저장하고, UploadFile 객체를 만들어 반환
         if (multipartFile.isEmpty()) {
             return null;
@@ -54,7 +57,8 @@ public class FileStore {
         multipartFile.transferTo(new File(getFullPath(storeFileName))); // 파일을 서버에 저장한다 , getFullPath메소드를 이용해서 PullPath를 만들어줌
         //File은 객체를 생성할때 Path를 파라미터로 받는다.
         
-        
+
+        uuidFileInfoDTO.setCsNo(csNo);
         uuidFileInfoDTO.setUuid(storeFileName);
         uuidFileInfoDTO.setFileNm(originalFilename);
         uuidFileInfoDTO.setUplPath(fileDir);
@@ -62,11 +66,11 @@ public class FileStore {
         uuidFileInfoDTO.setRegUsrid(usrId);
         uuidFileInfoDTO.setFileSize(multipartFile.getSize());
         
-        System.out.println(" ===> uuidFileInfoDTO : " + uuidFileInfoDTO.toString() );
+        log.debug(" ===> uuidFileInfoDTO : " + uuidFileInfoDTO.toString() );
         try {
         	uuidFileInfoDAO.insertUuidFileInf(uuidFileInfoDTO);
         } catch (Exception e) {
-        	System.out.println(" ===> e.getMessage() : " + e.getMessage() );
+        	log.debug(" ===> e.getMessage() : " + e.getMessage() );
         }
         
         return new UploadFile(originalFilename, storeFileName, fileDir);
