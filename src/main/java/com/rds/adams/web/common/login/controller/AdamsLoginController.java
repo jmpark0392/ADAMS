@@ -51,6 +51,7 @@ import com.rds.adams.web.core.utils.StringUtil;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.ResponseCode;
+import egovframework.com.cmm.service.EgovProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -120,6 +121,49 @@ public class AdamsLoginController {
 	})
 	@RequestMapping(value = "/auth/adamsLogin", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.TEXT_HTML_VALUE})
 	public HashMap<String, Object> selectLoginInfo(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request) throws Exception {
+	    HashMap<String, Object> resultMap = processLogin(adamsLoginDTO, request, false);
+	    String nextPage = ""; 
+	    		
+	    // 로그인 성공 시 페이지 이동 정보 추가
+	    if ("200".equals(resultMap.get("resultCode"))) {
+	        
+	    	AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
+	    	
+	    	// 로그인 성공시 로그린 이력 저장
+	    	adamsLoginService.insertLoginHist(sAdamsLoginDTO, request);
+	    	
+	    	nextPage = "myPage"; // 로그인 후 이동할 기본 페이지 
+	    	
+	    	if ( "Y".equals(sAdamsLoginDTO.getPasswordInitYn()) ) {
+	    		// 비밀번호 초기화 된 경우
+	    		nextPage = "pwChange";
+		        resultMap.put("loginMsg", "Your password has been reset. You will be taken to the reset screen.");
+	    	} else if ( "9".equals(sAdamsLoginDTO.getStatDvCd()) ) {
+	    		// 사용자의 상태가 종료인 경우 로그인 페이지로
+	    		nextPage = "login";
+		        resultMap.put("loginMsg", "This user is not available.");
+	    	}
+	    	
+	        resultMap.put("redirectUrl", nextPage);
+	    } else {
+	    	if ("400".equals(resultMap.get("resultCode"))) {
+	    		// "구독이 만료되었습니다."
+		        resultMap.put("loginMsg", "Your subscription has expired.");
+	    	} else {
+		        resultMap.put("loginMsg", "Please check your ID or password.");
+	    	}
+	        resultMap.put("redirectUrl", "login");
+	    }
+	    
+	    return resultMap;
+	}
+	
+	@RequestMapping(value = "/auth/adminLogin", method=RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
+	public HashMap<String, Object> selectAdminLoginInfo(@RequestBody AdamsLoginDTO adamsLoginDTO, HttpServletRequest request) throws Exception {
+		
+		// ADMIN LOGIN의 경우 CS_NO를 '999' 
+		adamsLoginDTO.setCsNo(EgovProperties.getProperty("Globals.sysadm.csno"));
+		
 	    HashMap<String, Object> resultMap = processLogin(adamsLoginDTO, request, false);
 	    String nextPage = ""; 
 	    		
