@@ -408,7 +408,7 @@
                   , [FRST_REG_DTM]
                   )
         SELECT
-               CAST( ( SELECT ISNULL( MAX( CAST( SEQ_NO AS NUMERIC(10) ) ), 0 ) + 1 FROM [RDSDB].[dbo].[TB_USR_LOGIN_HIST] ) AS VARCHAR(10) ) AS SEQ_NO
+               CAST( ( SELECT ISNULL( MAX( CAST( SEQ_NO AS NUMERIC(10) ) ), 0 ) + 1 FROM [RDSDB].[dbo].[TB_USR_LOGIN_HIST] WHERE CS_NO = #{csNo} ) AS VARCHAR(10) ) AS SEQ_NO
              , #{csNo}           AS CS_NO
              , #{usrId}          AS USR_ID
              , GETDATE()         AS ACC_DTM
