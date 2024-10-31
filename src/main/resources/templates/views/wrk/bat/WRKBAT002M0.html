@@ -252,24 +252,12 @@
 		function fn_callback(result){
 			console.log("fn_callback : " + result.id);
 			if( result.resultCd == "S" ){
-				
+				let resultData = typeof result.data === "string" ? JSON.parse(result.data) : result.data;
 				switch (result.id){
 					case "SelectList" :
 						
-						fn_setGrid(result.data);
+						fn_setGrid(resultData);
 						
-					break;
-					case "insertList" :
-
-						main();
-					break;
-					case "updateList" :
-
-						main();
-					break;
-					case "deleteList" :
-
-						main();
 					break;
 				}
 			} else if( result.resultCd == "E") {

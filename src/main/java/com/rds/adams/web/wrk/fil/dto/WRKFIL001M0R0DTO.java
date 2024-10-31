@@ -55,9 +55,6 @@ public class WRKFIL001M0R0DTO {
 	@Schema(description = "검증사용여부")
 	private String vrfUseYn;
 	
-	@Schema(description = "사용자명")
-	private String usrNm;
-	
 	@Schema(description = "최종변경사원번호")
 	private String fnlUpdEmpNo;
 

@@ -72,7 +72,7 @@
            AND CLMN_ID = #{itmId}                  -- 필터링기준 : 컬럼ID
            AND CS_NO   = #{csNo}                   -- 필터링기준 : 고객사번호
     </update>
-    <delete id="deleteList">
+    <delete id="deleteList" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P1DTO">
         DELETE TB_UPL_ITM_LST
          WHERE 1=1
            AND TBL_ID  = #{tblId}                  -- 필터링기준 : 테이블ID

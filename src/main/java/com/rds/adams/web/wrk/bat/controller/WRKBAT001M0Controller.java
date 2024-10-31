@@ -1,5 +1,6 @@
 package com.rds.adams.web.wrk.bat.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,8 +53,9 @@ public class WRKBAT001M0Controller {
 	}
 	
 	@RequestMapping(value="/WRKBAT001M0InsertList", method=RequestMethod.POST, consumes="application/json")
-	public void insert(@RequestBody WRKBAT001M0P1DTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> insert(@RequestBody WRKBAT001M0P1DTO inVo, HttpServletRequest request) {
 		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
 		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
@@ -66,12 +68,13 @@ public class WRKBAT001M0Controller {
 			e.printStackTrace();
 			log.info("fail");
 		}
-		return;
+		return resultMap;
 	}
 
 	@RequestMapping(value="/WRKBAT001M0UpdateList", method=RequestMethod.POST, consumes="application/json")
-	public void update(@RequestBody WRKBAT001M0P1DTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> update(@RequestBody WRKBAT001M0P1DTO inVo, HttpServletRequest request) {
 		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
 		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
@@ -84,12 +87,13 @@ public class WRKBAT001M0Controller {
 			e.printStackTrace();
 			log.info("fail");
 		}
-		return;
+		return resultMap;
 	}
 	
 	@RequestMapping(value="/WRKBAT001M0DeleteList", method=RequestMethod.POST, consumes="application/json")
-	public void delete(@RequestBody WRKBAT001M0P1DTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> delete(@RequestBody WRKBAT001M0P1DTO inVo, HttpServletRequest request) {
 		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
@@ -101,6 +105,6 @@ public class WRKBAT001M0Controller {
 			e.printStackTrace();
 			log.info("fail");
 		}
-		
+		return resultMap;
 	}
 }

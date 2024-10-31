@@ -226,14 +226,15 @@
 			// hideSpinner();
 			console.log("fn_callback : " + result);
 			if( result.resultCd == "S" ){
+				let resultData = typeof result.data === "string" ? JSON.parse(result.data) : result.data;
 				switch (result.id){
 					case "SelectFileList" :
 						console.log("selectFileList");
-						populateDropdown(result.data);
+						populateDropdown(resultData);
 						break;
 					case "SelectList" :
 						console.log("selectList grid"+result);
-						fn_setGrid(result.data.data, result.data.grdHead);
+						fn_setGrid(resultData.data, resultData.grdHead);
 						break;
 					case "SaveUplFileList" :
 						console.log("SaveUplFileList grid");
@@ -257,7 +258,7 @@
 							}
 							getSearchList();
 						} else {
-							alert( "File upload Fail Error : " + result.data.resultMessage );
+							alert( "File upload Fail Error : " + resultData.resultMessage );
 						}
 						break;
 				}	  

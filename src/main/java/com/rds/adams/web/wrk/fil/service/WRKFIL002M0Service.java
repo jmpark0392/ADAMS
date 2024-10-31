@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.rds.adams.web.wrk.fil.dao.WRKFIL002M0DAO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P0DTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P1DTO;
-import com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P2DTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL002M0R0DTO;
 
 @Service
@@ -31,7 +30,7 @@ public class WRKFIL002M0Service {
 		wRKFIL002M0DAO.updateList(inVo);
 	}
 	
-	public void deleteList(WRKFIL002M0P2DTO inVo) {
+	public void deleteList(WRKFIL002M0P1DTO inVo) {
 		wRKFIL002M0DAO.deleteList(inVo);
 	}
 }

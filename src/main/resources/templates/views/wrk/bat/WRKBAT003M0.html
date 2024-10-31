@@ -242,21 +242,10 @@
 		function fn_callback(result){
 			//console.log("fn_callback : " + result.id);
 			if( result.resultCd == "S" ){
+				let resultData = typeof result.data === "string" ? JSON.parse(result.data) : result.data;
 				switch (result.id){
 					case "SelectList" :
-						fn_setGrid(result.data);
-						break;
-					case "insertList" :
-						alert("Successfully Insert");
-						main();
-						break;
-					case "updateList" :
-						alert("Successfully Updated");
-						main();
-						break;
-					case "deleteList" :
-						alert("Successfully Deleted");
-						main();
+						fn_setGrid(resultData);
 						break;
 				}
 			} else if( result.resultCd == "E") {

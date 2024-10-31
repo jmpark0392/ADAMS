@@ -18,7 +18,7 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
-@Schema(description = "컬럼관리 파일 조회 결과 DTO")
+@Schema(description = "컬럼관리 파일명 조회 결과 DTO")
 @ToString
 @Getter
 @Setter

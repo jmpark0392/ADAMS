@@ -18,6 +18,7 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "파일업로드 조회 DTO")
 @ToString
 @Getter
 @Setter
@@ -26,8 +27,10 @@ public class WRKFIL003M0P0DTO {
 	@Schema(description = "고객사번호")
 	private String csNo;
 	
+	@Schema(description = "업로드파일번호")
 	private int uploadFile;
 	
+	@Schema(description = "기준년월")
     private String stdYymm;
 
 }
