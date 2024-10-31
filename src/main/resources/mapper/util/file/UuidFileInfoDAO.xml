@@ -8,7 +8,7 @@
           INTO RDSDB.dbo.TB_UUID_FILE_INF
              ( 
                CS_NO
-             , SEQ
+             , SEQ_NO
              , UUID
              , UPL_PATH
              , FILE_NM
@@ -22,7 +22,7 @@
         VALUES
              ( 
                #{csNo}
-             , ( SELECT ISNULL(MAX(SEQ), 0) + 1 AS SEQ FROM RDSDB.dbo.TB_UUID_FILE_INF WHERE CS_NO = #{csNo} )
+             , ( SELECT ISNULL(MAX( CAST( SEQ_NO AS numeric(5,0) ) ), 0) + 1 AS SEQ FROM RDSDB.dbo.TB_UUID_FILE_INF WHERE CS_NO = #{csNo} )
              , #{uuid}
              , #{uplPath}
              , #{fileNm}

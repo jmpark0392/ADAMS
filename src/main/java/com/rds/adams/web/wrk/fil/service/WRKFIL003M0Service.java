@@ -31,6 +31,7 @@ import com.rds.adams.web.wrk.fil.dto.WRKFIL003M0R0DTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL003M0R1DTO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * RDS STANDARD DEVELOP FRAMEWORK
@@ -46,6 +47,7 @@ import lombok.RequiredArgsConstructor;
  * </PRE>
  */
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class WRKFIL003M0Service {
@@ -142,7 +144,7 @@ public class WRKFIL003M0Service {
 		mapResult.put("grdHead", mapGrdHradList);   // 그리드 동적 헤더 정보 결과 HashMapdp 적용
 		mapResult.put("data"   , mapResultList);	// 그리드 동적 데이터 정보 결과 HashMapdp 적용
 		
-		System.out.println(" mapResult : " + mapResult.toString());
+		log.info(" mapResult : " + mapResult.toString());
 		
 		return mapResult;
 		
@@ -167,7 +169,6 @@ public class WRKFIL003M0Service {
 		
 		List<WRKFIL003M0R0DTO>	wRKFIL003M0P0DTOList = wRKFIL003M0DAO.selectTableInfoList(inVo);	// 조회 대상 테이블 정보 DTO
 
-		int		iSeqNo		= 0;					// 업로드 이력 Seq_No 
 		int		iCnt		= 0;					// 동적 Excel 컬럼 카운트
 		int		iRowCnt		= 0;					// Excel ROW 카운트
 		int		iColCnt		= 0;					// Excel Col 카운트
@@ -236,10 +237,10 @@ public class WRKFIL003M0Service {
 		// 업로드 이력 Insert
 		wRKFIL003M0P1DTO.setCsNo(csNo);
 		wRKFIL003M0P1DTO.setUsrId(usrId);
-		iSeqNo = wRKFIL003M0DAO.insertUplHist(wRKFIL003M0P1DTO);
+		wRKFIL003M0DAO.insertUplHist(wRKFIL003M0P1DTO);
 		
-		System.out.println(" ====== wRKFIL003M0P1DTO : " + wRKFIL003M0P1DTO.toString());
-		System.out.println(" ====== iSeqNo : " + iSeqNo);
+		log.info(" ====== wRKFIL003M0P1DTO : " + wRKFIL003M0P1DTO.toString());
+		log.info(" ====== iSeqNo : " + wRKFIL003M0P1DTO.getSeqNo());
 		
 		/* 조회된 컬럼 수만큼 For문으로 동적 쿼리문 생성 */
 		for ( int i=0; i < mapExcelColList.size(); i++ ) {
@@ -267,8 +268,8 @@ public class WRKFIL003M0Service {
 								+ "   , GETDATE() "
 								+ "   )";
 		
-		System.out.println(" =====> sBaseQuery : " + sBaseQuery);
-		System.out.println(" =====> sAddQuery : "  + sAddQuery);
+		log.info(" =====> sBaseQuery : " + sBaseQuery);
+		log.info(" =====> sAddQuery : "  + sAddQuery);
 				
 		for (MultipartFile multipartFile : uploadFile) {
 
@@ -286,7 +287,7 @@ public class WRKFIL003M0Service {
 					XSSFSheet sheet = wb.getSheetAt(num);
 					Iterator<Row> iterator = sheet.iterator();
 					
-					System.out.println(" ============= while(iterator.hasNext()) STRART =================");
+					log.info(" ============= while(iterator.hasNext()) STRART =================");
 					// Row
 					while(iterator.hasNext()) {
 						Row currentRow = iterator.next();
@@ -343,17 +344,17 @@ public class WRKFIL003M0Service {
 							wRKFIL003M0DAO.insertDataList(sBaseQuery, sAddQuery, mapExcelDataList);
 						}
 						
-						//System.out.println(); // Row를 구분해주기 위한 엔터
+						//log.info(); // Row를 구분해주기 위한 엔터
 					}
-					System.out.println(" =====> mapExcelDataList : " + mapExcelDataList.toString());
-					System.out.println(" ============= while(iterator.hasNext()) END =================");
+					log.info(" =====> mapExcelDataList : " + mapExcelDataList.toString());
+					log.info(" ============= while(iterator.hasNext()) END =================");
 			  	}
 				
 				sLoadSuccYn = "Y";
 			} catch (IOException ioe) {
-				System.out.println("===> ioe.getMessage() : " + ioe.getMessage());
+				log.info("===> ioe.getMessage() : " + ioe.getMessage());
 			} catch (Exception e) {
-				System.out.println("===> e.getMessage() : " + e.getMessage());
+				log.info("===> e.getMessage() : " + e.getMessage());
 			} finally {
 				try {
 					if ( opcPackage != null ) {
@@ -363,9 +364,9 @@ public class WRKFIL003M0Service {
 						wb.close();
 					}
 				} catch (IOException ioe) {
-					System.out.println("===> finally ioe.getMessage() : " + ioe.getMessage());
+					log.info("===> finally ioe.getMessage() : " + ioe.getMessage());
 				} catch (Exception e) {
-					System.out.println("===> finally e.getMessage() : " + e.getMessage());
+					log.info("===> finally e.getMessage() : " + e.getMessage());
 				}
 			}
 		}
@@ -381,7 +382,7 @@ public class WRKFIL003M0Service {
 	
 	private static String returnCellValue (XSSFWorkbook workbook, Cell cell) { 	
 		CellType cellType = cell.getCellType();
-		//System.out.println("===> cellType() : " + cellType.toString());
+		//log.info("===> cellType() : " + cellType.toString());
 		switch (cellType) {
 			case NUMERIC:
 				double doubleVal = cell.getNumericCellValue();
@@ -400,7 +401,7 @@ public class WRKFIL003M0Service {
 			case FORMULA:
 				XSSFFormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 				DataFormatter dataFormatter = new DataFormatter();
-				// System.out.println(cell.getCellFormula());
+				// log.info(cell.getCellFormula());
 				// 수식 그대로
 				return dataFormatter.formatCellValue(evaluator.evaluateInCell(cell));
 				// 수식 결과	        		        
@@ -413,7 +414,7 @@ public class WRKFIL003M0Service {
 	
 	private static String returnStringValue (XSSFWorkbook workbook, Cell cell) { 	
 		CellType cellType = cell.getCellType();
-		//System.out.println("===> cellType() : " + cellType.toString());
+		//log.info("===> cellType() : " + cellType.toString());
 		switch (cellType) {
 			case NUMERIC:
 				int iVal = (int) cell.getNumericCellValue();
@@ -427,7 +428,7 @@ public class WRKFIL003M0Service {
 			case FORMULA:
 				XSSFFormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 				DataFormatter dataFormatter = new DataFormatter();
-				// System.out.println(cell.getCellFormula());
+				// log.info(cell.getCellFormula());
 				// 수식 그대로
 				return dataFormatter.formatCellValue(evaluator.evaluateInCell(cell));
 				// 수식 결과	        		        
@@ -460,7 +461,7 @@ public class WRKFIL003M0Service {
 			try {
 				iCnt = wRKFIL003M0DAO.selectDbObjCnt(sDbId, sTblNm);
 			} catch (Exception e) {
-				System.out.println(" Insufficient permissions on Database  [ " + sDbId + " ] ");
+				log.info(" Insufficient permissions on Database  [ " + sDbId + " ] ");
 				continue;
 			}
 			
@@ -470,7 +471,7 @@ public class WRKFIL003M0Service {
 				
 				iDtCnt = wRKFIL003M0DAO.selectTblCnt(sQuery);
 			} catch (Exception e) {
-				System.out.println(" Insufficient permissions on Table  [ " + sTblNm + " ] ");
+				log.info(" Insufficient permissions on Table  [ " + sTblNm + " ] ");
 				continue;
 			}
 			
@@ -479,7 +480,7 @@ public class WRKFIL003M0Service {
 			}
 		}
 		
-		System.out.println(" mapResult : " + result.toString());
+		log.info(" mapResult : " + result.toString());
 		
 		return result;
 	}

@@ -81,11 +81,19 @@
         ${sQuery}
     </select>
     
-    <insert id="insertUplHist" useGeneratedKeys="true" keyColumn="seqNo" keyProperty="seqNo" >
+    <insert id="insertUplHist" parameterType="com.rds.adams.web.wrk.fil.dto.WRKFIL003M0P1DTO" >
+		<selectKey keyProperty="seqNo" resultType="String" order="BEFORE">
+            SELECT TOP (1)
+                    CAST( (ISNULL( MAX( CAST( SEQ_NO AS numeric(5,0) )), 0) + 1) AS VARCHAR(10) )  AS seqNo
+              FROM [RDSDB].[dbo].[TB_UPL_HIST]
+             WHERE 1=1
+               AND CS_NO = #{csNo}
+        </selectKey>
         INSERT INTO RDSDB.dbo.TB_UPL_HIST
                (
-                 [DB_ID]
-               , [CS_NO]
+                 [CS_NO]
+               , [SEQ_NO]
+               , [DB_ID]
                , [TBL_ID]
                , [FILE_NM]
                , [LOAD_STR_DTM]
@@ -100,8 +108,9 @@
                )
         VALUES
                (
-                 #{dbId}
-               , #{csNo}
+                 #{csNo}
+               , #{seqNo}
+               , #{dbId}
                , #{tblId}
                , #{fileNm}
                , GETDATE()

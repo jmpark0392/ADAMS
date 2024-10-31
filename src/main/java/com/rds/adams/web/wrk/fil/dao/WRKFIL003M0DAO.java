@@ -42,7 +42,7 @@ public interface WRKFIL003M0DAO {
 	
 	public int selectTblCnt(@Param("sQuery") String sQuery);
 	
-	public int insertUplHist(WRKFIL003M0P1DTO inVo);
+	public void insertUplHist(WRKFIL003M0P1DTO inVo);
 	
 	public void updateUplHist(WRKFIL003M0P1DTO inVo);
 

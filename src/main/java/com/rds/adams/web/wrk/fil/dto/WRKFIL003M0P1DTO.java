@@ -22,7 +22,7 @@ import lombok.ToString;
 @Setter
 public class WRKFIL003M0P1DTO {
 	
-    private int    seqNo;
+    private String seqNo;
     private String dbId;
     private String tblId;
     private String fileNm;
