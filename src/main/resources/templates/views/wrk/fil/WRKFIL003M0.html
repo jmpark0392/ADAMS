@@ -192,7 +192,9 @@
 			element.innerHTML = "";
 
 			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "" && $("#cmbUploadFileList").val() === "" ) {
-				alert("Please select a standard year / month and a file.");
+				// alert("Please select a standard year / month and a file.");
+				swal("Year, Month Selection!", "Please select a standard year / month and a file");
+
 			return false;
 			} else if ( $("#inputYear").val() === "" ) {
 				alert("Please select a year.");
@@ -549,7 +551,9 @@
 									},
 				});
 			} else if (fileUploadValue === "") {
-				alert("Please select a file to upload and get the result.");
+				swal("File Not Selected!", "Please select a file to upload and get the result");
+
+				// alert("Please select a file to upload and get the result.");
 			}
 		}
 		function clearSlickGridData() {
