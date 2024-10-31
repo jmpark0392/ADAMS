@@ -45,10 +45,11 @@
     <update id="updateBatHist"  parameterType="com.rds.adams.web.core.utils.dto.ExecuteDTO" >
         UPDATE RDSDB.dbo.TB_BAT_RST_LST
            SET 
-               BAT_EXE_RST_CD = #{batExeRstCd}
-             , BAT_END_DTM    = GETDATE()
-             , FNL_UPD_EMP_NO = #{usrId}
-             , FNL_UPD_DTM    = GETDATE()
+               BAT_EXE_RST_CD   = #{batExeRstCd}
+             , BAT_LOAD_STAT_CD = #{batLoadStatCd}
+             , BAT_END_DTM      = GETDATE()
+             , FNL_UPD_EMP_NO   = #{usrId}
+             , FNL_UPD_DTM      = GETDATE()
          WHERE 1=1
            AND CS_NO       = #{csNo}
            AND STD_YYMM    = #{stdYymm}
