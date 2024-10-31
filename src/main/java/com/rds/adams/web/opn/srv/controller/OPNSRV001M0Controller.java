@@ -140,7 +140,7 @@ public class OPNSRV001M0Controller {
 			}
 		} catch (Exception e) {
 			resultMap.put("resultCode"   , "300");
-			resultMap.put("resultMessage", "OPNSRV001M0Controller Error : " + e.getMessage());
+			resultMap.put("resultMessage", "Error : " + e.getMessage());
 			//throw new Exception("OPNSRV001M0Controller Error : " + e.getMessage());
 		}
 		

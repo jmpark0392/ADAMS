@@ -127,7 +127,7 @@ public class OPNSRV001M0Service {
 			
 			if ( "1".equals(sChkDate) ) {
 				// Error : "현재 날짜보다 과거를 시작할 수 없습니다."
-				throw new Exception("OPNSRV001M0Service Error : You can't start the past more than the current date.");
+				throw new Exception("You can't start the past more than the current date.");
 			}
 			
 			oPNSRV001M0DAO.insertSrvc(inVo);
@@ -135,7 +135,7 @@ public class OPNSRV001M0Service {
 			oPNSRV001M0DAO.insertSrvcHist(inVo);
 			
 		} catch (Exception e) {
-			throw new Exception("OPNSRV001M0Service Error : " + e.getMessage());
+			throw new Exception(e.getMessage());
 		}
 		log.debug(" OPNSRV001M0R0DTO : " + inVo.toString());
 		
