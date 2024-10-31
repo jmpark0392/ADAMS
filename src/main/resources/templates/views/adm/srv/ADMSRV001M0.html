@@ -151,9 +151,9 @@
 								</div>
 								<div class="card-body text-center">
 									<div class="text-start">
-										&emsp;&emsp;<span class="fs-1 fw-bold" id="premiumSrvc">$ 0.00032</span>&nbsp;<span> / KB of uploaded file size</span>
+										&emsp;&emsp;<span class="fs-1 fw-bold" id="premiumSrvc">$ 0.00032</span>&nbsp;<span> / kb of uploaded file size</span>
 										<br>
-										&emsp;&emsp;<span class="fs-1 fw-bold" id="premiumSrvcUser">$ 0.0058</span>&nbsp;<span>/ SEC of job run time</span>
+										&emsp;&emsp;<span class="fs-1 fw-bold" id="premiumSrvcUser">$ 0.0058</span>&nbsp;<span>/ second of job running time</span>
 									</div>
 									<br><br>
 									<form id="optionForm">
@@ -168,11 +168,11 @@
 									</form>
 								</div>
 								<div class="text-center mb-5">
-									<span>Currently Using Option :&nbsp;</span>
-									<span id="selectedOption" class="fw-bold"> None</span>
+									<span>Option currently in use :&nbsp;</span>
+									<span id="selectedOption" class="fw-bold"></span>
 								</div>
 								<div class="card-footer card-footer-transparent">
-									<button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">Use Option</button>
+									<button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">Add</button>
 								</div>
 							</a>
 						</div>
@@ -321,7 +321,7 @@
 							if (result.data.resultCode == "200") {
 								console.log("Option addition successful:", result.data);
 								$("#selectedOption").text(lv_optDtlsDesc);
-								alert("You can add users from now on.");
+								alert("Your option has been updated successfully, and you can add users from now on.");
 							} else {
 								alert("Failed to add option. error : " + result.data.resultMessage);
 							}
