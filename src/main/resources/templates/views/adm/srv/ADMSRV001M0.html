@@ -15,14 +15,13 @@
 							<a class="card card-link card-link-pop h-100">
 								<div class="card-header">
 									<div class="w-100 text-center">
-										<span class="fs-2" id="basicSrvcName"> </span>
+										<span class="fs-2" id="basicSrvcName"></span>
 									</div>
 								</div>
 								<div class="card-body text-center">
-									<span class="fs-1 fw-bold" id="basicSrvc"></span>&nbsp;&nbsp;&nbsp;<span>per month</span>
-									<br><br>
-									<span class="fs-2" id="basicSrvcUser">  &nbsp;</span>
-									<br><br>
+									<span class="fs-1 fw-bold" id="basicSrvc"></span>&nbsp;<span>/ month</span>&nbsp;&nbsp;&nbsp;
+									<span class="fs-1 fw-bold" id="basicSrvcUser"></span>&nbsp;<span>included</span>
+									<br><br><br>
 									<ul class="list-unstyled lh-lg">
 										<li>
 											<!-- Check Icon -->
@@ -87,10 +86,9 @@
 									</div>
 								</div>
 								<div class="card-body text-center">
-									<span class="fs-1 fw-bold" id="premiumSrvc"></span>&nbsp;&nbsp;&nbsp;<span>per month</span>
-									<br><br>
-									<span class="fs-2" id="premiumSrvcUser">&nbsp;</span>
-									<br><br>
+									<span class="fs-1 fw-bold" id="premiumSrvc"></span>&nbsp;<span>/ month</span>&nbsp;&nbsp;&nbsp;
+									<span class="fs-1 fw-bold" id="premiumSrvcUser"></span>&nbsp;<span>included</span>
+									<br><br><br>
 									<ul class="list-unstyled lh-lg">
 										<li>
 											Basic Service
@@ -148,30 +146,33 @@
 							<a class="card card-link card-link-pop h-100">
 								<div class="card-header">
 									<div class="w-100 text-center">
-										<span class="fs-2">Additional Options</span>
+										<span class="fs-2">Additional Cost & Options</span>
 									</div>
 								</div>
 								<div class="card-body text-center">
+									<div class="text-start">
+										&emsp;&emsp;<span class="fs-1 fw-bold" id="premiumSrvc">$ 0.00032</span>&nbsp;<span> / kb of uploaded file size</span>
+										<br>
+										&emsp;&emsp;<span class="fs-1 fw-bold" id="premiumSrvcUser">$ 0.0058</span>&nbsp;<span>/ second of job running time</span>
+									</div>
+									<br><br>
 									<form id="optionForm">
-										<div class="text-center mt-2 mb-5">
-											<span class="fs-3">If you would like to add some users, please select the option below.</span>
+										<div class="text-center mt-5 mb-2">
+											<span class="fs-3">Option for adding users</span>
 										</div>
 										<div>
 											<select id="optionSelect" class="form-select">
 												<option value="">select the number of users</option>
 											</select>
 										</div>
-										<div class="text-center mt-5">
-											<span class="fs-3">It will be charged by the number of days as many as you used the option.</span>
-										</div>
 									</form>
 								</div>
-								<div class="p-4 mt-5">
-									<span>Currently Using Option:&nbsp;</span>
-									<span id="selectedOption" style="font-weight: bold;"> None</span>
+								<div class="text-center mb-5">
+									<span>Option currently in use :&nbsp;</span>
+									<span id="selectedOption" class="fw-bold"></span>
 								</div>
 								<div class="card-footer card-footer-transparent">
-									<button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">Use Option</button>
+									<button type="button" class="btn btn-outline-secondary w-100" onclick="addOption()">Add</button>
 								</div>
 							</a>
 						</div>
@@ -320,7 +321,7 @@
 							if (result.data.resultCode == "200") {
 								console.log("Option addition successful:", result.data);
 								$("#selectedOption").text(lv_optDtlsDesc);
-								alert("You can add users from now on.");
+								alert("Your option has been updated successfully, and you can add users from now on.");
 							} else {
 								alert("Failed to add option. error : " + result.data.resultMessage);
 							}
@@ -494,7 +495,7 @@
 			
 						optCd       = valuOfSlctedVal[0];
 						optDtlsCd   = valuOfSlctedVal[1];
-						optDtlsDesc = valuOfSlctedVal[2] + " " + valuOfSlctedVal[3];
+						optDtlsDesc = valuOfSlctedVal[2] + " | " + valuOfSlctedVal[3];
 			
 						console.log("Console logging the optCd: "      , optCd);
 						console.log("Console logging the optDtlsCd: "  , optDtlsCd);

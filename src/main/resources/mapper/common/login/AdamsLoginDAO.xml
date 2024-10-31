@@ -529,6 +529,7 @@
                ISNULL(DATEDIFF(DAY, FRST_REG_DTM, GETDATE())+1, 1) AS regDtmTotal
           FROM RDSDB.[dbo].[TB_USR_MNG_LST]
          WHERE 1=1
+           AND CS_NO  = #{csNo}
            AND USR_ID = #{usrId}
     </select>
     
@@ -538,6 +539,7 @@
                ISNULL(CONVERT(CHAR(19), FRST_REG_DTM, 20), CONVERT(CHAR(19), GETDATE(), 20)) AS lastLoginDtm
           FROM RDSDB.[dbo].[TB_USR_LOGIN_HIST]
          WHERE 1=1
+           AND CS_NO  = #{csNo}
            AND USR_ID = #{usrId}
 		 ORDER BY FRST_REG_DTM DESC
 		OFFSET 1 ROWS
@@ -550,6 +552,7 @@
                ISNULL(COUNT(*), 1) AS loginCntTotal
           FROM RDSDB.[dbo].[TB_USR_LOGIN_HIST]
          WHERE 1=1
+           AND CS_NO  = #{csNo}
            AND USR_ID = #{usrId}
     </select>
     
@@ -562,8 +565,10 @@
 	        	   COUNT(SEQ_NO) AS LOGIN_CNT
 	        	  ,CONVERT(CHAR(10), ACC_DTM, 23) AS ACC_DTM
 	         FROM  [dbo].TB_USR_LOGIN_HIST
-			 WHERE USR_ID = #{usrId}
-			   AND GETDATE()-30 <= ACC_DTM
+			 WHERE 1=1
+           		AND CS_NO  = #{csNo}
+			  	AND USR_ID = #{usrId}
+			    AND GETDATE()-30 <= ACC_DTM
 		  	 GROUP BY CONVERT(CHAR(10), ACC_DTM, 23)
 		  ) 
 		, TB_ALL_DTM AS (
@@ -590,6 +595,7 @@
                ISNULL(CONVERT(CHAR(19), LOAD_STR_DTM, 20), '') AS lastUploadDtm
           FROM RDSDB.[dbo].[TB_UPL_HIST]
          WHERE 1=1
+           AND CS_NO  = #{csNo}
            AND FNL_UPD_EMP_NO = #{usrId}
 		 ORDER BY LOAD_STR_DTM DESC
     </select>
@@ -600,6 +606,7 @@
                ISNULL(COUNT(*), 0) AS uploadCntTotal
           FROM RDSDB.[dbo].[TB_UPL_HIST]
          WHERE 1=1
+           AND CS_NO  = #{csNo}
            AND FNL_UPD_EMP_NO = #{usrId}
     </select>
     
@@ -612,7 +619,9 @@
 	        	   COUNT(SEQ_NO) AS UPLOAD_CNT
 	        	  ,CONVERT(char(10), LOAD_STR_DTM, 23) AS LOAD_STR_DTM
 	         FROM  [dbo].TB_UPL_HIST
-			 WHERE FNL_UPD_EMP_NO = #{usrId}
+			 WHERE 1=1
+           	   AND CS_NO  = #{csNo} 
+			   AND FNL_UPD_EMP_NO = #{usrId}
 			   AND GETDATE()-30 <= LOAD_STR_DTM
 		  	 GROUP BY CONVERT(CHAR(10), LOAD_STR_DTM, 23)
 		  ) 
@@ -640,6 +649,7 @@
                ISNULL(CONVERT(CHAR(19), BAT_STR_DTM, 20), '') AS lastBatDtm
           FROM RDSDB.[dbo].[TB_BAT_RST_LST]
          WHERE 1=1
+           AND CS_NO  = #{csNo} 
            AND FNL_UPD_EMP_NO = #{usrId}
 		 ORDER BY BAT_STR_DTM DESC
     </select>
@@ -650,6 +660,7 @@
                ISNULL(COUNT(BAT_EXE_ID), 0) AS batCntTotal
           FROM RDSDB.[dbo].[TB_BAT_RST_LST]
          WHERE 1=1
+           AND CS_NO  = #{csNo} 
            AND FNL_UPD_EMP_NO = #{usrId}
     </select>
     
@@ -662,7 +673,9 @@
 	        	   COUNT(BAT_EXE_ID) AS BAT_CNT
 	        	  ,CONVERT(char(10), BAT_STR_DTM, 23) AS BAT_STR_DTM
 	         FROM  [dbo].TB_BAT_RST_LST
-			 WHERE FNL_UPD_EMP_NO = #{usrId}
+			 WHERE 1=1
+           	   AND CS_NO  = #{csNo} 
+			   AND FNL_UPD_EMP_NO = #{usrId}
 			   AND GETDATE()-30 <= BAT_STR_DTM
 		  	 GROUP BY CONVERT(CHAR(10), BAT_STR_DTM, 23)
 		  ) 

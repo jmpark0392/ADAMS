@@ -27,6 +27,9 @@ public class AdamsMypageUsrIdDTO {
 	 */
 	private static final long serialVersionUID = -8274004534207618049L;
 
-    @Schema(description = "사용자ID")
+	@Schema(description = "고객사번호")
+    private String csNo;
+	
+	@Schema(description = "사용자ID")
     private String usrId;
 }

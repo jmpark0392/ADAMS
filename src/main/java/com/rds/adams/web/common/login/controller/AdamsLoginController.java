@@ -538,9 +538,9 @@ public class AdamsLoginController {
 		
 		// 1. 세션에서 사용자 정보 가져오기
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
 		
-		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		adamsMypageUsrIdDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		adamsMypageUsrIdDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		// 2. 계정을 생성한 후 누적일 수 가져오기
 		AdamsRegDtmTotalDTO adamsRegDtmTotalDTO = adamsLoginService.selectRegDtmTotal(adamsMypageUsrIdDTO);
@@ -564,9 +564,8 @@ public class AdamsLoginController {
 		
 		// 1. 세션에서 사용자 정보 가져오기
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
-		
-		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		adamsMypageUsrIdDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		adamsMypageUsrIdDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		// 2. 계정을 생성한 후 가장 최근에 로그인 했던 날짜 가져오기
 		AdamsLastLoginDtmDTO adamsLastLoginDtmDTO = adamsLoginService.selectLastLoginDtm(adamsMypageUsrIdDTO);
@@ -590,9 +589,8 @@ public class AdamsLoginController {
 		
 		// 1. 세션에서 사용자 정보 가져오기
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
-		
-		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		adamsMypageUsrIdDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		adamsMypageUsrIdDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		// 2. 계정을 생성한 후 로그인 총 횟수 가져오기
 		AdamsLoginCntTotalDTO adamsLoginCntTotalDTO = adamsLoginService.selectLoginCntTotal(adamsMypageUsrIdDTO);
@@ -616,9 +614,8 @@ public class AdamsLoginController {
 		
 		// 1. 세션에서 사용자 정보 가져오기
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
-		
-		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		adamsMypageUsrIdDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		adamsMypageUsrIdDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		// 2. 계정을 생성한 후 누적일 수 가져오기
 		List<AdamsMonthLoginCntDTO> adamsMonthLoginCntDTOs = adamsLoginService.selectMonthLoginCnt(adamsMypageUsrIdDTO);
@@ -642,9 +639,8 @@ public class AdamsLoginController {
 		
 		// 1. 세션에서 사용자 정보 가져오기
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
-		
-		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		adamsMypageUsrIdDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		adamsMypageUsrIdDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		// 2. 계정을 생성한 후 가장 최근에 파일 업로드 했던 날짜 가져오기
 		AdamsLastUploadDtmDTO adamsLastUploadDtmDTO = adamsLoginService.selectLastUploadDtm(adamsMypageUsrIdDTO);
@@ -668,9 +664,8 @@ public class AdamsLoginController {
 		
 		// 1. 세션에서 사용자 정보 가져오기
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
-		
-		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		adamsMypageUsrIdDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		adamsMypageUsrIdDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		// 2. 계정을 생성한 후 파일 업로드 총 횟수 가져오기
 		AdamsUploadCntTotalDTO adamsUploadCntTotalDTO = adamsLoginService.selectUploadCntTotal(adamsMypageUsrIdDTO);
@@ -694,9 +689,8 @@ public class AdamsLoginController {
 		
 		// 1. 세션에서 사용자 정보 가져오기
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
-		
-		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		adamsMypageUsrIdDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		adamsMypageUsrIdDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		// 2. 계정을 생성한 후 (전날 기준)30일간 일별 파일 업로드 수 가져오기
 		List<AdamsMonthUploadCntDTO> adamsMonthUploadCntDTOs = adamsLoginService.selectMonthUploadCnt(adamsMypageUsrIdDTO);
@@ -720,9 +714,8 @@ public class AdamsLoginController {
 		
 		// 1. 세션에서 사용자 정보 가져오기
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
-		
-		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		adamsMypageUsrIdDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		adamsMypageUsrIdDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		// 2. 계정을 생성한 후 가장 최근에 배치를 실행 했던 날짜 가져오기
 		AdamsLastBatDtmDTO adamsLastBatDtmDTO = adamsLoginService.selectLastBatDtm(adamsMypageUsrIdDTO);
@@ -746,9 +739,8 @@ public class AdamsLoginController {
 		
 		// 1. 세션에서 사용자 정보 가져오기
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
-		
-		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		adamsMypageUsrIdDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		adamsMypageUsrIdDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		// 2. 계정을 생성한 후 배치 실행 총 횟수 가져오기
 		AdamsBatCntTotalDTO adamsBatCntTotalDTO = adamsLoginService.selectBatCntTotal(adamsMypageUsrIdDTO);
@@ -772,9 +764,8 @@ public class AdamsLoginController {
 		
 		// 1. 세션에서 사용자 정보 가져오기
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
-		String usrEmail = sAdamsLoginDTO.getUsrId();
-		
-		adamsMypageUsrIdDTO.setUsrId(usrEmail);
+		adamsMypageUsrIdDTO.setUsrId(sAdamsLoginDTO.getUsrId());
+		adamsMypageUsrIdDTO.setCsNo(sAdamsLoginDTO.getCsNo());
 		
 		// 2. 계정을 생성한 후 (전날 기준)30일간 일별 배치를 실행한 횟수 가져오기
 		List<AdamsMonthBatCntDTO> adamsMonthBatCntDTOs = adamsLoginService.selectMonthBatCnt(adamsMypageUsrIdDTO);
