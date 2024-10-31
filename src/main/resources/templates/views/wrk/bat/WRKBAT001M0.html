@@ -410,7 +410,10 @@
 			// setting the active row to the first row if the active row is undefined
 			var activeRow = (activeCell && activeCell.row) || 0;
 			const dataContext = grid.getDataItem(activeRow);
-			const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
+			const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"), {
+				backdrop: 'static',
+				keyboard: false
+			});
 			const modalTitleElem = document.querySelector(".modal-title");
 			const modalBodyElem = document.querySelector(".modal-body");
 			console.log("modalTitleElem:", modalTitleElem);
@@ -623,6 +626,23 @@
 					grid.render();
 					modalElement.hide(); // Hide the modal after saving
 				};
+
+				// // we prevent modal from closing when clicking outside
+				// const modalDialog = document.querySelector('.modal-dialog');
+				// modalDialog.addEventListener('click', (e) => {
+				// 	e.stopPropagation(); // Prevent click from bubbling up
+				// });
+
+				// // we prevent the modal not to close when the user clicks esc button
+				// modalElement._element.addEventListener('keydown', (e) => {
+				// 	if (e.key === 'Escape') {
+				// 		e.stopPropagation();
+				// 		e.preventDefault(); 
+				// 	}
+				// });
+
+				// modalElement._config.backdrop = 'static';
+				// modalElement._config.keyboard = false;
 
 				// Close button logic
 				const closeBtn = document.querySelector(".modal-footer .btn-link");

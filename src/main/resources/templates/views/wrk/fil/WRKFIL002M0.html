@@ -512,7 +512,10 @@
 			}	
 			renewOptions(false);
 
-			const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"));
+			const modalElement = new bootstrap.Modal(document.getElementById("exampleModal"), {
+				backdrop: 'static',
+				keyboard: false
+			});
 			const modalTitleElem = document.querySelector(".modal-title");
 			const modalBodyElem = document.querySelector(".modal-body");
 			console.log("modalTitleElem:", modalTitleElem);
@@ -678,7 +681,24 @@
 	
 			modalElement.show();
 			renewOptions(false);
-	
+
+			// // we prevent modal from closing when clicking outside
+			// const modalDialog = document.querySelector('.modal-dialog');
+			// modalDialog.addEventListener('click', (e) => {
+			// 	e.stopPropagation(); // Prevent click from bubbling up
+			// });
+
+			// // we prevent the modal not to close when the user clicks esc button
+			// modalElement._element.addEventListener('keydown', (e) => {
+			// 	if (e.key === 'Escape') {
+			// 		e.stopPropagation();
+			// 		e.preventDefault(); 
+			// 	}
+			// });
+
+			// modalElement._config.backdrop = 'static';
+			// modalElement._config.keyboard = false;
+			
 	
 			//업데이트 대상제외 컬럼 필터링
 			var selColumns = [];
@@ -690,17 +710,6 @@
 					selColumns.push(element);
 				}
 			}
-	
-			// if (isWithMassUpdate) {
-			//   // when using Mass Update, we only care about the columns that have the "massUpdate: true", we disregard anything else
-			//   modalColumns = selColumns.filter(function (col) {
-			//	 return col && col.massUpdate && col.editor;
-			//   });
-			// } else {
-			//   modalColumns = selColumns.filter(function (col) {
-			//	 return col && col.editor;
-			//   });
-			// }
 	
 			let headerTitle = "";
 			switch (modalType) {
@@ -753,46 +762,13 @@
 			modalElm.appendChild(modalBodyElm);
 
 
-			// //modal을 마우스로 드래그가능하도록 설정
-			// $(".modal").draggable();
-
-		// // Initialize draggable when the modal is shown
-		// $('#exampleModal').on('shown.bs.modal', function () {
-		// 	// Make the modal draggable
-		// 	$(this).find(".modal-dialog").draggable({
-		// 		handle: ".modal-header" // Restrict dragging to the header
-		// 	});
-
-		// 	// Optional: Prevent modal from being dragged outside the viewport
-		// 	$(this).find(".modal-dialog").draggable("option", "containment", "window");
-		// });
-
-		// // Optional: Reset position when the modal is hidden
-		// $('#exampleModal').on('hidden.bs.modal', function () {
-		// 	$(this).find(".modal-dialog").css({
-		// 		top: "",
-		// 		left: "",
-		// 		right: "",
-		// 		bottom: ""
-		// 	});
-		// });
-
-
 			grid.onClick.subscribe(function (e, args) {
 			renewOptions(false);
 			});
 
 			// Save button logic
-			// this will only be trggered when the save button is clicked
-			//   const saveBtn = document.querySelector(".modal-footer .btn-primary");
-			//   saveBtn.textContent = modalType === "create" ? "Create" : "Save changes";
-
 			const saveBtn = document.querySelector(".modal-footer .btn-primary");
 			saveBtn.textContent = modalType === "create" ? "Create" : "Save changes"
-
-			// this will only be triggered when the save button is clicked
-			//   saveBtn.removeEventListener("click", saveHandler);
-			//   saveBtn.addEventListener("click", saveHandler);
 
 			//modal을 마우스로 드래그가능하도록 설정
 			$(".modal").draggable();
