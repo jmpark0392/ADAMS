@@ -320,14 +320,15 @@
 		function fn_callback(result){
 			console.log("fn_callback : " + result.id);
 			if( result.resultCd == "S" ){
+				let resultData = typeof result.data === "string" ? JSON.parse(result.data) : result.data;
 				switch (result.id){
 					case "SelectFileList" :
 						console.log("selectFileList");
-						populateDropdown(result.data);
+						populateDropdown(resultData);
 						break;
 					case "SelectList" :
 						console.log("selectList grid");
-						fn_setGrid(result.data);
+						fn_setGrid(resultData);
 						break;
 				}	  
 			} else if( result.resultCd == "E") {

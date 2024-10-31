@@ -1,5 +1,6 @@
 package com.rds.adams.web.wrk.fil.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,6 @@ import com.rds.adams.web.common.AdamsConstant;
 import com.rds.adams.web.common.login.dto.AdamsLoginDTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P0DTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P1DTO;
-import com.rds.adams.web.wrk.fil.dto.WRKFIL002M0P2DTO;
 import com.rds.adams.web.wrk.fil.dto.WRKFIL002M0R0DTO;
 import com.rds.adams.web.wrk.fil.service.WRKFIL002M0Service;
 
@@ -55,8 +55,9 @@ public class WRKFIL002M0Controller {
 	}
 	
 	@RequestMapping(value="/WRKFIL002M0InsertList", method=RequestMethod.POST, consumes="application/json")
-	public void insert(@RequestBody WRKFIL002M0P1DTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> insert(@RequestBody WRKFIL002M0P1DTO inVo, HttpServletRequest request) {
 		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
@@ -69,12 +70,13 @@ public class WRKFIL002M0Controller {
 			e.printStackTrace();
 			log.info("fail");
 		}
-		return;
+		return resultMap;
 	}
 
 	@RequestMapping(value="/WRKFIL002M0UpdateList", method=RequestMethod.POST, consumes="application/json")
-	public void update(@RequestBody WRKFIL002M0P1DTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> update(@RequestBody WRKFIL002M0P1DTO inVo, HttpServletRequest request) {
 		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		inVo.setFrstRegEmpNo(sAdamsLoginDTO.getUsrId());
@@ -87,12 +89,13 @@ public class WRKFIL002M0Controller {
 			e.printStackTrace();
 			log.info("fail");
 		}
-		return;
+		return resultMap;
 	}
 	
 	@RequestMapping(value="/WRKFIL002M0DeleteList", method=RequestMethod.POST, consumes="application/json")
-	public void delete(@RequestBody WRKFIL002M0P2DTO inVo, HttpServletRequest request) {
+	public HashMap<String, Object> delete(@RequestBody WRKFIL002M0P1DTO inVo, HttpServletRequest request) {
 		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		AdamsLoginDTO sAdamsLoginDTO = (AdamsLoginDTO) request.getSession().getAttribute(AdamsConstant.SESSION_LOGIN_INFO);
 		inVo.setCsNo(sAdamsLoginDTO.getCsNo());
 		
@@ -104,6 +107,6 @@ public class WRKFIL002M0Controller {
 			e.printStackTrace();
 			log.info("fail");
 		}
-	return;
+	return resultMap;
 	}
 }

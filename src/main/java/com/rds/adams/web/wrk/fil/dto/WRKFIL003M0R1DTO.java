@@ -18,6 +18,7 @@ import lombok.ToString;
  * ----------------------------------------------------------
  * </PRE>
  */
+@Schema(description = "파일업로드 파일명 조회 결과 DTO")
 @ToString
 @Getter
 @Setter
