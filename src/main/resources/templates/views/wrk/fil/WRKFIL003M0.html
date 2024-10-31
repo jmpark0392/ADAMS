@@ -98,62 +98,8 @@
 					</form>
 				</div>
 			</div>
-			<!-- <div class="popupDataForm">
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#spinnerModal" style="display: none">Launch modal with form</button>
-				<div class="modal fade" id="spinnerModal" tabindex="-1" style="display: none">
-					<div class="modal-dialog modal-small" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Loading...</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body text-center">
-								<div class="spinner-border" role="status">
-									<span class="visually-hidden">Loading...</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
-			<!-- <div class="popupSpinner" id="spinnerModal" tabindex="-1" style="display: none;">
-				<div class="modal-dialog modal-small" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Loading...</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body text-center">
-							<div class="spinner-border" role="status">
-								<span class="visually-hidden">Loading...</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
 		</div>
 	</div>
-		<!-- // <div id="center" style="position:fixed;top:50%;left:50%; transform: translate(-50%, -50%); display: block;"> </div>
-		// <div class="popupDataForm">
-		// 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#spinnerModal" style="display: none">Launch modal with form</button>
-		// 					<div class="modal fade" id="spinnerModal" tabindex="-1" style="display: none">
-		// 						<div class="modal-dialog modal-small" role="document">
-		// 							<div class="modal-content">
-									
-		// 								<div class="modal-header">
-		// 									<h5 class="modal-title">Loading...</h5>
-		// 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		// 								</div>
-		// 								<div class="modal-body text-center">
-		// 									<div class="spinner-border" role="status">
-		// 										<span class="visually-hidden">Loading...</span>
-		// 									</div>
-		// 								</div>
-		// 							</div>
-		// 						</div>
-		// 					</div>
-		// 				</div>  -->
-
 	<script>
 		function getFileList(input) {
 			console.log("getFileList input : " + input);
@@ -246,7 +192,9 @@
 			element.innerHTML = "";
 
 			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "" && $("#cmbUploadFileList").val() === "" ) {
-				alert("Please select a standard year / month and a file.");
+				// alert("Please select a standard year / month and a file.");
+				swal("Year, Month Selection!", "Please select a standard year / month and a file");
+
 			return false;
 			} else if ( $("#inputYear").val() === "" ) {
 				alert("Please select a year.");
@@ -462,9 +410,6 @@
 			downloadLink.click();
 			document.body.removeChild(downloadLink);
 		}
-
-		// var spinnerModalNew = $("#spinnerModal");
-		// $("#container").append(spinnerModalNew);
 	
 		let spinnerModal;
 		let spinner;
@@ -497,13 +442,14 @@
 			// i should add the spinner animation ddiv to the modal
 			spinnerModal.show(); // Show the modal
 		}	
-	
+
+		// we hide the spinner by removing the modal and stopping the spinner
 		function hideSpinner() {
 			const spinnerContainer = document.getElementById('spinnerContainer');
 			return new Promise((resolve) => {
 				if (spinnerModal) {
 					spinner.stop();
-					var spinnerModalElement = document.getElementById('spinnerModal');
+					let spinnerModalElement = document.getElementById('spinnerModal');
 					spinnerModalElement.addEventListener('hidden.bs.modal', function handler() {
 						spinnerModalElement.removeEventListener('hidden.bs.modal', handler);
 						resolve();
@@ -556,9 +502,6 @@
 			
 			formData.append("uploadFileVal", $("#cmbUploadFileList").val());
 			formData.append("inpStdYymm", stdYymm);
-
-			// var center = document.getElementById('center');
-			// var spinner = new Spinner().spin(center);
 			
 			/*
 			  formData.append("param", new Blob([ JSON.stringify({
@@ -568,40 +511,50 @@
 												{ type: "application/json" }));	*/
 	
 			var result = {}
-			showSpinner();
-			$.ajax({
-					//enctype: 'multipart/form-data',
-					//contentType: 'multipart/form-data; charset=utf-8',
-					type        : "POST",
-					url         : "/WRKFIL003M0SaveUploadFile",
-					enctype     : 'multipart/form-data',
-					//file: files,
-					data        : formData,
-					processData : false,
-					contentType : false,
-					cache       : false,
-					success     :  async function(data) {
-										result.resultCd = "S";
-										result.id       = "SaveUplFileList";
-										result.data     = data;
 
-										// spinner.stop(); // we stop the spinner once you finished loading data
-										if(data.resultCode == "200" || data.resultCode == "300") {
-											await hideSpinner(); 
-											fn_callback(result);
-										} 
-										// else if () {
-										// 	await hideSpinner();
-										// 	alert("File upload failed");
-										// }				
-								}, 
-					error   	: 	async function (e) {
-										await hideSpinner();
-										console.log(e);
-										alert("File upload failed");
+			let fileUploadValue = $("#btnFileUpload").val(); 
 
-								},
-			});
+			if (fileUploadValue !== ""){
+
+				// we create a spinner 
+				showSpinner();
+
+				$.ajax({
+						type        : "POST",
+						url         : "/WRKFIL003M0SaveUploadFile",
+						enctype     : 'multipart/form-data',
+						//file: files,
+						data        : formData,
+						processData : false,
+						contentType : false,
+						cache       : false,
+						success     :  async function(data) {
+											result.resultCd = "S";
+											result.id       = "SaveUplFileList";
+											result.data     = data;
+
+											// spinner.stop(); // we stop the spinner once you finished loading data
+											if(data.resultCode == "200" || data.resultCode == "300") {
+												await hideSpinner(); 
+												fn_callback(result);
+											} 
+											// else if () {
+											// 	await hideSpinner();
+											// 	alert("File upload failed");
+											// }				
+									}, 
+						error   	: 	async function (e) {
+											await hideSpinner();
+											console.log(e);
+											alert("File upload failed");
+
+									},
+				});
+			} else if (fileUploadValue === "") {
+				swal("File Not Selected!", "Please select a file to upload and get the result");
+
+				// alert("Please select a file to upload and get the result.");
+			}
 		}
 		function clearSlickGridData() {
 			var grid = new Slick.Grid("#divMyGrid", [{}], [{}], [{}]);
