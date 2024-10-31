@@ -446,13 +446,17 @@
 		// Execute Batch programs
 		document.getElementById("executeBatch").addEventListener("click", function () {
 			if (selectedPrograms.length > 0){
-				
-				console.log("selectedPrograms: ", selectedPrograms);
-				console.log("Stanard YYMM: ", getStdYymm());
-				selectedPrograms.forEach((row)=>{
-					const bPId = row.batProgId;
-					fn_execute_batch(bPId, getStdYymm());
-				})
+				if(confirm("Do you want to run the Execution?")) { // 확인 후 자연스러운 멘트 변경 필요
+					console.log("selectedPrograms: ", selectedPrograms);
+					console.log("Stanard YYMM: ", getStdYymm());
+					selectedPrograms.forEach((row)=>{
+						const bPId = row.batProgId;
+						fn_execute_batch(bPId, getStdYymm());
+					})
+					alert("Successfully Execution.");
+				} else {
+				return;
+				}
 			}
 		});
 	</script>
