@@ -27,21 +27,25 @@ public class BIZJNL003M0Service {
 	
 	public void executeList(ExecuteDTO inVo) {
 		
-		
-		inVo.setBatProgId("B0004");
-		inVo.setBatExeRstCd("");
-		inVo.setBatExeErrCd("");
-		inVo.setBatLoadStatCd("1");
-		
-		executeResultDAO.insertBatHist(inVo);
-		
-		bIZJNL003M0DAO.deleteListBf(inVo);
-		bIZJNL003M0DAO.insertList(inVo);
-		
-		inVo.setBatLoadStatCd("0");
-		inVo.setBatExeRstCd("OK");
-		executeResultDAO.updateBatHist(inVo);
-		
+		try {
+			inVo.setBatProgId("B0004");
+			inVo.setBatExeRstCd("");
+			inVo.setBatExeErrCd("");
+			inVo.setBatLoadStatCd("1");
+			
+			executeResultDAO.insertBatHist(inVo);
+			
+			bIZJNL003M0DAO.deleteListBf(inVo);
+			bIZJNL003M0DAO.insertList(inVo);
+			
+			inVo.setBatLoadStatCd("0");
+			inVo.setBatExeRstCd("OK");
+			executeResultDAO.updateBatHist(inVo);
+		} catch ( Exception e ) {
+			inVo.setBatLoadStatCd("9");
+			inVo.setBatExeRstCd("ERROR");
+			executeResultDAO.updateBatHist(inVo);
+		}		
 	return;
 	}
 }
