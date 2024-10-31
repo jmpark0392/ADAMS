@@ -192,8 +192,8 @@
 			element.innerHTML = "";
 
 			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "" && $("#cmbUploadFileList").val() === "" ) {
-				// alert("Please select a standard year / month and a file.");
-				swal("Year, Month Selection!", "Please select a standard year / month and a file");
+				alert("Please select a standard year / month and a file.");
+				// swal("Year, Month Selection!", "Please select a standard year / month and a file");
 
 			return false;
 			} else if ( $("#inputYear").val() === "" ) {
@@ -222,7 +222,7 @@
 				/**
 		 * Transaction callback 함수
 		 **/
-		async function fn_callback(result){
+		function fn_callback(result){
 			// hideSpinner();
 			console.log("fn_callback : " + result);
 			if( result.resultCd == "S" ){
@@ -241,10 +241,10 @@
 						//console.log("fn_callback result received:", result);
 						if ( result.data.resultCode == "200" ) {
 
-							if(result.data.resultCode == "300") {
-								alert("Your file uplaod has failed !");
-								await hideSpinner();
-							} 
+							// if(result.data.resultCode == "300") {
+							// 	alert("Your file uplaod has failed !");
+							// 	await hideSpinner();
+							// } 
 						
 							alert("Your file has been uploaded successfully.");
 
@@ -433,7 +433,7 @@
 					backdrop: 'static',
 					keyboard: false
 				});
-			}
+			} 
 
 			// createSpinnerModal(); // Ensure the modal is created
 			const spinnerContainer = document.getElementById('spinnerContainer');
@@ -448,36 +448,54 @@
 			const spinnerContainer = document.getElementById('spinnerContainer');
 			return new Promise((resolve) => {
 				if (spinnerModal) {
-					spinner.stop();
+
 					let spinnerModalElement = document.getElementById('spinnerModal');
 					spinnerModalElement.addEventListener('hidden.bs.modal', function handler() {
 						spinnerModalElement.removeEventListener('hidden.bs.modal', handler);
+
+						// we remove the spinner modal from the DOM
+						spinnerModalElement.parentNode.removeChild(spinnerModalElement);
+
+						// set the spinner modal adn spinner values  to null
+						spinnerModal = null;
+						spinner = null;
+
 						resolve();
 					});
-					spinnerModal.hide(); // Hide the modal
+
+					if(spinner) {
+						spinner.stop();
+					}
+
+					$(spinnerContainer).fadeOut(200, function() {
+						spinnerModal.hide(); // Hide the modal
+					});
+					
 				} else {
 					resolve();
 				}
 			});
 		}
 
-		function setSaveUploadFile() {
+		async function setSaveUploadFile() {
 
-			
 			console.log("Sending AJAX request...");
 			
 			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "" && $("#cmbUploadFileList").val() === "" ) {
 				alert("Please select a standard year / month and a file.");
-			return false;
+				return false;
 			} else if ( $("#inputYear").val() === "" ) {
 				alert("Please select a year.");
-			return false;
+				return false;
 			} else if ($("#inputMonth").val() === "") {
 				alert("Please select a month.");
-			return false;
+				return false;
 			} else if ($("#cmbUploadFileList").val() === "") {
 				alert("Please select a file.");
-			return false;
+				return false;
+			} else if ($("#btnFileUpload").val() === "") {
+				alert("Please select a file to upload and get result data.");
+				return false;
 			}
 	
 			//let form = $('#uploadFrm')[0];
@@ -513,48 +531,39 @@
 			var result = {}
 
 			let fileUploadValue = $("#btnFileUpload").val(); 
+			console.log("fileUploadValue : " + fileUploadValue);
 
-			if (fileUploadValue !== ""){
+			// we create a spinner 
+			await showSpinner();
 
-				// we create a spinner 
-				showSpinner();
+			$.ajax({
+					type        : "POST",
+					url         : "/WRKFIL003M0SaveUploadFile",
+					enctype     : 'multipart/form-data',
+					//file: files,
+					data        : formData,
+					processData : false,
+					contentType : false,
+					cache       : false,
+					success     :  async function(data) {
+										result.resultCd = "S";
+										result.id       = "SaveUplFileList";
+										result.data     = data;
 
-				$.ajax({
-						type        : "POST",
-						url         : "/WRKFIL003M0SaveUploadFile",
-						enctype     : 'multipart/form-data',
-						//file: files,
-						data        : formData,
-						processData : false,
-						contentType : false,
-						cache       : false,
-						success     :  async function(data) {
-											result.resultCd = "S";
-											result.id       = "SaveUplFileList";
-											result.data     = data;
+											await hideSpinner(); 
 
-											// spinner.stop(); // we stop the spinner once you finished loading data
-											if(data.resultCode == "200" || data.resultCode == "300") {
-												await hideSpinner(); 
-												fn_callback(result);
-											} 
-											// else if () {
-											// 	await hideSpinner();
-											// 	alert("File upload failed");
-											// }				
-									}, 
-						error   	: 	async function (e) {
-											await hideSpinner();
-											console.log(e);
-											alert("File upload failed");
+										// spinner.stop(); // we stop the spinner once you finished loading data
+										if(data.resultCode == "200" || data.resultCode == "300") {
+											fn_callback(result);
+										} 			
+								}, 
+					error   	: 	async function (e) {
+										await hideSpinner();
+										console.log(e);
+										alert("File upload failed");
 
-									},
-				});
-			} else if (fileUploadValue === "") {
-				swal("File Not Selected!", "Please select a file to upload and get the result");
-
-				// alert("Please select a file to upload and get the result.");
-			}
+								},
+			});
 		}
 		function clearSlickGridData() {
 			var grid = new Slick.Grid("#divMyGrid", [{}], [{}], [{}]);
