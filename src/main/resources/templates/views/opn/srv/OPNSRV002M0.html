@@ -55,7 +55,7 @@
 								</div>
 								<div class="col-auto me-0 p-1"></div>
 								<div class="col-auto m-0">
-									<a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal" style="padding: 4px 10px; color: white; font-size: 13px"> Save changes </a>
+									<a href="#" class="btn btn-primary ms-auto" style="padding: 4px 10px; color: white; font-size: 13px"> Save changes </a>
 								</div>
 							</div>
 						</div>
@@ -121,7 +121,7 @@
 	</div>
 	<script>
 	function checkData(data) {
-	return parentCheckData(data, check_cols);
+		return parentCheckData(data, check_cols);
 	}
 	
 	function getOptList(input) {
@@ -340,7 +340,7 @@
 	var unqIdHist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	var unqId = "seqNo";
 	var xcpt_cols = [unqId, "frstRegEmpNo", "frstRegDtm"];
-	var check_cols = [unqId, "fileNm", "tblId"];
+	var check_cols = ["optCd"];
 	let uniqueIdSelect = "seqNoHist";
 	let uniqueIdDetails = "seqNoDtls";
 	let uniqueIdDetailsHist = "seqNoDtlsHist";
@@ -1106,18 +1106,12 @@
 
 		if (gridName === "divMyGrid") {
 			uniqueId = "seqNo";
-			if (modalType === "create") {
-				hiddenColumns = ["seqNo", "optStrDtm"];
-			} else if (modalType === "edit") {
-				hiddenColumns = ['seqNo', 'oldSrvcStrDtm'];
-			}
+			hiddenColumns = ['seqNo', 'oldSrvcStrDtm'];
+			check_cols = ["optCd"];
 		} else if (gridName === "divMyGridThird") {
 			uniqueId = "seqNoDtls";
-			if (modalType === "create") {
-				hiddenColumns = ['seqNoDtls', 'optDtlsDcRt', 'delYn', 'optDtlsEndDtm'];
-			} else if (modalType === "edit") {
-				hiddenColumns = ['seqNoDtls', 'optDtlsDcRt', 'delYn', 'optDtlsEndDtm'];
-			}
+			hiddenColumns = ['seqNoDtls', 'optDtlsDcRt', 'delYn', 'optDtlsEndDtm'];
+			check_cols = ["optCdDtls", "optDtlsCd"];
 		} else {
 			console.error("Invalid grid provided.");
 			return;
@@ -1440,7 +1434,7 @@
 					}
 				} else {
 					alert("Please fill out all required fields.");
-				return;
+					return;
 				}
 			} else if (modalType === "edit") {
 				console.log("EDIT 테스트");

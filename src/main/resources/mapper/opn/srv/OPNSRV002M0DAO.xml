@@ -282,8 +282,8 @@
                , #{optDtlsNm}
                , #{optDtlsVlu}
                , #{optDtlsDcRt}
-               , ISNULL(#{useYn}, 'Y')
-               , ISNULL(#{delYn}, 'N')
+               , CASE WHEN #{useYn} IS NULL OR #{useYn} = '' THEN 'Y' ELSE #{useYn} END
+               , CASE WHEN #{delYn} IS NULL OR #{delYn} = '' THEN 'N' ELSE #{delYn} END
                , #{optDtlsStrDtm}
                , ( CASE WHEN ( SELECT COUNT(1) FROM [RDSDB].[dbo].[TB_OPT_DTLS_HIST] WHERE OPT_CD = #{optCdDtls} AND OPT_DTLS_CD = #{optDtlsCd} AND OPT_DTLS_STR_DTM > #{optDtlsStrDtm} ) = 0 THEN '2999-12-31' 
                         ELSE  DATEADD(DAY, -1, CAST((SELECT MIN(OPT_DTLS_STR_DTM) FROM [RDSDB].[dbo].[TB_OPT_DTLS_HIST] WHERE OPT_CD = #{optCdDtls} AND OPT_DTLS_CD = #{optDtlsCd} AND OPT_DTLS_STR_DTM > #{optDtlsStrDtm} )AS DATE))
@@ -340,8 +340,8 @@
                , #{optDtlsNm}
                , #{optDtlsVlu}
                , #{optDtlsDcRt}
-               , 'Y'
-               , 'N'
+               , CASE WHEN #{useYn} IS NULL OR #{useYn} = '' THEN 'Y' ELSE #{useYn} END
+               , CASE WHEN #{delYn} IS NULL OR #{delYn} = '' THEN 'N' ELSE #{delYn} END
                , #{usrId}
                , GETDATE()
                , #{usrId}
