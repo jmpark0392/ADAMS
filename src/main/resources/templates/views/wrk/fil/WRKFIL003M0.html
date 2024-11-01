@@ -412,71 +412,71 @@
 			document.body.removeChild(downloadLink);
 		}
 	
-		let spinnerModal;
-		let spinner;
+		// let spinnerModal;
+		// let spinner;
 
-		function showSpinner() {
+		// function showSpinner() {
 
-			if (!spinnerModal) {
-				const modalHtml = `
-						<div class="modal fade" id="spinnerModal" tabindex="-1" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered" role="document">
-								<div class="modal-content" style="background: transparent; border: none;">
-									<div class="modal-body text-center">
-										<div id="spinnerContainer"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-				`;
-				document.body.insertAdjacentHTML('beforeend', modalHtml);
-				spinnerModal = new bootstrap.Modal(document.getElementById("spinnerModal"), {
-					backdrop: 'static',
-					keyboard: false
-				});
-			} 
+		// 	if (!spinnerModal) {
+		// 		const modalHtml = `
+		// 				<div class="modal fade" id="spinnerModal" tabindex="-1" aria-hidden="true">
+		// 					<div class="modal-dialog modal-dialog-centered" role="document">
+		// 						<div class="modal-content" style="background: transparent; border: none;">
+		// 							<div class="modal-body text-center">
+		// 								<div id="spinnerContainer"></div>
+		// 							</div>
+		// 						</div>
+		// 					</div>
+		// 				</div>
+		// 		`;
+		// 		document.body.insertAdjacentHTML('beforeend', modalHtml);
+		// 		spinnerModal = new bootstrap.Modal(document.getElementById("spinnerModal"), {
+		// 			backdrop: 'static',
+		// 			keyboard: false
+		// 		});
+		// 	} 
 
-			// createSpinnerModal(); // Ensure the modal is created
-			const spinnerContainer = document.getElementById('spinnerContainer');
-			spinner = new Spinner().spin(spinnerContainer);
+		// 	// createSpinnerModal(); // Ensure the modal is created
+		// 	const spinnerContainer = document.getElementById('spinnerContainer');
+		// 	spinner = new Spinner().spin(spinnerContainer);
 
-			// i should add the spinner animation ddiv to the modal
-			spinnerModal.show(); // Show the modal
-		}	
+		// 	// i should add the spinner animation ddiv to the modal
+		// 	spinnerModal.show(); // Show the modal
+		// }	
 
 		// we hide the spinner by removing the modal and stopping the spinner
-		function hideSpinner() {
-			const spinnerContainer = document.getElementById('spinnerContainer');
-			return new Promise((resolve) => {
-				if (spinnerModal) {
+		// function hideSpinner() {
+		// 	const spinnerContainer = document.getElementById('spinnerContainer');
+		// 	return new Promise((resolve) => {
+		// 		if (spinnerModal) {
 
-					let spinnerModalElement = document.getElementById('spinnerModal');
-					spinnerModalElement.addEventListener('hidden.bs.modal', function handler() {
-						spinnerModalElement.removeEventListener('hidden.bs.modal', handler);
+		// 			let spinnerModalElement = document.getElementById('spinnerModal');
+		// 			spinnerModalElement.addEventListener('hidden.bs.modal', function handler() {
+		// 				spinnerModalElement.removeEventListener('hidden.bs.modal', handler);
 
-						// we remove the spinner modal from the DOM
-						spinnerModalElement.parentNode.removeChild(spinnerModalElement);
+		// 				// we remove the spinner modal from the DOM
+		// 				spinnerModalElement.parentNode.removeChild(spinnerModalElement);
 
-						// set the spinner modal adn spinner values  to null
-						spinnerModal = null;
-						spinner = null;
+		// 				// set the spinner modal adn spinner values  to null
+		// 				spinnerModal = null;
+		// 				spinner = null;
 
-						resolve();
-					});
+		// 				resolve();
+		// 			});
 
-					if(spinner) {
-						spinner.stop();
-					}
+		// 			if(spinner) {
+		// 				spinner.stop();
+		// 			}
 
-					$(spinnerContainer).fadeOut(200, function() {
-						spinnerModal.hide(); // Hide the modal
-					});
+		// 			$(spinnerContainer).fadeOut(200, function() {
+		// 				spinnerModal.hide(); // Hide the modal
+		// 			});
 					
-				} else {
-					resolve();
-				}
-			});
-		}
+		// 		} else {
+		// 			resolve();
+		// 		}
+		// 	});
+		// }
 
 		async function setSaveUploadFile() {
 
