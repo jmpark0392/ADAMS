@@ -160,6 +160,7 @@
 			} 
 		}
 
+		/*
 		let clearedinptStartYm, clearedinptEndYm;
 		let inputStartStdYear = document.getElementById('inpStartStdYr');
 		let inputStartStdMonth = document.getElementById('inpStartMnth');
@@ -168,22 +169,12 @@
 		
 		let inputStartStdYm = inputStartStdYear + String(inputStartStdMonth).padStart(2, "0");
 		let inputEndStdYm = inputEndStdYear + String(inputEndStdMonth).padStart(2, "0");
+		*/
+		
 
 		// we check based on whether the input value is inserted or not 
-		if(inputStartStdYm !== "" && inputEndStdYm !== "") {
-			clearedinptStartYm =  clearInputField(inputStartStdYm);
-			clearedinptEndYm =  clearInputField(inputEndStdYm); 
-			console.log("inputStartStdYm inside the loop", clearedinptStartYm);
-		} else {  
-			clearedinptStartYm = flipDate(inputStartStdYm.value);
-			clearedinptEndYm = flipDate(inputEndStdYm.value);
-			console.log("inputStartStdYminside the else ", clearedinptStartYm);
-		}
-
-		// here we are removing the - from the date and joining the date after split
-		const inputStartLoadDate = $("#datepicker-icon").val().split("-").join("");
-		const inputEndLoadDate = $("#datepicker-icon-prepend").val().split("-").join("");
-		console.log("inputStartLoadDate :"+inputStartLoadDate);
+		/*
+ */
 		
 
 		
@@ -211,13 +202,7 @@
 						, async       : false
 						, dataType    : "json"
 						, contentType : "application/json; charset=utf-8"
-						, data        : input = JSON.stringify({
-																 uploadFile    : $("#cmbUploadFileList").val(),
-																 startLoadDate : inputStartLoadDate,
-																 endLoadDate   : inputEndLoadDate,
-																 startStdYymm  : clearedinptStartYm,
-																 endStdYymm    : clearedinptEndYm,
-																}),
+						, data        : input
 			};
 	
 			gf_Transaction(option, fn_callback);
@@ -310,9 +295,28 @@
 	
 		function getSearchList() {
 			console.log("Sending AJAX request...");
+			let inputStartStdYear = document.getElementById('inpStartStdYr').value;
+			let inputStartStdMonth = document.getElementById('inpStartMnth').value;
+			let inputEndStdYear = document.getElementById('inpEndStdYr').value;
+			let inputEndStdMonth = document.getElementById('inpEndMnth').value;
 	
+			let inputStartStdYm = inputStartStdYear + String(inputStartStdMonth).padStart(2, "0");
+			let inputEndStdYm = inputEndStdYear + String(inputEndStdMonth).padStart(2, "0");
+			console.log("inputStartStdYm & inputEndStdYm : "+inputStartStdYm+" & "+inputEndStdYm);	
+			
+			// here we are removing the - from the date and joining the date after split
+			const inputStartLoadDate = $("#datepicker-icon").val().split("-").join("");
+			const inputEndLoadDate = $("#datepicker-icon-prepend").val().split("-").join("");
+			console.log("inputStartLoadDate :"+inputStartLoadDate);
+
 			   // 이후 getList() 호출
-		    getList();
+			getList(input = JSON.stringify({
+											 uploadFile    : $("#cmbUploadFileList").val(),
+											 startLoadDate : inputStartLoadDate,
+											 endLoadDate   : inputEndLoadDate,
+											 startStdYymm  : inputStartStdYm,
+											 endStdYymm    : inputEndStdYm,
+											}),);
 		}
 		/**
 		 * Transaction callback 함수

@@ -51,6 +51,12 @@ public class WRKFIL004M0R0DTO {
 	@Schema(description = "적재종료일시")
 	private String loadEndDtm;
 	
+	@Schema(description = "시작기준년월")
+	private String startStdYymm;
+	
+	@Schema(description = "종료기준년월")
+	private String endStdYymm;
+	
 	@Schema(description = "적재성공여부")
 	private String loadSuccYn;
 
