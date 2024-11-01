@@ -65,10 +65,11 @@ public class WRKFIL002M0Controller {
 		log.info(inVo.toString());
 		try {
 			wRKFIL002M0Service.insertList(inVo);
-			log.info("success");
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.info("fail");
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", e.getMessage());
 		}
 		return resultMap;
 	}
@@ -84,10 +85,11 @@ public class WRKFIL002M0Controller {
 		log.info(inVo.toString());
 		try {
 			wRKFIL002M0Service.updateList(inVo);
-			log.info("success");
+			resultMap.put("resultCode"   , "200");
+			resultMap.put("resultMessage", "Success !!!");
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.info("fail");
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", e.getMessage());
 		}
 		return resultMap;
 	}
@@ -102,10 +104,11 @@ public class WRKFIL002M0Controller {
 		log.info(inVo.toString());
 		try {
 				wRKFIL002M0Service.deleteList(inVo);
-				log.info("success");
+				resultMap.put("resultCode"   , "200");
+				resultMap.put("resultMessage", "Success !!!");
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.info("fail");
+			resultMap.put("resultCode"   , "300");
+			resultMap.put("resultMessage", e.getMessage());
 		}
 	return resultMap;
 	}
