@@ -9,6 +9,7 @@
                     ISNULL( MAX( CAST( BAT_EXE_ID AS numeric(5,0) )), 0) + 1  AS newBatExeId
               FROM [RDSDB].[dbo].[TB_BAT_RST_LST]
              WHERE 1=1
+               AND CS_NO = #{csNo}
         </selectKey>
 		INSERT INTO [dbo].[TB_BAT_RST_LST] (
 			  [CS_NO]

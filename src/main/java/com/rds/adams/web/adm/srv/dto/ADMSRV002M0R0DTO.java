@@ -1,6 +1,6 @@
 package com.rds.adams.web.adm.srv.dto;
 
-import com.ibm.icu.math.BigDecimal;
+import java.math.BigDecimal;
 
 import groovy.transform.ToString;
 import lombok.Getter;
@@ -28,12 +28,19 @@ public class ADMSRV002M0R0DTO {
     private String ymd;
     private String srvcCd;
     private String srvcCdExp;
-    private int bSrvcVal;
-    private int pSrvcVal;
-    private int srvcCost;
-    private int srvcCostExp;
-    private int srvcCostSum;
-    private int srvcCostExpSum;
-    private int maxSrvcCostSum;
-    private int maxSrvcCostExpSum;
+    private BigDecimal bSrvcVal;
+    private BigDecimal pSrvcVal;
+    private BigDecimal srvcCost;
+    private BigDecimal srvcCostExp;
+    private BigDecimal srvcCostSum;
+    private BigDecimal srvcCostExpSum;
+    private BigDecimal maxSrvcCostSum;
+    private BigDecimal maxSrvcCostExpSum;
+
+    private BigDecimal fileSize;
+    private BigDecimal jobTime;
+    private BigDecimal maxFileSizeSum;
+    private BigDecimal maxJobTimeSum;
+    private BigDecimal maxFileCostSum;
+    private BigDecimal maxJobCostExpSum;
 }
