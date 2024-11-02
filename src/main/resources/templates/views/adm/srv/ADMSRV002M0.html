@@ -124,12 +124,12 @@
 								<div class="tab-content">
 									<div class="tab-pane active show" id="tabs-profile">
 										<div class="container my-5">
-											<canvas id="mixedChart" width="300" height="150"></canvas>
+											<canvas id="usageChart" width="300" height="120"></canvas>
 										</div>
 									</div>
 									<div class="tab-pane" id="tabs-password">
 										<div class="container my-5">
-											<canvas id="serviceHist" width="300" height="150"></canvas>
+											<canvas id="serviceHist" width="300" height="120"></canvas>
 										</div>
 									</div>
 								</div>
@@ -141,15 +141,15 @@
 		</div>
 	</div>
 	<script>
-	    let initlaizedChart;
+	    let usageChart;
 		let serviceHistChart;
 	    //  we have to wait for the DOM to load
 	    document.addEventListener("DOMContentLoaded", function () {
-	      const ctx = document.getElementById("mixedChart").getContext("2d");
+	      const ctx = document.getElementById("usageChart").getContext("2d");
 		  const ctx2 = document.getElementById("serviceHist").getContext("2d");
 	
-	      // const mixedChart = new Chart(ctx, config);
-	      initlaizedChart = new Chart(ctx,{
+	      // const usageChart = new Chart(ctx, config);
+	      usageChart = new Chart(ctx,{
 	        data: {
 	          labels: [],
 	          datasets: [],
@@ -166,9 +166,10 @@
 	              display: true,
 	              text: "Usage Chart",
 	              font: {
-	                size: 18,
+	                size: 20,
 	                textAlign: "flex-start",
 	              },
+	              color: "rgba(0, 0, 0, 1)",
 	            },
 	            tooltip: {
 	              enabled: true,
@@ -189,16 +190,37 @@
 	                display: true,
 	                text: "Storage (KB)",
 	                font: {
-	                  size: 14,
+	                  size: 12,
 	                },
+	                color: "rgba(47, 179, 68, 1)",
 	                // align: "start", // we align the title to the start of the axis
 	              },
 	              ticks: {
-	                beginAtZero: true,
-	                min: 0,
-	                max: 150,
+	                beginAtZero: false,
+	                color: "rgba(47, 179, 68, 1)",
 	              },
 	            },
+
+	            y2: {
+		              type: "linear",
+		              display: true,
+		              position: "left",
+		              title: {
+		                display: true,
+		                text: "Run Time (Second)",
+		                font: {
+		                  size: 12,
+		                },
+		                color: "rgba(247, 103, 7, 1)",
+		                // align: "start", // we align the title to the start of the axis
+		              },
+		              ticks: {
+		                beginAtZero: false,
+		                color: "rgba(247, 103, 7, 1)",
+		              },
+		            },
+
+	            
 	            // Secondary y-axis for Prices (Line Charts)
 	            y1: {
 	              type: "linear",
@@ -211,11 +233,13 @@
 	                display: true,
 	                text: "Cost (USD)",
 	                font: {
-	                  size: 14,
+	                  size: 12,
 	                },
+	                color: "rgba(66, 153, 225, 1)",
 	              },
 	              ticks: {
 	                beginAtZero: false,
+	                color: "rgba(66, 153, 225, 1)",
 	              },
 	            },
 	          },
@@ -288,8 +312,16 @@
 	
 	        // line chart data
 	        const totalCost = data.map((item) => item.srvcCostSum || null);
-	
+
+	        const expectedCost = data.map((item) => item.srvcCostExpSum || null);
+	        
+	        const fileSize = data.map((item) => item.fileSize || null);
+	        
+	        const jobTime = data.map((item) => item.jobTime || null);
+	        
 	        // Method to filter total cost from the first date of the month until today
+
+	        
 	        const filterTotalCostUntilToday = (data) => {
 	          const today = new Date();
 	          const firstDateOfMonth = new Date(
@@ -308,38 +340,14 @@
 	
 	        const filteredTotalCost = filterTotalCostUntilToday(data);
 	
-	        const expectedCost = data.map(
-	          (item) => item.srvcCostExpSum || null
-	        );
 
-			const randomData = Array.from({ length: 30 }, () => Math.floor(Math.random() * 100));
+
+//			const randomData = Array.from({ length: 30 }, () => Math.floor(Math.random() * 100));
 
 	        // Update the chart data
-	        initlaizedChart.data.labels = labels;
+	        usageChart.data.labels = labels;
 			serviceHistChart.data.labels = labels;
-	        initlaizedChart.data.datasets = [
-	          {
-	            type: "bar",
-	            label: "Storage",
-	            data: randomData,
-	            backgroundColor: "rgba(47, 179, 68, 0.3)",
-	            borderColor: "rgba(47, 179, 68, 1)",
-	            yAxisID: "y",
-	            borderWidth: 1,
-	            barThickness: "flex",
-	            maxBarThickness: 50,
-	          },
-	          {
-	            type: "bar",
-	            label: "Job Run",
-	            data: randomData,
-	            backgroundColor: "rgba(247, 103, 7, 0.3)",
-	            borderColor: "rgba(247, 103, 7, 1)",
-	            yAxisID: "y",
-	            borderWidth: 1,
-	            barThickness: "flex",
-	            maxBarThickness: 50,
-	          },
+	        usageChart.data.datasets = [
 	          {
 	            type: "line",
 	            label: "Cost up to now",
@@ -347,9 +355,9 @@
 	            fill: false,
 	            borderColor: "rgba(66, 153, 225, 1)",
 	            yAxisID: "y1",
-	            borderWidth: 1,
 	            spanGaps: true,
 	            borderWidth: 4,
+	            order: 0,
 	          },
 	          {
 	            type: "line",
@@ -358,9 +366,35 @@
 	            fill: false,
 	            borderColor: "rgba(102, 115, 130, 1)",
 	            yAxisID: "y1",
-	            borderWidth: 1,
 	            spanGaps: true,
 	            borderWidth: 4,
+	            order: 1,
+	          },
+	          {
+	            type: "bar",
+	            label: "Storage",
+	            data: fileSize,
+	            backgroundColor: "rgba(47, 179, 68, 0.3)",
+	            borderColor: "rgba(47, 179, 68, 1)",
+	            yAxisID: "y",
+	            borderWidth: 1,
+	            barThickness: "flex",
+	            barPercentage: 0.8,
+	            maxBarThickness: 50,
+	            order: 2,
+	          },
+	          {
+	            type: "bar",
+	            label: "Run Time",
+	            data: jobTime,
+	            backgroundColor: "rgba(247, 103, 7, 0.3)",
+	            borderColor: "rgba(247, 103, 7, 1)",
+	            yAxisID: "y2",
+	            borderWidth: 1,
+	            barThickness: "flex",
+	            barPercentage: 0.8,
+	            maxBarThickness: 50,
+	            order: 3,
 	          },
 	        ];
 			serviceHistChart.data.datasets = [
@@ -387,10 +421,9 @@
 				maxBarThickness: 50,
 	          }
 			];
-	        
-	
+
 	        // Update the chart
-	        initlaizedChart.update();
+	        usageChart.update();
 			serviceHistChart.update();
 	      }
 	
@@ -410,7 +443,7 @@
 	
 	        // Validate that both month and year are selected
 	        if (!month || !year) {
-	          alert("Please select both month and year.");
+	          alert("Please select both year and month.");
 	          return;
 	        }
 	
@@ -430,10 +463,10 @@
 	            updateChart(data);
 	            if (data && data.length > 0) {
 
-		          let storageUsage = data[0].fileSize;
+		          let storageUsage = data[0].maxFileSizeSum;
 	              let storageCostUsage = data[0].maxFileCostSum;
 
-	              let jobrunUsage = data[0].jobTime;
+	              let jobrunUsage = data[0].maxJobTimeSum;
 	              let jobrunCostUsage = data[0].maxJobCostExpSum;	              
 	              
 	              let totalCostUsage = data[0].maxSrvcCostSum;
