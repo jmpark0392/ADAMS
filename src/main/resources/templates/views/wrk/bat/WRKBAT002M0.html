@@ -225,13 +225,13 @@
 			console.log("Initializing SlickGrid...");
 
 			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "") {
-				alert("Please select a year, month!");
+				alert("Please select a year and month.");
 				return;
 			} else if ($("#inputYear").val() === "") {
-				alert("Please select a year to continue!");
+				alert("Please select a year.");
 				return;
 			} else if ($("#inputMonth").val() === "") {
-				alert("Please select a month to continue!");
+				alert("Please select a month.");
 				return;
 			} 
 			const element = document.getElementById("divMyGrid");
@@ -434,14 +434,14 @@
 		// Execute Batch programs
 		document.getElementById("executeBatch").addEventListener("click", function () {
 			if (selectedPrograms.length > 0){
-				if(confirm("Do you want to run the Execution?")) { // 확인 후 자연스러운 멘트 변경 필요
+				if(confirm("Do you want to execute the selected program(s)?")) { // 확인 후 자연스러운 멘트 변경 필요
 					console.log("selectedPrograms: ", selectedPrograms);
 					console.log("Stanard YYMM: ", getStdYymm());
 					selectedPrograms.forEach((row)=>{
 						const bPId = row.batProgId;
 						fn_execute_batch(bPId, getStdYymm());
 					})
-					alert("Successfully Execution.");
+					alert("Successfully executed.");
 				} else {
 				return;
 				}
