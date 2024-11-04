@@ -401,8 +401,8 @@
 	            type: "bar",
 	            label: "Basic Service",
 				data: bsrvcVal,
-				backgroundColor: "rgba(255, 99, 132, 0.2)",
-				borderColor: "rgba(255, 99, 132, 1)",
+				backgroundColor: "rgba(54, 162, 235, 0.2)",
+				borderColor: "rgba(54, 162, 235, 1)",
 				yAxisID: "y",
 				borderWidth: 1,
 				barThickness: "flex",
@@ -412,8 +412,8 @@
 	            type: "bar",
 	            label: "Premium Service",
 				data: psrvcVal,
-				backgroundColor: "rgba(54, 162, 235, 0.2)",
-				borderColor: "rgba(54, 162, 235, 1)",
+				backgroundColor: "rgba(255, 99, 132, 0.2)",
+				borderColor: "rgba(255, 99, 132, 1)",
 				yAxisID: "y",
 				borderWidth: 1,
 				barThickness: "flex",
@@ -466,12 +466,12 @@
 	              let storageCostUsage = data[0].maxFileCostSum;
 
 	              let jobrunUsage = data[0].maxJobTimeSum;
-	              let jobrunCostUsage = data[0].maxJobCostExpSum;	              
+	              let jobrunCostUsage = data[0].maxJobCostSum;
 	              
 	              let totalCostUsage = data[0].maxSrvcCostSum;
 	              let estimatedTotalCostUsage = data[0].maxSrvcCostExpSum;
 
-		          let serviceCost = parseFloat(totalCostUsage) - parseFloat(storageCostUsage) - parseFloat(jobrunCostUsage);
+		          let serviceCost = data[0].maxSrvcOptCostSum;
 	              
 //	              console.log("totalCostUsage", totalCostUsage);
 //	              console.log("estimatedUsage", estimatedUsage);

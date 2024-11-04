@@ -238,8 +238,8 @@
                , ISNULL(I.OPT_DTLS_VLU , 0 )  AS OPT_DTLS_VLU_EXP
                , CASE WHEN ISNULL(K.FILE_UNIT     , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE     , 0 ) / ISNULL(K.FILE_UNIT     , 0 ) END  AS FILE_SIZE
                , CASE WHEN ISNULL(K.FILE_UNIT_EXP , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE_EXP , 0 ) / ISNULL(K.FILE_UNIT_EXP , 0 ) END  AS FILE_SIZE_EXP
-               , ISNULL(K.FILE_COST     , 0 ) AS FILE_COST
-               , ISNULL(K.FILE_COST_EXP , 0 ) AS FILE_COST_EXP
+               , ( CASE WHEN ISNULL(K.FILE_UNIT     , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE     , 0 ) / ISNULL(K.FILE_UNIT     , 0 ) END ) * ISNULL(K.FILE_COST     , 0 ) AS FILE_COST
+               , ( CASE WHEN ISNULL(K.FILE_UNIT_EXP , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE_EXP , 0 ) / ISNULL(K.FILE_UNIT_EXP , 0 ) END ) * ISNULL(K.FILE_COST_EXP , 0 ) AS FILE_COST_EXP
                , ISNULL(K.FILE_UNIT     , 0 ) AS FILE_UNIT
                , ISNULL(K.FILE_UNIT_EXP , 0 ) AS FILE_UNIT_EXP
                , CASE WHEN A.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( ( CASE WHEN ISNULL(K.FILE_UNIT     , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE     , 0 ) / ISNULL(K.FILE_UNIT     , 0 ) END ) * ISNULL(K.FILE_COST     , 0 ) )  OVER( PARTITION BY A.CS_NO ORDER BY A.YMD  ROWS UNBOUNDED PRECEDING )
@@ -250,8 +250,8 @@
                  END                          AS FILE_COST_EXP_SUM
                , ISNULL(L.JOB_TIME     , 0 )  AS JOB_TIME
                , ISNULL(L.JOB_TIME_EXP , 0 )  AS JOB_TIME_EXP
-               , ISNULL(M.JOB_COST     , 0 )  AS JOB_COST
-               , ISNULL(M.JOB_COST_EXP , 0 )  AS JOB_COST_EXP
+               , ( CASE WHEN ISNULL(M.JOB_UNIT     , 0 ) = 0 THEN 0 ELSE ISNULL(L.JOB_TIME     , 0 ) / ISNULL(M.JOB_UNIT     , 0 ) END ) * ISNULL(M.JOB_COST     , 0 )  AS JOB_COST
+               , ( CASE WHEN ISNULL(M.JOB_UNIT_EXP , 0 ) = 0 THEN 0 ELSE ISNULL(L.JOB_TIME_EXP , 0 ) / ISNULL(M.JOB_UNIT_EXP , 0 ) END ) * ISNULL(M.JOB_COST_EXP , 0 )  AS JOB_COST_EXP
                , ISNULL(M.JOB_UNIT     , 0 )  AS JOB_UNIT
                , ISNULL(M.JOB_UNIT_EXP , 0 )  AS JOB_UNIT_EXP
                , CASE WHEN A.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( ( CASE WHEN ISNULL(M.JOB_UNIT     , 0 ) = 0 THEN 0 ELSE ISNULL(L.JOB_TIME     , 0 ) / ISNULL(M.JOB_UNIT     , 0 ) END ) * ISNULL(M.JOB_COST     , 0 ) )  OVER( PARTITION BY A.CS_NO ORDER BY A.YMD  ROWS UNBOUNDED PRECEDING )
@@ -313,22 +313,29 @@
         )
         SELECT 
                A.YMD
-             , SUM(A.B_SRVC_VAL)                                                           AS B_SRVC_VAL
-             , SUM(A.P_SRVC_VAL)                                                           AS P_SRVC_VAL
-             , MAX(A.SRVC_CD     + '|' + ISNULL(A.OPT_DTLS_CD,''))                         AS SRVC_CD
-             , MAX(A.SRVC_CD_EXP + '|' + ISNULL(A.OPT_DTLS_CD_EXP,''))                     AS SRVC_CD_EXP
-             , FLOOR( SUM( A.FILE_SIZE ) * 100 ) / 100                                     AS FILE_SIZE
-             , FLOOR( SUM( A.JOB_TIME )  * 100 ) / 100                                     AS JOB_TIME
-             , FLOOR( ( SUM(A.SRVC_COST)         + SUM(A.OPT_COST)         + SUM(A.FILE_COST)         + SUM(A.JOB_COST)        ) * 100 ) / 100               AS SRVC_COST
-             , FLOOR( ( SUM(A.SRVC_COST_EXP)     + SUM(A.OPT_COST_EXP)     + SUM(A.FILE_COST_EXP)     + SUM(A.JOB_COST_EXP)    ) * 100 ) / 100               AS SRVC_COST_EXP
-             , FLOOR( ( SUM(A.SRVC_COST_SUM)     + SUM(A.OPT_COST_SUM)     + SUM(A.FILE_COST_SUM)     + SUM(A.JOB_COST_SUM)    ) * 100 ) / 100               AS SRVC_COST_SUM
-             , FLOOR( ( SUM(A.SRVC_COST_EXP_SUM) + SUM(A.OPT_COST_EXP_SUM) + SUM(A.FILE_COST_EXP_SUM) + SUM(A.JOB_COST_EXP_SUM)) * 100 ) / 100               AS SRVC_COST_EXP_SUM
-             , MAX( FLOOR( ( SUM(A.SRVC_COST_SUM)     + SUM(A.OPT_COST_SUM)     + SUM(A.FILE_COST_SUM)     + SUM(A.JOB_COST_SUM)    ) * 100 ) / 100 ) OVER() AS MAX_SRVC_COST_SUM
-             , MAX( FLOOR( ( SUM(A.SRVC_COST_EXP_SUM) + SUM(A.OPT_COST_EXP_SUM) + SUM(A.FILE_COST_EXP_SUM) + SUM(A.JOB_COST_EXP_SUM)) * 100 ) / 100 ) OVER() AS MAX_SRVC_COST_EXP_SUM
-             , FLOOR( ( SUM( SUM( A.FILE_SIZE ) )  OVER() ) * 100 ) /100                   AS MAX_FILE_SIZE_SUM
-             , FLOOR( ( SUM( SUM( A.JOB_TIME )  )  OVER() ) * 100 ) /100                   AS MAX_JOB_TIME_SUM
-             , MAX( FLOOR( SUM(A.FILE_COST_SUM ) * 100 ) / 100 ) OVER()                    AS MAX_FILE_COST_SUM
-             , MAX( FLOOR( SUM(A.JOB_COST_SUM )  * 100 ) / 100 ) OVER()                    AS MAX_JOB_COST_EXP_SUM
+             , SUM( A.B_SRVC_VAL )                                                          AS B_SRVC_VAL
+             , SUM( A.P_SRVC_VAL )                                                          AS P_SRVC_VAL
+             , MAX( A.SRVC_CD     + '|' + ISNULL( A.OPT_DTLS_CD    , '' ) )                 AS SRVC_CD
+             , MAX( A.SRVC_CD_EXP + '|' + ISNULL( A.OPT_DTLS_CD_EXP, '' ) )                 AS SRVC_CD_EXP
+             /* 정액제 요금 */
+             , FLOOR( ( SUM(A.SRVC_COST_SUM)     + SUM(A.OPT_COST_SUM)     ) * 100 ) / 100               AS SRVC_OPT_COST_SUM          /* 서비스, 옵션 일별 누적 합계 비용 */
+             , FLOOR( ( SUM(A.SRVC_COST_EXP_SUM) + SUM(A.OPT_COST_EXP_SUM) ) * 100 ) / 100               AS SRVC_OPT_COST_EXP_SUM      /* 서비스, 옵션 일별 누적 합계 예상 비용 */
+             , MAX( FLOOR( ( SUM(A.SRVC_COST_SUM)     + SUM(A.OPT_COST_SUM)     ) * 100 ) / 100 ) OVER() AS MAX_SRVC_OPT_COST_SUM      /* 서비스, 옵션 현재 비용 */
+             , MAX( FLOOR( ( SUM(A.SRVC_COST_EXP_SUM) + SUM(A.OPT_COST_EXP_SUM) ) * 100 ) / 100 ) OVER() AS MAX_SRVC_OPT_COST_EXP_SUM  /* 서비스, 옵션 예상 비용 */
+             /* 종량제 요금 */
+             , FLOOR( SUM( A.FILE_SIZE ) * 100 ) / 100                                      AS FILE_SIZE               /* 파일 사이즈 일별 사용량 */
+             , FLOOR( SUM( A.JOB_TIME )  * 100 ) / 100                                      AS JOB_TIME                /* JOB 실행 시간 일별 사용량 */
+             , FLOOR( ( SUM( SUM( A.FILE_SIZE ) )  OVER() ) * 100 ) /100                    AS MAX_FILE_SIZE_SUM       /* 파일 사이즈 현재사용량 */
+             , FLOOR( ( SUM( SUM( A.JOB_TIME )  )  OVER() ) * 100 ) /100                    AS MAX_JOB_TIME_SUM        /* JOB 실행 시간 현재사용량 */
+             , MAX( FLOOR( SUM(A.FILE_COST_SUM ) * 100 ) / 100 ) OVER()                     AS MAX_FILE_COST_SUM       /* 파일 사이즈 현재비용 */
+             , MAX( FLOOR( SUM(A.JOB_COST_SUM )  * 100 ) / 100 ) OVER()                     AS MAX_JOB_COST_SUM        /* JOB 실행 시간 현재비용 */
+             /* 요금제 합계 */
+             , FLOOR( ( SUM(A.SRVC_COST)         + SUM(A.OPT_COST)         + SUM(A.FILE_COST)         + SUM(A.JOB_COST)        ) * 100 ) / 100               AS SRVC_COST              /* 전체 서비스 일별 비용 */
+             , FLOOR( ( SUM(A.SRVC_COST_EXP)     + SUM(A.OPT_COST_EXP)     + SUM(A.FILE_COST_EXP)     + SUM(A.JOB_COST_EXP)    ) * 100 ) / 100               AS SRVC_COST_EXP          /* 전체 서비스 일별 예상 비용 */
+             , FLOOR( ( SUM(A.SRVC_COST_SUM)     + SUM(A.OPT_COST_SUM)     + SUM(A.FILE_COST_SUM)     + SUM(A.JOB_COST_SUM)    ) * 100 ) / 100               AS SRVC_COST_SUM          /* 전체 서비스 누적 합계 */
+             , FLOOR( ( SUM(A.SRVC_COST_EXP_SUM) + SUM(A.OPT_COST_EXP_SUM) + SUM(A.FILE_COST_EXP_SUM) + SUM(A.JOB_COST_EXP_SUM)) * 100 ) / 100               AS SRVC_COST_EXP_SUM      /* 전체 서비스 누적 합계 예상 비용 */
+             , MAX( FLOOR( ( SUM(A.SRVC_COST_SUM)     + SUM(A.OPT_COST_SUM)     + SUM(A.FILE_COST_SUM)     + SUM(A.JOB_COST_SUM)    ) * 100 ) / 100 ) OVER() AS MAX_SRVC_COST_SUM      /* 전체 서비스 현재 비용 */
+             , MAX( FLOOR( ( SUM(A.SRVC_COST_EXP_SUM) + SUM(A.OPT_COST_EXP_SUM) + SUM(A.FILE_COST_EXP_SUM) + SUM(A.JOB_COST_EXP_SUM)) * 100 ) / 100 ) OVER() AS MAX_SRVC_COST_EXP_SUM  /* 전체 서비스 예상 비용 */
           FROM TMP_RESULT  AS A
          WHERE 1=1
          GROUP BY A.YMD
