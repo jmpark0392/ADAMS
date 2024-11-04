@@ -225,13 +225,13 @@
 			console.log("Initializing SlickGrid...");
 
 			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "") {
-				alert("Please select a year and month.");
+				alert("Please select a year, month!");
 				return;
 			} else if ($("#inputYear").val() === "") {
-				alert("Please select a year.");
+				alert("Please select a year to continue!");
 				return;
 			} else if ($("#inputMonth").val() === "") {
-				alert("Please select a month.");
+				alert("Please select a month to continue!");
 				return;
 			} 
 			const element = document.getElementById("divMyGrid");
@@ -245,7 +245,9 @@
 					)
 				);
 		}
-	
+		
+		let sCnt = 0;
+		let fCnt = 0;
 		/**
 		 * Transaction callback 함수
 		**/
@@ -259,6 +261,18 @@
 						fn_setGrid(resultData);
 						
 					break;
+					case "ExecuteList" :
+						console.log("executeList case");
+						if ( resultData.resultCode == "200" ) {
+							sCnt += 1;
+							console.log("sCnt "+sCnt);
+
+						} else {
+							fCnt += 1;
+
+						}
+						break;
+					
 				}
 			} else if( result.resultCd == "E") {
 				
@@ -380,46 +394,53 @@
 		 };
 		 
 		function fn_execute_batch(batchProgramId, stdyymm) {
-			var urls = [];
-			var input	=	JSON.stringify({
-							stdYymm		: stdyymm
+			return new Promise((resolve, reject) => {
+				var urls = [];
+				var input	=	JSON.stringify({ stdYymm : stdyymm });
+				
+				switch (batchProgramId) {
+					case "B0001":
+						urls.push("/BIZINS001M0ExecuteList");
+						break;
+					case "B0002":
+						urls.push("/BIZINS002M0ExecuteList");
+						break;
+					case "B0003":
+						urls.push("/BIZINS003M0ExecuteList");
+						break;
+					case "B0004":
+						urls.push("/BIZJNL003M0ExecuteList");
+						break;
+					case "B0005":
+						// FST001, 002 generate 동일해서 한번만 실행
+						urls.push("/BIZFST001M0ExecuteList");
+						break;
+					case "B0006":
+						urls.push("/BIZADT001M0ExecuteList");
+						break;				
+				}
+			
+				let promises = urls.map(url => {
+					return new Promise((resolve, reject) => {
+						var option	=	{
+										id			: "ExecuteList"
+									,	type		: "post"
+									,	url 		: url
+									,	async		: false
+									,	dataType	: "text"
+									,	contentType	: "application/json; charset=utf-8"
+									,	data		: input
+						};
+						gf_Transaction(option, (result) => {
+							fn_callback(result);
+							resolve(result);
 						});
+					});
+				});
 			
-			switch (batchProgramId) {
-				case "B0001":
-					urls.push("/BIZINS001M0ExecuteList");
-				break;
-				case "B0002":
-					urls.push("/BIZINS002M0ExecuteList");
-				break;
-				case "B0003":
-					urls.push("/BIZINS003M0ExecuteList");
-				break;
-				case "B0004":
-					urls.push("/BIZJNL003M0ExecuteList");
-				break;
-				case "B0005":
-					urls.push("/BIZFST001M0ExecuteList");
-					urls.push("/BIZFST002M0ExecuteList");
-				break;
-				case "B0006":
-					urls.push("/BIZADT001M0ExecuteList");
-				break;				
-			}
-			
-			urls.forEach((url)=>{
-				var option	=	{
-								id			: "ExecuteList"
-							,	type		: "post"
-							,	url 		: url
-							,	async		: false
-							,	dataType	: "text"
-							,	contentType	: "application/json; charset=utf-8"
-							,	data		: input
-							};
-				gf_Transaction(option, fn_callback);
-			})
-		};
+				Promise.all(promises).then(resolve).catch(reject);
+			});
+		}
 
 		// Download Excel functionality
 		document.getElementById("downloadExcel").addEventListener("click", function () {
@@ -434,16 +455,23 @@
 		// Execute Batch programs
 		document.getElementById("executeBatch").addEventListener("click", function () {
 			if (selectedPrograms.length > 0){
-				if(confirm("Do you want to execute the selected program(s)?")) { // 확인 후 자연스러운 멘트 변경 필요
+				if(confirm("Do you want to run the Execution?")) { // 확인 후 자연스러운 멘트 변경 필요
 					console.log("selectedPrograms: ", selectedPrograms);
 					console.log("Stanard YYMM: ", getStdYymm());
-					selectedPrograms.forEach((row)=>{
+					
+					let promises = selectedPrograms.map(row => {
 						const bPId = row.batProgId;
-						fn_execute_batch(bPId, getStdYymm());
-					})
-					alert("Successfully executed.");
-				} else {
-				return;
+						return fn_execute_batch(bPId, getStdYymm());
+					});
+					
+					Promise.all(promises).then(() => {
+						alert("Success "+sCnt+" Fail "+fCnt);
+						// 카운트 초기화
+						sCnt = 0;
+						fCnt = 0;
+					}).catch(error => {
+						console.error("Batch execution failed: ", error);
+					});
 				}
 			}
 		});
