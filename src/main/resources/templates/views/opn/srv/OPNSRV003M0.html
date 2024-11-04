@@ -110,7 +110,7 @@
       $(document).ready(function () {
         console.log("Document is ready.");
         //화면 접속시 바로 조회
-        getGridData();
+        //getGridData();
         //send버튼 누르면, 조건적용하여 검색
         $("#send").click(getGridData);
         //엔터키누르면, 조건적용하여 검색
@@ -337,13 +337,20 @@
         // 그리드 초기화 및 데이터 로드
         console.log("Initializing SlickGrid...");
 
-        const companyCode = document.getElementById("companyCode").value || ""
+
+        // these will be used to get the month and year from the user
+        const month = document.getElementById("inputMonth").value;
+        const year = document.getElementById("inputYear").value;
+        const conpanyCode = document.getElementById("companyCode").value || "0";
+        const stdYymm = year + month.padStart(2, "0");
+        
         console.log("company code: ", companyCode);
 
         // here we make a call to get the grid data
         getCsList(
           (input = JSON.stringify({
-            csNo: companyCode
+              ymd: stdYymm,
+              csNo: conpanyCode
           }))
         );
       }

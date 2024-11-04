@@ -26,6 +26,9 @@ import lombok.Setter;
  
 public class OPNSRV003M0P1DTO {
 
+    @Schema(description = "년월일")
+    private String ymd;
+    
     @Schema(description = "customer_number")
     private String csNo;
 
