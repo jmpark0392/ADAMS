@@ -412,7 +412,7 @@
 						urls.push("/BIZJNL003M0ExecuteList");
 						break;
 					case "B0005":
-						// FST001, 002 generate 동일해서 한번만 실행
+						// FST001, 002 공통이라 한번만 실행
 						urls.push("/BIZFST001M0ExecuteList");
 						break;
 					case "B0006":
@@ -455,7 +455,7 @@
 		// Execute Batch programs
 		document.getElementById("executeBatch").addEventListener("click", function () {
 			if (selectedPrograms.length > 0){
-				if(confirm("Do you want to run the Execution?")) { // 확인 후 자연스러운 멘트 변경 필요
+				if(confirm("Do you want to run the Execution?")) {
 					console.log("selectedPrograms: ", selectedPrograms);
 					console.log("Stanard YYMM: ", getStdYymm());
 					
