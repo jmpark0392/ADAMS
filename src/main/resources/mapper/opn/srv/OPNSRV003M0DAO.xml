@@ -665,7 +665,7 @@
                   , '1'                                 AS GRP
                   , ISNULL(A.SRVC_CD, A.SRVC_CD_EXP)    AS SRVC_CD
                   , ISNULL(B.SRVC_NM, C.SRVC_NM)        AS SRVC_NM
-                  , COUNT(A.SRVC_CD)                    AS DAY_CNT
+                  , CAST( COUNT(A.SRVC_CD) AS varchar(15) ) + ' day'    AS DAY_CNT
                   , ROUND( SUM(A.SRVC_COST)     , 2)    AS SRVC_COST_SUM
                   , ROUND( SUM(A.SRVC_COST_EXP) , 2)    AS SRVC_COST_EXP_SUM
                FROM TMP_RESULT                        A
@@ -684,7 +684,7 @@
                   , '2'                                       AS GRP
                   , ISNULL(A.OPT_DTLS_CD, A.OPT_DTLS_CD_EXP)  AS SRVC_CD
                   , ISNULL(D.OPT_NM +' : '+ B.OPT_DTLS_NM, E.OPT_NM +' : '+ C.OPT_DTLS_NM)      AS SRVC_NM
-                  , COUNT(A.OPT_DTLS_CD)                      AS DAY_CNT
+                  , CAST( COUNT(A.OPT_DTLS_CD) AS varchar(15) ) + ' day'                        AS DAY_CNT
                   , ROUND( SUM(A.OPT_COST)     , 2)           AS SRVC_COST_SUM
                   , ROUND( SUM(A.OPT_COST_EXP) , 2)           AS SRVC_COST_EXP_SUM
                FROM TMP_RESULT                            A
@@ -703,6 +703,52 @@
               GROUP BY A.CS_NO
                      , ISNULL(A.OPT_DTLS_CD, A.OPT_DTLS_CD_EXP)
                      , ISNULL(D.OPT_NM +' : '+ B.OPT_DTLS_NM, E.OPT_NM +' : '+ C.OPT_DTLS_NM)
+             UNION ALL 
+             SELECT 
+                    A.CS_NO
+                  , '3'                                        AS GRP
+                  , ISNULL(C.OPT_DTLS_CD, '001')               AS SRVC_CD
+                  , ISNULL(B.OPT_NM, 'File Size')              AS SRVC_NM
+                  , FORMAT( CAST((FLOOR( SUM(A.FILE_SIZE)     * 100 ) / 100) AS DECIMAL(15,2) ), '#,#.#0' ) + '  kb'  AS DAY_CNT
+                  , FLOOR( SUM(A.FILE_COST)     * 100 ) / 100  AS SRVC_COST_SUM
+                  , FLOOR( SUM(A.FILE_COST_EXP) * 100 ) / 100  AS SRVC_COST_EXP_SUM
+               FROM TMP_RESULT                             A
+               LEFT OUTER JOIN RDSDB.dbo.TB_OPT_HIST       B
+                            ON B.OPT_CD      = '02'
+                           AND CONVERT(CHAR(8),GETDATE(),112) BETWEEN CONVERT(CHAR(8),B.OPT_STR_DTM,112) AND CONVERT(CHAR(8),B.OPT_END_DTM,112)
+               LEFT OUTER JOIN RDSDB.dbo.TB_OPT_DTLS_HIST  C
+                            ON B.OPT_CD      = C.OPT_CD
+                           AND C.USE_YN      = 'Y'
+                           AND C.DEL_YN      = 'N'
+                           AND CONVERT(CHAR(8),GETDATE(),112) BETWEEN CONVERT(CHAR(8),C.OPT_DTLS_STR_DTM,112) AND CONVERT(CHAR(8),C.OPT_DTLS_END_DTM,112)
+              WHERE 1=1
+              GROUP BY A.CS_NO
+                     , ISNULL(C.OPT_DTLS_CD, '001')
+                     , ISNULL(B.OPT_NM, 'File Size')
+             HAVING SUM(A.FILE_SIZE) != 0
+             UNION ALL 
+             SELECT 
+                    A.CS_NO
+                  , '4'                                       AS GRP
+                  , ISNULL(C.OPT_DTLS_CD, '001')              AS SRVC_CD
+                  , ISNULL(B.OPT_NM, 'Run Time')              AS SRVC_NM
+                  , FORMAT( CAST((FLOOR( SUM(A.JOB_TIME)     * 100 ) / 100) AS DECIMAL(15,2) ), '#,#.#0' ) + ' sec'  AS DAY_CNT
+                  , FLOOR( SUM(A.JOB_COST)     * 100 ) / 100  AS SRVC_COST_SUM
+                  , FLOOR( SUM(A.JOB_COST_EXP) * 100 ) / 100  AS SRVC_COST_EXP_SUM
+               FROM TMP_RESULT                             A
+               LEFT OUTER JOIN RDSDB.dbo.TB_OPT_HIST       B
+                            ON B.OPT_CD      = '03'
+                           AND CONVERT(CHAR(8),GETDATE(),112) BETWEEN CONVERT(CHAR(8),B.OPT_STR_DTM,112) AND CONVERT(CHAR(8),B.OPT_END_DTM,112)
+               LEFT OUTER JOIN RDSDB.dbo.TB_OPT_DTLS_HIST  C
+                            ON B.OPT_CD      = C.OPT_CD
+                           AND C.USE_YN      = 'Y'
+                           AND C.DEL_YN      = 'N'
+                           AND CONVERT(CHAR(8),GETDATE(),112) BETWEEN CONVERT(CHAR(8),C.OPT_DTLS_STR_DTM,112) AND CONVERT(CHAR(8),C.OPT_DTLS_END_DTM,112)
+              WHERE 1=1
+              GROUP BY A.CS_NO
+                     , ISNULL(C.OPT_DTLS_CD, '001')
+                     , ISNULL(B.OPT_NM, 'Run Time')
+             HAVING SUM(A.JOB_TIME) != 0
            ) A
      INNER JOIN RDSDB.dbo.TB_CS_MNG_LST B
              ON A.CS_NO = B.CS_NO

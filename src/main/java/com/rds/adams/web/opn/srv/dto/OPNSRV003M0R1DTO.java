@@ -42,7 +42,7 @@ public class OPNSRV003M0R1DTO {
     private String srvcNm;
 
     @Schema(description = "day_count")
-    private int dayCnt;
+    private String dayCnt;
 
     @Schema(description = "service_cos_sum")
     private int srvcCostSum;
