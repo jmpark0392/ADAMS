@@ -225,13 +225,13 @@
 			console.log("Initializing SlickGrid...");
 
 			if ( $("#inputMonth").val() === "" && $("#inputYear").val() === "") {
-				alert("Please select a year, month!");
+				alert("Please select a year and month.");
 				return;
 			} else if ($("#inputYear").val() === "") {
-				alert("Please select a year to continue!");
+				alert("Please select a year.");
 				return;
 			} else if ($("#inputMonth").val() === "") {
-				alert("Please select a month to continue!");
+				alert("Please select a month.");
 				return;
 			} 
 			const element = document.getElementById("divMyGrid");
@@ -455,7 +455,7 @@
 		// Execute Batch programs
 		document.getElementById("executeBatch").addEventListener("click", function () {
 			if (selectedPrograms.length > 0){
-				if(confirm("Do you want to run the Execution?")) {
+				if(confirm("Do you want to execute the selected program(s)?")) {
 					console.log("selectedPrograms: ", selectedPrograms);
 					console.log("Stanard YYMM: ", getStdYymm());
 					
