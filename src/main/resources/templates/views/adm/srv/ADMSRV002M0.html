@@ -124,12 +124,16 @@
 								<div class="tab-content">
 									<div class="tab-pane active show" id="tabs-profile">
 										<div class="container my-5">
-											<canvas id="usageChart" width="300" height="120"></canvas>
+											<div class="chartcontainer" style="height: 400px">
+												<canvas id="usageChart" width="300" height="120"></canvas>
+											</div>	
 										</div>
 									</div>
 									<div class="tab-pane" id="tabs-password">
 										<div class="container my-5">
-											<canvas id="serviceHist" width="300" height="120"></canvas>
+											<div class="chartcontainer"  style="height: 400px">
+												<canvas id="serviceHist" width="300" height="120"></canvas>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -156,6 +160,7 @@
 	        },
 	        options: {
 	          responsive: true,
+			  maintainAspectRatio: false,
 	          interaction: {
 	            mode: "index",
 	            intersect: false,
@@ -252,6 +257,7 @@
 	        },
 	        options: {
 	          responsive: true,
+			  maintainAspectRatio: false,
 	          interaction: {
 	            mode: "index",
 	            intersect: false,
