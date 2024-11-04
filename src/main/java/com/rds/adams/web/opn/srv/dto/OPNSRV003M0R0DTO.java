@@ -27,7 +27,7 @@ import lombok.Setter;
 public class OPNSRV003M0R0DTO {
     
     @Schema(description = "년월일")
-    private int ymd;                           
+    private int ymd;
 
     @Schema(description = "basic_cnt")
     private int basicCnt;
@@ -37,6 +37,12 @@ public class OPNSRV003M0R0DTO {
 
     @Schema(description = "user average")
     private int userAvg;
+
+    @Schema(description = "File Size")
+    private int fileSize;
+
+    @Schema(description = "Job Time")
+    private int jobTime;
 
     @Schema(description = "servuice_cost_sum")
     private int srvcCostSum;
