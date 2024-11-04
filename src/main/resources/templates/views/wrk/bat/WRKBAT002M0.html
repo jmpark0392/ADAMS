@@ -380,47 +380,73 @@
 		 };
 		 
 		function fn_execute_batch(batchProgramId, stdyymm) {
-			var urls = [];
-			var input	=	JSON.stringify({
-							stdYymm		: stdyymm
-						});
-			
-			switch (batchProgramId) {
-				case "B0001":
-					urls.push("/BIZINS001M0ExecuteList");
-				break;
-				case "B0002":
-					urls.push("/BIZINS002M0ExecuteList");
-				break;
-				case "B0003":
-					urls.push("/BIZINS003M0ExecuteList");
-				break;
-				case "B0004":
-					urls.push("/BIZJNL003M0ExecuteList");
-				break;
-				case "B0005":
-					urls.push("/BIZFST001M0ExecuteList");
-					urls.push("/BIZFST002M0ExecuteList");
-				break;
-				case "B0006":
-					urls.push("/BIZADT001M0ExecuteList");
-				break;				
-			}
-			
-			urls.forEach((url)=>{
-				var option	=	{
+		
+			return new Promise((resolve, reject) => {
+
+				var urls = [];
+				var input =	JSON.stringify({
+					stdYymm		: stdyymm
+				});
+
+				switch (batchProgramId) {
+					case "B0001":
+						urls.push("/BIZINS001M0ExecuteList");
+					break;
+					case "B0002":
+						urls.push("/BIZINS002M0ExecuteList");
+					break;
+					case "B0003":
+						urls.push("/BIZINS003M0ExecuteList");
+					break;
+					case "B0004":
+						urls.push("/BIZJNL003M0ExecuteList");
+					break;
+					case "B0005":
+						urls.push("/BIZFST001M0ExecuteList");
+						urls.push("/BIZFST002M0ExecuteList");
+					break;
+					case "B0006":
+						urls.push("/BIZADT001M0ExecuteList");
+					break;				
+				}
+
+				let promises = urls.map((url) => {
+					return new Promise((resolveAjax, rejectAjax) => {
+						var option	=	{
 								id			: "ExecuteList"
 							,	type		: "post"
 							,	url 		: url
-							,	async		: false
 							,	dataType	: "text"
 							,	contentType	: "application/json; charset=utf-8"
 							,	data		: input
-							};
-				gf_Transaction(option, fn_callback);
-			})
-		};
+							,   success     :  function (response) {
+									console.log("Success: ", response);
+									fn_callback({
+										id: "ExecuteList",
+										resultCd: "S",
+										data: response
+									});
+									resolveAjax();
+								}
+							,   error       : function (error) {
+									rejectAjax(error);
+								}
+						};
+						$.ajax(option);
+					});
+				});
 
+				Promise.all(promises)
+					.then(() => {
+						resolve();
+					})
+					.catch((error) => {
+						reject(error);
+					});
+
+			});
+		};
+							
 		// Download Excel functionality
 		document.getElementById("downloadExcel").addEventListener("click", function () {
 			const currDate = getCurrentDateTime();
@@ -432,19 +458,34 @@
 			});
 		
 		// Execute Batch programs
-		document.getElementById("executeBatch").addEventListener("click", function () {
+		document.getElementById("executeBatch").addEventListener("click", async function () {
 			if (selectedPrograms.length > 0){
 				if(confirm("Do you want to execute the selected program(s)?")) { // 확인 후 자연스러운 멘트 변경 필요
 					console.log("selectedPrograms: ", selectedPrograms);
 					console.log("Stanard YYMM: ", getStdYymm());
-					selectedPrograms.forEach((row)=>{
-						const bPId = row.batProgId;
-						fn_execute_batch(bPId, getStdYymm());
-					})
-					alert("Successfully executed.");
+
+					await showSpinner();
+
+					try {
+						for( const row of selectedPrograms) {
+							const bPId = row.batProgId;
+							await fn_execute_batch(bPId, getStdYymm());
+						}
+						// await hideSpinner();
+					} catch (error) {
+						await hideSpinner();
+						console.error("Error: ", error);
+						alert("An error occurred while executing the batch program(s).");
+					} finally {
+						await hideSpinner();
+						alert("Successfully executed.");
+						document.getElementById("executeBatch").disabled = false;
+					}
 				} else {
-				return;
+					return;
 				}
+			} else {
+				alert("Please select a program to execute.");
 			}
 		});
 	</script>

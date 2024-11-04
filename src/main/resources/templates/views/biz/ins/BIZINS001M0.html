@@ -111,30 +111,51 @@
 		}
 		
 		// settle 함수에 보낼 데이터를 가져오는 함수
-		function getSummarize(){
+		async function getSummarize(){
 			var inputStdYymm = getStdYymm();
 			var input = JSON.stringify({ stdYymm: inputStdYymm });
 			//console.log("getsummarize input : " + input);
 		
 			if(confirm("Do you want to calculate Insurance movement?") == true){
-				summarize(input);
+				await showSpinner();
+				try {
+					const resultData = await summarize (input);
+					await hideSpinner();
+					alert("Successfully Calculated!");
+					main(); // will refrsh the data
+				} catch (error) {
+					await hideSpinner();
+					console.log("error occured" + error.message);
+				}
 			}
 		}
 		
 		function summarize(input) {
-			
-			//console.log("summarize input : " + input);
-			var option = {
-							id			: "ExecuteList"
-						,	type		: "post"
-						,	url			: "/BIZINS001M0ExecuteList"
-						,	async		: false
-						,	dataType	: "text"
-						,	contentType	: "application/json; charset=utf-8"
-						,	data		: input
-						};
-			
-			gf_Transaction(option, fn_callback);
+			return new Promise((resolve, reject) => {
+				var option = {
+						id			: "ExecuteList"
+					,	type		: "post"
+					,	url			: "/BIZINS001M0ExecuteList"
+					,	dataType	: "text"
+					,	contentType	: "application/json; charset=utf-8"
+					,	data		: input
+				}
+				gf_Transaction(option, async function(result) {
+					if(result.resultCd === "S") {
+						let resultData = typeof result.data === "string" ? JSON.parse(result.data) : result.data;
+						if(resultData.resultCode === "200" && result.id === "ExecuteList") {
+							resolve(resultData);
+							// document.getElementById("executeBatch").disabled = false;
+						} else {
+							reject(resultData);
+							alert("Save Fail Error : " + resultData.resultMessage);
+						}
+					} else {
+						console.log("fn_callback result : ", result);
+						reject(result);
+					}
+				});
+			});
 		}
 
 	</script>
