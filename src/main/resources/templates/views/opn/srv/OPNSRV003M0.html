@@ -82,7 +82,9 @@
 				<div class="col-12 mb-3">
 					<div class="card card-md">
 						<div class="container my-5">
-							<canvas id="mixedChart" width="300" height="150"></canvas>
+              <div class="chartcontainer" style="height: 500px;">
+							  <canvas id="mixedChart" width="300" height="150"></canvas>
+              </div>  
 						</div>
 					</div>
 				</div>
@@ -473,6 +475,7 @@
           },
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             interaction: {
               mode: "index",
               intersect: false,
