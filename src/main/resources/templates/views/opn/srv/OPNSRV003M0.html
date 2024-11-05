@@ -266,14 +266,14 @@
           width: 120,
           headerCssClass: "slick-header-columns",
           cssClass: "slick-column-right",
-          formatter: numberFormatter && cellValueFormatter,
+          formatter: cellValueFormatter
         },
         {
           id: "srvcCostExpTotal",
           name: "Expected Total Cost",
           field: "srvcCostExpTotal",
           sortable: true,
-          formatter: numberFormatter && cellValueFormatter,
+          formatter: cellValueFormatter,
           editor: Slick.Editors.Text,
           validator: (value, args) =>
             complexValidator(value, args, [
@@ -292,16 +292,15 @@
 
         if(value !== null && !isNaN(value)){
           // console.log("ADDING THE FORMAT: ", value);
-          return value.toLocaleString("en-US");
+          return value.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
         } else {
           return value;
         }
         console.log("ADDING THE FORMAT: ", value);
       }
-
-      // const testValue = data[0].srvcCostSum;
-      // console.log(numberFormatter(0, 0, testValue, null, null)); // Should output formatted number  
-
 
       function cellValueFormatter(row, cell, value, columnDef, dataContext) {
         var dataView = grid.getData();
@@ -311,12 +310,19 @@
           console.log("total cost data column: ", prevItem.srvcCostTotal);
 
           if ((prevItem && prevItem.compNm === value) || (prevItem && prevItem.srvcCostTotal === value) || (prevItem && prevItem.srvcCostExpTotal === value)) {
-            // we return an emoty strng to hide the value of the cell
+            // we return an empty string to hide the value of the cell
             return "";
           }
         }
+        if (value) {
+          return value.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+        }
         return value;
       }
+
 
       function applyCellStyleToEmpty() {
           var data = dataView.getItems();
