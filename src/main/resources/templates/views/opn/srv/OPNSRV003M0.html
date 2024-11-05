@@ -266,14 +266,14 @@
           width: 120,
           headerCssClass: "slick-header-columns",
           cssClass: "slick-column-right",
-          formatter: cellValueFormatter
+          formatter: combinedFormatter
         },
         {
           id: "srvcCostExpTotal",
           name: "Expected Total Cost",
           field: "srvcCostExpTotal",
           sortable: true,
-          formatter: cellValueFormatter,
+          formatter: combinedFormatter,
           editor: Slick.Editors.Text,
           validator: (value, args) =>
             complexValidator(value, args, [
@@ -300,67 +300,62 @@
       }
 
       function cellValueFormatter(row, cell, value, columnDef, dataContext) {
-        var dataView = grid.getData();
+          var dataView = grid.getData();
 
-        if (row > 0) {
-          let prevItem = dataView.getItem(row - 1);
-          console.log("total cost data column: ", prevItem.srvcCostTotal);
+          if (row > 0) {
+            let prevItem = dataView.getItem(row - 1);
+            let field = columnDef.field;
+            console.log("total cost data column: ", prevItem.srvcCostTotal);
 
-          if ((prevItem && prevItem.compNm === value) || (prevItem && prevItem.srvcCostTotal === value) || (prevItem && prevItem.srvcCostExpTotal === value)) {
-            // we return an empty string to hide the value of the cell
-            return "";
+            if(prevItem && prevItem[field] === dataContext[field]){
+              return "";
           }
-        }
-        if (value) {
-          return value.toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          });
         }
         return value;
       }
 
+      function combinedFormatter(row, cell, value, columnDef, dataContext) {
+          value = cellValueFormatter(row, cell, value, columnDef, dataContext);
+          if (value !== "") {
+            value = numberFormatter(row, cell, value, columnDef, dataContext);
+          }
+          return value;
+      }
+
 
       function applyCellStyleToEmpty() {
-          var data = dataView.getItems();
-          var cellCssStyles = {};
+        var data = dataView.getItems();
+        var cellCssStyles = {};
 
-          for (var i = 1; i < data.length; i++) {
-            // we will check if the current row is the same as the previous row
-            if ((data[i].compNm === data[i - 1].compNm) || (data[i].srvcCostTotal === data[i - 1].srvcCostTotal) || (data[i].srvcCostExpTotal === data[i - 1].srvcCostExpTotal)) {
-                let rowId = dataView.getIdxById(data[i].id); // Use your unique identifier
-                let rowIdNew = dataView.getIdxById(data[i].id); 
-                let rowIdNew2 = dataView.getIdxById(data[i].id);
+        for (var i = 0; i < data.length; i++) {
+          if (i > 0) {
+            // Check if the current row's values are the same as the previous row's values
+            var isCompNmSame = data[i].compNm === data[i - 1].compNm;
+            var isSrvcCostTotalSame = data[i].srvcCostTotal === data[i - 1].srvcCostTotal;
+            var isSrvcCostExpTotalSame = data[i].srvcCostExpTotal === data[i - 1].srvcCostExpTotal;
 
-                if (!cellCssStyles[rowId] ) { {
-                  cellCssStyles[rowId]  = {};
-                }
+            let rowId = dataView.getIdxById(data[i].id);
 
-                cellCssStyles[rowId]["compNm"] = "no-top-border";
+            if (!cellCssStyles[rowId]) {
+              cellCssStyles[rowId] = {};
+            }
 
-                if (!cellCssStyles[rowIdNew]) {
-                  cellCssStyles[rowIdNew] = {};
-                }
-                
-                cellCssStyles[rowIdNew]["srvcCostTotal"] = "no-top-border";
+            if (isCompNmSame) {
+              cellCssStyles[rowId]["compNm"] = "no-top-border";
+            }
 
-                if(!cellCssStyles[rowIdNew2]) {
-                  cellCssStyles[rowIdNew2] = {};
-                }
+            if (isSrvcCostTotalSame) {
+              cellCssStyles[rowId]["srvcCostTotal"] = "no-top-border";
+            }
 
-                cellCssStyles[rowIdNew2]["srvcCostExpTotal"] = "no-top-border";
-
-                // we set the value of the current row to an empty string
-                data[i].compNm = "";
-                data[i].srvcCostTotal = "";
-                data[i].srvcCostExpTotal = "";
-              }
+            if (isSrvcCostExpTotalSame) {
+              cellCssStyles[rowId]["srvcCostExpTotal"] = "no-top-border";
             }
           }
-          grid.setCellCssStyles("companyNameCellStyles", cellCssStyles);
-      }
-      
+        }
 
+        grid.setCellCssStyles("companyNameCellStyles", cellCssStyles);
+      }
 
       var options = {
         enableCellNavigation: true,
