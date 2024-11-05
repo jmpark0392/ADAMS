@@ -78,7 +78,9 @@
 							 , contentType : "application/json; charset=utf-8"
 							 , data        : input
 				             };
-				
+
+				fn_setGrid([]);
+				fn_setGridHist([]);
 				gf_Transaction(option, fn_callback );
 			}
 	
@@ -424,7 +426,7 @@
 				    }
 				});
 				
-				grid.setActiveCell(0, 0);
+				//grid.setActiveCell(0, 0);
 				console.log("SlickGrid initialized.");
 			}
 			

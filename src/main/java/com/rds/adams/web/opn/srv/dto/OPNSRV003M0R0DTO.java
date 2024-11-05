@@ -1,9 +1,11 @@
 package com.rds.adams.web.opn.srv.dto;
 
+import java.math.BigDecimal;
+
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.ToString;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * RDS STANDARD DEVELOP FRAMEWORK
@@ -39,15 +41,15 @@ public class OPNSRV003M0R0DTO {
     private int userAvg;
 
     @Schema(description = "File Size")
-    private int fileSize;
+    private BigDecimal fileSize;
 
     @Schema(description = "Job Time")
-    private int jobTime;
+    private BigDecimal jobTime;
 
     @Schema(description = "servuice_cost_sum")
-    private int srvcCostSum;
+    private BigDecimal srvcCostSum;
 
     @Schema(description = "service_cost_exepcted_sum")
-    private int srvcCostExpSum;
+    private BigDecimal srvcCostExpSum;
  
 }

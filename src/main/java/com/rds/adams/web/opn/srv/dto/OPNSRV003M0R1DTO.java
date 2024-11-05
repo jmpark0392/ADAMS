@@ -1,9 +1,11 @@
 package com.rds.adams.web.opn.srv.dto;
 
+import java.math.BigDecimal;
+
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.ToString; 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * RDS STANDARD DEVELOP FRAMEWORK
@@ -32,7 +34,7 @@ public class OPNSRV003M0R1DTO {
     @Schema(description = "company_name")
     private String compNm;
 
-    @Schema(description = "group_name")     
+    @Schema(description = "group_name")
     private int grp;
 
     @Schema(description = "service_code")
@@ -45,11 +47,11 @@ public class OPNSRV003M0R1DTO {
     private String dayCnt;
 
     @Schema(description = "service_cos_sum")
-    private int srvcCostSum;
+    private BigDecimal srvcCostSum;
 
     @Schema(description = "service_cost_total")
-    private int srvcCostTotal;
+    private BigDecimal srvcCostTotal;
 
     @Schema(description = "service_cost_expected_total")
-    private int srvcCostExpTotal;
+    private BigDecimal srvcCostExpTotal;
 }
