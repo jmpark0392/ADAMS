@@ -1,6 +1,8 @@
 
 let spinnerModal;
 let spinner;
+let messageTimeout;
+let loadingMessage;
 
 function showSpinner() {
     return new Promise((resolve) => {
@@ -10,7 +12,10 @@ function showSpinner() {
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content" style="background: transparent; border: none;">
                             <div class="modal-body text-center">
-                                <div id="spinnerContainer"></div>
+                                <div id="spinnerContainer">
+                                </div>
+                                <div id="loadingMessage" class="animated-message" style="margin-top: 90px;">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -27,6 +32,13 @@ function showSpinner() {
         spinner = new Spinner().spin(spinnerContainer);
 
         const spinnerModalElement = document.getElementById('spinnerModal');
+        loadingMessage = document.getElementById("loadingMessage");
+
+        loadingMessage.textContent = "It is being executed now ...";
+
+        messageTimeout = setTimeout(() => {
+            loadingMessage.textContent = "Please wait litte more ...";
+        }, 5000);
 
         // we wait for the modal to be fully shown
         spinnerModalElement.addEventListener('shown.bs.modal', function handler() {
@@ -56,6 +68,9 @@ function hideSpinner() {
                 resolve();
             });
 
+            clearTimeout(messageTimeout);
+            loadingMessage.textContent = "";
+
             if (spinner) {
                 spinner.stop();
             }
@@ -66,29 +81,3 @@ function hideSpinner() {
         }
     });
 }
-
-// function hideSpinner() {
-//     // const spinnerContainer = document.getElementById('spinnerContainer');
-//     return new Promise((resolve) => {
-//         if (spinnerModal) {
-//             let spinnerModalElement = document.getElementById('spinnerModal');
-//             spinnerModalElement.addEventListener('hidden.bs.modal', function handler() {
-//                 spinnerModalElement.removeEventListener('hidden.bs.modal', handler);
-//                 spinnerModalElement.parentNode.removeChild(spinnerModalElement);
-//                 spinnerModal = null;
-//                 spinner = null;
-//                 resolve();
-//             });
-
-//             if (spinner) {
-//                 spinner.stop();
-//             }
-
-//             $(spinnerContainer).fadeOut(200, function() {
-//                 spinnerModal.hide(); // Hide the modal
-//             });
-//         } else {
-//             resolve();
-//         }
-//     });
-// }

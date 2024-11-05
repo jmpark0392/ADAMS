@@ -522,13 +522,6 @@
 			
 			formData.append("uploadFileVal", $("#cmbUploadFileList").val());
 			formData.append("inpStdYymm", stdYymm);
-			
-			/*
-			  formData.append("param", new Blob([ JSON.stringify({
-															  uploadFile: $("#cmbUploadFileList").val(),
-															  stdYymm: $("#inpStdYymm").val(),
-																								})],
-												{ type: "application/json" }));	*/
 	
 			var result = {}
 
@@ -538,7 +531,8 @@
 			// we create a spinner 
 			await showSpinner();
 
-			$.ajax({
+			try {
+				$.ajax({
 					type        : "POST",
 					url         : "/WRKFIL003M0SaveUploadFile",
 					enctype     : 'multipart/form-data',
@@ -565,7 +559,10 @@
 										alert("File upload failed");
 
 								},
-			});
+				});
+			} catch (error) {
+				console.log("Error : " + error);
+			}
 		}
 		function clearSlickGridData() {
 			var grid = new Slick.Grid("#divMyGrid", [{}], [{}], [{}]);
