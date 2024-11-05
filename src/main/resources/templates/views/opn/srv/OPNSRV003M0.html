@@ -292,10 +292,7 @@
 
         if(value !== null && !isNaN(value)){
           // console.log("ADDING THE FORMAT: ", value);
-          return value.toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          });
+          return value.toLocaleString("en-US", { minimumFractionDigits: 2,maximumFractionDigits: 2 });
         } else {
           return value;
         }
