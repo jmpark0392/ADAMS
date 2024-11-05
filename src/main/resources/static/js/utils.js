@@ -666,15 +666,15 @@ function treeFilter(item) {
  ===========================================*/
 function gf_errorHandler(xhr) {
 	if (xhr.status == "403" || xhr.status == "404") {
-		$("#pageName").val("/error/error_400");
+		$("#pageName").val("error/error_400");
 	} else if (xhr.status == "500" || xhr.status == "503") {
-		$("#pageName").val("/error/error_500");
+		$("#pageName").val("error/error_500");
 	} else if (xhr.responseText == "FAIL_AUTHENTIC") {
 		$("#form").attr("action","/FailAuthentic");	
 	} else if (xhr.responseText == "FAIL_CSRFCERT") {
 		$("#form").attr("action","/FailCsrfCertificattion");
 	} else {
-		$("#pageName").val("/error/error");
+		$("#pageName").val("error/error");
 	}
 	/*
 	$.get("/TokenRefresh", function(data) {
