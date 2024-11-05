@@ -211,7 +211,7 @@
             ]),
           width: 150,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center",
+          cssClass: "slick-column-left",
           formatter: cellValueFormatter,
         },
         {
@@ -227,7 +227,7 @@
             ]),
           width: 150,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center",
+          cssClass: "slick-column-left",
         }, 
         {
           id: "dayCnt",
@@ -242,7 +242,7 @@
           },
           width: 100,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center",
+          cssClass: "slick-column-right",
         }, 
         {
           id: "srvcCostSum",
@@ -265,10 +265,25 @@
           validator: createValidator,
           width: 120,
           headerCssClass: "slick-header-columns",
-          cssClass: "slick-column-center",
+          cssClass: "slick-column-right",
           formatter: numberFormatter && cellValueFormatter,
-
         },
+        {
+          id: "srvcCostExpTotal",
+          name: "Expected Total Cost",
+          field: "srvcCostExpTotal",
+          sortable: true,
+          formatter: numberFormatter && cellValueFormatter,
+          editor: Slick.Editors.Text,
+          validator: (value, args) =>
+            complexValidator(value, args, [
+              createValidator,
+              noWhitespaceValidator,
+            ]),
+          width: 120,
+          headerCssClass: "slick-header-columns",
+          cssClass: "slick-column-right",
+        }
       ];
 
 
@@ -295,7 +310,7 @@
           let prevItem = dataView.getItem(row - 1);
           console.log("total cost data column: ", prevItem.srvcCostTotal);
 
-          if ((prevItem && prevItem.compNm === value) || (prevItem && prevItem.srvcCostTotal === value)) {
+          if ((prevItem && prevItem.compNm === value) || (prevItem && prevItem.srvcCostTotal === value) || (prevItem && prevItem.srvcCostExpTotal === value)) {
             // we return an emoty strng to hide the value of the cell
             return "";
           }
@@ -309,9 +324,10 @@
 
           for (var i = 1; i < data.length; i++) {
             // we will check if the current row is the same as the previous row
-            if ((data[i].compNm === data[i - 1].compNm) || (data[i].srvcCostTotal === data[i - 1].srvcCostTotal)) {
+            if ((data[i].compNm === data[i - 1].compNm) || (data[i].srvcCostTotal === data[i - 1].srvcCostTotal) || (data[i].srvcCostExpTotal === data[i - 1].srvcCostExpTotal)) {
                 let rowId = dataView.getIdxById(data[i].id); // Use your unique identifier
-                let rowIdNew = dataView.getIdxById(data[i - 1].id); 
+                let rowIdNew = dataView.getIdxById(data[i].id); 
+                let rowIdNew2 = dataView.getIdxById(data[i].id);
 
                 if (!cellCssStyles[rowId] ) { {
                   cellCssStyles[rowId]  = {};
@@ -325,8 +341,16 @@
                 
                 cellCssStyles[rowIdNew]["srvcCostTotal"] = "no-top-border";
 
+                if(!cellCssStyles[rowIdNew2]) {
+                  cellCssStyles[rowIdNew2] = {};
+                }
+
+                cellCssStyles[rowIdNew2]["srvcCostExpTotal"] = "no-top-border";
+
+                // we set the value of the current row to an empty string
                 data[i].compNm = "";
-                data[i - 1].srvcCostTotal = "";
+                data[i].srvcCostTotal = "";
+                data[i].srvcCostExpTotal = "";
               }
             }
           }
