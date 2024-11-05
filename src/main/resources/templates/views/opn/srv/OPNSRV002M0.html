@@ -134,8 +134,13 @@
 					, dataType: "json"
 					, contentType: "application/json; charset=utf-8"
 					, data: input,
-	};
+		};
 
+	    fn_setGrid([]);  // 첫 번째 그리드를 빈 데이터로 초기화
+	    fn_setGridOptionHistSelectList([]);  // 두 번째 그리드를 빈 데이터로 초기화
+	    fn_setGridOptionDetailsList([]);  // 세 번째 그리드를 빈 데이터로 초기화
+	    fn_setGridOptionDetailsHistList([]);  // 네 번째 그리드를 빈 데이터로 초기화
+	    
 		gf_Transaction(option, fn_callback);
 	}
 
@@ -166,6 +171,7 @@
 					, data: input,
 		};
 
+	    fn_setGridOptionHistSelectList([]);  // 두 번째 그리드를 빈 데이터로 초기화
 		gf_Transaction(option, fn_callback);
 	}
 
@@ -181,6 +187,8 @@
 					, data: input,
 		};
 
+	    fn_setGridOptionDetailsList([]);  // 세 번째 그리드를 빈 데이터로 초기화
+	    fn_setGridOptionDetailsHistList([]);  // 네 번째 그리드를 빈 데이터로 초기화
 		gf_Transaction(option, fn_callback);
 	}
 

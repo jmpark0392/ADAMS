@@ -241,8 +241,12 @@
                , CASE WHEN B.YMD >= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( ISNULL(G.OPT_COST_EXP , 0 ) * ISNULL(I.OPT_DTLS_VLU , 0 ) )  OVER( PARTITION BY A.CS_NO ORDER BY A.YMD, A.CS_NO  ROWS UNBOUNDED PRECEDING )
                       ELSE NULL
                  END                          AS OPT_COST_EXP_SUM
-               , ISNULL(H.OPT_DTLS_VLU , 0 )  AS OPT_DTLS_VLU
-               , ISNULL(I.OPT_DTLS_VLU , 0 )  AS OPT_DTLS_VLU_EXP
+               , CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN  ISNULL(H.OPT_DTLS_VLU , 0 )
+                      ELSE NULL
+                 END                          AS OPT_DTLS_VLU
+               , CASE WHEN B.YMD >= CONVERT(CHAR(8),GETDATE(),112) THEN  ISNULL(I.OPT_DTLS_VLU , 0 )
+                      ELSE NULL
+                 END                          AS OPT_DTLS_VLU_EXP
                , CASE WHEN ISNULL(K.FILE_UNIT     , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE     , 0 ) / ISNULL(K.FILE_UNIT     , 0 ) END  AS FILE_SIZE
                , CASE WHEN ISNULL(K.FILE_UNIT_EXP , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE_EXP , 0 ) / ISNULL(K.FILE_UNIT_EXP , 0 ) END  AS FILE_SIZE_EXP
                , ( CASE WHEN ISNULL(K.FILE_UNIT     , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE     , 0 ) / ISNULL(K.FILE_UNIT     , 0 ) END ) * ISNULL(K.FILE_COST     , 0 ) AS FILE_COST
@@ -572,8 +576,12 @@
                , CASE WHEN B.YMD >= CONVERT(CHAR(8),GETDATE(),112) THEN  SUM( ISNULL(G.OPT_COST_EXP , 0 ) * ISNULL(I.OPT_DTLS_VLU , 0 ) )  OVER( PARTITION BY A.CS_NO ORDER BY A.YMD, A.CS_NO  ROWS UNBOUNDED PRECEDING )
                       ELSE NULL
                  END                          AS OPT_COST_EXP_SUM
-               , ISNULL(H.OPT_DTLS_VLU , 0 )  AS OPT_DTLS_VLU
-               , ISNULL(I.OPT_DTLS_VLU , 0 )  AS OPT_DTLS_VLU_EXP
+               , CASE WHEN B.YMD <= CONVERT(CHAR(8),GETDATE(),112) THEN  ISNULL(H.OPT_DTLS_VLU , 0 )
+                      ELSE NULL
+                 END                          AS OPT_DTLS_VLU
+               , CASE WHEN B.YMD >= CONVERT(CHAR(8),GETDATE(),112) THEN  ISNULL(I.OPT_DTLS_VLU , 0 )
+                      ELSE NULL
+                 END                          AS OPT_DTLS_VLU_EXP
                , CASE WHEN ISNULL(K.FILE_UNIT     , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE     , 0 ) / ISNULL(K.FILE_UNIT     , 0 ) END  AS FILE_SIZE
                , CASE WHEN ISNULL(K.FILE_UNIT_EXP , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE_EXP , 0 ) / ISNULL(K.FILE_UNIT_EXP , 0 ) END  AS FILE_SIZE_EXP
                , ( CASE WHEN ISNULL(K.FILE_UNIT     , 0 ) = 0 THEN 0 ELSE ISNULL(J.FILE_SIZE     , 0 ) / ISNULL(K.FILE_UNIT     , 0 ) END ) * ISNULL(K.FILE_COST     , 0 ) AS FILE_COST
