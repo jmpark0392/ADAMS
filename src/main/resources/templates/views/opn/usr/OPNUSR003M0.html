@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <th:block layout:fragment="content">
 	<script src="js/js-tabler/demo-theme.min.js?1692870487"></script>
 	<div class="page-wrapper" id="page-wrapper">
@@ -14,12 +14,12 @@
 							<div class="row align-items-center">
 								<div class="col-auto">
 									<!-- 회사번호/명 -->
-									<label for="lblCompNoNm" class="form-label">Company Number/Name : </label>
+									<label for="lblCompNoNm" class="form-label">Company Number or Name : </label>
 									<input id="inpCompNoNm" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Input Name" />
 								</div>
 								<div class="col-auto">
 									<!-- 사용자ID/명 -->
-									<label for="lblUsrIdNm" class="form-label">User ID/Name : </label>
+									<label for="lblUsrIdNm" class="form-label">User ID or Name : </label>
 									<input id="inpUsrIdNm" name="inpSearchTxt" type="text" class="form-control p-1" placeholder="Input Name" />
 								</div>
 								<div class="col-auto">
@@ -184,26 +184,26 @@
 			var usrDvCdList  = { 1:"System Operator"
 					           , 2:"Administrator"
 					           , 3:"User" };
-			var statDvCdList = { 0:"Normal use"
-					           , 4:"Request Password Reset"
-					           , 9:"Suspension of use" };
+			var statDvCdList = { 0:"Active"
+					           , 4:"Temporary password"
+					           , 9:"Inactive" };
 			
 			var columns = [
 							{ id: unqId,			name: "Seq",					field: unqId,								width: 80, 	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "csNo",		 		name: "Customer number",		field: "csNo",		 		sortable: true, width: 130,	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "compNm",			name: "Company name",			field: "compNm",			sortable: true, width: 110, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "usrDvCd",			name: "User identifier code",	field: "usrDvCd",			sortable: true, width: 150, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: usrDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "usrId",			name: "UsrId",		 			field: "usrId",				sortable: true, width: 220, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "csNo",		 		name: "Company Number",		field: "csNo",		 		sortable: true, width: 130,	editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "compNm",			name: "Company Name",			field: "compNm",			sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "usrDvCd",			name: "Classification",	field: "usrDvCd",			sortable: true, width: 130, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: usrDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "usrId",			name: "ID",		 			field: "usrId",				sortable: true, width: 220, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
 						, { id: "oldUsrId",			name: "OldUsrId",	 			field: "oldUsrId",			sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "usrNm",			name: "User name",	 			field: "usrNm",				sortable: true, width: 120, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "usrEmail",			name: "User email",				field: "usrEmail",			sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, hidden:true, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
-						, { id: "usrPhNo",			name: "User phone number",		field: "usrPhNo",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "usrDeptNm",		name: "User team name",			field: "usrDeptNm",			sortable: true, width: 160, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "usrNm",			name: "Name",	 			field: "usrNm",				sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "usrEmail",			name: "e-mail",				field: "usrEmail",			sortable: true, width: 200, editor: Slick.Editors.Text, validator: createValidator, hidden:true, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" }
+						, { id: "usrPhNo",			name: "Phone Number",		field: "usrPhNo",			sortable: true, width: 150, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "usrDeptNm",		name: "Team Name",			field: "usrDeptNm",			sortable: true, width: 160, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "statDvCd",	 		name: "Status",					field: "statDvCd",	 		sortable: true, width: 100, editor: gf_Select2Editor  , formatter: gf_Select2Formatter, dataSource: statDvCdList, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						, { id: "oldStatDvCd",		name: "OldStatDvCd",			field: "oldStatDvCd",		sortable: true, width: 100, editor: Slick.Editors.Text, validator: createValidator, hidden:true }
-						, { id: "useStrDtm",		name: "Use start date",			field: "useStrDtm",			sortable: true, width: 130, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "useEndDtm",		name: "Use end date",			field: "useEndDtm",			sortable: true, width: 130, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
-						, { id: "passwordUpdDtm",	name: "Password update date",	field: "passwordUpdDtm",	sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "useStrDtm",		name: "Start Date of Use",			field: "useStrDtm",			sortable: true, width: 130, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "useEndDtm",		name: "End Date of Use",			field: "useEndDtm",			sortable: true, width: 130, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
+						, { id: "passwordUpdDtm",	name: "Password Update Date",	field: "passwordUpdDtm",	sortable: true, width: 180, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" }
 						];
 	
 			var options = {
@@ -420,9 +420,9 @@
 				];
 				
 				let selStatDvCd = [
-					  { column: "statDvCd", value: "0", text: "Normal use" }
-					, { column: "statDvCd", value: "4", text: "Request Password Reset" }
-					, { column: "statDvCd", value: "9", text: "Suspension of use" }
+					  { column: "statDvCd", value: "0", text: "Active" }
+					, { column: "statDvCd", value: "4", text: "Temporary password" }
+					, { column: "statDvCd", value: "9", text: "Inactive" }
 				];
 				
 				//console.log("options6 in the console:", options6);
