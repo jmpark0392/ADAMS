@@ -135,7 +135,7 @@ public class EgovConfigWebDispatcherServlet implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/cmmn/validator.do")
 			.setViewName("cmmn/validator");
-		registry.addViewController("/index.html").setViewName("forward:/login.html");
+		registry.addViewController("/index.html").setViewName("forward:login.html");
 		registry.addViewController("/").setViewName("login");
 	}
 
