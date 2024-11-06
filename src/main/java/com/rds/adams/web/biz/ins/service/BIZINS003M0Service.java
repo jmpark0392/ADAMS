@@ -25,7 +25,7 @@ public class BIZINS003M0Service {
 		return bIZINS003M0DAO.selectList(inVo);
 	}
 	
-	public void executeList(ExecuteDTO inVo) {
+	public void executeList(ExecuteDTO inVo) throws Exception {
 
 		try {
 			inVo.setBatProgId("B0003");
@@ -45,6 +45,7 @@ public class BIZINS003M0Service {
 			inVo.setBatLoadStatCd("9");
 			inVo.setBatExeRstCd("ERROR");
 			executeResultDAO.updateBatHist(inVo);
+			throw new Exception(e.getMessage());
 		}
 	return;
 	}

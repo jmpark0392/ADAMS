@@ -275,7 +275,6 @@
 					
 				}
 			} else if( result.resultCd == "E") {
-				
 			} else {
 				console.log("fn_callback result : ", result);
 			}
@@ -416,8 +415,8 @@
 						urls.push("/BIZJNL003M0ExecuteList");
 					break;
 					case "B0005":
+						// FST001, 002 공통 사용
 						urls.push("/BIZFST001M0ExecuteList");
-						urls.push("/BIZFST002M0ExecuteList");
 					break;
 					case "B0006":
 						urls.push("/BIZADT001M0ExecuteList");
@@ -492,7 +491,10 @@
 						alert("An error occurred while executing the batch program(s).");
 					} finally {
 						await hideSpinner();
-						alert("Successfully executed.");
+						alert("Success "+sCnt+" Fail "+fCnt);
+						// 카운트 초기화
+						sCnt = 0;
+						fCnt = 0;
 						document.getElementById("executeBatch").disabled = false;
 					}
 				} else {
