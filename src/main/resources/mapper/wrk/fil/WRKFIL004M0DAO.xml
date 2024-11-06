@@ -15,6 +15,7 @@
              , CONVERT(CHAR(19), A.LOAD_STR_DTM, 20)  AS loadStrDtm   /* 적재시작일시 */
              , CONVERT(CHAR(19), A.LOAD_END_DTM, 20)  AS loadEndDtm   /* 적재종료일시 */
              , A.LOAD_SUCC_YN                         AS loadSuccYn   /* 적재성공여부 */
+             , FLOOR((D.FILE_SIZE / 1024)*100)/100    AS fileSize     /* 파일사이즈 */
           FROM RDSDB.dbo.TB_UPL_HIST A
          INNER JOIN (
                       SELECT
@@ -30,14 +31,17 @@
                        <if test='uploadFile != ""'>
                          AND SEQ_NO = #{uploadFile}
                        </if>
-                     ) B
+                    ) B
                  ON 1=1
                 AND A.DB_ID  = B.DB_ID
                 AND A.TBL_ID = B.TBL_ID
                 AND A.CS_NO  = B.CS_NO
-               LEFT OUTER JOIN RDSDB.dbo.TB_USR_MNG_LST C
-                 ON A.FNL_UPD_EMP_NO = C.USR_ID
-              WHERE 1=1
+          LEFT OUTER JOIN RDSDB.dbo.TB_USR_MNG_LST C
+                       ON A.FNL_UPD_EMP_NO = C.USR_ID
+          LEFT OUTER JOIN RDSDB.dbo.TB_UUID_FILE_INF D
+                       ON A.CS_NO = D.CS_NO
+                      AND A.UUID  = D.UUID
+         WHERE 1=1
              <if test= 'csNo != "999"'>
                AND A.CS_NO   = #{csNo}
              </if>

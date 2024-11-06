@@ -50,4 +50,7 @@ public class WRKFIL003M0P1DTO {
 	
 	@Schema(description = "사용자ID")
 	private String usrId;
+	
+	@Schema(description = "파일명(uuid)")
+	private String uuid;
 }

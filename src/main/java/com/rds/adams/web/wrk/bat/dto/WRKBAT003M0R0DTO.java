@@ -1,5 +1,7 @@
 package com.rds.adams.web.wrk.bat.dto;
 
+import java.math.BigDecimal;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,4 +65,7 @@ public class WRKBAT003M0R0DTO {
 	
 	@Schema(description = "등록일")
 	private String frstRegDtm;
+	
+	@Schema(description = "JOB실행시간")
+	private BigDecimal jobTime;
 }

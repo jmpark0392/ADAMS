@@ -182,6 +182,7 @@ public class WRKFIL003M0Service {
 		String 	dBaseQuery	= " DELETE FROM ";		// 동적쿼리 생성용 String : DELETE
 		String sStdYymm     = null;         		// 기준년월
 		String sFileNm      = "";         			// 파일명
+		String sFileUuidNm  = "";         			// 파일명(uuid)
 		String sLoadSuccYn  = "N";         			// 성공여부
 		
 		/* 조회된 컬럼 수만큼 For문으로 동적 쿼리문 생성 및 적재기준여부가 Y인 컬럼저장 */
@@ -276,9 +277,10 @@ public class WRKFIL003M0Service {
 			try {
 				atachFile = fileStore.storeFile(multipartFile, usrId, csNo);
 				
-				sFileNm    = atachFile.getUploadFileName();
-				opcPackage = OPCPackage.open(atachFile.getStoreFilePath() + atachFile.getStoreFileName());
-				wb		 = new XSSFWorkbook(opcPackage);
+				sFileNm     = atachFile.getUploadFileName();
+				sFileUuidNm = atachFile.getStoreFileName();
+				opcPackage  = OPCPackage.open(atachFile.getStoreFilePath() + atachFile.getStoreFileName());
+				wb		    = new XSSFWorkbook(opcPackage);
 				
 				int sheetNum = wb.getNumberOfSheets();
 				
@@ -373,6 +375,7 @@ public class WRKFIL003M0Service {
 		
 		wRKFIL003M0P1DTO.setStdYymm(sStdYymm);
 		wRKFIL003M0P1DTO.setFileNm(sFileNm);
+		wRKFIL003M0P1DTO.setUuid(sFileUuidNm);
 		wRKFIL003M0P1DTO.setLoadSuccYn(sLoadSuccYn);
 		wRKFIL003M0P1DTO.setLoadCnt(iRowCnt-1);
 		// 업로드 이력 Update

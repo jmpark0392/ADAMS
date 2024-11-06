@@ -101,6 +101,7 @@
                , [LOAD_CNT]
                , [LOAD_SUCC_YN]
                , [STD_YYMM]
+               , [UUID]
                , [FNL_UPD_EMP_NO]
                , [FNL_UPD_DTM]
                , [FRST_REG_EMP_NO]
@@ -118,6 +119,7 @@
                , NULL
                , NULL
                , NULL
+               , NULL
                , #{usrId}
                , GETDATE()
                , #{usrId}
@@ -131,6 +133,7 @@
              , LOAD_CNT       = #{loadCnt}
              , LOAD_SUCC_YN   = #{loadSuccYn}
              , STD_YYMM       = #{stdYymm}
+             , UUID           = #{uuid}
              , FNL_UPD_EMP_NO = #{usrId}
              , FNL_UPD_DTM    = GETDATE()
          WHERE 1=1

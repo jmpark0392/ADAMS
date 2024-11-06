@@ -1,5 +1,7 @@
 package com.rds.adams.web.wrk.fil.dto;
 
+import java.math.BigDecimal;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,5 +64,8 @@ public class WRKFIL004M0R0DTO {
 
 	@Schema(description = "최초등록사원번호")
 	private String frstRegEmpNo;
+
+	@Schema(description = "파일사이즈")
+	private BigDecimal fileSize;
 
 }

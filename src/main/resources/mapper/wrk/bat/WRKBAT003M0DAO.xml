@@ -14,10 +14,11 @@
 		     , A.STD_YYMM                             AS stdYymm        /* 기준년월 */
 		     , CONVERT(CHAR(19), A.BAT_STR_DTM, 20)   AS batStrDtm      /* 배치시작일시 */
 		     , CONVERT(CHAR(19), A.BAT_END_DTM, 20)   AS batEndDtm      /* 배치종료일시 */
-		     , A.BAT_LOAD_STAT_CD                     AS batLoadStatCd  /* 배치상태코드 */		     
+		     , A.BAT_LOAD_STAT_CD                     AS batLoadStatCd  /* 배치상태코드 */
 		     , C.USR_NM                               AS mainEmpNo      /* 주담당자 */
 		     , C.USR_NM                               AS frstRegEmpNo   /* 최초등록사원번호 */
 		     , CONVERT(CHAR(19), A.FRST_REG_DTM, 20)  AS frstRegDtm     /* 최초등록일시 */
+		     , FLOOR((DATEDIFF_BIG(MICROSECOND, A.BAT_STR_DTM, A.BAT_END_DTM) / 1000000.0) * 100000) / 100000 AS jobTime  /* JOB 실행시간 */
 		  FROM TB_BAT_RST_LST AS A
 		 INNER JOIN TB_BAT_MNG_LST AS B
 		    ON A.BAT_PROG_ID = B.BAT_PROG_ID
