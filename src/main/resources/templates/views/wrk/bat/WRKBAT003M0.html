@@ -91,6 +91,7 @@
 			</div>
 		</div>
 	<script src="js/utils.js"></script>
+
 	<script>
 		function checkData(data) {
 			return parentCheckData(data, check_cols);
@@ -144,6 +145,9 @@
 				}
 			});
 		});
+
+
+		
 	
 		var grid;
 		var dataView;
@@ -156,7 +160,7 @@
 			{ id: "batProgId",		name: "Program ID",				field: "batProgId",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "batProgNm",		name: "Program Name",			field: "batProgNm",		width: 400,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-left" },
 			{ id: "batExeRstCd",	name: "Result",					field: "batExeRstCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
-			{ id: "jobTime",		name: "Job Time(sec)",			field: "jobTime",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-right" },
+			{ id: "jobTime",		name: "Job Time(sec)",			field: "jobTime",		width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-right",  formatter: numberFormatter, },
 			{ id: "batExeErrCd",	name: "Error Code",				field: "batExeErrCd",	width: 100,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "stdYymm",		name: "Standard Year/Month",	field: "stdYymm",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
 			{ id: "batStrDtm",		name: "Start Time",				field: "batStrDtm",		width: 150,	sortable: true, editor: Slick.Editors.Text, validator: createValidator, headerCssClass: "slick-header-columns", cssClass: "slick-column-center" },
@@ -349,6 +353,18 @@
 
 			//grid.setActiveCell(0, 0);
 			console.log("SlickGrid initialized.");
+		}
+
+		function numberFormatter(row, cell, value, columnDef, dataContext) {
+			console.log(`Formatting value: ${value}`);
+
+			if(value !== null && !isNaN(value)){
+			// console.log("ADDING THE FORMAT: ", value);
+				return value.toLocaleString("en-US", { minimumFractionDigits: 5, maximumFractionDigits: 5 }) ;
+			} else {
+				return value;
+			}
+			console.log("ADDING THE FORMAT: ", value);
 		}
 
 		// Download Excel functionality

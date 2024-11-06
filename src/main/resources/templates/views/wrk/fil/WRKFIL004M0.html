@@ -244,7 +244,7 @@
 				{ id: "tblId",			name: "Table ID",			field: "tblId",			width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
 				{ id: "fileNm",			name: "File Name",			field: "fileNm",		width:240,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
 				{ id: "loadCnt",		name: "Load Count",			field: "loadCnt",		width:100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-right",		},
-				{ id: "fileSize",		name: "File Size(kb)",		field: "fileSize",		width:100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-right",		},
+				{ id: "fileSize",		name: "File Size(kb)",		field: "fileSize",		width:100,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-right", formatter: numberFormatter },
 				{ id: "stdYymm",		name: "Standard YYYY/MM",	field: "stdYymm",		width:150,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
 				{ id: "frstRegEmpNo",	name: "Registrant",			field: "frstRegEmpNo",	width:120,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-left",		},
 				{ id: "loadStrDtm",		name: "Load Start Date",	field: "loadStrDtm",	width:150,	sortable: true, editor: Slick.Editors.Text, headerCssClass: "slick-header-columns", cssClass: "slick-column-center",	},
@@ -435,6 +435,18 @@
 			});
 			//grid.setActiveCell(0, 0);
 			console.log("SlickGrid initialized.");
+		}
+
+		function numberFormatter(row, cell, value, columnDef, dataContext) {
+			console.log(`Formatting value: ${value}`);
+
+			if(value !== null && !isNaN(value)){
+			// console.log("ADDING THE FORMAT: ", value);
+				return value.toLocaleString("en-US", { minimumFractionDigits: 5, maximumFractionDigits: 5 }) ;
+			} else {
+				return value;
+			}
+			console.log("ADDING THE FORMAT: ", value);
 		}
 		</script>
 	</th:block>
