@@ -57,7 +57,7 @@ public class AuthorizInterceptor extends WebContentInterceptor {
 		// 패턴으로 예외처리 안되는 페이지들은 exceptPageNameList로 리스트를 관리
 		exceptPageNameList.add("/login");
 		exceptPageNameList.add("/subscription");
-		exceptPageNameList.add("/views/user/myPage");
+		exceptPageNameList.add("views/user/myPage");
 		
 		exceptPageNameList.add("myPage");
 		exceptPageNameList.add("newReq");
@@ -65,10 +65,10 @@ public class AuthorizInterceptor extends WebContentInterceptor {
 		exceptPageNameList.add("login");
 		exceptPageNameList.add("pwChange");
 		
-		exceptPageNameList.add("/error/error_400");
-		exceptPageNameList.add("/error/error_500");
-		exceptPageNameList.add("/error/error_auth");
-		exceptPageNameList.add("/error/error");
+		exceptPageNameList.add("error/error_400");
+		exceptPageNameList.add("error/error_500");
+		exceptPageNameList.add("error/error_auth");
+		exceptPageNameList.add("error/error");
 		
 		String pageName = request.getParameter("pageName");
 		
